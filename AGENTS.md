@@ -32,14 +32,18 @@ Middleware:       src/middleware.ts           (locale redirect + protected route
 
 Always use `@/` for imports within `src/`. Never use relative `../../../` chains.
 
-## i18n (next-i18next)
+## i18n (App Router native — no next-i18next)
 
+- **`next-i18next` has been REMOVED.** The project now uses native App Router i18n via `i18next` + `react-i18next` + `accept-language`.
 - **Single namespace: `"common"`**. All `useTranslation()` calls use `useTranslation("common")`. Translation JSON lives in `public/locales/{es,en}/common.json`.
-- **Spanish is the default locale** (`defaultLocale: "es"`). Middleware redirects `/` → `/es`.
+- **Spanish is the default locale** (`fallbackLng: "es"` in `src/lib/i18n/settings.ts`). Middleware redirects `/` → `/es`.
 - **All routes are under `[lng]`** — e.g., `/es/dashboard`, `/en/learn/m1-typescript-foundations/m1-l1`.
-- **New translation keys**: Always add to BOTH `public/locales/es/common.json` AND `public/locales/en/common.json` simultaneously. The key structure must match exactly between both files.
-- **`appWithTranslation` HOC** wraps the `[lng]/layout.tsx` default export. This provides the i18n context for all child `useTranslation()` calls. Do NOT remove it.
-- **`"use client"` is required** in any component that calls `useTranslation()`.
+- **New translation keys**: Always add to BOTH `public/locales/es/common.json` AND `public/locales/en/common.json` simultaneously. The key structure must match exactly.
+- **Client components** import `useTranslation` from `@/lib/i18n/client`. The hook auto-detects `lng` from `useParams()`.
+- **Server components** import `useTranslation` from `@/lib/i18n` (async, takes explicit `lng`).
+- **There is NO `appWithTranslation` wrapper.** The layout exports a plain function component.
+- **Middleware** uses `accept-language` package for locale detection and sets `i18next` cookie.
+- **`next-i18next.config.js` was deleted** — it is Pages Router only. `next.config.js` has no `i18n` block.
 
 ## Styling
 
@@ -62,13 +66,36 @@ Always use `@/` for imports within `src/`. Never use relative `../../../` chains
   - `gamification`: `totalPoints` DESC (for leaderboard)
   - `exam_attempts`: `userId` ASC, `submittedAt` DESC (for exam history)
 - **`auth_token` cookie**: Set by AuthProvider on sign-in, cleared on sign-out. The middleware checks this cookie as a simple navigation guard — it is NOT a verified Firebase token. Real security lives in Firestore rules.
-- **`.env.example`** lists all required `NEXT_PUBLIC_FIREBASE_*` variables. Copy to `.env.local` to configure. No defaults — missing vars cause `null` objects, not runtime crashes (functions throw clear errors).
+- **`.env.example`** lists all required `NEXT_PUBLIC_FIREBASE_*` variables. Copy to `.env.local` to configure. Missing vars cause `null` objects, not runtime crashes (functions throw clear errors).
+
+## Auth system (post-bugfix behavior)
+
+- **AuthProvider** in `src/context/AuthContext.tsx` now exposes `initialized: boolean` alongside `user`, `loading`, `error`.
+- **Profile sync is NON-BLOCKING.** `syncProfile()` catches all Firestore errors internally and returns a basic `UserProfile` built from Firebase User data if Firestore fails. The UI never stalls on Firestore.
+- **Sign-in/sign-up/signInWithGoogle** all call `syncProfile()` directly and set `user` + `loading=false` in `finally` blocks. They do NOT wait for `onAuthStateChanged`.
+- **15-second safety timeout** forces `loading=false` if auth gets stuck.
+- **Auth pages** use `router.replace()` (not `push()`) to prevent back-button returning to auth page. Loading guards check `!initialized || loading`.
+- **All imports are consolidated.** No duplicate `getDoc`/`updateDoc` imports anywhere (previously in `useLesson.ts` lines 14 and 142).
 
 ## Curriculum and lesson content
 
 - **The curriculum IS the course.** `src/lib/constants/curriculum.ts` defines all 8 modules and 44 lessons as typed constants. Firestore only stores user progress (completed lesson IDs), NOT the structure itself.
-- **Lesson content is in `src/lib/constants/lessons/`.** Module 1 has full bilingual content in `module-1.ts` (5 lessons, quizzes, exercises). Modules 2-8 are NOT yet authored.
-- **To add new module content**: create `src/lib/constants/lessons/module-N.ts` with a `getAllLessonsContent()` export, then import it in `src/lib/hooks/useLesson.ts` and add to the `LESSON_REGISTRY` initializer. The registry keys are `"moduleId__lessonId"`.
+- **Lesson content is in `src/lib/constants/lessons/`.**
+
+| Module | File | Status | Lessons |
+|---|---|---|---|
+| M1: TypeScript Foundations | `module-1.ts` | ✅ Complete | 5 lessons, 23 sections, 5 quizzes, 1 exercise |
+| M2: Playwright Fundamentals | `module-2.ts` | ✅ Complete | 6 lessons, 30 sections, 6 quizzes, 1 exercise |
+| M3: Locators and Selectors | `module-3.ts` | ✅ Complete | 6 lessons, 37 sections, 6 quizzes, 1 exercise |
+| M4: Actions and Assertions | `module-4.ts` | ✅ Complete | 5 lessons, 31 sections, 5 quizzes, 1 exercise |
+| M5: Page Object Model | `module-5.ts` | 🔲 Pending | 5 lessons |
+| M6: Configuration and Environments | `module-6.ts` | 🔲 Pending | 4 lessons |
+| M7: API Testing | `module-7.ts` | 🔲 Pending | 5 lessons |
+| M8: CI/CD and Reporting | `module-8.ts` | 🔲 Pending | 5 lessons |
+
+**22 of 44 lessons authored (50% complete).**
+
+- **To add new module content**: create `src/lib/constants/lessons/module-N.ts` with a `getAllLessonsContent()` export, then import it in `src/lib/hooks/useLesson.ts` and add to the `LESSON_REGISTRY` spread. The registry keys are `"moduleId__lessonId"`.
 - **`LessonSection` discriminated union**: 9 types defined in `src/types/lesson.ts` — `heading`, `paragraph`, `code`, `callout`, `image`, `video`, `list`, `quiz`, `exercise`. The `LessonRenderer` in `src/components/lesson/LessonRenderer.tsx` maps each type to its sub-component.
 
 ## TypeScript constraints

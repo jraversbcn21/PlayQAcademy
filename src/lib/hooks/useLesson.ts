@@ -11,6 +11,8 @@ import type { LessonContent, LessonMeta } from "@/types/lesson";
 import type { Badge } from "@/types/gamification";
 import { getAllLessonsContent as getModule1Content } from "@/lib/constants/lessons/module-1";
 import { getAllLessonsContent as getModule2Content } from "@/lib/constants/lessons/module-2";
+import { getAllLessonsContent as getModule3Content } from "@/lib/constants/lessons/module-3";
+import { getAllLessonsContent as getModule4Content } from "@/lib/constants/lessons/module-4";
 import { updateUserProgress as fbUpdateProgress } from "@/lib/firebase/firestore";
 import { updateDoc, setDoc, doc, arrayUnion, arrayRemove, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
@@ -26,7 +28,7 @@ import { getLevelFromPoints } from "@/lib/gamification/levels";
  * Add new module content files here as they are written.
  */
 const LESSON_REGISTRY: Record<string, LessonContent> = (() => {
-  const all = [...getModule1Content(), ...getModule2Content()];
+  const all = [...getModule1Content(), ...getModule2Content(), ...getModule3Content(), ...getModule4Content()];
   const map: Record<string, LessonContent> = {};
   for (const lc of all) {
     map[`${lc.moduleId}__${lc.id}`] = lc;
