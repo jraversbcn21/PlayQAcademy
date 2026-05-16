@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================================
+   PlayQ Academy — Global Styles
+   Mobile-first, dark-mode-primary design system.
+   ========================================================================= */
+
+@layer base {
+  /*
+   * Semantic base HTML: dark is the default palette.
+   * The .light class on <html> toggles light overrides.
+   */
+  :root {
+    --color-bg-primary: #0f172a;    /* slate-900 */
+    --color-bg-secondary: #1e293b;  /* slate-800 */
+    --color-bg-elevated: #334155;   /* slate-700 */
+    --color-text-primary: #f1f5f9;  /* slate-100 */
+    --color-text-secondary: #94a3b8;/* slate-400 */
+    --color-text-muted: #64748b;    /* slate-500 */
+    --color-border: #334155;        /* slate-700 */
+  }
+
+  .light {
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f8fafc;  /* slate-50 */
+    --color-bg-elevated: #f1f5f9;   /* slate-100 */
+    --color-text-primary: #0f172a;  /* slate-900 */
+    --color-text-secondary: #475569;/* slate-600 */
+    --color-text-muted: #94a3b8;    /* slate-400 */
+    --color-border: #e2e8f0;        /* slate-200 */
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] font-sans;
+  }
+
+  /* Focus ring for accessibility */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-orange-500;
+  }
+}
+
+@layer components {
+  /* Container utility — constrained width, centered, with horizontal padding */
+  .container-app {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+}
+
+@layer utilities {
+  /* Gradient text utility for hero headings */
+  .text-gradient-brand {
+    @apply bg-gradient-to-r from-brand-blue-400 via-brand-blue-500 to-brand-green-400 bg-clip-text text-transparent;
+  }
+}

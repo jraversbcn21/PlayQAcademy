@@ -1,0 +1,262 @@
+{
+  "hero": {
+    "titleLine1": "PlayQ Academy",
+    "titleLine2": "Test Automation with Playwright",
+    "tagline": "De QA Manual a QA Automatizado. Tu transición comienza aquí.",
+    "ctaPrimary": "Comenzar gratis",
+    "ctaSecondary": "Ver currículum",
+    "feature1": {
+      "title": "40+ Lecciones Interactivas",
+      "description": "Desde fundamentos de testing hasta patrones avanzados de Playwright. Aprende a tu ritmo con ejercicios prácticos."
+    },
+    "feature2": {
+      "title": "Proyectos Reales",
+      "description": "Integra Playwright en escenarios reales de automatización. Construye tu portafolio QA mientras aprendes."
+    },
+    "feature3": {
+      "title": "Contenido Bilingüe ES/EN",
+      "description": "Todo el contenido disponible en español e inglés. Prepárate para equipos y entrevistas internacionales."
+    }
+  },
+  "nav": {
+    "home": "Inicio",
+    "curriculum": "Currículum",
+    "playground": "Playground",
+    "leaderboard": "Ranking",
+    "about": "Nosotros",
+    "signIn": "Iniciar sesión",
+    "startFree": "Comenzar gratis",
+    "menuOpen": "Abrir menú",
+    "menuClose": "Cerrar menú",
+    "languageSwitcher": "Cambiar idioma"
+  },
+  "auth": {
+    "signIn": {
+      "title": "Bienvenido de nuevo",
+      "subtitle": "Inicia sesión para continuar tu aprendizaje",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "tu@email.com",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Ingresa tu contraseña",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "submit": "Iniciar sesión",
+      "googleButton": "Continuar con Google",
+      "noAccount": "¿No tienes cuenta?",
+      "signUpLink": "Regístrate",
+      "divider": "o"
+    },
+    "signUp": {
+      "title": "Crea tu cuenta",
+      "subtitle": "Comienza tu camino hacia la automatización QA",
+      "displayName": "Nombre completo",
+      "displayNamePlaceholder": "Tu nombre",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "tu@email.com",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Mínimo 8 caracteres",
+      "confirmPassword": "Confirmar contraseña",
+      "confirmPasswordPlaceholder": "Reingresa tu contraseña",
+      "passwordStrength": "Fortaleza de la contraseña",
+      "termsAccept": "Acepto los Términos de Servicio y la Política de Privacidad",
+      "submit": "Crear cuenta",
+      "googleButton": "Continuar con Google",
+      "haveAccount": "¿Ya tienes cuenta?",
+      "signInLink": "Iniciar sesión",
+      "divider": "o"
+    },
+    "errors": {
+      "emailInUse": "Este correo ya está registrado",
+      "invalidEmail": "Ingresa un correo electrónico válido",
+      "weakPassword": "La contraseña debe tener al menos 8 caracteres, un número y una mayúscula",
+      "userNotFound": "No se encontró una cuenta con este correo",
+      "wrongPassword": "Contraseña incorrecta",
+      "invalidCredential": "Correo o contraseña inválidos",
+      "tooManyRequests": "Demasiados intentos. Intenta de nuevo más tarde",
+      "popupClosed": "Se cerró la ventana de inicio de sesión",
+      "networkError": "Error de conexión. Verifica tu internet",
+      "default": "Algo salió mal. Intenta de nuevo",
+      "passwordMismatch": "Las contraseñas no coinciden",
+      "termsRequired": "Debes aceptar los términos",
+      "nameRequired": "Ingresa tu nombre completo",
+      "fillAllFields": "Completa todos los campos"
+    },
+    "profile": {
+      "dashboard": "Panel de control",
+      "settings": "Configuración",
+      "signOut": "Cerrar sesión"
+    }
+  },
+  "sidebar": {
+    "title": "Contenido del curso",
+    "collapseAll": "Colapsar todo",
+    "expandAll": "Expandir todo",
+    "locked": "Bloqueado",
+    "completed": "Completado",
+    "inProgress": "En progreso",
+    "lessonsCompleted": "lecciones completadas",
+    "module": "Módulo",
+    "lesson": "Lección",
+    "modules": {
+      "1": "Fundamentos de Automatización de Pruebas",
+      "2": "API Core de Playwright",
+      "3": "Selectores y Localizadores Avanzados",
+      "4": "Frameworks de Testing y CI/CD"
+    },
+    "lessons": {
+      "1_1": "¿Qué es la Automatización de Pruebas?",
+      "1_2": "Configuración del Entorno",
+      "1_3": "Tu Primer Script de Prueba",
+      "2_1": "Navegación y Page Objects",
+      "2_2": "Aserciones y Esperas",
+      "2_3": "Capturas de Pantalla y Videos",
+      "3_1": "Selectores CSS y XPath",
+      "3_2": "API de Localizadores de Playwright",
+      "3_3": "Manejo de Contenido Dinámico",
+      "4_1": "Test Runners y Configuración",
+      "4_2": "Integración CI/CD",
+      "4_3": "Reportes y Dashboards"
+    }
+  },
+  "lesson": {
+    "breadcrumb": {
+      "dashboard": "Panel",
+      "module": "Módulo",
+      "lesson": "Lección"
+    },
+    "moduleOverview": {
+      "title": "Resumen del Módulo",
+      "estimatedTime": "Tiempo estimado",
+      "lessons": "lecciones",
+      "startModule": "Comenzar Módulo",
+      "continueModule": "Continuar Módulo",
+      "locked": "Bloqueado",
+      "completed": "Completado",
+      "inProgress": "En Progreso",
+      "yourProgress": "Tu progreso"
+    },
+    "player": {
+      "lessonOf": "Lección {{current}} de {{total}}",
+      "estimatedTime": "~{{minutes}} min",
+      "bookmark": "Guardar",
+      "bookmarked": "Guardado",
+      "previous": "Lección Anterior",
+      "next": "Siguiente Lección",
+      "markComplete": "Marcar como Completada",
+      "completed": "Completada ✓",
+      "completeToContinue": "Completa esta lección para continuar",
+      "resources": "Recursos"
+    },
+    "copyCode": "Copiar",
+    "copied": "¡Copiado!",
+    "showHint": "Mostrar Pista",
+    "nextHint": "Siguiente Pista",
+    "hintOf": "Pista {{current}} de {{total}}",
+    "showSolution": "Mostrar Solución",
+    "hideSolution": "Ocultar Solución",
+    "markAsTried": "Marcar como Intentado",
+    "tried": "Intentado ✓",
+    "tryInEditor": "Probar en Editor",
+    "readOnly": "Solo Lectura",
+    "practicalExercise": "Ejercicio Práctico",
+    "instructions": "Instrucciones",
+    "solution": "Solución",
+    "submitAnswer": "Enviar Respuesta",
+    "correct": "¡Correcto! 🎉",
+    "incorrect": "No es correcto. ¡Inténtalo de nuevo!",
+    "explanation": "Explicación",
+    "attempts": "Intentos: {{count}}",
+    "retry": "Intentar de Nuevo"
+  },
+  "dashboard": {
+    "greeting": "Bienvenido de nuevo, {{name}}",
+    "welcomeMessage": "¡Bienvenido a PlayQ Academy, {{name}}! Comienza tu camino de aprendizaje.",
+    "resumeLearning": "Continuar aprendiendo",
+    "continue": "Continuar",
+    "totalPoints": "Puntos Totales",
+    "lessonsCompleted": "Lecciones Completadas",
+    "currentStreak": "Racha Actual",
+    "badgesEarned": "Insignias Ganadas",
+    "overallProgress": "Progreso General",
+    "lessons": "lecciones",
+    "completed": "Completado",
+    "yourModules": "Tus Módulos",
+    "modulesUnlocked": "desbloqueados",
+    "recentAchievements": "Logros Recientes",
+    "locked": "Bloqueado",
+    "reviewModule": "Repasar",
+    "continueModule": "Continuar",
+    "startModule": "Comenzar",
+    "level": "Nivel",
+    "pointsToNext": "{{points}} pts para siguiente nivel"
+  },
+  "gamification": {
+    "levelUp": "¡Subiste de nivel!",
+    "awesome": "¡Genial!",
+    "badgeUnlocked": "¡Insignia desbloqueada!",
+    "badges": "Insignias",
+    "badgeTitle": "Insignias",
+    "earned": "ganadas",
+    "lockedBadges": "Por Desbloquear",
+    "lockedHint": "Sigue aprendiendo para desbloquear esta insignia",
+    "leaderboard": "Ranking",
+    "leaderboardSubtitle": "Top 50 estudiantes por puntos",
+    "noData": "No hay datos del ranking todavía.",
+    "you": "Tú",
+    "leaderboardLevel": "Lv.{{level}} {{title}}"
+  },
+  "exam": {
+    "locked": "Bloqueado",
+    "unlocked": "Desbloqueado",
+    "start": "Comenzar",
+    "cancel": "Cancelar",
+    "back": "Volver",
+    "passed": "¡APROBADO!",
+    "keepLearning": "SIGUE APRENDIENDO",
+    "correct": "Correctas",
+    "timeSpent": "Tiempo",
+    "passing": "Nota de corte",
+    "question": "Pregunta",
+    "questions": "preguntas",
+    "answer": "Tu respuesta",
+    "correctAnswer": "Respuesta correcta",
+    "unanswered": "sin responder",
+    "rules": "Reglas e Instrucciones",
+    "tips": "Consejos para el éxito"
+  },
+  "playground": {
+    "title": "PlayQ Playground",
+    "subtitle": "Tu laboratorio práctico para escribir tests reales de Playwright",
+    "setup": "Guía de Configuración",
+    "login": "Formulario de Login",
+    "signup": "Asistente de Registro",
+    "catalog": "Catálogo E-commerce",
+    "cart": "Carrito de Compras",
+    "table": "Tabla de Datos",
+    "dynamic": "Contenido Dinámico",
+    "files": "Subida y Descarga de Archivos",
+    "frames": "iFrames y Popups",
+    "api": "API Playground"
+  },
+  "footer": {
+    "tagline": "De QA Manual a QA Automatizado. Tu transición comienza aquí.",
+    "learn": {
+      "title": "Aprender",
+      "courses": "Cursos",
+      "curriculum": "Currículum",
+      "playground": "Playground"
+    },
+    "community": {
+      "title": "Comunidad",
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "discord": "Discord"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Política de privacidad",
+      "terms": "Términos de servicio",
+      "cookies": "Política de cookies"
+    },
+    "copyright": "© {{year}} PlayQ Academy. Todos los derechos reservados."
+  }
+}

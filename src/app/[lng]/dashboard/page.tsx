@@ -1,0 +1,354 @@
+"use client";
+
+import { useEffect, type ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import { useTranslation } from "next-i18next";
+import { useAuth } from "@/context/AuthContext";
+import { useProgress } from "@/lib/hooks/useProgress";
+import { useGamification } from "@/lib/hooks/useGamification";
+import { getLevelFromPoints, getLevelProgress } from "@/lib/gamification/levels";
+import { BADGES_BY_ID } from "@/lib/constants/badges";
+import { TOTAL_LESSONS, CURRICULUM } from "@/lib/constants/curriculum";
+import Button from "@/components/ui/Button";
+import ProgressBar from "@/components/ui/ProgressBar";
+import StatCard from "@/components/dashboard/StatCard";
+import ModuleCard from "@/components/dashboard/ModuleCard";
+import AchievementCard from "@/components/dashboard/AchievementCard";
+import type { Achievement } from "@/components/dashboard/AchievementCard";
+import type { EarnedBadge } from "@/types/gamification";
+
+/* ------------------------------------------------------------------ */
+/*  Icons for stat cards                                               */
+/* ------------------------------------------------------------------ */
+
+function PointsIcon(): ReactNode {
+  return (
+    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  );
+}
+
+function LessonsIcon(): ReactNode {
+  return (
+    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+    </svg>
+  );
+}
+
+function StreakIcon(): ReactNode {
+  return (
+    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
+    </svg>
+  );
+}
+
+function BadgeIcon(): ReactNode {
+  return (
+    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+    </svg>
+  );
+}
+
+function PlayIcon(): ReactNode {
+  return (
+    <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 010 1.972l-11.54 6.347c-.75.412-1.667-.13-1.667-.986V5.653z" />
+    </svg>
+  );
+}
+
+function SparkleIcon(): ReactNode {
+  return (
+    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+    </svg>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Page                                                               */
+/* ------------------------------------------------------------------ */
+
+interface DashboardPageProps {
+  params: { lng: string };
+  searchParams: { welcome?: string };
+}
+
+export default function DashboardPage({
+  params: { lng },
+  searchParams,
+}: DashboardPageProps) {
+  const { t } = useTranslation("common");
+  const router = useRouter();
+  const { user, loading: authLoading } = useAuth();
+  const {
+    progressData,
+    loading: progressLoading,
+  } = useProgress(user?.uid);
+  const { data: gData } = useGamification(user?.uid);
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push(`/${lng}/auth/sign-in`);
+    }
+  }, [authLoading, user, lng, router]);
+
+  const showWelcomeToast = searchParams?.welcome === "1";
+
+  if (authLoading || !user) {
+    return (
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-blue-500 border-t-transparent" />
+      </div>
+    );
+  }
+
+  // Format today's date
+  const today = new Date();
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  const formattedDate = today.toLocaleDateString(
+    lng === "es" ? "es-ES" : "en-US",
+    dateOptions
+  );
+
+  const completedLessons = progressData?.totalCompletedLessons ?? 0;
+  const overallPercent = progressData?.overallPercent ?? 0;
+  const unlockedModules = (progressData?.modules ?? []).filter(
+    (m) => m.status !== "locked"
+  );
+
+  // Real gamification data
+  const gPoints = gData?.totalPoints ?? 0;
+  const gStreak = gData?.currentStreak ?? 0;
+  const gBadgeCount = (gData?.earnedBadges ?? []).length;
+  const levelInfo = getLevelFromPoints(gPoints);
+  const levelTitle = levelInfo.title[lng as "es" | "en"] ?? levelInfo.title.en;
+  const levelPct = getLevelProgress(gPoints);
+
+  // Map earned badges to AchievementCard format (last 3)
+  const earnedAchievements: Achievement[] = (gData?.earnedBadges ?? [])
+    .map((eb: EarnedBadge) => {
+      const badge = BADGES_BY_ID[eb.badgeId];
+      if (!badge) return null;
+      return {
+        id: badge.id,
+        icon: badge.icon,
+        name: badge.name[lng as "es" | "en"] ?? badge.name.en,
+        description: badge.description[lng as "es" | "en"] ?? badge.description.en,
+        earnedAt: eb.earnedAt,
+        rarity: badge.rarity,
+      };
+    })
+    .filter((a): a is Achievement => a !== null)
+    .sort((a, b) => new Date(b.earnedAt).getTime() - new Date(a.earnedAt).getTime())
+    .slice(0, 3);
+
+  return (
+    <div className="px-4 py-8">
+      <div className="container-app">
+        {/* Welcome banner (only on first sign-up) */}
+        {showWelcomeToast && (
+          <div className="mb-8 animate-fade-in-up rounded-xl border border-brand-green-500/20 bg-brand-green-500/10 p-4">
+            <p className="text-sm font-medium text-brand-green-400">
+              {t("dashboard.welcomeMessage", { name: user.displayName ?? user.email })}
+            </p>
+          </div>
+        )}
+
+        {/* ── Welcome header ────────────────────────────────── */}
+        <div className="mb-8 animate-fade-in-up">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
+                {t("dashboard.greeting", { name: user.displayName?.split(" ")[0] ?? "" })}
+              </h1>
+              <p className="mt-1 text-sm text-[var(--color-text-muted)]">
+                {formattedDate}
+              </p>
+            </div>
+            {/* Level badge */}
+            <div className="flex items-center gap-3 rounded-xl border border-brand-orange-500/20 bg-brand-orange-500/5 px-4 py-2.5">
+              <div className="text-right">
+                <p className="text-xs text-[var(--color-text-muted)]">
+                  {lng === "es" ? "Nivel" : "Level"} {levelInfo.level}
+                </p>
+                <p className="text-sm font-semibold text-brand-orange-400">
+                  {levelTitle}
+                </p>
+              </div>
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-orange-500/20 text-lg font-bold text-brand-orange-400">
+                {levelInfo.level}
+              </div>
+            </div>
+          </div>
+          {/* Level progress mini bar */}
+          <div className="mt-3 max-w-xs">
+            <ProgressBar value={levelPct} size="sm" barColor="bg-brand-orange-500" />
+          </div>
+        </div>
+
+        {/* ── Resume learning CTA ────────────────────────────── */}
+        {unlockedModules.length > 0 && (
+          <div
+            className="mb-8 animate-fade-in-up"
+            style={{ animationDelay: "100ms", animationFillMode: "backwards" as const }}
+          >
+            <div className="rounded-xl border border-brand-orange-500/20 bg-brand-orange-500/5 p-5">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-orange-500/20 text-brand-orange-400">
+                    <PlayIcon />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-[var(--color-text-primary)]">
+                      {t("dashboard.resumeLearning")}
+                    </p>
+                    <p className="text-xs text-[var(--color-text-muted)]">
+                      {unlockedModules[0]?.module.title[lng as "es" | "en"] ??
+                        unlockedModules[0]?.module.title.en}
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  variant="primary"
+                  className="!bg-brand-orange-500 hover:!bg-brand-orange-400"
+                  onClick={() =>
+                    router.push(`/${lng}/learn/${unlockedModules[0]!.module.id}`)
+                  }
+                >
+                  {t("dashboard.continue")}
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── Stats row ─────────────────────────────────────── */}
+        <div
+          className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 animate-fade-in-up"
+          style={{ animationDelay: "150ms", animationFillMode: "backwards" as const }}
+        >
+          <StatCard
+            icon={<PointsIcon />}
+            label={t("dashboard.totalPoints")}
+            value={gPoints}
+            variant="highlight"
+          />
+          <StatCard
+            icon={<LessonsIcon />}
+            label={t("dashboard.lessonsCompleted")}
+            value={completedLessons}
+            suffix={` / ${TOTAL_LESSONS}`}
+            trend={completedLessons > 0 ? Math.round((completedLessons / TOTAL_LESSONS) * 100) : undefined}
+          />
+          <StatCard
+            icon={<StreakIcon />}
+            label={t("dashboard.currentStreak")}
+            value={gStreak}
+            suffix={lng === "es" ? " días" : " days"}
+            trend={gStreak >= 3 ? 100 : undefined}
+          />
+          <StatCard
+            icon={<BadgeIcon />}
+            label={t("dashboard.badgesEarned")}
+            value={gBadgeCount}
+          />
+        </div>
+
+        {/* ── Overall progress ───────────────────────────────── */}
+        <div
+          className="mb-8 animate-fade-in-up"
+          style={{ animationDelay: "200ms", animationFillMode: "backwards" as const }}
+        >
+          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-5">
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-[var(--color-text-primary)]">
+                {t("dashboard.overallProgress")}
+              </h2>
+              <span className="text-sm font-bold tabular-nums text-brand-blue-400">
+                {overallPercent}%
+              </span>
+            </div>
+            <ProgressBar
+              value={overallPercent}
+              size="lg"
+              barColor="bg-gradient-to-r from-brand-blue-500 to-brand-green-400"
+            />
+            <p className="mt-2 text-xs text-[var(--color-text-muted)]">
+              {completedLessons} / {TOTAL_LESSONS} {t("dashboard.lessons")} {t("dashboard.completed").toLowerCase()}
+            </p>
+          </div>
+        </div>
+
+        {/* ── Active modules grid ────────────────────────────── */}
+        <div
+          className="mb-8 animate-fade-in-up"
+          style={{ animationDelay: "250ms", animationFillMode: "backwards" as const }}
+        >
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-lg font-bold text-[var(--color-text-primary)]">
+              {t("dashboard.yourModules")}
+            </h2>
+            <span className="text-xs text-[var(--color-text-muted)]">
+              {unlockedModules.length} / {CURRICULUM.length} {t("dashboard.modulesUnlocked")}
+            </span>
+          </div>
+
+          {progressLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-brand-blue-500 border-t-transparent" />
+            </div>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2">
+              {(progressData?.modules ?? []).map((info, idx) => (
+                <ModuleCard
+                  key={info.module.id}
+                  info={info}
+                  lng={lng}
+                  index={idx}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* ── Recent achievements ────────────────────────────── */}
+        <div
+          className="animate-fade-in-up"
+          style={{ animationDelay: "300ms", animationFillMode: "backwards" as const }}
+        >
+          <div className="mb-4 flex items-center gap-2">
+            <SparkleIcon />
+            <h2 className="text-lg font-bold text-[var(--color-text-primary)]">
+              {t("dashboard.recentAchievements")}
+            </h2>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {earnedAchievements.length > 0 ? (
+              earnedAchievements.map((achievement) => (
+                <AchievementCard
+                  key={achievement.id}
+                  achievement={achievement}
+                />
+              ))
+            ) : (
+              <p className="col-span-full py-4 text-center text-sm text-[var(--color-text-muted)]">
+                {lng === "es" ? "Completa lecciones para ganar insignias" : "Complete lessons to earn badges"}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
