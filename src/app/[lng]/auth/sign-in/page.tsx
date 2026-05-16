@@ -3,7 +3,7 @@
 import { useState, useEffect, type FormEvent, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
@@ -46,7 +46,7 @@ interface SignInPageProps {
 export default function SignInPage({ params: { lng } }: SignInPageProps) {
   const { t } = useTranslation("common");
   const router = useRouter();
-  const { user, loading, error, signIn, signInWithGoogle, clearError } = useAuth();
+  const { user, loading, initialized, error, signIn, signInWithGoogle, clearError } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -55,10 +55,10 @@ export default function SignInPage({ params: { lng } }: SignInPageProps) {
 
   // Redirect if already signed in
   useEffect(() => {
-    if (user) {
-      router.push(`/${lng}/dashboard`);
+    if (initialized && user) {
+      router.replace(`/${lng}/dashboard`);
     }
-  }, [user, lng, router]);
+  }, [initialized, user, lng, router]);
 
   const displayedError = formError ?? error;
 
@@ -75,7 +75,7 @@ export default function SignInPage({ params: { lng } }: SignInPageProps) {
     setSubmitting(true);
     try {
       await signIn(email.trim(), password);
-      router.push(`/${lng}/dashboard`);
+      router.replace(`/${lng}/dashboard`);
     } catch {
       // Error is already stored in context
     } finally {
@@ -89,7 +89,7 @@ export default function SignInPage({ params: { lng } }: SignInPageProps) {
     setSubmitting(true);
     try {
       await signInWithGoogle();
-      router.push(`/${lng}/dashboard`);
+      router.replace(`/${lng}/dashboard`);
     } catch {
       // Error is already stored in context
     } finally {
@@ -98,7 +98,7 @@ export default function SignInPage({ params: { lng } }: SignInPageProps) {
   }
 
   // Show a brief loading shell while auth state is initialising
-  if (loading && !submitting) {
+  if (!initialized || (loading && !submitting)) {
     return (
       <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-blue-500 border-t-transparent" />

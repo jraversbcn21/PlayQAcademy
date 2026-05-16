@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, type DragEvent, type ChangeEvent } from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "@/lib/i18n/client";
 import ExerciseHeader from "@/components/playground/ExerciseHeader";
 
 export default function FilesPage({ params: { lng } }: { params: { lng: string } }) {

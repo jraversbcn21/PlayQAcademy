@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
 import { useGamification } from "@/lib/hooks/useGamification";
 import StreakIndicator from "@/components/gamification/StreakIndicator";

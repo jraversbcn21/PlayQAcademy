@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo, type FormEvent, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
@@ -79,7 +79,7 @@ interface SignUpPageProps {
 export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
   const { t } = useTranslation("common");
   const router = useRouter();
-  const { user, loading, error, signUp, signInWithGoogle, clearError } = useAuth();
+  const { user, loading, initialized, error, signUp, signInWithGoogle, clearError } = useAuth();
 
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
@@ -91,10 +91,10 @@ export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
 
   // Redirect if already signed in
   useEffect(() => {
-    if (user) {
-      router.push(`/${lng}/dashboard?welcome=1`);
+    if (initialized && user) {
+      router.replace(`/${lng}/dashboard?welcome=1`);
     }
-  }, [user, lng, router]);
+  }, [initialized, user, lng, router]);
 
   const displayedError = formError ?? error;
 
@@ -131,7 +131,7 @@ export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
     setSubmitting(true);
     try {
       await signUp(email.trim(), password, displayName.trim());
-      router.push(`/${lng}/dashboard?welcome=1`);
+      router.replace(`/${lng}/dashboard?welcome=1`);
     } catch {
       // Error stored in context
     } finally {
@@ -145,7 +145,7 @@ export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
     setSubmitting(true);
     try {
       await signInWithGoogle();
-      router.push(`/${lng}/dashboard?welcome=1`);
+      router.replace(`/${lng}/dashboard?welcome=1`);
     } catch {
       // Error stored in context
     } finally {
@@ -154,7 +154,7 @@ export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
   }
 
   // Loading shell
-  if (loading && !submitting) {
+  if (!initialized || (loading && !submitting)) {
     return (
       <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-blue-500 border-t-transparent" />

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
 import { getAttempt } from "@/lib/hooks/useExamAttempt";
 import { EXAMS_BY_ID } from "@/lib/constants/exams";

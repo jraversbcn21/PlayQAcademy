@@ -8,10 +8,14 @@ import {
   getLessonById,
 } from "@/lib/constants/curriculum";
 import type { LessonContent, LessonMeta } from "@/types/lesson";
-import { getAllLessonsContent } from "@/lib/constants/lessons/module-1";
+import type { Badge } from "@/types/gamification";
+import { getAllLessonsContent as getModule1Content } from "@/lib/constants/lessons/module-1";
+import { getAllLessonsContent as getModule2Content } from "@/lib/constants/lessons/module-2";
 import { updateUserProgress as fbUpdateProgress } from "@/lib/firebase/firestore";
 import { updateDoc, setDoc, doc, arrayUnion, arrayRemove, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
+import { checkAndAwardBadges } from "@/lib/gamification/badgeChecker";
+import { getLevelFromPoints } from "@/lib/gamification/levels";
 
 /* ------------------------------------------------------------------ */
 /*  Lesson registry (extend with new module imports)                    */
@@ -22,7 +26,7 @@ import { db } from "@/lib/firebase/config";
  * Add new module content files here as they are written.
  */
 const LESSON_REGISTRY: Record<string, LessonContent> = (() => {
-  const all = getAllLessonsContent();
+  const all = [...getModule1Content(), ...getModule2Content()];
   const map: Record<string, LessonContent> = {};
   for (const lc of all) {
     map[`${lc.moduleId}__${lc.id}`] = lc;
@@ -136,11 +140,6 @@ export function useLessonNavigation(
 /*  markLessonComplete                                                 */
 /* ------------------------------------------------------------------ */
 
-import { checkAndAwardBadges } from "@/lib/gamification/badgeChecker";
-import { getLevelFromPoints } from "@/lib/gamification/levels";
-import { getDoc, updateDoc as firestoreUpdate } from "firebase/firestore";
-import type { Badge } from "@/types/gamification";
-
 export interface MarkCompleteResult {
   newBadges: Badge[];
   levelChanged: boolean;
@@ -172,7 +171,7 @@ export async function markLessonComplete(
       const d = gSnap.data() as Record<string, unknown>;
       totalPoints = ((d["totalPoints"] as number) ?? 0) + 10;
       oldLevel = (d["level"] as number) ?? 1;
-      await firestoreUpdate(gRef, { totalPoints, level: getLevelFromPoints(totalPoints).level }).catch(() => {});
+      await updateDoc(gRef, { totalPoints, level: getLevelFromPoints(totalPoints).level }).catch(() => {});
     } else {
       totalPoints = 10;
       await setDoc(gRef, {

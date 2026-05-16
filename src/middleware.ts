@@ -1,35 +1,56 @@
 /**
  * Locale + auth middleware.
  *
- * 1. Redirects requests without a locale prefix to {defaultLocale}/path
- * 2. Protects routes that require authentication (dashboard, learn/*,
- *    leaderboard) by checking for the "auth_token" cookie set by
- *    the AuthProvider on successful sign-in.
+ * 1. Detects the user's locale from:
+ *    a. The 'i18next' cookie (persisted choice)
+ *    b. The Accept-Language header (negotiated via accept-language pkg)
+ *    c. The default locale "es"
+ * 2. Redirects requests without a locale prefix to /{locale}/path.
+ * 3. Protects routes that require authentication (dashboard, learn/*,
+ *    leaderboard) by checking the "auth_token" cookie.
  */
 
 import { NextRequest, NextResponse } from "next/server";
+import acceptLanguage from "accept-language";
+import {
+  languages,
+  fallbackLng,
+  cookieName,
+} from "@/lib/i18n/settings";
 
-const SUPPORTED_LOCALES = ["es", "en"] as const;
-type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
-const DEFAULT_LOCALE: SupportedLocale = "es";
+// Configure accept-language to only consider our supported set.
+acceptLanguage.languages([...languages]);
 
-/** Routes that require an authenticated session. */
 const PROTECTED_PATTERNS = [
   /^\/[a-z]{2}\/dashboard/,
   /^\/[a-z]{2}\/learn\//,
   /^\/[a-z]{2}\/leaderboard/,
 ];
 
-function getLocaleFromPath(pathname: string): SupportedLocale | null {
-  const segments = pathname.split("/");
-  const firstSegment = segments[1];
-  if (
-    firstSegment &&
-    (SUPPORTED_LOCALES as readonly string[]).includes(firstSegment)
-  ) {
-    return firstSegment as SupportedLocale;
+function getLocale(
+  request: NextRequest
+): string {
+  // 1. Cookie (user's explicit choice via language switcher)
+  const cookieLocale = request.cookies.get(cookieName)?.value;
+  if (cookieLocale && (languages as readonly string[]).includes(cookieLocale)) {
+    return cookieLocale;
   }
-  return null;
+
+  // 2. Accept-Language header negotiation
+  const headerLocale = acceptLanguage.get(
+    request.headers.get("Accept-Language")
+  );
+  if (headerLocale && (languages as readonly string[]).includes(headerLocale)) {
+    return headerLocale;
+  }
+
+  // 3. Fallback
+  return fallbackLng;
+}
+
+function hasLocale(pathname: string): boolean {
+  const segment = pathname.split("/")[1];
+  return segment !== undefined && (languages as readonly string[]).includes(segment);
 }
 
 function isStaticAsset(pathname: string): boolean {
@@ -44,16 +65,15 @@ function isStaticAsset(pathname: string): boolean {
 export function middleware(request: NextRequest): NextResponse | undefined {
   const { pathname, search } = request.nextUrl;
 
-  // Skip static assets and Next.js internals
   if (isStaticAsset(pathname)) {
     return NextResponse.next();
   }
 
-  // 1. No locale prefix → redirect to default locale
-  const locale = getLocaleFromPath(pathname);
-  if (!locale) {
+  // 1. No locale prefix → detect and redirect
+  if (!hasLocale(pathname)) {
+    const locale = getLocale(request);
     const url = request.nextUrl.clone();
-    url.pathname = `/${DEFAULT_LOCALE}${pathname}${search}`;
+    url.pathname = `/${locale}${pathname}${search}`;
     return NextResponse.redirect(url);
   }
 
@@ -64,8 +84,8 @@ export function middleware(request: NextRequest): NextResponse | undefined {
 
   if (isProtected) {
     const authCookie = request.cookies.get("auth_token");
-
     if (!authCookie?.value) {
+      const locale = pathname.split("/")[1] ?? fallbackLng;
       const url = request.nextUrl.clone();
       url.pathname = `/${locale}/auth/sign-in`;
       url.searchParams.set("callbackUrl", pathname);
@@ -73,7 +93,16 @@ export function middleware(request: NextRequest): NextResponse | undefined {
     }
   }
 
-  return NextResponse.next();
+  // 3. Set i18next cookie on every navigation so the language choice persists
+  const locale = pathname.split("/")[1] ?? fallbackLng;
+  const response = NextResponse.next();
+  response.cookies.set(cookieName, locale, {
+    path: "/",
+    maxAge: 60 * 60 * 24 * 365, // 1 year
+    sameSite: "lax",
+  });
+
+  return response;
 }
 
 export const config = {

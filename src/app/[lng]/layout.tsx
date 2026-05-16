@@ -1,5 +1,4 @@
 import type { Metadata } from "react";
-import { appWithTranslation } from "next-i18next";
 import { AuthProvider } from "@/context/AuthContext";
 import { GamificationProvider } from "@/context/GamificationContext";
 import Navbar from "@/components/layout/Navbar";
@@ -11,8 +10,9 @@ import Footer from "@/components/layout/Footer";
  * Wraps every page under /[lng] with:
  *   AuthProvider → GamificationProvider → Navbar → main → Footer.
  *
- * GamificationProvider renders BadgeUnlockedModal / LevelUpModal at the
- * app root so any component can trigger them via useGamificationUI().
+ * i18n is handled by the [lng] dynamic segment + middleware cookie.
+ * Client components use useTranslation() from @/lib/i18n/client
+ * which reads lng from useParams() automatically.
  */
 
 interface LngLayoutProps {
@@ -51,7 +51,7 @@ export async function generateStaticParams() {
   return [{ lng: "es" }, { lng: "en" }];
 }
 
-function LngLayout({ children, params }: LngLayoutProps) {
+export default function LngLayout({ children, params }: LngLayoutProps) {
   const { lng } = params;
 
   return (
@@ -66,5 +66,3 @@ function LngLayout({ children, params }: LngLayoutProps) {
     </AuthProvider>
   );
 }
-
-export default appWithTranslation(LngLayout);

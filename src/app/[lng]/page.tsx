@@ -7,7 +7,7 @@
  * bilingual tagline, two CTA buttons, and three feature highlight cards.
  */
 
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "@/lib/i18n/client";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 

@@ -6,9 +6,10 @@ import {
   useEffect,
   useState,
   useCallback,
+  useRef,
   type ReactNode,
 } from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "@/lib/i18n/client";
 import type { User } from "firebase/auth";
 import type { UserProfile } from "@/types/auth";
 import { DEFAULT_USER_PROFILE } from "@/types/auth";
@@ -25,6 +26,16 @@ import {
   updateLastLogin,
 } from "@/lib/firebase/firestore";
 import { getFirebaseErrorKey } from "@/lib/firebase/errors";
+
+/* ------------------------------------------------------------------ */
+/*  Debug logging (development only)                                    */
+/* ------------------------------------------------------------------ */
+
+const isDev = typeof process !== "undefined" && process.env.NODE_ENV === "development";
+
+function log(msg: string): void {
+  if (isDev) console.log(`[Auth] ${msg}`);
+}
 
 /* ------------------------------------------------------------------ */
 /*  Cookie helper (for middleware route guard)                         */
@@ -51,6 +62,7 @@ interface AuthContextValue {
   user: UserProfile | null;
   loading: boolean;
   error: string | null;
+  initialized: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string, displayName: string) => Promise<void>;
   signOut: () => Promise<void>;
@@ -69,46 +81,68 @@ interface AuthProviderProps {
   lng: string;
 }
 
-export function AuthProvider({ children, lng }: AuthProviderProps) {
+export function AuthProvider({ children, lng: _lng }: AuthProviderProps) {
   const { t } = useTranslation("common");
 
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [initialized, setInitialized] = useState(false);
 
   const clearError = useCallback(() => setError(null), []);
 
   /**
    * Convert a Firebase User into a full UserProfile.
-   * If no Firestore document exists (first sign-in), creates it.
+   * Profile sync is NON-BLOCKING: if Firestore fails we return a basic
+   * UserProfile built from the Firebase User directly, so the UI never
+   * stalls waiting for Firestore.
    */
   const syncProfile = useCallback(
-    async (fbUser: User): Promise<UserProfile | null> => {
-      let profile = await getUserProfile(fbUser.uid);
+    async (fbUser: User): Promise<UserProfile> => {
+      try {
+        let profile = await getUserProfile(fbUser.uid);
 
-      if (!profile) {
-        // First sign-in: create the Firestore document
-        await createUserProfile(fbUser.uid, {
-          email: fbUser.email,
-          displayName: fbUser.displayName,
-          photoURL: fbUser.photoURL,
-        });
+        if (!profile) {
+          log(`Profile not found for ${fbUser.uid}, creating...`);
+          await createUserProfile(fbUser.uid, {
+            email: fbUser.email,
+            displayName: fbUser.displayName,
+            photoURL: fbUser.photoURL,
+          });
 
-        profile = {
+          profile = {
+            uid: fbUser.uid,
+            email: fbUser.email,
+            displayName: fbUser.displayName,
+            photoURL: fbUser.photoURL,
+            ...DEFAULT_USER_PROFILE,
+          };
+          log("Profile created successfully");
+        } else {
+          // Returning user: update lastLoginAt (fire-and-forget)
+          updateLastLogin(fbUser.uid).catch(() => {
+            /* non-critical */
+          });
+          log(`Profile found for ${fbUser.uid}, returning user`);
+        }
+
+        return profile;
+      } catch (err) {
+        // If Firestore fails, return a basic profile from Firebase data
+        log(`Profile sync failed, using fallback: ${String(err)}`);
+        return {
           uid: fbUser.uid,
           email: fbUser.email,
           displayName: fbUser.displayName,
           photoURL: fbUser.photoURL,
-          ...DEFAULT_USER_PROFILE,
+          role: "student",
+          language: "es",
+          createdAt: new Date().toISOString(),
+          lastLoginAt: new Date().toISOString(),
+          totalPoints: 0,
+          badges: [],
         };
-      } else {
-        // Returning user: update lastLoginAt
-        await updateLastLogin(fbUser.uid).catch(() => {
-          /* non-critical */
-        });
       }
-
-      return profile;
     },
     []
   );
@@ -116,13 +150,14 @@ export function AuthProvider({ children, lng }: AuthProviderProps) {
   /* ---------- Auth state listener ---------- */
 
   useEffect(() => {
-    // Skip listener when Firebase is not configured (SSR / missing env)
     if (typeof window === "undefined") {
       setLoading(false);
+      setInitialized(true);
       return;
     }
 
     const unsubscribe = onAuthStateChange(async (fbUser) => {
+      log(`onAuthStateChanged fired: ${fbUser ? fbUser.uid : "no user"}`);
       try {
         if (fbUser) {
           const profile = await syncProfile(fbUser);
@@ -133,9 +168,12 @@ export function AuthProvider({ children, lng }: AuthProviderProps) {
           removeAuthCookie();
         }
       } catch (err) {
+        // syncProfile already handles its own errors, but belt-and-suspenders
+        log(`Unhandled error in auth listener: ${String(err)}`);
         setError(t(getFirebaseErrorKey(err)));
       } finally {
         setLoading(false);
+        setInitialized(true);
       }
     });
 
@@ -149,16 +187,22 @@ export function AuthProvider({ children, lng }: AuthProviderProps) {
       clearError();
       setLoading(true);
       try {
-        await fbSignInWithEmail(email, password);
-        // onAuthStateChange handles setUser + cookie
+        log(`Sign-in attempt: ${email}`);
+        const fbUser = await fbSignInWithEmail(email, password);
+        log(`Sign-in succeeded for: ${fbUser.uid}`);
+        // Sync profile and set user immediately — don't wait for onAuthStateChanged
+        const profile = await syncProfile(fbUser);
+        setUser(profile);
+        setAuthCookie();
       } catch (err) {
         const key = getFirebaseErrorKey(err);
         setError(t(key));
-        setLoading(false);
         throw err;
+      } finally {
+        setLoading(false);
       }
     },
-    [clearError, t]
+    [clearError, syncProfile, t]
   );
 
   const signUp = useCallback(
@@ -166,24 +210,31 @@ export function AuthProvider({ children, lng }: AuthProviderProps) {
       clearError();
       setLoading(true);
       try {
-        await fbSignUpWithEmail(email, password, displayName);
-        // onAuthStateChange fires → syncProfile creates doc
+        log(`Sign-up attempt: ${email}`);
+        const fbUser = await fbSignUpWithEmail(email, password, displayName);
+        log(`Sign-up succeeded for: ${fbUser.uid}`);
+        const profile = await syncProfile(fbUser);
+        setUser(profile);
+        setAuthCookie();
       } catch (err) {
         const key = getFirebaseErrorKey(err);
         setError(t(key));
-        setLoading(false);
         throw err;
+      } finally {
+        setLoading(false);
       }
     },
-    [clearError, t]
+    [clearError, syncProfile, t]
   );
 
   const signOut = useCallback(async () => {
     clearError();
     try {
+      log("Sign-out requested");
       await fbSignOut();
       setUser(null);
       removeAuthCookie();
+      log("Sign-out completed");
     } catch (err) {
       const key = getFirebaseErrorKey(err);
       setError(t(key));
@@ -194,15 +245,41 @@ export function AuthProvider({ children, lng }: AuthProviderProps) {
     clearError();
     setLoading(true);
     try {
-      await fbSignInWithGoogle();
-      // onAuthStateChange handles the rest
+      log("Google sign-in attempt");
+      const fbUser = await fbSignInWithGoogle();
+      log(`Google sign-in succeeded for: ${fbUser.uid}`);
+      const profile = await syncProfile(fbUser);
+      setUser(profile);
+      setAuthCookie();
     } catch (err) {
       const key = getFirebaseErrorKey(err);
       setError(t(key));
-      setLoading(false);
       throw err;
+    } finally {
+      setLoading(false);
     }
-  }, [clearError, t]);
+  }, [clearError, syncProfile, t]);
+
+  /* ---------- Safety timeout (prevents infinite spinners) ---------- */
+
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (loading && typeof window !== "undefined") {
+      // If loading persists for more than 15 seconds, force-reset
+      timeoutRef.current = setTimeout(() => {
+        if (loading) {
+          log("Safety timeout: forcing loading=false after 15s");
+          setLoading(false);
+          setInitialized(true);
+          setError(t("auth.errors.default"));
+        }
+      }, 15000);
+    }
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, [loading, t]);
 
   /* ---------- Render ---------- */
 
@@ -210,6 +287,7 @@ export function AuthProvider({ children, lng }: AuthProviderProps) {
     user,
     loading,
     error,
+    initialized,
     signIn,
     signUp,
     signOut,

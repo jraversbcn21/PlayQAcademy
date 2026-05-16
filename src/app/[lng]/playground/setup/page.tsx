@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "@/lib/i18n/client";
 
 export default function SetupPage({ params: { lng } }: { params: { lng: string } }) {
   const { t: _t } = useTranslation("common");

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "@/lib/i18n/client";
 import type { Bilingual, QuizOption } from "@/types/lesson";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, type ReactNode } from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "@/lib/i18n/client";
 import type { LessonSection, Bilingual } from "@/types/lesson";
 import QuizSectionRenderer from "./QuizSection";
 import ExerciseSectionRenderer from "./ExerciseSection";
