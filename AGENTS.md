@@ -32,6 +32,21 @@ Middleware:       src/middleware.ts           (locale redirect + protected route
 
 Always use `@/` for imports within `src/`. Never use relative `../../../` chains.
 
+## Routes
+
+| Route | Auth | Purpose |
+|---|---|---|
+| `/` → `/[lng]` | Public | Landing page hero + features |
+| `/[lng]/curriculum` | **Public** | Full curriculum preview (8 modules, 44 lessons, skills, certification path) |
+| `/[lng]/auth/sign-in` | Public | Sign-in form |
+| `/[lng]/auth/sign-up` | Public | Sign-up form |
+| `/[lng]/dashboard` | **Protected** | User dashboard (progress, stats, modules) |
+| `/[lng]/learn/[moduleId]/[lessonId]` | **Protected** | Lesson player with quizzes and exercises |
+| `/[lng]/leaderboard` | **Protected** | Top 50 ranked by points |
+| `/[lng]/exams/*` | **Protected** | Exam listing, take, results |
+| `/[lng]/badges` | **Protected** | Earned/unearned badge gallery |
+| `/[lng]/playground/*` | **Protected** | Interactive test playground |
+
 ## i18n (App Router native — no next-i18next)
 
 - **`next-i18next` has been REMOVED.** The project now uses native App Router i18n via `i18next` + `react-i18next` + `accept-language`.
@@ -58,13 +73,20 @@ Always use `@/` for imports within `src/`. Never use relative `../../../` chains
 - Config file: `src/lib/firebase/config.ts` — exports `{ app, auth, db }` (each can be `null` if env vars are missing).
 - **All callers MUST handle the `null` case.** Helper functions in `auth.ts` and `firestore.ts` use `requireAuth()` / `requireDb()` guards that throw descriptive errors.
 - **Firestore collections used:**
-  - `users/{uid}` — UserProfile (email, displayName, role, language, points, badges)
-  - `progress/{uid}` — UserProgress (completed lesson IDs per module)
-  - `gamification/{uid}` — UserGamification (streaks, levels, earnedBadge records)
-  - `exam_attempts/{attemptId}` — ExamAttempt (answers, score, status)
-- **Required Firestore composite indexes:**
-  - `gamification`: `totalPoints` DESC (for leaderboard)
-  - `exam_attempts`: `userId` ASC, `submittedAt` DESC (for exam history)
+  - `users/{uid}` — UserProfile (email, displayName, photoURL, role, language, createdAt, lastLoginAt)
+  - `progress/{uid}` — UserProgress (userId, modules map, bookmarks)
+  - `gamification/{uid}` — UserGamification (uid, totalPoints, level, streaks, earnedBadges, quizStats, correctQuizIds, completedExerciseIds, displayName, photoURL)
+  - `exam_attempts/{attemptId}` — ExamAttempt (id, userId, examId, answers, score, passed, status)
+- **Required Firestore composite index:**
+  - `exam_attempts`: `userId` ASC, `submittedAt` DESC (for exam history query)
+  - Single-field indexes (e.g., `gamification.totalPoints DESC`) are auto-managed by Firestore — no declaration needed
+- **Firestore security rules** are in `firestore.rules` at the project root — production-grade, least-privilege, with helper functions `isAuthenticated()` and `isOwner()`. Collection-specific rules: users (owner read/write, field-level update restrictions), progress (owner read/write, no delete), gamification (public read for leaderboard, owner write, no delete), exam_attempts (owner read/write, status-gated transitions, no delete), default deny catch-all.
+- **Firebase config files** at project root:
+  - `firebase.json` — CLI config pointing to `firestore.rules` and `firestore.indexes.json`
+  - `.firebaserc` — project alias (replace `REPLACE_WITH_YOUR_FIREBASE_PROJECT_ID` placeholder)
+  - `firestore.rules` — production security rules
+  - `firestore.indexes.json` — composite index definitions
+- **Deployment guide** at `docs/FIRESTORE_DEPLOYMENT.md` — covers CLI setup, deploy commands, verification, emulator testing, rollback, troubleshooting.
 - **`auth_token` cookie**: Set by AuthProvider on sign-in, cleared on sign-out. The middleware checks this cookie as a simple navigation guard — it is NOT a verified Firebase token. Real security lives in Firestore rules.
 - **`.env.example`** lists all required `NEXT_PUBLIC_FIREBASE_*` variables. Copy to `.env.local` to configure. Missing vars cause `null` objects, not runtime crashes (functions throw clear errors).
 
@@ -80,14 +102,15 @@ Always use `@/` for imports within `src/`. Never use relative `../../../` chains
 ## UX fixes applied (May 2026)
 
 - **Hero section** (`src/app/[lng]/page.tsx`):
-  - Removed redundant "PlayQ Academy" pill badge above the gradient heading (it duplicated the title).
-  - Both CTA buttons now navigate: primary links to `/[lng]/auth/sign-up` (wrapped in `<Link>`), secondary links to `/[lng]/curriculum`.
-  - Copy updated: `hero.ctaPrimary` → "Regístrate aquí" (es) / "Register here" (en).
+  - Removed redundant "PlayQ Academy" pill badge above the gradient heading.
+  - Both CTA buttons now navigate: primary links to `/[lng]/auth/sign-up`, secondary links to `/[lng]/curriculum`.
+  - Copy: `hero.ctaPrimary` → "Regístrate aquí" / "Register here".
 - **Navbar** (`src/components/layout/Navbar.tsx`):
-  - `nav.startFree` renamed to "Crear cuenta" (es) / "Create account" (en) to clarify it's for new users.
+  - `nav.startFree` renamed to "Crear cuenta" / "Create account".
 - **Sign-up form** (`src/app/[lng]/auth/sign-up/page.tsx`):
-  - Unchecked terms checkbox no longer shows a top-of-form error badge. Instead, the checkbox label and border turn red inline (`text-red-500`, `border-red-500`), clearing immediately when the user checks the box. All other validation errors keep their top-of-form Badge display.
-  - Uses local `termsError` state + conditional className arrays.
+  - Unchecked terms checkbox turns label and border red inline (`text-red-500`, `border-red-500`) instead of showing a top-of-form badge. Other validation errors keep their Badge display.
+- **Curriculum page** (`src/app/[lng]/curriculum/page.tsx`):
+  - Public page with hero, module grid (expandable lesson lists), skill cards, certification timeline, auth-aware CTA. Reuses `CURRICULUM` and `EXAMS` constants.
 
 ## Curriculum and lesson content
 
@@ -139,7 +162,7 @@ The in-memory REST API at `src/app/api/playground/*` provides the following endp
 - **No `any` allowed** anywhere in the codebase. Use proper interfaces or `unknown` + type narrowing instead.
 - **Unused variables**: prefix with `_` (e.g., `_params`) per the ESLint `argsIgnorePattern`/`varsIgnorePattern` rule.
 
-## Known type errors (4 pre-existing, not blocking)
+## Known type errors (6 pre-existing, not blocking)
 
 These errors existed before lesson content authoring began and are intentionally deferred:
 
@@ -154,8 +177,21 @@ These errors existed before lesson content authoring began and are intentionally
 
 - **21 badges** defined as constants in `src/lib/constants/badges.ts`. Badge criteria are stored in code, not in Firestore.
 - **10 levels** in `src/lib/gamification/levels.ts` — points-based curve from 0 to 2600+.
-- **Badge checking** runs inside `markLessonComplete()` in `src/lib/hooks/useLesson.ts`. It calls `checkAndAwardBadges()` from `src/lib/gamification/badgeChecker.ts`.
+- **Gamification tracking fields** in `gamification/{uid}`:
+  - `quizStats: { totalAttempts, correctOnFirstTry, perfectQuizzes }` — quiz performance counters
+  - `correctQuizIds: string[]` — quiz IDs answered correctly on first try (prevents double-counting)
+  - `completedExerciseIds: string[]` — exercise IDs marked as completed (idempotent)
+- **Badge checking** is triggered from three code paths:
+  - `markLessonComplete()` in `src/lib/hooks/useLesson.ts` — lesson completion (+10 pts, calls `checkAndAwardBadges`)
+  - `recordQuizAnswer()` in `src/lib/hooks/useGamification.ts` — quiz answer submission (+5 pts on first-try correct, idempotent via `correctQuizIds`, calls `checkAndAwardBadges`)
+  - `recordExerciseCompleted()` in `src/lib/hooks/useGamification.ts` — exercise "Mark as Tried" (+15 pts, idempotent via `completedExerciseIds`, calls `checkAndAwardBadges`)
+- `recordQuizAnswer` and `recordExerciseCompleted` are STANDALONE async functions (exported from `useGamification.ts`, not inside the hook) so QuizSection and ExerciseSection can import them directly.
+- **QuizSection** (`src/components/lesson/QuizSection.tsx`) wires to `recordQuizAnswer` — tracks first-try via `useRef`, auto-prefixes quiz IDs with `moduleId__lessonId__`, triggers `queueBadges` and `triggerLevelUp` on result.
+- **ExerciseSection** (`src/components/lesson/ExerciseSection.tsx`) wires to `recordExerciseCompleted` — idempotent via `completedExerciseIds` check, triggers modals.
+- **LessonRenderer** now passes `moduleId` and `lessonId` to QuizSection and ExerciseSection for quiz/exercise ID construction.
+- **All gamification writes are non-blocking** — Firestore errors are caught and logged (dev mode only), UI continues unaffected.
 - **Badge/level modals** are queued via `useGamificationUI()` from `src/context/GamificationContext.tsx`. Call `queueBadges(badges)` to trigger the badge modal sequence; call `triggerLevelUp(old, new)` for level-up.
+- **`BadgeCheckContext`** (in `src/lib/gamification/badgeChecker.ts`) receives `totalLessonsCompleted`, `completedModuleIds`, `perfectQuizIds`, `exerciseCompletedCount`, and `currentStreak` — aggregated from both progress and gamification docs.
 
 ## Exam system
 
@@ -171,3 +207,4 @@ These errors existed before lesson content authoring began and are intentionally
 - **Mobile-first responsive design.** Use `sm:`, `lg:` breakpoints. Test at 375px width.
 - **No external UI libraries.** All components are hand-built with Tailwind. No `@monaco-editor/react` or `prism-react-renderer` installed — code blocks use a plain `<pre>` tag.
 - **Firebase imports** must come from specific sub-packages (`firebase/auth`, `firebase/firestore`, `firebase/app`), not from the `firebase` barrel.
+- **Navigation**: Use `<Link href={...}>` from `next/link` for internal navigation (preferred over `router.push()`). Only use `router.replace()` for auth page redirects and `router.push()` for programmatic navigation triggered by callbacks.
