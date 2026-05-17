@@ -3,7 +3,7 @@
     "titleLine1": "PlayQ Academy",
     "titleLine2": "Test Automation with Playwright",
     "tagline": "From Manual QA to Automated QA. Your transition starts here.",
-    "ctaPrimary": "Start Learning Free",
+    "ctaPrimary": "Register here",
     "ctaSecondary": "View Curriculum",
     "feature1": {
       "title": "40+ Interactive Lessons",
@@ -25,7 +25,7 @@
     "leaderboard": "Leaderboard",
     "about": "About",
     "signIn": "Sign In",
-    "startFree": "Start Free",
+    "startFree": "Create account",
     "menuOpen": "Open menu",
     "menuClose": "Close menu",
     "languageSwitcher": "Switch language"

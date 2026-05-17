@@ -87,6 +87,7 @@ export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [termsError, setTermsError] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   // Redirect if already signed in
@@ -124,7 +125,7 @@ export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
     }
 
     if (!acceptedTerms) {
-      setFormError(t("auth.errors.termsRequired"));
+      setTermsError(true);
       return;
     }
 
@@ -321,12 +322,21 @@ export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
                 id="signup-terms"
                 type="checkbox"
                 checked={acceptedTerms}
-                onChange={(e) => setAcceptedTerms(e.target.checked)}
-                className="mt-1 h-4 w-4 rounded border-[var(--color-border)] bg-[var(--color-bg-secondary)] text-brand-blue-600 focus:ring-brand-blue-500"
+                onChange={(e) => {
+                  setAcceptedTerms(e.target.checked);
+                  if (e.target.checked) setTermsError(false);
+                }}
+                className={[
+                  "mt-1 h-4 w-4 rounded border bg-[var(--color-bg-secondary)] text-brand-blue-600 focus:ring-brand-blue-500",
+                  termsError ? "border-red-500" : "border-[var(--color-border)]",
+                ].join(" ")}
               />
               <label
                 htmlFor="signup-terms"
-                className="text-sm text-[var(--color-text-muted)]"
+                className={[
+                  "text-sm",
+                  termsError ? "text-red-500" : "text-[var(--color-text-muted)]",
+                ].join(" ")}
               >
                 {t("auth.signUp.termsAccept")}
               </label>

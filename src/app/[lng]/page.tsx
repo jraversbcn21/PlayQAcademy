@@ -7,6 +7,8 @@
  * bilingual tagline, two CTA buttons, and three feature highlight cards.
  */
 
+import { useParams } from "next/navigation";
+import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
@@ -61,17 +63,13 @@ const FEATURES: FeatureItem[] = [
 
 export default function HomePage() {
   const { t } = useTranslation("common");
+  const { lng } = useParams() as { lng: string };
 
   return (
     <>
       {/* ── Hero ──────────────────────────────────────────────── */}
       <section className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-20">
         <div className="container-app text-center">
-          {/* Brand badge */}
-          <span className="mb-4 inline-block rounded-full bg-brand-blue-500/10 px-4 py-1.5 text-sm font-medium text-brand-blue-400 ring-1 ring-inset ring-brand-blue-500/20">
-            PlayQ Academy
-          </span>
-
           {/* Animated gradient heading */}
           <h1 className="mx-auto max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
             <span className="animate-gradient bg-gradient-to-r from-brand-blue-400 via-brand-green-400 to-brand-orange-400 bg-[length:200%_auto] bg-clip-text text-transparent">
@@ -90,12 +88,16 @@ export default function HomePage() {
 
           {/* CTA buttons */}
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <Button variant="primary" size="lg" className="!bg-brand-orange-500 hover:!bg-brand-orange-400">
-              {t("hero.ctaPrimary")}
-            </Button>
-            <Button variant="secondary" size="lg">
-              {t("hero.ctaSecondary")}
-            </Button>
+            <Link href={`/${lng}/auth/sign-up`}>
+              <Button variant="primary" size="lg" className="!bg-brand-orange-500 hover:!bg-brand-orange-400">
+                {t("hero.ctaPrimary")}
+              </Button>
+            </Link>
+            <Link href={`/${lng}/curriculum`}>
+              <Button variant="secondary" size="lg">
+                {t("hero.ctaSecondary")}
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
