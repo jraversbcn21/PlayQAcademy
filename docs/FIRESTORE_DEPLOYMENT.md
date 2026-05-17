@@ -143,14 +143,17 @@ production deployments.
 ### Indexes Tab
 
 1. Navigate to **Firestore Database** → **Indexes** tab
-2. You should see two indexes:
+2. You should see one composite index:
 
    | Collection | Fields | Order |
    |---|---|---|
-   | `gamification` | `totalPoints` | DESC |
    | `exam_attempts` | `userId`, `submittedAt` | ASC, DESC |
 
-3. Status should show `Enabled` (not `Building`). If it shows
+3. The `gamification.totalPoints` index is AUTO-MANAGED by Firestore —
+   single-field indexes do not appear here and are created automatically
+   the first time a query uses them. No deployment is needed for them.
+
+4. Status should show `Enabled` (not `Building`). If it shows
    `Building`, wait and refresh — this can take up to 10 minutes.
 
 ---
@@ -253,7 +256,7 @@ Press `Ctrl+C` in the terminal running the emulator.
 | `PERMISSION_DENIED: Cloud Firestore API has not been used in project` | Cloud Firestore API is disabled for this project | Go to [GCP Console](https://console.cloud.google.com) → APIs & Services → Enable Cloud Firestore API. |
 | `Failed to authenticate, have you run firebase login?` | Firebase CLI session expired or using wrong account | Run `firebase login --reauth` to force a fresh authentication. |
 | `Error: Project '<id>' does not exist` | Wrong project ID in `.firebaserc` | Run `firebase projects:list` to find your project ID. Update `.firebaserc`. |
-| Leaderboard shows no results | `totalPoints` index not yet enabled, or `gamification` docs don't have the field | Check Console → Indexes. If the index is `Enabled`, verify gamification docs have a `totalPoints` field. |
+| Leaderboard shows no results | `gamification` docs don't have a `totalPoints` field, or Firestore hasn't auto-created the single-field index yet | Single-field indexes are created automatically on first use. Wait and retry the query — it should work within seconds. Verify gamification docs have `totalPoints` as a number. |
 | Exam history query fails | Composite index missing or building | Check Console → Indexes for `exam_attempts: userId ASC, submittedAt DESC`. Wait for `Enabled` status. |
 
 ---
@@ -313,7 +316,7 @@ rules and re-deploy.
 | File | Purpose | Key Content |
 |---|---|---|
 | `firestore.rules` | Access control | `isAuthenticated()`, `isOwner()`, collection-specific rules with field-level restrictions, status-transition gates for exams, default deny |
-| `firestore.indexes.json` | Query performance | 2 indexes: leaderboard (`gamification.totalPoints DESC`), exam history (`exam_attempts.userId ASC + submittedAt DESC`) |
+| `firestore.indexes.json` | Query performance | 1 composite index: exam history (`exam_attempts.userId ASC + submittedAt DESC`). Single-field indexes (e.g., `gamification.totalPoints DESC`) are auto-managed by Firestore — they don't need to be declared in this file. |
 | `firebase.json` | Firebase CLI config | Points Firebase CLI to the rules and indexes files |
 | `.firebaserc` | Project binding | Maps the local config to a specific Firebase project ID |
 
@@ -321,8 +324,9 @@ rules and re-deploy.
 
 | Index | Collection | Type | Fields | Used By |
 |---|---|---|---|---|
-| 1 | `gamification` | Single-field | `totalPoints DESC` | `fetchLeaderboard()` in `useGamification.ts:233` |
-| 2 | `exam_attempts` | Composite | `userId ASC, submittedAt DESC` | `getExamHistory()` in `useExamAttempt.ts:162` |
+| 1 | `exam_attempts` | Composite | `userId ASC, submittedAt DESC` | `getExamHistory()` in `useExamAttempt.ts:162` |
+
+**Note on single-field indexes:** The leaderboard query (`orderBy("totalPoints", "desc")` in `useGamification.ts:233`) uses a single-field ordering. Firestore automatically creates single-field indexes on first use — these are NOT declared in `firestore.indexes.json`. Only composite indexes (combining `where` + `orderBy`) must be declared explicitly.
 
 ### Rules at a Glance
 

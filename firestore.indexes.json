@@ -1,16 +1,6 @@
 {
   "indexes": [
     {
-      "collectionGroup": "gamification",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "totalPoints",
-          "order": "DESCENDING"
-        }
-      ]
-    },
-    {
       "collectionGroup": "exam_attempts",
       "queryScope": "COLLECTION",
       "fields": [
@@ -24,5 +14,6 @@
         }
       ]
     }
-  ]
+  ],
+  "fieldOverrides": []
 }
