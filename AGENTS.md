@@ -75,34 +75,80 @@ Always use `@/` for imports within `src/`. Never use relative `../../../` chains
 - **Sign-in/sign-up/signInWithGoogle** all call `syncProfile()` directly and set `user` + `loading=false` in `finally` blocks. They do NOT wait for `onAuthStateChanged`.
 - **15-second safety timeout** forces `loading=false` if auth gets stuck.
 - **Auth pages** use `router.replace()` (not `push()`) to prevent back-button returning to auth page. Loading guards check `!initialized || loading`.
-- **All imports are consolidated.** No duplicate `getDoc`/`updateDoc` imports anywhere (previously in `useLesson.ts` lines 14 and 142).
+- **All imports are consolidated.** No duplicate `getDoc`/`updateDoc` imports anywhere.
+
+## UX fixes applied (May 2026)
+
+- **Hero section** (`src/app/[lng]/page.tsx`):
+  - Removed redundant "PlayQ Academy" pill badge above the gradient heading (it duplicated the title).
+  - Both CTA buttons now navigate: primary links to `/[lng]/auth/sign-up` (wrapped in `<Link>`), secondary links to `/[lng]/curriculum`.
+  - Copy updated: `hero.ctaPrimary` → "Regístrate aquí" (es) / "Register here" (en).
+- **Navbar** (`src/components/layout/Navbar.tsx`):
+  - `nav.startFree` renamed to "Crear cuenta" (es) / "Create account" (en) to clarify it's for new users.
+- **Sign-up form** (`src/app/[lng]/auth/sign-up/page.tsx`):
+  - Unchecked terms checkbox no longer shows a top-of-form error badge. Instead, the checkbox label and border turn red inline (`text-red-500`, `border-red-500`), clearing immediately when the user checks the box. All other validation errors keep their top-of-form Badge display.
+  - Uses local `termsError` state + conditional className arrays.
 
 ## Curriculum and lesson content
 
 - **The curriculum IS the course.** `src/lib/constants/curriculum.ts` defines all 8 modules and 44 lessons as typed constants. Firestore only stores user progress (completed lesson IDs), NOT the structure itself.
 - **Lesson content is in `src/lib/constants/lessons/`.**
 
-| Module | File | Status | Lessons |
+| Module | File | Status | Details |
 |---|---|---|---|
-| M1: TypeScript Foundations | `module-1.ts` | ✅ Complete | 5 lessons, 23 sections, 5 quizzes, 1 exercise |
-| M2: Playwright Fundamentals | `module-2.ts` | ✅ Complete | 6 lessons, 30 sections, 6 quizzes, 1 exercise |
-| M3: Locators and Selectors | `module-3.ts` | ✅ Complete | 6 lessons, 37 sections, 6 quizzes, 1 exercise |
-| M4: Actions and Assertions | `module-4.ts` | ✅ Complete | 5 lessons, 31 sections, 5 quizzes, 1 exercise |
-| M5: Page Object Model | `module-5.ts` | 🔲 Pending | 5 lessons |
-| M6: Configuration and Environments | `module-6.ts` | 🔲 Pending | 4 lessons |
-| M7: API Testing | `module-7.ts` | 🔲 Pending | 5 lessons |
-| M8: CI/CD and Reporting | `module-8.ts` | 🔲 Pending | 5 lessons |
+| M1: TypeScript Foundations | `module-1.ts` | ✅ Complete | 5 lessons |
+| M2: Playwright Fundamentals | `module-2.ts` | ✅ Complete | 6 lessons |
+| M3: Locators and Selectors | `module-3.ts` | ✅ Complete | 6 lessons |
+| M4: Actions and Assertions | `module-4.ts` | ✅ Complete | 5 lessons |
+| M5: Page Object Model | `module-5.ts` | ✅ Complete | 5 lessons |
+| M6: Configuration and Environments | `module-6.ts` | ✅ Complete | 4 lessons |
+| M7: API Testing with Playwright | `module-7.ts` | ✅ Complete | 5 lessons |
+| M8: CI/CD and Reporting | `module-8.ts` | ✅ Complete | 5 lessons |
 
-**22 of 44 lessons authored (50% complete).**
+**44 of 44 lessons authored (100% complete).**
 
+- **LESSON_REGISTRY** at `src/lib/hooks/useLesson.ts:30` spreads all 8 modules:
+  ```ts
+  [...getModule1Content(), ...getModule2Content(), ...getModule3Content(),
+   ...getModule4Content(), ...getModule5Content(), ...getModule6Content(),
+   ...getModule7Content(), ...getModule8Content()]
+  ```
 - **To add new module content**: create `src/lib/constants/lessons/module-N.ts` with a `getAllLessonsContent()` export, then import it in `src/lib/hooks/useLesson.ts` and add to the `LESSON_REGISTRY` spread. The registry keys are `"moduleId__lessonId"`.
 - **`LessonSection` discriminated union**: 9 types defined in `src/types/lesson.ts` — `heading`, `paragraph`, `code`, `callout`, `image`, `video`, `list`, `quiz`, `exercise`. The `LessonRenderer` in `src/components/lesson/LessonRenderer.tsx` maps each type to its sub-component.
+- **All code examples in lessons target the PlayQ Playground** (`/playground/login`, `/playground/signup`, `/playground/catalog`, `/playground/dynamic`) and its REST API (`/api/playground/*`). API response shapes in lessons match the actual route handlers exactly.
+
+## Playground API (reference for lesson content)
+
+The in-memory REST API at `src/app/api/playground/*` provides the following endpoints used across the curriculum:
+
+| Endpoint | Methods | Key response fields |
+|---|---|---|
+| `/api/playground/auth/login` | POST | `{ success, data: { token, user: { email, role } } }` |
+| `/api/playground/protected` | GET | `{ success, data: { message, token } }` (requires `Authorization: Bearer <token>`) |
+| `/api/playground/products` | GET | `{ success, data: Product[], count }` (Product: `id, name, price, category, inStock`) |
+| `/api/playground/users` | GET, POST | `{ success, data: User[] }` (User: `id, name, email, role, createdAt`) |
+| `/api/playground/users/[id]` | GET, PUT, DELETE | `{ success, data: User }` / DELETE: `{ success, message }` |
+
+**Login credentials:** `student@playq.test / Playwright123!` (student), `admin@playq.test / Admin123!` (admin). Tokens are plain strings: `playq_mock_jwt_{role}_{suffix}`.
+
+**Store** (`src/lib/playground/store.ts`): In-memory, resets on dev server restart. 3 seeded users, 6 seeded products. `nextUserId` starts at 4.
 
 ## TypeScript constraints
 
 - **`strict: true` + `noUncheckedIndexedAccess: true`** in tsconfig. Array/Record access may return `undefined`.
 - **No `any` allowed** anywhere in the codebase. Use proper interfaces or `unknown` + type narrowing instead.
 - **Unused variables**: prefix with `_` (e.g., `_params`) per the ESLint `argsIgnorePattern`/`varsIgnorePattern` rule.
+
+## Known type errors (4 pre-existing, not blocking)
+
+These errors existed before lesson content authoring began and are intentionally deferred:
+
+1. `src/app/[lng]/badges/page.tsx` — Duplicate identifier `Badge` (name clash between local component and `@/components/ui/Badge` import).
+2. `src/app/[lng]/layout.tsx` — `Metadata` imported from `"react"` but must come from `"next"` in App Router.
+3. `src/components/lesson/ExerciseSection.tsx`, `LessonRenderer.tsx`, `QuizSection.tsx` — `Bilingual` type cast to `Record<string, string>` (missing index signature).
+4. `src/lib/constants/badges.ts:370` — Object possibly `undefined` (unchecked indexed access).
+5. `src/lib/firebase/firestore.ts:170` — `Date` to `string` type cast issue.
+6. `src/lib/gamification/badgeChecker.ts:72` — `Record<string, unknown>` not assignable to Firestore field types.
 
 ## Gamification system
 
@@ -117,12 +163,6 @@ Always use `@/` for imports within `src/`. Never use relative `../../../` chains
 - **Exams are defined** in `src/lib/constants/exams.ts` — 4 exams with time limits, passing scores, and module requirements.
 - **Question generation** uses a seeded deterministic shuffle (`generateExamQuestions`) so the same user+exam combination gets the same questions.
 - **Timer is timestamp-based** (not interval) in the exam take page. This prevents drift if the browser throttles timers.
-
-## Playground API
-
-- **In-memory store** in `src/lib/playground/store.ts` — resets on every deploy/cold start. Intentional for a sandbox.
-- **Route Handlers** are at `src/app/api/playground/*`. They use standard Next.js Route Handlers (not Pages Router API routes).
-- **Login endpoint** accepts `student@playq.test / Playwright123!` and `admin@playq.test / Admin123!` — returns mock JWT tokens.
 
 ## Conventions
 
