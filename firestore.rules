@@ -3,11 +3,16 @@ rules_version = '2';
 /**
  * PlayQ Academy — Production Firestore Security Rules
  *
- * Principle of LEAST PRIVILEGE: every collection has the minimum
- * permissions required for the feature it supports. No blanket
- * read/write anywhere.
+ * Principle of LEAST PRIVILEGE: each collection grants only the
+ * minimum permissions its feature requires. No blanket read/write
+ * anywhere. Every rule is gated by authentication.
  *
- * ALL operations require authentication (request.auth != null).
+ * Designed to support:
+ *   - Sign-in / sign-up flow (AuthContext)
+ *   - Lesson completion tracking (useLesson)
+ *   - Dashboard progress display (useProgress)
+ *   - Gamification + leaderboard (useGamification)
+ *   - Exam creation, answering, submission (useExamAttempt)
  *
  * Deployment: firebase deploy --only firestore:rules
  */
@@ -16,136 +21,160 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     /* ================================================================ */
+    /*  Helper functions                                                 */
+    /* ================================================================ */
+
+    /** Require Firebase Authentication. */
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    /** Verify the authenticated user owns the document by UID. */
+    function isOwner(uid) {
+      return request.auth.uid == uid;
+    }
+
+    /* ================================================================ */
     /*  users/{uid}                                                      */
-    /*  - Read own profile only                                         */
-    /*  - Create own profile (on first sign-in)                          */
-    /*  - Update own profile (restricted fields)                         */
-    /*  - Delete NOT allowed                                             */
     /* ================================================================ */
 
     match /users/{uid} {
-      // Read: only the user themselves can read their profile
-      allow read: if request.auth != null && request.auth.uid == uid;
 
-      // Create: only create your own profile, uid must match
-      allow create: if request.auth != null
-                     && request.auth.uid == uid
+      // Only the user themselves can read their profile.
+      // Reading another user's profile is a privacy violation.
+      allow read: if isAuthenticated() && isOwner(uid);
+
+      // A user can CREATE their own profile on first sign-in.
+      // The role is forced to 'student' — admins are set server-side.
+      allow create: if isAuthenticated()
+                     && isOwner(uid)
                      && request.resource.data.uid == uid
                      && request.resource.data.role == 'student'
                      && request.resource.data.createdAt is string;
 
-      // Update: own profile only, field-level restrictions
-      //   - uid     : immutable (cannot change)
-      //   - role    : immutable from client (admin-only via backend)
-      //   - createdAt: immutable
-      //   - Allowed : displayName, photoURL, language, lastLoginAt
-      allow update: if request.auth != null
-                     && request.auth.uid == uid
+      // A user can UPDATE their own profile with field-level restrictions.
+      //
+      // IMMUTABLE FIELDS (no client can change them):
+      //   uid       — document key, must never change.
+      //   role      — only server-side or Firebase Admin can promote.
+      //   createdAt — audit trail, set once on creation.
+      //
+      // MUTABLE FIELDS:
+      //   displayName, photoURL, language, lastLoginAt.
+      //
+      // The rule below enforces that uid, role, and createdAt in the
+      // INCOMING document (request.resource.data) match the EXISTING
+      // document (resource.data). If any differ, the update is denied.
+      allow update: if isAuthenticated()
+                     && isOwner(uid)
                      && request.resource.data.uid == resource.data.uid
                      && request.resource.data.role == resource.data.role
                      && request.resource.data.createdAt == resource.data.createdAt;
 
-      // Delete: not allowed from the client
+      // Deleting a user profile is NOT allowed from the client.
+      // Account deletion must be handled server-side (Admin SDK).
       allow delete: if false;
     }
 
     /* ================================================================ */
     /*  progress/{uid}                                                   */
-    /*  - Read own progress only                                        */
-    /*  - Create / Update own progress                                   */
-    /*  - userId field must match auth uid                               */
-    /*  - Delete NOT allowed (preserves learning history)                */
     /* ================================================================ */
 
     match /progress/{uid} {
-      // Read: own progress only
-      allow read: if request.auth != null && request.auth.uid == uid;
 
-      // Create / Update: own progress, userId must match
-      allow create, update: if request.auth != null
-                             && request.auth.uid == uid
+      // Users can read only their own lesson progress.
+      allow read: if isAuthenticated() && isOwner(uid);
+
+      // Create or update own progress. The userId field inside the
+      // document MUST match the authenticated user's UID — this
+      // prevents writing progress under someone else's name.
+      allow create, update: if isAuthenticated()
+                             && isOwner(uid)
                              && request.resource.data.userId == request.auth.uid;
 
-      // Delete: not allowed — preserves learning history
-      // even if user deletes account, lesson records stay for auditing
+      // Delete is NOT allowed. Even if a user leaves the platform,
+      // their learning history is preserved for auditing.
       allow delete: if false;
     }
 
     /* ================================================================ */
     /*  gamification/{uid}                                               */
-    /*  - PUBLIC read allowed (leaderboard needs all users' points)     */
-    /*  - Write own doc only (uid must match)                           */
-    /*  - Delete NOT allowed                                             */
-    /*                                                                    */
-    /*  NOTE: Firestore does not support field-level read restrictions.  */
-    /*  For the beta, the entire gamification doc is readable. The data  */
-    /*  (points, level, streaks, earned badges) is non-sensitive and     */
-    /*  appropriate for a public leaderboard.                            */
     /* ================================================================ */
 
     match /gamification/{uid} {
-      // Read: any authenticated user can read (leaderboard requirement)
-      allow read: if request.auth != null;
 
-      // Create / Update: only the user can write their own doc
-      allow create, update: if request.auth != null
-                             && request.auth.uid == uid
+      // READ: any authenticated user can read any gamification doc.
+      //
+      // WHY? The leaderboard must query ALL gamification documents to
+      // build the ranking. Firestore does NOT support field-level READ
+      // restrictions — you either allow reading the full document or
+      // nothing. The gamification document contains only non-sensitive
+      // public data (points, level, streaks, earned badges, display name,
+      // photo URL). If sensitive fields are added in the future, they
+      // must be moved to a PRIVATE subcollection.
+      allow read: if isAuthenticated();
+
+      // WRITE: only the user who owns the document can modify it.
+      // The uid field inside the doc must match the authenticated UID.
+      allow create, update: if isAuthenticated()
+                             && isOwner(uid)
                              && request.resource.data.uid == uid;
 
-      // Delete: not allowed
+      // Delete is NOT allowed.
       allow delete: if false;
     }
 
     /* ================================================================ */
     /*  exam_attempts/{attemptId}                                        */
-    /*  - Read own attempts only (userId field matches auth)             */
-    /*  - Create own attempts only                                       */
-    /*  - Update own attempts with status transition rules               */
-    /*  - Delete NOT allowed                                             */
-    /*                                                                    */
-    /*  Status transitions:                                               */
-    /*    in_progress → submitted   (allowed)                            */
-    /*    in_progress → abandoned   (allowed)                            */
-    /*    anything    → in_progress (DENIED — prevents reset)            */
-    /*    submitted   → anything    (DENIED — prevents score tampering)  */
-    /*    abandoned   → anything    (DENIED — prevents retake exploit)   */
     /* ================================================================ */
 
     match /exam_attempts/{attemptId} {
-      // Read: only the user who owns the attempt can read it
-      // The exam history query uses where("userId", "==", uid)
-      // which Firestore rules validate against resource.data
-      allow read: if request.auth != null
+
+      // READ: only the user whose userId field matches the document
+      // can read the attempt. This is a document-level match because
+      // the UID is stored inside the document, not as the document key.
+      allow read: if isAuthenticated()
                    && resource.data.userId == request.auth.uid;
 
-      // Create: only create your own attempts
-      allow create: if request.auth != null
+      // CREATE: a user can only create attempts with their own userId.
+      allow create: if isAuthenticated()
                      && request.resource.data.userId == request.auth.uid;
 
-      // Update: own attempts only + status transition validation
-      allow update: if request.auth != null
+      // UPDATE: own attempts only, with strict status-transition rules.
+      //
+      // ALLOWED transitions:
+      //   in_progress → submitted   (user finishes and submits exam)
+      //   in_progress → abandoned   (user quits without finishing)
+      //
+      // DENIED transitions (anti-cheat):
+      //   Anything → in_progress    (prevents resetting a submitted exam)
+      //   submitted → Anything      (prevents score tampering)
+      //   abandoned → Anything      (prevents retake exploit)
+      //
+      // Both the existing userId AND the incoming userId must match
+      // the authenticated user — prevents transferring attempts.
+      allow update: if isAuthenticated()
                      && resource.data.userId == request.auth.uid
                      && request.resource.data.userId == request.auth.uid
                      && (
-                       // in_progress → submitted (finalize exam)
                        (resource.data.status == 'in_progress'
                         && request.resource.data.status == 'submitted')
                        ||
-                       // in_progress → abandoned (user gives up)
                        (resource.data.status == 'in_progress'
                         && request.resource.data.status == 'abandoned')
                      );
 
-      // Delete: not allowed
+      // Delete is NOT allowed.
       allow delete: if false;
     }
 
     /* ================================================================ */
-    /*  Default deny — any collection not explicitly matched above       */
-    /*  gets zero access. This prevents accidental exposure of new       */
-    /*  collections added later without corresponding rules.             */
+    /*  Default deny                                                     */
     /* ================================================================ */
 
+    // Any collection not explicitly matched above gets ZERO access.
+    // This prevents accidental exposure of new collections added
+    // without corresponding security rules.
     match /{document=**} {
       allow read, write: if false;
     }
