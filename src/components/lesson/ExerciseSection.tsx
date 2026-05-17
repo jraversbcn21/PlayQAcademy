@@ -3,6 +3,10 @@
 import { useState, useCallback, type ReactNode } from "react";
 import { useTranslation } from "@/lib/i18n/client";
 import type { Bilingual } from "@/types/lesson";
+import { useAuth } from "@/context/AuthContext";
+import { useGamificationUI } from "@/context/GamificationContext";
+import { recordExerciseCompleted } from "@/lib/hooks/useGamification";
+import { getLevelFromPoints } from "@/lib/gamification/levels";
 import Button from "@/components/ui/Button";
 
 /* ------------------------------------------------------------------ */
@@ -16,6 +20,8 @@ interface ExerciseSectionProps {
   solution: string;
   hints: Bilingual[];
   lng: string;
+  moduleId?: string;
+  lessonId?: string;
 }
 
 /* ------------------------------------------------------------------ */
@@ -23,26 +29,61 @@ interface ExerciseSectionProps {
 /* ------------------------------------------------------------------ */
 
 export default function ExerciseSectionRenderer({
-  exerciseId: _exerciseId,
+  exerciseId,
   instructions,
   starterCode,
   solution,
   hints,
   lng,
+  moduleId,
+  lessonId,
 }: ExerciseSectionProps) {
   const { t } = useTranslation("common");
+  const { user } = useAuth();
+  const { queueBadges, triggerLevelUp } = useGamificationUI();
 
   const [shownHints, setShownHints] = useState(0);
   const [showSolution, setShowSolution] = useState(false);
   const [tried, setTried] = useState(false);
   const [editing, setEditing] = useState(false);
   const [userCode, setUserCode] = useState(starterCode);
+  const [recording, setRecording] = useState(false);
 
   const instText = (instructions as Record<string, string>)[lng] ?? instructions.en;
 
-  function showNextHint() {
+  const showNextHint = useCallback(() => {
     setShownHints((prev) => Math.min(prev + 1, hints.length));
-  }
+  }, [hints.length]);
+
+  const handleMarkAsTried = useCallback(async () => {
+    if (recording) return;
+    setTried(true);
+
+    if (user) {
+      setRecording(true);
+      const exId = exerciseId.includes("__") ? exerciseId : `${moduleId ?? "unknown"}__${lessonId ?? "unknown"}__${exerciseId}`;
+      try {
+        const result = await recordExerciseCompleted(user.uid, {
+          exerciseId: exId,
+          moduleId: moduleId ?? "unknown",
+        });
+
+        if (result.newBadges.length > 0) {
+          queueBadges(result.newBadges);
+        }
+        if (result.levelChanged) {
+          triggerLevelUp(
+            getLevelFromPoints(result.totalPoints - result.pointsAwarded),
+            getLevelFromPoints(result.totalPoints),
+          );
+        }
+      } catch {
+        // Non-blocking
+      } finally {
+        setRecording(false);
+      }
+    }
+  }, [recording, exerciseId, moduleId, lessonId, user, queueBadges, triggerLevelUp]);
 
   return (
     <div className="not-prose my-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] overflow-hidden">
@@ -150,7 +191,7 @@ export default function ExerciseSectionRenderer({
             variant="primary"
             size="sm"
             className="ml-auto !bg-brand-green-600 hover:!bg-brand-green-500"
-            onClick={() => setTried(true)}
+            onClick={handleMarkAsTried}
           >
             {t("lesson.markAsTried")}
           </Button>

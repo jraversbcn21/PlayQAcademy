@@ -58,6 +58,10 @@ export interface UserGamification {
     correctOnFirstTry: number;
     perfectQuizzes: number; // quiz IDs where first attempt was correct
   };
+  /** Quiz IDs answered correctly on first try — prevents double-counting. */
+  correctQuizIds: string[];
+  /** Exercise IDs marked as completed — idempotent tracking. */
+  completedExerciseIds: string[];
 }
 
 /* ------------------------------------------------------------------ */

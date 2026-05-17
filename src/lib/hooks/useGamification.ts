@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import type { Badge, EarnedBadge, UserGamification, LeaderboardEntry } from "@/types/gamification";
 import { BADGES, BADGES_BY_ID } from "@/lib/constants/badges";
 import { getLevelFromPoints, getPointsToNextLevel, getLevelProgress } from "@/lib/gamification/levels";
+import { checkAndAwardBadges, type BadgeCheckContext } from "@/lib/gamification/badgeChecker";
+import { getUserProgress } from "@/lib/firebase/firestore";
 import { db } from "@/lib/firebase/config";
 import {
   doc,
@@ -52,6 +54,8 @@ function defaultGamification(uid: string): UserGamification {
     lastActivityDate: "",
     earnedBadges: [],
     quizStats: { totalAttempts: 0, correctOnFirstTry: 0, perfectQuizzes: 0 },
+    correctQuizIds: [],
+    completedExerciseIds: [],
   };
 }
 
@@ -65,6 +69,263 @@ function yesterdayStr(): string {
   return d.toISOString().slice(0, 10);
 }
 
+/* ------------------------------------------------------------------ */
+/*  Standalone gamification actions                                     */
+/* ------------------------------------------------------------------ */
+
+export interface RecordQuizResult {
+  newBadges: Badge[];
+  pointsAwarded: number;
+  totalPoints: number;
+  levelChanged: boolean;
+  oldLevel: number;
+  newLevel: number;
+}
+
+export interface RecordExerciseResult {
+  newBadges: Badge[];
+  pointsAwarded: number;
+  totalPoints: number;
+  levelChanged: boolean;
+  oldLevel: number;
+  newLevel: number;
+}
+
+/** Record a quiz answer and check for badges. */
+export async function recordQuizAnswer(
+  uid: string,
+  params: {
+    quizId: string;
+    moduleId: string;
+    correct: boolean;
+    firstTry: boolean;
+  },
+): Promise<RecordQuizResult> {
+  if (!db) return { newBadges: [], pointsAwarded: 0, totalPoints: 0, levelChanged: false, oldLevel: 1, newLevel: 1 };
+
+  try {
+    const ref = doc(db, "gamification", uid);
+    const snap = await getDoc(ref);
+
+    let correctQuizIds: string[];
+    let completedExerciseIds: string[];
+    let quizStats: { totalAttempts: number; correctOnFirstTry: number; perfectQuizzes: number };
+    let totalPoints: number;
+    let currentLevel: number;
+    let currentStreak: number;
+    let earnedBadges: EarnedBadge[];
+
+    if (snap.exists()) {
+      const d = snap.data() as Record<string, unknown>;
+      correctQuizIds = (d["correctQuizIds"] as string[]) ?? [];
+      completedExerciseIds = (d["completedExerciseIds"] as string[]) ?? [];
+      const qs = d["quizStats"] as Record<string, number> | undefined;
+      quizStats = {
+        totalAttempts: qs?.["totalAttempts"] ?? 0,
+        correctOnFirstTry: qs?.["correctOnFirstTry"] ?? 0,
+        perfectQuizzes: qs?.["perfectQuizzes"] ?? 0,
+      };
+      totalPoints = (d["totalPoints"] as number) ?? 0;
+      currentLevel = (d["level"] as number) ?? 1;
+      currentStreak = (d["currentStreak"] as number) ?? 0;
+      earnedBadges = (d["earnedBadges"] as EarnedBadge[]) ?? [];
+    } else {
+      correctQuizIds = [];
+      completedExerciseIds = [];
+      quizStats = { totalAttempts: 0, correctOnFirstTry: 0, perfectQuizzes: 0 };
+      totalPoints = 0;
+      currentLevel = 1;
+      currentStreak = 0;
+      earnedBadges = [];
+    }
+
+    quizStats.totalAttempts++;
+
+    let pointsAwarded = 0;
+
+    if (params.correct && params.firstTry && !correctQuizIds.includes(params.quizId)) {
+      correctQuizIds = [...correctQuizIds, params.quizId];
+      quizStats.correctOnFirstTry++;
+      quizStats.perfectQuizzes++;
+      pointsAwarded = 5;
+      totalPoints += pointsAwarded;
+    }
+
+    const newLevel = getLevelFromPoints(totalPoints).level;
+
+    if (snap.exists()) {
+      await updateDoc(ref, {
+        quizStats,
+        correctQuizIds,
+        completedExerciseIds,
+        totalPoints,
+        level: newLevel,
+      }).catch(() => {});
+    } else {
+      await setDoc(ref, {
+        ...defaultGamification(uid),
+        quizStats,
+        correctQuizIds,
+        completedExerciseIds,
+        totalPoints,
+        level: newLevel,
+      }).catch(() => {});
+    }
+
+    const progress = await getUserProgress(uid);
+    let totalLessonsCompleted = 0;
+    const completedModuleIds: string[] = [];
+    if (progress) {
+      for (const [, mp] of Object.entries(progress.modules)) {
+        totalLessonsCompleted += mp.completedLessons.length;
+        if (mp.completedLessons.length > 0) {
+          const moduleFromCurriculum = mp.moduleId || "";
+          completedModuleIds.push(moduleFromCurriculum);
+        }
+      }
+    }
+
+    const badgeContext: BadgeCheckContext = {
+      totalLessonsCompleted,
+      completedModuleIds,
+      perfectQuizIds: correctQuizIds,
+      exerciseCompletedCount: completedExerciseIds.length,
+      currentStreak,
+    };
+
+    const newBadges = await checkAndAwardBadges(uid, badgeContext);
+
+    return {
+      newBadges,
+      pointsAwarded,
+      totalPoints,
+      levelChanged: newLevel > currentLevel,
+      oldLevel: currentLevel,
+      newLevel,
+    };
+  } catch (err) {
+    if (process.env.NODE_ENV === "development") {
+      console.warn("[recordQuizAnswer] Firestore error (non-blocking):", err);
+    }
+    return { newBadges: [], pointsAwarded: 0, totalPoints: 0, levelChanged: false, oldLevel: 1, newLevel: 1 };
+  }
+}
+
+/** Mark an exercise as completed and check for badges. */
+export async function recordExerciseCompleted(
+  uid: string,
+  params: {
+    exerciseId: string;
+    moduleId: string;
+  },
+): Promise<RecordExerciseResult> {
+  if (!db) return { newBadges: [], pointsAwarded: 0, totalPoints: 0, levelChanged: false, oldLevel: 1, newLevel: 1 };
+
+  try {
+    const ref = doc(db, "gamification", uid);
+    const snap = await getDoc(ref);
+
+    let correctQuizIds: string[];
+    let completedExerciseIds: string[];
+    let quizStats: { totalAttempts: number; correctOnFirstTry: number; perfectQuizzes: number };
+    let totalPoints: number;
+    let currentLevel: number;
+    let currentStreak: number;
+    let earnedBadges: EarnedBadge[];
+
+    if (snap.exists()) {
+      const d = snap.data() as Record<string, unknown>;
+      correctQuizIds = (d["correctQuizIds"] as string[]) ?? [];
+      completedExerciseIds = (d["completedExerciseIds"] as string[]) ?? [];
+      const qs = d["quizStats"] as Record<string, number> | undefined;
+      quizStats = {
+        totalAttempts: qs?.["totalAttempts"] ?? 0,
+        correctOnFirstTry: qs?.["correctOnFirstTry"] ?? 0,
+        perfectQuizzes: qs?.["perfectQuizzes"] ?? 0,
+      };
+      totalPoints = (d["totalPoints"] as number) ?? 0;
+      currentLevel = (d["level"] as number) ?? 1;
+      currentStreak = (d["currentStreak"] as number) ?? 0;
+      earnedBadges = (d["earnedBadges"] as EarnedBadge[]) ?? [];
+    } else {
+      correctQuizIds = [];
+      completedExerciseIds = [];
+      quizStats = { totalAttempts: 0, correctOnFirstTry: 0, perfectQuizzes: 0 };
+      totalPoints = 0;
+      currentLevel = 1;
+      currentStreak = 0;
+      earnedBadges = [];
+    }
+
+    let pointsAwarded = 0;
+
+    if (!completedExerciseIds.includes(params.exerciseId)) {
+      completedExerciseIds = [...completedExerciseIds, params.exerciseId];
+      pointsAwarded = 15;
+      totalPoints += pointsAwarded;
+    }
+
+    const newLevel = getLevelFromPoints(totalPoints).level;
+
+    if (snap.exists()) {
+      await updateDoc(ref, {
+        quizStats,
+        correctQuizIds,
+        completedExerciseIds,
+        totalPoints,
+        level: newLevel,
+      }).catch(() => {});
+    } else {
+      await setDoc(ref, {
+        ...defaultGamification(uid),
+        quizStats,
+        correctQuizIds,
+        completedExerciseIds,
+        totalPoints,
+        level: newLevel,
+      }).catch(() => {});
+    }
+
+    const progress = await getUserProgress(uid);
+    let totalLessonsCompleted = 0;
+    const completedModuleIds: string[] = [];
+    if (progress) {
+      for (const [, mp] of Object.entries(progress.modules)) {
+        totalLessonsCompleted += mp.completedLessons.length;
+        if (mp.completedLessons.length > 0) {
+          completedModuleIds.push(mp.moduleId || "");
+        }
+      }
+    }
+
+    const badgeContext: BadgeCheckContext = {
+      totalLessonsCompleted,
+      completedModuleIds,
+      perfectQuizIds: correctQuizIds,
+      exerciseCompletedCount: completedExerciseIds.length,
+      currentStreak,
+    };
+
+    const newBadges = await checkAndAwardBadges(uid, badgeContext);
+
+    return {
+      newBadges,
+      pointsAwarded,
+      totalPoints,
+      levelChanged: newLevel > currentLevel,
+      oldLevel: currentLevel,
+      newLevel,
+    };
+  } catch (err) {
+    if (process.env.NODE_ENV === "development") {
+      console.warn("[recordExerciseCompleted] Firestore error (non-blocking):", err);
+    }
+    return { newBadges: [], pointsAwarded: 0, totalPoints: 0, levelChanged: false, oldLevel: 1, newLevel: 1 };
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Hook                                                               */
 /* ------------------------------------------------------------------ */
 /*  Hook                                                               */
 /* ------------------------------------------------------------------ */

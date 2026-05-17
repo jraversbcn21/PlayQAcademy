@@ -257,7 +257,7 @@ export default function LessonPlayerPage({
 
         {/* Render lesson sections */}
         <div className="max-w-none">
-          <LessonRenderer sections={content.sections} lng={lng} />
+          <LessonRenderer sections={content.sections} lng={lng} moduleId={meta.moduleId} lessonId={meta.id} />
         </div>
 
         {/* Resources */}

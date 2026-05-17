@@ -183,7 +183,10 @@ export async function markLessonComplete(
       await setDoc(gRef, {
         uid, totalPoints, level: 1, currentStreak, longestStreak: Math.max(currentStreak, 1),
         lastActivityDate: new Date().toISOString().slice(0, 10),
-        earnedBadges: [], quizStats: { totalAttempts: 0, correctOnFirstTry: 0, perfectQuizzes: 0 },
+        earnedBadges: [],
+        quizStats: { totalAttempts: 0, correctOnFirstTry: 0, perfectQuizzes: 0 },
+        correctQuizIds: [],
+        completedExerciseIds: [],
       }).catch(() => {});
     }
   }

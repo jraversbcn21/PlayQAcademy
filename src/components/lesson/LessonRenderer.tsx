@@ -13,6 +13,8 @@ import ExerciseSectionRenderer from "./ExerciseSection";
 interface LessonRendererProps {
   sections: LessonSection[];
   lng: string;
+  moduleId?: string;
+  lessonId?: string;
 }
 
 /* ------------------------------------------------------------------ */
@@ -212,7 +214,7 @@ function ImageBlock({ src, alt, lng }: { src: string; alt: Bilingual; lng: strin
 /*  Main renderer                                                      */
 /* ------------------------------------------------------------------ */
 
-export default function LessonRenderer({ sections, lng }: LessonRendererProps) {
+export default function LessonRenderer({ sections, lng, moduleId, lessonId }: LessonRendererProps) {
   return (
     <article className="space-y-1">
       {sections.map((section, idx) => {
@@ -310,6 +312,8 @@ export default function LessonRenderer({ sections, lng }: LessonRendererProps) {
                 correctOptionId={section.correctOptionId}
                 explanation={section.explanation}
                 lng={lng}
+                moduleId={moduleId}
+                lessonId={lessonId}
               />
             );
 
@@ -323,6 +327,8 @@ export default function LessonRenderer({ sections, lng }: LessonRendererProps) {
                 solution={section.solution}
                 hints={section.hints}
                 lng={lng}
+                moduleId={moduleId}
+                lessonId={lessonId}
               />
             );
 

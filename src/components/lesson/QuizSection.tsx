@@ -1,8 +1,12 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useTranslation } from "@/lib/i18n/client";
 import type { Bilingual, QuizOption } from "@/types/lesson";
+import { useAuth } from "@/context/AuthContext";
+import { useGamificationUI } from "@/context/GamificationContext";
+import { recordQuizAnswer } from "@/lib/hooks/useGamification";
+import { getLevelFromPoints } from "@/lib/gamification/levels";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 
@@ -17,6 +21,8 @@ interface QuizSectionProps {
   correctOptionId: string;
   explanation: Bilingual;
   lng: string;
+  moduleId?: string;
+  lessonId?: string;
 }
 
 /* ------------------------------------------------------------------ */
@@ -24,37 +30,75 @@ interface QuizSectionProps {
 /* ------------------------------------------------------------------ */
 
 export default function QuizSectionRenderer({
-  questionId: _questionId,
+  questionId,
   question,
   options,
   correctOptionId,
   explanation,
   lng,
+  moduleId,
+  lessonId,
 }: QuizSectionProps) {
   const { t } = useTranslation("common");
+  const { user } = useAuth();
+  const { queueBadges, triggerLevelUp } = useGamificationUI();
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [attempts, setAttempts] = useState(0);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [recording, setRecording] = useState(false);
+  const attemptCountRef = useRef(0);
 
   const qText = (question as Record<string, string>)[lng] ?? question.en;
   const expText = (explanation as Record<string, string>)[lng] ?? explanation.en;
 
-  function handleSubmit() {
-    if (!selectedId) return;
+  const handleSubmit = useCallback(async () => {
+    if (!selectedId || recording) return;
+
+    const correct = selectedId === correctOptionId;
+    const firstTry = attemptCountRef.current === 0;
+    attemptCountRef.current++;
+
     setSubmitted(true);
     setAttempts((prev) => prev + 1);
 
-    if (selectedId === correctOptionId) {
+    if (correct) {
       setIsCorrect(true);
     }
-  }
 
-  function handleRetry() {
+    if (user) {
+      setRecording(true);
+      const quizId = questionId.includes("__") ? questionId : `${moduleId ?? "unknown"}__${lessonId ?? "unknown"}__${questionId}`;
+      try {
+        const result = await recordQuizAnswer(user.uid, {
+          quizId,
+          moduleId: moduleId ?? "unknown",
+          correct,
+          firstTry,
+        });
+
+        if (result.newBadges.length > 0) {
+          queueBadges(result.newBadges);
+        }
+        if (result.levelChanged) {
+          triggerLevelUp(
+            getLevelFromPoints(result.totalPoints - result.pointsAwarded),
+            getLevelFromPoints(result.totalPoints),
+          );
+        }
+      } catch {
+        // Non-blocking — gamification errors don't affect the quiz
+      } finally {
+        setRecording(false);
+      }
+    }
+  }, [selectedId, correctOptionId, recording, questionId, moduleId, lessonId, user, queueBadges, triggerLevelUp]);
+
+  const handleRetry = useCallback(() => {
     setSubmitted(false);
     setSelectedId(null);
-  }
+  }, []);
 
   return (
     <div className="not-prose my-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-5">
@@ -150,7 +194,7 @@ export default function QuizSectionRenderer({
             <Button
               variant="primary"
               size="sm"
-              disabled={!selectedId}
+              disabled={!selectedId || recording}
               onClick={handleSubmit}
             >
               {t("lesson.submitAnswer")}
