@@ -258,5 +258,71 @@
       "cookies": "Política de cookies"
     },
     "copyright": "© {{year}} PlayQ Academy. Todos los derechos reservados."
+  },
+  "curriculum": {
+    "hero": {
+      "title": "El currículum completo",
+      "subtitle": "44 lecciones, 8 módulos, ~13 horas de contenido profesional bilingüe",
+      "stats": {
+        "lessons": "44 lecciones interactivas",
+        "modules": "8 módulos progresivos",
+        "bilingual": "Bilingüe ES/EN"
+      }
+    },
+    "modules": {
+      "title": "Tu camino de QA Manual a QA Automation Engineer",
+      "beginner": "Principiante",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado",
+      "lessonsCount": "{{count}} lecciones",
+      "minutes": "min",
+      "expandLessons": "Ver lecciones",
+      "collapseLessons": "Ocultar lecciones"
+    },
+    "skills": {
+      "title": "Habilidades que dominarás",
+      "typescript": {
+        "title": "TypeScript para QA",
+        "description": "Tipado estático aplicado a tests profesionales"
+      },
+      "playwright": {
+        "title": "Playwright en profundidad",
+        "description": "El framework más moderno de E2E testing"
+      },
+      "locators": {
+        "title": "Localizadores resilientes",
+        "description": "Selectores que no se rompen con cada refactor"
+      },
+      "pom": {
+        "title": "Page Object Model",
+        "description": "Arquitectura de tests que escala en equipos reales"
+      },
+      "api": {
+        "title": "API Testing",
+        "description": "Prueba cualquier capa de tu aplicación moderna"
+      },
+      "cicd": {
+        "title": "CI/CD profesional",
+        "description": "De funciona en mi máquina a corre en cada PR"
+      }
+    },
+    "certification": {
+      "title": "Camino a la certificación",
+      "exam1Title": "TypeScript Foundations Mastery",
+      "exam2Title": "Playwright + Locators",
+      "exam3Title": "Midterm: Módulos 1-4",
+      "exam4Title": "Certificación Final: Currículum Completo",
+      "questions": "{{count}} preguntas",
+      "timeLimit": "{{time}} min",
+      "passing": "Nota mínima {{percent}}%",
+      "unlocksBadge": "Desbloquea: insignia PlayQ Certified 🏆"
+    },
+    "cta": {
+      "title": "Comienza tu transición hoy",
+      "subtitle": "Acceso gratuito a todo el contenido",
+      "signUp": "Regístrate gratis",
+      "haveAccount": "Ya tengo cuenta",
+      "goToDashboard": "Ir al Dashboard"
+    }
   }
 }

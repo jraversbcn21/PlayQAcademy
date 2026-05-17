@@ -258,5 +258,71 @@
       "cookies": "Cookie Policy"
     },
     "copyright": "© {{year}} PlayQ Academy. All rights reserved."
+  },
+  "curriculum": {
+    "hero": {
+      "title": "The complete curriculum",
+      "subtitle": "44 lessons, 8 modules, ~13 hours of professional bilingual content",
+      "stats": {
+        "lessons": "44 interactive lessons",
+        "modules": "8 progressive modules",
+        "bilingual": "Bilingual ES/EN"
+      }
+    },
+    "modules": {
+      "title": "Your path from Manual QA to Automation Engineer",
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced",
+      "lessonsCount": "{{count}} lessons",
+      "minutes": "min",
+      "expandLessons": "Show lessons",
+      "collapseLessons": "Hide lessons"
+    },
+    "skills": {
+      "title": "Skills you'll master",
+      "typescript": {
+        "title": "TypeScript for QA",
+        "description": "Static typing applied to professional tests"
+      },
+      "playwright": {
+        "title": "Playwright in depth",
+        "description": "The most modern E2E testing framework"
+      },
+      "locators": {
+        "title": "Resilient locators",
+        "description": "Selectors that don't break on every refactor"
+      },
+      "pom": {
+        "title": "Page Object Model",
+        "description": "Test architecture that scales in real teams"
+      },
+      "api": {
+        "title": "API Testing",
+        "description": "Test any layer of your modern application"
+      },
+      "cicd": {
+        "title": "Professional CI/CD",
+        "description": "From works on my machine to runs on every PR"
+      }
+    },
+    "certification": {
+      "title": "Path to certification",
+      "exam1Title": "TypeScript Foundations Mastery",
+      "exam2Title": "Playwright + Locators",
+      "exam3Title": "Midterm: Modules 1-4",
+      "exam4Title": "Final Certification: Full Curriculum",
+      "questions": "{{count}} questions",
+      "timeLimit": "{{time}} min",
+      "passing": "Passing score {{percent}}%",
+      "unlocksBadge": "Unlocks: PlayQ Certified badge 🏆"
+    },
+    "cta": {
+      "title": "Start your transition today",
+      "subtitle": "Free access to all content",
+      "signUp": "Sign up free",
+      "haveAccount": "I have an account",
+      "goToDashboard": "Go to Dashboard"
+    }
   }
 }
