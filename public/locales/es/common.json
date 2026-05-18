@@ -269,6 +269,18 @@
         "bilingual": "Bilingüe ES/EN"
       }
     },
+    "creator": {
+      "sectionTitle": "Hecho por alguien viviendo la transición",
+      "name": "Jorge Carreño Ortiz",
+      "role": "QA Tester → QA Automation Engineer | Barcelona · Amaris Consulting",
+      "description": "QA Tester experimentado liderando la transición de QA Manual a QA Automation en su equipo. PlayQ Academy es el campus que le hubiera gustado tener cuando empezó esta transición — y lo está construyendo mientras la vive.",
+      "portfolio": "Previamente creó MyCampusISTQB, un campus completo para la certificación ISTQB Foundation. Construye herramientas open-source para la comunidad QA: A11yGo (accesibilidad), PixelRuler (medición visual), Points-on-point (gestión bilingüe de tareas).",
+      "linkedinLabel": "LinkedIn",
+      "githubLabel": "GitHub",
+      "istqbLabel": "ISTQB Campus",
+      "a11ygoLabel": "A11yGo",
+      "pixelrulerLabel": "PixelRuler"
+    },
     "modules": {
       "title": "Tu camino de QA Manual a QA Automation Engineer",
       "beginner": "Principiante",
@@ -317,9 +329,28 @@
       "passing": "Nota mínima {{percent}}%",
       "unlocksBadge": "Desbloquea: insignia PlayQ Certified 🏆"
     },
+    "whyThis": {
+      "title": "Por qué este campus y no otro",
+      "creator": {
+        "title": "Diseñado por alguien viviendo la transición",
+        "description": "No por una empresa que vende cursos. Por un QA Manual que está haciendo exactamente esta transición ahora mismo."
+      },
+      "bilingual": {
+        "title": "Bilingüe desde el inicio",
+        "description": "Aprende términos técnicos en inglés como los verás en entrevistas, documentación y código real."
+      },
+      "playground": {
+        "title": "Playground real, no solo diapositivas",
+        "description": "Escribes tests Playwright contra una aplicación web que funciona, no contra ejemplos teóricos."
+      },
+      "free": {
+        "title": "Sin pago, sin publicidad, sin lock-in",
+        "description": "Acceso completo gratuito al contenido. Tu progreso te pertenece. Tu portafolio queda en tu GitHub."
+      }
+    },
     "cta": {
       "title": "Comienza tu transición hoy",
-      "subtitle": "Acceso gratuito a todo el contenido",
+      "subtitle": "Acceso gratuito a todo el contenido. Sin tarjeta, sin compromiso.",
       "signUp": "Regístrate gratis",
       "haveAccount": "Ya tengo cuenta",
       "goToDashboard": "Ir al Dashboard"

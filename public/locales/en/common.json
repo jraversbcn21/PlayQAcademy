@@ -269,6 +269,18 @@
         "bilingual": "Bilingual ES/EN"
       }
     },
+    "creator": {
+      "sectionTitle": "Built by someone living the transition",
+      "name": "Jorge Carreño Ortiz",
+      "role": "QA Tester → QA Automation Engineer | Barcelona · Amaris Consulting",
+      "description": "Experienced QA Tester leading the Manual-to-Automation transition on his team. PlayQ Academy is the campus he wishes he'd had when he started this transition — and he's building it while living through it.",
+      "portfolio": "Previously created MyCampusISTQB, a complete campus for ISTQB Foundation certification. Builds open-source tools for the QA community: A11yGo (accessibility), PixelRuler (visual measurement), Points-on-point (bilingual task management).",
+      "linkedinLabel": "LinkedIn",
+      "githubLabel": "GitHub",
+      "istqbLabel": "ISTQB Campus",
+      "a11ygoLabel": "A11yGo",
+      "pixelrulerLabel": "PixelRuler"
+    },
     "modules": {
       "title": "Your path from Manual QA to Automation Engineer",
       "beginner": "Beginner",
@@ -317,9 +329,28 @@
       "passing": "Passing score {{percent}}%",
       "unlocksBadge": "Unlocks: PlayQ Certified badge 🏆"
     },
+    "whyThis": {
+      "title": "Why this campus over others",
+      "creator": {
+        "title": "Designed by someone living the transition",
+        "description": "Not by a company selling courses. By a Manual QA who is making exactly this transition right now."
+      },
+      "bilingual": {
+        "title": "Bilingual from day one",
+        "description": "Learn technical terms in English as you'll see them in interviews, documentation, and real code."
+      },
+      "playground": {
+        "title": "Real playground, not just slides",
+        "description": "You write Playwright tests against a working web application, not against theoretical examples."
+      },
+      "free": {
+        "title": "No payment, no ads, no lock-in",
+        "description": "Full free access to all content. Your progress is yours. Your portfolio stays in your own GitHub."
+      }
+    },
     "cta": {
       "title": "Start your transition today",
-      "subtitle": "Free access to all content",
+      "subtitle": "Free access to all content. No card, no commitment.",
       "signUp": "Sign up free",
       "haveAccount": "I have an account",
       "goToDashboard": "Go to Dashboard"
