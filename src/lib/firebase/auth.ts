@@ -11,6 +11,7 @@ import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   updateProfile,
   signOut,
   onAuthStateChanged,
@@ -72,4 +73,10 @@ export function onAuthStateChange(
 ): Unsubscribe {
   const a = requireAuth();
   return onAuthStateChanged(a, callback);
+}
+
+/** Send a password reset email to the given address. */
+export async function sendPasswordReset(email: string): Promise<void> {
+  const a = requireAuth();
+  await sendPasswordResetEmail(a, email);
 }
