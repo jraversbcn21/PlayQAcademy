@@ -270,16 +270,17 @@
       }
     },
     "creator": {
-      "sectionTitle": "Built by someone living the transition",
+      "sectionTitle": "Quality is not an accident",
       "name": "Jorge Carreño Ortiz",
       "role": "QA Tester → QA Automation Engineer | Barcelona · Amaris Consulting",
       "description": "Experienced QA Tester leading the Manual-to-Automation transition on his team. PlayQ Academy is the campus he wishes he'd had when he started this transition — and he's building it while living through it.",
-      "portfolio": "Previously created MyCampusISTQB, a complete campus for ISTQB Foundation certification. Builds open-source tools for the QA community: A11yGo (accessibility), PixelRuler (visual measurement), Points-on-point (bilingual task management).",
+      "portfolio": "Previously created MyCampusISTQB, a complete campus for the ISTQB Foundation certification, where he proved that quality technical pedagogy changes careers. PlayQ Academy is the next evolution of that mission.",
       "linkedinLabel": "LinkedIn",
+      "linkedinTooltip": "My LinkedIn",
       "githubLabel": "GitHub",
+      "githubTooltip": "My GitHub",
       "istqbLabel": "ISTQB Campus",
-      "a11ygoLabel": "A11yGo",
-      "pixelrulerLabel": "PixelRuler"
+      "istqbTooltip": "My previous ISTQB campus"
     },
     "modules": {
       "title": "Your path from Manual QA to Automation Engineer",
