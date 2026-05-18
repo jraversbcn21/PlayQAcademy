@@ -18,87 +18,18 @@
       "description": "Todo el contenido disponible en español e inglés. Prepárate para equipos y entrevistas internacionales."
     }
   },
-  "nav": {
-    "home": "Inicio",
-    "curriculum": "Currículum",
-    "playground": "Playground",
-    "leaderboard": "Ranking",
-    "about": "Nosotros",
-    "signIn": "Iniciar sesión",
-    "startFree": "Crear cuenta",
-    "menuOpen": "Abrir menú",
-    "menuClose": "Cerrar menú",
-    "languageSwitcher": "Cambiar idioma"
-  },
-  "auth": {
-    "signIn": {
-      "title": "Bienvenido de nuevo",
-      "subtitle": "Inicia sesión para continuar tu aprendizaje",
-      "email": "Correo electrónico",
-      "emailPlaceholder": "tu@email.com",
-      "password": "Contraseña",
-      "passwordPlaceholder": "Ingresa tu contraseña",
-      "forgotPassword": "¿Olvidaste tu contraseña?",
-      "submit": "Iniciar sesión",
-      "googleButton": "Continuar con Google",
-      "noAccount": "¿No tienes cuenta?",
-      "signUpLink": "Regístrate",
-      "divider": "o"
-    },
-    "signUp": {
-      "title": "Crea tu cuenta",
-      "subtitle": "Comienza tu camino hacia la automatización QA",
-      "displayName": "Nombre completo",
-      "displayNamePlaceholder": "Tu nombre",
-      "email": "Correo electrónico",
-      "emailPlaceholder": "tu@email.com",
-      "password": "Contraseña",
-      "passwordPlaceholder": "Mínimo 8 caracteres",
-      "confirmPassword": "Confirmar contraseña",
-      "confirmPasswordPlaceholder": "Reingresa tu contraseña",
-      "passwordStrength": "Fortaleza de la contraseña",
-      "termsAccept": "Acepto los Términos de Servicio y la Política de Privacidad",
-      "submit": "Crear cuenta",
-      "googleButton": "Continuar con Google",
-      "haveAccount": "¿Ya tienes cuenta?",
-      "signInLink": "Iniciar sesión",
-      "divider": "o"
-    },
-    "errors": {
-      "emailInUse": "Este correo ya está registrado",
-      "invalidEmail": "Ingresa un correo electrónico válido",
-      "weakPassword": "La contraseña debe tener al menos 8 caracteres, un número y una mayúscula",
-      "userNotFound": "No se encontró una cuenta con este correo",
-      "wrongPassword": "Contraseña incorrecta",
-      "invalidCredential": "Correo o contraseña inválidos",
-      "tooManyRequests": "Demasiados intentos. Intenta de nuevo más tarde",
-      "popupClosed": "Se cerró la ventana de inicio de sesión",
-      "networkError": "Error de conexión. Verifica tu internet",
-      "default": "Algo salió mal. Intenta de nuevo",
-      "passwordMismatch": "Las contraseñas no coinciden",
-      "termsRequired": "Debes aceptar los términos",
-      "nameRequired": "Ingresa tu nombre completo",
-      "fillAllFields": "Completa todos los campos",
-      "userNotFoundForReset": "No existe una cuenta con ese correo",
-      "tooManyResetAttempts": "Demasiados intentos. Intenta más tarde"
-    },
-    "profile": {
-      "dashboard": "Panel de control",
-      "settings": "Configuración",
-      "signOut": "Cerrar sesión"
-    }
-  },
-  "forgotPassword": {
-    "title": "Recuperar contraseña",
-    "subtitle": "Te enviaremos un enlace para restablecer tu contraseña",
-    "emailLabel": "Correo electrónico",
-    "emailPlaceholder": "tu@email.com",
-    "submitButton": "Enviar enlace",
-    "submitting": "Enviando...",
-    "successTitle": "Revisa tu correo",
-    "successMessage": "Hemos enviado un enlace a {{email}}. Revisa tu bandeja de entrada.",
-    "checkSpam": "Si no lo ves en unos minutos, revisa la carpeta de spam.",
-    "backToSignIn": "Volver a Iniciar sesión"
+  "about": {
+    "title": "La calidad no es un accidente",
+    "name": "Jorge Carreño Ortiz",
+    "role": "QA Tester → QA Automation Engineer | Barcelona · Amaris Consulting",
+    "description": "QA Tester experimentado liderando la transición de QA Manual a QA Automation en su equipo. PlayQ Academy es el campus que le hubiera gustado tener cuando empezó esta transición — y lo está construyendo mientras la vive.",
+    "portfolio": "Previamente creó MyCampusISTQB, un campus completo para la certificación ISTQB Foundation, donde demostró que la pedagogía técnica de calidad cambia carreras. PlayQ Academy es la siguiente evolución de esa misión.",
+    "linkedinLabel": "LinkedIn",
+    "linkedinTooltip": "Mi LinkedIn",
+    "githubLabel": "GitHub",
+    "githubTooltip": "Mi GitHub",
+    "istqbLabel": "ISTQB Campus",
+    "istqbTooltip": "Mi campus ISTQB previo"
   },
   "sidebar": {
     "title": "Contenido del curso",
@@ -282,19 +213,6 @@
         "modules": "8 módulos progresivos",
         "bilingual": "Bilingüe ES/EN"
       }
-    },
-    "creator": {
-      "sectionTitle": "La calidad no es un accidente",
-      "name": "Jorge Carreño Ortiz",
-      "role": "QA Tester → QA Automation Engineer | Barcelona · Amaris Consulting",
-      "description": "QA Tester experimentado liderando la transición de QA Manual a QA Automation en su equipo. PlayQ Academy es el campus que le hubiera gustado tener cuando empezó esta transición — y lo está construyendo mientras la vive.",
-      "portfolio": "Previamente creó MyCampusISTQB, un campus completo para la certificación ISTQB Foundation, donde demostró que la pedagogía técnica de calidad cambia carreras. PlayQ Academy es la siguiente evolución de esa misión.",
-      "linkedinLabel": "LinkedIn",
-      "linkedinTooltip": "Mi LinkedIn",
-      "githubLabel": "GitHub",
-      "githubTooltip": "Mi GitHub",
-      "istqbLabel": "ISTQB Campus",
-      "istqbTooltip": "Mi campus ISTQB previo"
     },
     "modules": {
       "title": "Tu camino de QA Manual a QA Automation Engineer",
