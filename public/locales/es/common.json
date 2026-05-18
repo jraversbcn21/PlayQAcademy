@@ -18,6 +18,18 @@
       "description": "Todo el contenido disponible en español e inglés. Prepárate para equipos y entrevistas internacionales."
     }
   },
+  "nav": {
+    "home": "Inicio",
+    "curriculum": "Currículum",
+    "playground": "Playground",
+    "leaderboard": "Ranking",
+    "about": "Acerca de mí",
+    "signIn": "Iniciar sesión",
+    "startFree": "Crear cuenta",
+    "menuOpen": "Abrir menú",
+    "menuClose": "Cerrar menú",
+    "languageSwitcher": "Cambiar idioma"
+  },
   "about": {
     "title": "La calidad no es un accidente",
     "name": "Jorge Carreño Ortiz",

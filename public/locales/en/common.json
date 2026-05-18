@@ -18,6 +18,18 @@
       "description": "All content available in Spanish and English. Prepare for international teams and interviews."
     }
   },
+  "nav": {
+    "home": "Home",
+    "curriculum": "Curriculum",
+    "playground": "Playground",
+    "leaderboard": "Leaderboard",
+    "about": "About me",
+    "signIn": "Sign in",
+    "startFree": "Sign up",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu",
+    "languageSwitcher": "Switch language"
+  },
   "about": {
     "title": "Quality is not an accident",
     "name": "Jorge Carreño Ortiz",
