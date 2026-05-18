@@ -23,8 +23,8 @@ const L7_1: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
-      content: { es: "APIRequestContext", en: "APIRequestContext" },
+      level: 2,
+      content: { es: "Playwright no es solo UI: es un cliente HTTP completo", en: "Playwright isn't just UI: it's a full HTTP client" },
     },
     {
       type: "paragraph",
@@ -252,10 +252,10 @@ const L7_2: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "GET, POST, PUT, DELETE",
-        en: "GET, POST, PUT, DELETE requests",
+        es: "CRUD que tus tests de UI ni siquiera tocan",
+        en: "CRUD your UI tests don't even touch",
       },
     },
     {
@@ -539,10 +539,10 @@ const L7_3: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Mezclando tests UI y API",
-        en: "Mixing UI and API tests",
+        es: "El combo que acelera tu suite 5 veces",
+        en: "The combo that speeds up your suite 5x",
       },
     },
     {
@@ -784,10 +784,10 @@ const L7_4: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Mockeando respuestas API",
-        en: "Mocking API responses",
+        es: "Cuando la realidad no alcanza para testear",
+        en: "When reality isn't enough for testing",
       },
     },
     {
@@ -1044,10 +1044,10 @@ const L7_5: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Ejercicio práctico: Testea una API REST",
-        en: "Practical Exercise: Test a REST API",
+        es: "Prueba cada endpoint sin abrir el navegador",
+        en: "Test every endpoint without opening the browser",
       },
     },
     {

@@ -23,10 +23,10 @@ const L8_1: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "HTML Reporter en profundidad",
-        en: "HTML Reporter deep dive",
+        es: "Más allá del contador de verdes y rojos",
+        en: "Beyond the green and red counter",
       },
     },
     {
@@ -224,10 +224,10 @@ const L8_2: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Configuración de GitHub Actions",
-        en: "GitHub Actions setup",
+        es: "De funciona en mi máquina a corre en cada push",
+        en: "From works on my machine to runs on every push",
       },
     },
     {
@@ -477,10 +477,10 @@ const L8_3: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Trace Viewer en CI",
-        en: "Trace Viewer in CI",
+        es: "Tus ojos cuando el navegador no está",
+        en: "Your eyes when the browser isn't there",
       },
     },
     {
@@ -645,10 +645,10 @@ const L8_4: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Integración con Allure Reporter",
-        en: "Allure Reporter integration",
+        es: "Reportes que tu jefe entiende",
+        en: "Reports your manager understands",
       },
     },
     {
@@ -934,10 +934,10 @@ const L8_5: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Ejercicio práctico: Pipeline completo en GitHub",
-        en: "Practical Exercise: Full pipeline on GitHub",
+        es: "El proyecto que pondrás en tu portafolio",
+        en: "The project you'll put in your portfolio",
       },
     },
     {

@@ -24,8 +24,8 @@ const L4_1: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
-      content: { es: "Click, Fill, Type, Press", en: "Click, Fill, Type, Press" },
+      level: 2,
+      content: { es: "Cada interacción humana, una línea de código", en: "Every human interaction, one line of code" },
     },
     {
       type: "paragraph",
@@ -189,8 +189,8 @@ const L4_2: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
-      content: { es: "expect() y tipos de aserción", en: "expect() and assertion types" },
+      level: 2,
+      content: { es: "La diferencia entre confiar y verificar", en: "The difference between trusting and verifying" },
     },
     {
       type: "paragraph",
@@ -330,8 +330,8 @@ const L4_3: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
-      content: { es: "Soft assertions", en: "Soft assertions" },
+      level: 2,
+      content: { es: "Ver todos los errores a la vez, no uno por uno", en: "See all errors at once, not one at a time" },
     },
     {
       type: "paragraph",
@@ -481,8 +481,8 @@ const L4_4: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
-      content: { es: "Auto-waiting explicado", en: "Auto-waiting explained" },
+      level: 2,
+      content: { es: "Por qué tus tests dejan de fallar por timing", en: "Why your tests stop failing on timing" },
     },
     {
       type: "paragraph",
@@ -645,10 +645,10 @@ const L4_5: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Ejercicio práctico: Automatiza un flujo de login",
-        en: "Practical Exercise: Automate a login flow",
+        es: "El formulario que todo QA debería saber testear",
+        en: "The form every QA should know how to test",
       },
     },
     {

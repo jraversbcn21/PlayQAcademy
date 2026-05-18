@@ -22,8 +22,8 @@ const L5_1: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
-      content: { es: "Por qué POM importa", en: "Why POM matters" },
+      level: 2,
+      content: { es: "El día que un botón cambia y 50 tests se rompen", en: "The day a button changes and 50 tests break" },
     },
     {
       type: "paragraph",
@@ -217,8 +217,8 @@ const L5_2: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
-      content: { es: "Construyendo tu primera Page class", en: "Building your first Page class" },
+      level: 2,
+      content: { es: "Una clase para gobernarlos a todos", en: "One class to rule them all" },
     },
     {
       type: "paragraph",
@@ -464,8 +464,8 @@ const L5_3: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
-      content: { es: "Componiendo Page Objects", en: "Composing Page Objects" },
+      level: 2,
+      content: { es: "Tu página no vive sola: tiene navbar, footer, sidebar", en: "Your page doesn't live alone: it has navbar, footer, sidebar" },
     },
     {
       type: "paragraph",
@@ -673,8 +673,8 @@ const L5_4: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
-      content: { es: "POM con interfaces de TypeScript", en: "POM with TypeScript interfaces" },
+      level: 2,
+      content: { es: "Contratos que el compilador hace cumplir", en: "Contracts the compiler enforces" },
     },
     {
       type: "paragraph",
@@ -992,10 +992,10 @@ const L5_5: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Ejercicio práctico: Refactoriza tests a POM",
-        en: "Practical Exercise: Refactor tests to POM",
+        es: "Del caos al orden en 30 minutos",
+        en: "From chaos to order in 30 minutes",
       },
     },
     {

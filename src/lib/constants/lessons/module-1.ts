@@ -24,10 +24,10 @@ const L1_1: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "¿Por qué TypeScript para automatización de pruebas?",
-        en: "Why TypeScript for Test Automation?",
+        es: "El error que solo ves en producción",
+        en: "The error you only see in production",
       },
     },
     {
@@ -250,10 +250,10 @@ const L1_2: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Tipos, Interfaces y Enums en pruebas",
-        en: "Types, Interfaces and Enums in Tests",
+        es: "Por qué tu test no sabe qué espera recibir",
+        en: "Why your test doesn't know what to expect",
       },
     },
     {
@@ -439,10 +439,10 @@ const L1_3: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Async/Await y Promises",
-        en: "Async/Await and Promises",
+        es: "El modelo que hace que Playwright espere por ti",
+        en: "The model that makes Playwright wait for you",
       },
     },
     {
@@ -627,10 +627,10 @@ const L1_4: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Funciones y Arrow Functions",
-        en: "Functions and Arrow Functions",
+        es: "Dos formas de llamar al código, una sola de romperlo",
+        en: "Two ways to call code, one way to break it",
       },
     },
     {
@@ -832,10 +832,10 @@ const L1_5: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Ejercicio práctico: Tipa tu primer archivo de test",
-        en: "Practical Exercise: Type your first test file",
+        es: "De leer código a escribirlo con confianza",
+        en: "From reading code to writing it with confidence",
       },
     },
     {

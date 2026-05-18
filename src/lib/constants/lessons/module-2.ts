@@ -24,10 +24,10 @@ const L2_1: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "¿Qué es Playwright y por qué gana?",
-        en: "What is Playwright and why it wins",
+        es: "El framework que Microsoft construyó para matar Selenium",
+        en: "The framework Microsoft built to kill Selenium",
       },
     },
     {
@@ -222,10 +222,10 @@ const L2_2: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Instalación y primer test",
-        en: "Installation and first test",
+        es: "5 minutos para tu primer test verde",
+        en: "5 minutes to your first green test",
       },
     },
     {
@@ -402,10 +402,10 @@ const L2_3: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Entendiendo el Test Runner",
-        en: "Understanding the Test Runner",
+        es: "La anatomía de un test profesional",
+        en: "The anatomy of a professional test",
       },
     },
     {
@@ -632,10 +632,10 @@ const L2_4: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Navegadores: Chromium, Firefox, WebKit",
-        en: "Browsers: Chromium, Firefox, WebKit",
+        es: "Tres motores, un solo framework",
+        en: "Three engines, one framework",
       },
     },
     {
@@ -845,10 +845,10 @@ const L2_5: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Modo Headless vs Headed",
-        en: "Headless vs Headed mode",
+        es: "El modo invisible que ahorra millones en CI",
+        en: "The invisible mode that saves millions in CI",
       },
     },
     {
@@ -997,10 +997,10 @@ const L2_6: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Ejercicio práctico: Tu primer test que pasa",
-        en: "Practical Exercise: Your first passing test",
+        es: "Escribe, ejecuta, celebra",
+        en: "Write, run, celebrate",
       },
     },
     {

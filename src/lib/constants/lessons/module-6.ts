@@ -23,10 +23,10 @@ const L6_1: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "playwright.config.ts en profundidad",
-        en: "playwright.config.ts deep dive",
+        es: "El archivo que nadie lee pero define todo",
+        en: "The file nobody reads but defines everything",
       },
     },
     {
@@ -249,10 +249,10 @@ const L6_2: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Múltiples proyectos (navegadores + dispositivos)",
-        en: "Multiple projects (browsers + devices)",
+        es: "Un comando, cinco navegadores, cobertura total",
+        en: "One command, five browsers, total coverage",
       },
     },
     {
@@ -475,10 +475,10 @@ const L6_3: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Variables de entorno en tests",
-        en: "Environment variables in tests",
+        es: "Lo que NUNCA debes committear y cómo evitarlo",
+        en: "What you should NEVER commit and how to avoid it",
       },
     },
     {
@@ -681,10 +681,10 @@ const L6_4: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Ejercicio práctico: Configuración multi-browser",
-        en: "Practical Exercise: Multi-browser config",
+        es: "Arma tu suite para producción",
+        en: "Arm your suite for production",
       },
     },
     {

@@ -23,10 +23,10 @@ const L3_1: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "La API de Localizadores",
-        en: "The Locator API",
+        es: "La interfaz más importante que jamás usarás",
+        en: "The most important API you'll ever use",
       },
     },
     {
@@ -178,10 +178,10 @@ const L3_2: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Localizadores por rol (getByRole)",
-        en: "Role-based locators (getByRole)",
+        es: "Habla el idioma del navegador, no el del DOM",
+        en: "Speak the browser's language, not the DOM's",
       },
     },
     {
@@ -376,10 +376,10 @@ const L3_3: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Localizadores por texto, label y placeholder",
-        en: "Text, Label and Placeholder locators",
+        es: "Lo que el usuario sí puede ver",
+        en: "What the user can actually see",
       },
     },
     {
@@ -559,10 +559,10 @@ const L3_4: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "CSS y XPath: cuándo (y por qué) evitarlos",
-        en: "CSS and XPath: when (and why) to avoid them",
+        es: "Selectores que sobreviven a un rediseño",
+        en: "Selectors that survive a redesign",
       },
     },
     {
@@ -723,10 +723,10 @@ const L3_5: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Encadenamiento y filtrado de localizadores",
-        en: "Chaining and filtering locators",
+        es: "Reduce el ruido, encuentra el elemento exacto",
+        en: "Cut the noise, find the exact element",
       },
     },
     {
@@ -910,10 +910,10 @@ const L3_6: LessonContent = {
   sections: [
     {
       type: "heading",
-      level: 1,
+      level: 2,
       content: {
-        es: "Ejercicio práctico: Localiza elementos en la app PlayQ Playground",
-        en: "Practical Exercise: Locate elements in the PlayQ Playground app",
+        es: "Demuestra que entiendes el DOM mejor que los developers",
+        en: "Prove you understand the DOM better than the developers",
       },
     },
     {
