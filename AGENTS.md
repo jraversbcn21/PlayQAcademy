@@ -40,6 +40,7 @@ Always use `@/` for imports within `src/`. Never use relative `../../../` chains
 | `/[lng]/curriculum` | **Public** | Full curriculum preview (8 modules, 44 lessons, skills, certification path) |
 | `/[lng]/auth/sign-in` | Public | Sign-in form |
 | `/[lng]/auth/sign-up` | Public | Sign-up form |
+| `/[lng]/auth/forgot-password` | Public | Password reset via Firebase email link |
 | `/[lng]/dashboard` | **Protected** | User dashboard (progress, stats, modules) |
 | `/[lng]/learn/[moduleId]/[lessonId]` | **Protected** | Lesson player with quizzes and exercises |
 | `/[lng]/leaderboard` | **Protected** | Top 50 ranked by points |
@@ -98,6 +99,8 @@ Always use `@/` for imports within `src/`. Never use relative `../../../` chains
 - **15-second safety timeout** forces `loading=false` if auth gets stuck.
 - **Auth pages** use `router.replace()` (not `push()`) to prevent back-button returning to auth page. Loading guards check `!initialized || loading`.
 - **All imports are consolidated.** No duplicate `getDoc`/`updateDoc` imports anywhere.
+- **Password reset** (`src/app/[lng]/auth/forgot-password/page.tsx`): Full flow using Firebase's `sendPasswordResetEmail()`. Public page with email validation, success state, and Firebase error handling. The link on sign-in was already pointing to the correct route. Firebase hosts the actual password-change page — no backend code needed.
+- **Auth helpers** in `src/lib/firebase/auth.ts`: `signInWithGoogle`, `signInWithEmail`, `signUpWithEmail`, `signOutUser`, `sendPasswordReset`, `onAuthStateChange`. All gated by `requireAuth()` for null-safety.
 
 ## UX fixes applied (May 2026)
 
@@ -110,7 +113,9 @@ Always use `@/` for imports within `src/`. Never use relative `../../../` chains
 - **Sign-up form** (`src/app/[lng]/auth/sign-up/page.tsx`):
   - Unchecked terms checkbox turns label and border red inline (`text-red-500`, `border-red-500`) instead of showing a top-of-form badge. Other validation errors keep their Badge display.
 - **Curriculum page** (`src/app/[lng]/curriculum/page.tsx`):
-  - Public page with hero, module grid (expandable lesson lists), skill cards, certification timeline, auth-aware CTA. Reuses `CURRICULUM` and `EXAMS` constants.
+  - Public page with 7 sections: hero, creator profile (Jorge Carreño Ortiz with photo, bio, 3 portfolio links), module grid (expandable lesson lists), skills, certification timeline, "why this campus" value props, auth-aware CTA.
+- **Password reset** (`src/app/[lng]/auth/forgot-password/page.tsx`): Public page with email form, validation, and Firebase-powered reset email flow (see Auth system section above).
+- **Lesson headings**: All 44 lessons now use H2 engaging subtitles instead of H1 duplicates of the lesson title (single H1 per page = correct semantic HTML).
 
 ## Curriculum and lesson content
 
