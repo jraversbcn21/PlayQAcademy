@@ -443,7 +443,7 @@ export default function Navbar({ currentLng }: NavbarProps) {
   return (
     <header
       className={[
-        "sticky top-0 z-50 border-b transition-colors",
+        "sticky top-0 z-50 border-b transition-colors px-4 sm:px-6 lg:px-8",
         scrolled
           ? "border-[var(--color-border)] bg-[var(--color-bg-primary)]/80 backdrop-blur-lg"
           : "border-transparent bg-[var(--color-bg-primary)]",

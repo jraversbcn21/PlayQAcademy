@@ -43,6 +43,76 @@
     "istqbLabel": "ISTQB Campus",
     "istqbTooltip": "My previous ISTQB campus"
   },
+  "auth": {
+    "signIn": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to continue your learning journey",
+      "email": "Email",
+      "emailPlaceholder": "you@email.com",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign in",
+      "googleButton": "Continue with Google",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up",
+      "divider": "or"
+    },
+    "signUp": {
+      "title": "Create account",
+      "subtitle": "Start your test automation journey",
+      "displayName": "Full name",
+      "displayNamePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "you@email.com",
+      "password": "Password",
+      "passwordPlaceholder": "Create a strong password",
+      "confirmPassword": "Confirm password",
+      "confirmPasswordPlaceholder": "Repeat your password",
+      "passwordStrength": "Password strength",
+      "termsAccept": "I accept the Terms of Service and Privacy Policy",
+      "submit": "Create account",
+      "googleButton": "Continue with Google",
+      "haveAccount": "Already have an account?",
+      "signInLink": "Sign in",
+      "divider": "or"
+    },
+    "errors": {
+      "emailInUse": "This email is already registered",
+      "invalidEmail": "Please enter a valid email address",
+      "weakPassword": "Password must be at least 8 characters with a number and uppercase letter",
+      "userNotFound": "No account found with this email",
+      "wrongPassword": "Incorrect password",
+      "invalidCredential": "Invalid email or password",
+      "tooManyRequests": "Too many attempts. Please try again later",
+      "popupClosed": "Sign-in popup was closed",
+      "networkError": "Network error. Check your internet connection",
+      "default": "Something went wrong. Please try again",
+      "passwordMismatch": "Passwords do not match",
+      "termsRequired": "You must accept the terms",
+      "nameRequired": "Please enter your full name",
+      "fillAllFields": "Please fill in all fields",
+      "userNotFoundForReset": "No account found with that email",
+      "tooManyResetAttempts": "Too many attempts. Try again later"
+    },
+    "profile": {
+      "dashboard": "Dashboard",
+      "settings": "Settings",
+      "signOut": "Sign out"
+    }
+  },
+  "forgotPassword": {
+    "title": "Reset password",
+    "subtitle": "We'll send you a link to reset your password",
+    "emailLabel": "Email",
+    "emailPlaceholder": "your@email.com",
+    "submitButton": "Send reset link",
+    "submitting": "Sending...",
+    "successTitle": "Check your email",
+    "successMessage": "We've sent a link to {{email}}. Check your inbox.",
+    "checkSpam": "If you don't see it in a few minutes, check your spam folder.",
+    "backToSignIn": "Back to Sign In"
+  },
   "sidebar": {
     "title": "Course Content",
     "collapseAll": "Collapse all",
