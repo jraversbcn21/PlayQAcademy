@@ -37,8 +37,9 @@ Always use `@/` for imports within `src/`. Never use relative `../../../` chains
 | Route | Auth | Purpose |
 |---|---|---|
 | `/` → `/[lng]` | Public | Landing page hero + features |
-| `/[lng]/curriculum` | **Public** | Full curriculum preview (8 modules, 44 lessons, skills, certification path) |
-| `/[lng]/auth/sign-in` | Public | Sign-in form |
+| `/[lng]/curriculum` | **Public** | Full curriculum preview (6 sections: hero, modules, skills, certification, why-this, CTA) |
+| `/[lng]/about` | **Public** | Creator profile (Jorge Carreño, photo, bio, 3 portfolio links) |
+| `/[lng]/auth/sign-in` | Public | Sign-in form with forgot-password link |
 | `/[lng]/auth/sign-up` | Public | Sign-up form |
 | `/[lng]/auth/forgot-password` | Public | Password reset via Firebase email link |
 | `/[lng]/dashboard` | **Protected** | User dashboard (progress, stats, modules) |
@@ -113,9 +114,14 @@ Always use `@/` for imports within `src/`. Never use relative `../../../` chains
 - **Sign-up form** (`src/app/[lng]/auth/sign-up/page.tsx`):
   - Unchecked terms checkbox turns label and border red inline (`text-red-500`, `border-red-500`) instead of showing a top-of-form badge. Other validation errors keep their Badge display.
 - **Curriculum page** (`src/app/[lng]/curriculum/page.tsx`):
-  - Public page with 7 sections: hero, creator profile (Jorge Carreño Ortiz with photo, bio, 3 portfolio links), module grid (expandable lesson lists), skills, certification timeline, "why this campus" value props, auth-aware CTA.
+  - Public page with 6 sections: hero, module grid (expandable lesson lists), skills, certification timeline, "why this campus" value props, auth-aware CTA. Creator section moved to `/about`.
+- **About page** (`src/app/[lng]/about/page.tsx`):
+  - Standalone public page with Jorge Carreño's profile: photo (fallback "JC" initials), name, role, bio, portfolio description, 3 social links (LinkedIn, GitHub, ISTQB Campus). Navbar link label: "Acerca de mí" / "About me".
 - **Password reset** (`src/app/[lng]/auth/forgot-password/page.tsx`): Public page with email form, validation, and Firebase-powered reset email flow (see Auth system section above).
 - **Lesson headings**: All 44 lessons now use H2 engaging subtitles instead of H1 duplicates of the lesson title (single H1 per page = correct semantic HTML).
+- **i18n crash recovery** (May 2026):
+  - The `nav` and `auth` objects were accidentally deleted from both locale files during a key migration. Restored all 80+ keys. Verified UTF-8 encoding clean — no corrupted characters.
+- **Navbar alignment**: Added matching horizontal padding (`px-4 sm:px-6 lg:px-8`) to the navbar header to align with page section padding.
 
 ## Curriculum and lesson content
 
