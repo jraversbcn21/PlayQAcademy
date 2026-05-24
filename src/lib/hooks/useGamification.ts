@@ -99,6 +99,8 @@ export async function recordQuizAnswer(
     moduleId: string;
     correct: boolean;
     firstTry: boolean;
+    displayName?: string;
+    photoURL?: string;
   },
 ): Promise<RecordQuizResult> {
   if (!db) return { newBadges: [], pointsAwarded: 0, totalPoints: 0, levelChanged: false, oldLevel: 1, newLevel: 1 };
@@ -160,6 +162,8 @@ export async function recordQuizAnswer(
         completedExerciseIds,
         totalPoints,
         level: newLevel,
+        ...(params.displayName ? { displayName: params.displayName } : {}),
+        ...(params.photoURL ? { photoURL: params.photoURL } : {}),
       }).catch(() => {});
     } else {
       await setDoc(ref, {
@@ -169,6 +173,8 @@ export async function recordQuizAnswer(
         completedExerciseIds,
         totalPoints,
         level: newLevel,
+        ...(params.displayName ? { displayName: params.displayName } : {}),
+        ...(params.photoURL ? { photoURL: params.photoURL } : {}),
       }).catch(() => {});
     }
 
@@ -217,6 +223,8 @@ export async function recordExerciseCompleted(
   params: {
     exerciseId: string;
     moduleId: string;
+    displayName?: string;
+    photoURL?: string;
   },
 ): Promise<RecordExerciseResult> {
   if (!db) return { newBadges: [], pointsAwarded: 0, totalPoints: 0, levelChanged: false, oldLevel: 1, newLevel: 1 };
@@ -274,6 +282,8 @@ export async function recordExerciseCompleted(
         completedExerciseIds,
         totalPoints,
         level: newLevel,
+        ...(params.displayName ? { displayName: params.displayName } : {}),
+        ...(params.photoURL ? { photoURL: params.photoURL } : {}),
       }).catch(() => {});
     } else {
       await setDoc(ref, {
@@ -283,6 +293,8 @@ export async function recordExerciseCompleted(
         completedExerciseIds,
         totalPoints,
         level: newLevel,
+        ...(params.displayName ? { displayName: params.displayName } : {}),
+        ...(params.photoURL ? { photoURL: params.photoURL } : {}),
       }).catch(() => {});
     }
 
@@ -513,7 +525,9 @@ export async function fetchLeaderboard(
     const d = docSnap.data();
     entries.push({
       uid: docSnap.id,
-      displayName: (d["displayName"] as string) ?? "Anonymous",
+      displayName: typeof d["displayName"] === "string" && d["displayName"].trim()
+        ? (d["displayName"] as string)
+        : "Anonymous",
       photoURL: (d["photoURL"] as string | null) ?? null,
       totalPoints: (d["totalPoints"] as number) ?? 0,
       level: (d["level"] as number) ?? 1,

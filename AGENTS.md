@@ -35,10 +35,13 @@ Always use `@/` for imports within `src/`. Never use relative `../../../` chains
 ## Routes
 
 | Route | Auth | Purpose |
-|---|---|---|
+|---|---|---|---|
 | `/` → `/[lng]` | Public | Landing page hero + features |
 | `/[lng]/curriculum` | **Public** | Full curriculum preview (6 sections: hero, modules, skills, certification, why-this, CTA) |
 | `/[lng]/about` | **Public** | Creator profile (Jorge Carreño, photo, bio, 3 portfolio links) |
+| `/[lng]/privacy` | **Public** | Privacy Policy (GDPR-compliant, server component) |
+| `/[lng]/terms` | **Public** | Terms of Service (Spanish governing law, server component) |
+| `/[lng]/cookies` | **Public** | Cookie Policy (Firebase auth + i18n cookies, server component) |
 | `/[lng]/auth/sign-in` | Public | Sign-in form with forgot-password link |
 | `/[lng]/auth/sign-up` | Public | Sign-up form |
 | `/[lng]/auth/forgot-password` | Public | Password reset via Firebase email link |
@@ -57,7 +60,7 @@ Always use `@/` for imports within `src/`. Never use relative `../../../` chains
 - **All routes are under `[lng]`** — e.g., `/es/dashboard`, `/en/learn/m1-typescript-foundations/m1-l1`.
 - **New translation keys**: Always add to BOTH `public/locales/es/common.json` AND `public/locales/en/common.json` simultaneously. The key structure must match exactly.
 - **Client components** import `useTranslation` from `@/lib/i18n/client`. The hook auto-detects `lng` from `useParams()`.
-- **Server components** import `useTranslation` from `@/lib/i18n` (async, takes explicit `lng`).
+- **Server components** import `useTranslation` from `@/lib/i18n` (async, takes explicit `lng`). This is a plain async function — NOT a React hook — but its `use` prefix triggers `react-hooks/rules-of-hooks` in ESLint. Server-component page files using this import MUST include `/* eslint-disable react-hooks/rules-of-hooks */` at the top. See `privacy/page.tsx`, `terms/page.tsx`, `cookies/page.tsx` for examples.
 - **There is NO `appWithTranslation` wrapper.** The layout exports a plain function component.
 - **Middleware** uses `accept-language` package for locale detection and sets `i18next` cookie.
 - **`next-i18next.config.js` was deleted** — it is Pages Router only. `next.config.js` has no `i18n` block.
@@ -122,6 +125,16 @@ Always use `@/` for imports within `src/`. Never use relative `../../../` chains
 - **i18n crash recovery** (May 2026):
   - The `nav` and `auth` objects were accidentally deleted from both locale files during a key migration. Restored all 80+ keys. Verified UTF-8 encoding clean — no corrupted characters.
 - **Navbar alignment**: Added matching horizontal padding (`px-4 sm:px-6 lg:px-8`) to the navbar header to align with page section padding.
+- **Legal pages** (May 2026, 3 new public routes):
+  - `src/app/[lng]/privacy/page.tsx` — Privacy Policy (GDPR-compliant, 12 sections, server component with `generateMetadata`)
+  - `src/app/[lng]/terms/page.tsx` — Terms of Service (13 sections, Spanish governing law)
+  - `src/app/[lng]/cookies/page.tsx` — Cookie Policy (6 sections: Firebase auth session + i18n cookies, no tracking)
+  - All three use the server-side async `useTranslation` from `@/lib/i18n`. All user-facing text is in `public/locales/{es,en}/common.json` under `privacy.*`, `terms.*`, `cookies.*` keys (~130 keys per locale). Sticky back button, `max-w-4xl` prose layout, dark theme CSS custom properties.
+  - Contact email across all legal pages: `sidmaierlabs@gmail.com`. Creator referenced as "SidMaier" (not "Jorge Carreño Ortiz") in legal contexts.
+- **Leaderboard displayName fix** (May 2026):
+  - `recordQuizAnswer` and `recordExerciseCompleted` (in `src/lib/hooks/useGamification.ts`) now accept optional `displayName`/`photoURL` params and write them to gamification docs on both create and update.
+  - `QuizSection` and `ExerciseSection` pass `user.displayName`/`user.photoURL` from AuthContext to these functions.
+  - `fetchLeaderboard()` reads displayName from gamification docs directly (not from `users/{uid}`, which is restricted to owner-only reads). Falls back to `"Anonymous"` only when truly missing or empty. Handles empty strings correctly (not just null/undefined).
 
 ## Curriculum and lesson content
 
@@ -189,6 +202,7 @@ These errors existed before lesson content authoring began and are intentionally
 - **21 badges** defined as constants in `src/lib/constants/badges.ts`. Badge criteria are stored in code, not in Firestore.
 - **10 levels** in `src/lib/gamification/levels.ts` — points-based curve from 0 to 2600+.
 - **Gamification tracking fields** in `gamification/{uid}`:
+  - `displayName`, `photoURL` — synced from AuthContext when a quiz/exercise action triggers a write (populated by `recordQuizAnswer`/`recordExerciseCompleted`). Used by the leaderboard to display real user names.
   - `quizStats: { totalAttempts, correctOnFirstTry, perfectQuizzes }` — quiz performance counters
   - `correctQuizIds: string[]` — quiz IDs answered correctly on first try (prevents double-counting)
   - `completedExerciseIds: string[]` — exercise IDs marked as completed (idempotent)
@@ -196,7 +210,8 @@ These errors existed before lesson content authoring began and are intentionally
   - `markLessonComplete()` in `src/lib/hooks/useLesson.ts` — lesson completion (+10 pts, calls `checkAndAwardBadges`)
   - `recordQuizAnswer()` in `src/lib/hooks/useGamification.ts` — quiz answer submission (+5 pts on first-try correct, idempotent via `correctQuizIds`, calls `checkAndAwardBadges`)
   - `recordExerciseCompleted()` in `src/lib/hooks/useGamification.ts` — exercise "Mark as Tried" (+15 pts, idempotent via `completedExerciseIds`, calls `checkAndAwardBadges`)
-- `recordQuizAnswer` and `recordExerciseCompleted` are STANDALONE async functions (exported from `useGamification.ts`, not inside the hook) so QuizSection and ExerciseSection can import them directly.
+- `recordQuizAnswer` and `recordExerciseCompleted` are STANDALONE async functions (exported from `useGamification.ts`, not inside the hook) so QuizSection and ExerciseSection can import them directly. Both functions accept optional `displayName` and `photoURL` params — when provided, they are written to the gamification document alongside quiz/exercise data. This ensures the leaderboard can display real user names without querying the restricted `users` collection.
+- **Leaderboard display names are sourced from gamification documents** (NOT from `users/{uid}`, which is restricted to owner-only reads by Firestore rules). `fetchLeaderboard()` reads `displayName` from each gamification doc. If the field is missing or empty, it falls back to `"Anonymous"`. The displayName/photoURL get populated into gamification docs when a user first answers a quiz or marks an exercise as tried — callers (QuizSection, ExerciseSection) pass `user.displayName` and `user.photoURL` from AuthContext.
 - **QuizSection** (`src/components/lesson/QuizSection.tsx`) wires to `recordQuizAnswer` — tracks first-try via `useRef`, auto-prefixes quiz IDs with `moduleId__lessonId__`, triggers `queueBadges` and `triggerLevelUp` on result.
 - **ExerciseSection** (`src/components/lesson/ExerciseSection.tsx`) wires to `recordExerciseCompleted` — idempotent via `completedExerciseIds` check, triggers modals.
 - **LessonRenderer** now passes `moduleId` and `lessonId` to QuizSection and ExerciseSection for quiz/exercise ID construction.

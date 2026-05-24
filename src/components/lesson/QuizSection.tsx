@@ -76,6 +76,8 @@ export default function QuizSectionRenderer({
           moduleId: moduleId ?? "unknown",
           correct,
           firstTry,
+          displayName: user.displayName ?? undefined,
+          photoURL: user.photoURL ?? undefined,
         });
 
         if (result.newBadges.length > 0) {

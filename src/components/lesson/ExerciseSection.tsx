@@ -66,6 +66,8 @@ export default function ExerciseSectionRenderer({
         const result = await recordExerciseCompleted(user.uid, {
           exerciseId: exId,
           moduleId: moduleId ?? "unknown",
+          displayName: user.displayName ?? undefined,
+          photoURL: user.photoURL ?? undefined,
         });
 
         if (result.newBadges.length > 0) {
