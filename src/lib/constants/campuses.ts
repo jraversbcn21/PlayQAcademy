@@ -54,7 +54,7 @@ export const CAMPUSES: Campus[] = [
       "istqb-management",
       "istqb-tools",
     ],
-    status: "coming_soon",
+    status: "active",
   },
   {
     id: "automation",

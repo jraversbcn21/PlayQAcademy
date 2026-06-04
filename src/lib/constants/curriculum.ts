@@ -533,6 +533,122 @@ export const CURRICULUM: CurriculumModule[] = [
       ),
     ]
   ),
+
+  /* ================================================================== */
+  /*  ISTQB CTFL Foundation Modules (Campus 2)                           */
+  /* ================================================================== */
+
+  /* ---------- Module 9: ISTQB Fundamentals ---------- */
+  module_(
+    "istqb-fundamentals",
+    9,
+    "Fundamentos del Testing",
+    "Fundamentals of Testing",
+    "Qué es el testing, por qué es necesario, los 7 principios del testing y actividades del proceso.",
+    "What testing is, why it is necessary, the 7 testing principles and testing process activities.",
+    75,
+    "beginner",
+    false,
+    [
+      lesson("istqb-l1-1", "¿Qué es el testing?", "What is testing?", "Definición del testing de software, objetivos, testing vs depuración.", "Definition of software testing, objectives, testing vs debugging.", 15),
+      lesson("istqb-l1-2", "¿Por qué es necesario el testing?", "Why is testing necessary?", "Razones para hacer testing, calidad, riesgo y reducción de costos.", "Reasons for testing, quality, risk and cost reduction.", 15),
+      lesson("istqb-l1-3", "Los 7 Principios del Testing", "The 7 Testing Principles", "Principios fundamentales que guían la práctica del testing.", "Fundamental principles that guide testing practice.", 15),
+      lesson("istqb-l1-4", "Actividades, testware y roles", "Testing activities, testware and roles", "Proceso de testing, artefactos y responsabilidades del equipo.", "Testing process, artifacts and team responsibilities.", 15),
+      lesson("istqb-l1-5", "Habilidades esenciales en testing", "Essential skills in testing", "Competencias necesarias para un tester efectivo.", "Skills needed for an effective tester.", 15),
+    ]
+  ),
+
+  /* ---------- Module 10: ISTQB SDLC ---------- */
+  module_(
+    "istqb-sdlc",
+    10,
+    "Testing a lo Largo del SDLC",
+    "Testing Throughout the SDLC",
+    "Cómo el testing se integra en los distintos modelos de desarrollo, niveles y tipos de prueba.",
+    "How testing integrates into different development models, test levels and test types.",
+    60,
+    "beginner",
+    false,
+    [
+      lesson("istqb-l2-1", "Testing en el contexto del SDLC", "Testing in the context of SDLC", "Modelos de desarrollo y cómo el testing se adapta a cada uno.", "Development models and how testing adapts to each one.", 15),
+      lesson("istqb-l2-2", "Niveles de prueba", "Test levels", "Prueba de componente, integración, sistema y aceptación.", "Component, integration, system and acceptance testing.", 15),
+      lesson("istqb-l2-3", "Tipos de prueba", "Test types", "Pruebas funcionales, no funcionales, estructurales y de cambios.", "Functional, non-functional, structural and change-related tests.", 15),
+      lesson("istqb-l2-4", "Pruebas de mantenimiento", "Maintenance testing", "Testing sobre sistemas en producción ante cambios o migraciones.", "Testing on production systems when changes or migrations occur.", 15),
+    ]
+  ),
+
+  /* ---------- Module 11: ISTQB Static Testing ---------- */
+  module_(
+    "istqb-static-testing",
+    11,
+    "Testing Estático",
+    "Static Testing",
+    "Revisiones estáticas, tipos de revisiones, beneficios del feedback temprano.",
+    "Static reviews, review types, benefits of early feedback.",
+    30,
+    "intermediate",
+    false,
+    [
+      lesson("istqb-l3-1", "Conceptos básicos del testing estático", "Basic concepts of static testing", "Qué es el testing estático, análisis estático y sus beneficios.", "What is static testing, static analysis and its benefits.", 15),
+      lesson("istqb-l3-2", "El proceso de revisión", "The review process", "Tipos de revisión, roles formales y proceso paso a paso.", "Review types, formal roles and step-by-step process.", 15),
+    ]
+  ),
+
+  /* ---------- Module 12: ISTQB Test Analysis ---------- */
+  module_(
+    "istqb-test-analysis",
+    12,
+    "Análisis y Diseño de Pruebas",
+    "Test Analysis and Design",
+    "Técnicas de caja negra, caja blanca, basadas en experiencia y colaborativas.",
+    "Black-box, white-box, experience-based and collaboration-based techniques.",
+    120,
+    "intermediate",
+    false,
+    [
+      lesson("istqb-l4-1", "Panorama de las técnicas de prueba", "Test techniques overview", "Categorías: caja negra, caja blanca, experiencia y colaboración.", "Categories: black-box, white-box, experience-based and collaboration.", 15),
+      lesson("istqb-l4-2", "Técnicas de caja negra", "Black-box test techniques", "Partición de equivalencia, análisis de valor límite, tablas de decisión, transición de estado.", "Equivalence partitioning, boundary value analysis, decision tables, state transition.", 30),
+      lesson("istqb-l4-3", "Técnicas de caja blanca", "White-box test techniques", "Cobertura de sentencia y cobertura de rama.", "Statement coverage and branch coverage.", 25),
+      lesson("istqb-l4-4", "Técnicas basadas en experiencia", "Experience-based techniques", "Error guessing, testing exploratorio y basado en checklists.", "Error guessing, exploratory testing and checklist-based testing.", 25),
+      lesson("istqb-l4-5", "Técnicas basadas en colaboración", "Collaboration-based techniques", "Escritura colaborativa de historias de usuario y ATDD.", "Collaborative user story writing and ATDD.", 25),
+    ]
+  ),
+
+  /* ---------- Module 13: ISTQB Management ---------- */
+  module_(
+    "istqb-management",
+    13,
+    "Gestión de Actividades de Prueba",
+    "Managing Test Activities",
+    "Planificación, monitoreo, gestión de riesgos, configuración y gestión de defectos.",
+    "Planning, monitoring, risk management, configuration management and defect management.",
+    100,
+    "intermediate",
+    false,
+    [
+      lesson("istqb-l5-1", "Planificación de pruebas", "Test planning", "El plan de pruebas, criterios de entrada/salida, estimación del esfuerzo.", "The test plan, entry/exit criteria, effort estimation.", 20),
+      lesson("istqb-l5-2", "Gestión de riesgos", "Risk management", "Riesgos de producto y proyecto, testing basado en riesgos.", "Product and project risks, risk-based testing.", 20),
+      lesson("istqb-l5-3", "Monitoreo, control y completitud de pruebas", "Test monitoring, control and completion", "Métricas, informes, criterios de entrada/salida y gestión de completitud.", "Metrics, reports, entry/exit criteria and completion management.", 20),
+      lesson("istqb-l5-4", "Gestión de la configuración", "Configuration management", "Ítems de configuración, control de versiones, línea base.", "Configuration items, version control, baseline.", 20),
+      lesson("istqb-l5-5", "Gestión de defectos", "Defect management", "Ciclo de vida del defecto, informe de defecto, severidad vs prioridad.", "Defect lifecycle, defect report, severity vs priority.", 20),
+    ]
+  ),
+
+  /* ---------- Module 14: ISTQB Tools ---------- */
+  module_(
+    "istqb-tools",
+    14,
+    "Soporte de Herramientas al Testing",
+    "Tool Support for Testing",
+    "Tipos de herramientas, beneficios, riesgos y consideraciones para su adopción.",
+    "Tool types, benefits, risks and considerations for tool adoption.",
+    20,
+    "beginner",
+    false,
+    [
+      lesson("istqb-l6-1", "Soporte de herramientas al testing", "Tool support for testing", "Categorías de herramientas, beneficios y riesgos de la automatización.", "Tool categories, benefits and risks of automation.", 20),
+    ]
+  ),
 ];
 
 /* ------------------------------------------------------------------ */
