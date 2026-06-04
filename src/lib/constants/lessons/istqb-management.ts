@@ -1,5 +1,5 @@
 /**
- * Managing Test Activities
+ * Managing Test Activities — ISTQB CTFL v4.0, Chapter 5
  * Auto-generated from migration/content.js
  */
 
@@ -23,7 +23,7 @@ const L_5_1: LessonContent = {
     "type": "paragraph",
     "content": {
       "es": "El plan de pruebas documenta el enfoque, recursos, alcance y actividades del testing. Un plan de pruebas típico incluye:",
-      "en": "Documents the testing approach, resources, scope and activities. Includes context, risks, approach, entry/exit criteria, effort estimates and schedules."
+      "en": "The test plan documents the approach, resources, scope and activities of testing. A typical test plan includes:"
     }
   },
   {
@@ -32,39 +32,39 @@ const L_5_1: LessonContent = {
     "items": [
       {
         "es": "Contexto (alcance, objetivos, stakeholders)",
-        "en": ""
+        "en": "Context (scope, objectives, stakeholders)"
       },
       {
         "es": "Supuestos y restricciones",
-        "en": ""
+        "en": "Assumptions and constraints"
       },
       {
         "es": "Comunicación y reporte de información",
-        "en": ""
+        "en": "Communication and information reporting"
       },
       {
         "es": "Gestión de riesgos",
-        "en": ""
+        "en": "Risk management"
       },
       {
         "es": "Enfoque de pruebas (niveles, tipos, técnicas)",
-        "en": ""
+        "en": "Test approach (levels, types, techniques)"
       },
       {
         "es": "Criterios de entrada y salida",
-        "en": ""
+        "en": "Entry and exit criteria"
       },
       {
         "es": "Estimación del esfuerzo",
-        "en": ""
+        "en": "Effort estimation"
       },
       {
         "es": "Calendario de actividades",
-        "en": ""
+        "en": "Activity schedule"
       },
       {
         "es": "Roles y responsabilidades",
-        "en": ""
+        "en": "Roles and responsibilities"
       }
     ]
   },
@@ -73,7 +73,7 @@ const L_5_1: LessonContent = {
     "level": 2,
     "content": {
       "es": "Criterios de Entrada y Salida",
-      "en": ""
+      "en": "Entry and Exit Criteria"
     }
   },
   {
@@ -81,11 +81,11 @@ const L_5_1: LessonContent = {
     "headers": [
       {
         "es": "Criterios de Entrada",
-        "en": ""
+        "en": "Entry Criteria"
       },
       {
         "es": "Criterios de Salida",
-        "en": ""
+        "en": "Exit Criteria"
       }
     ],
     "rows": [
@@ -93,11 +93,11 @@ const L_5_1: LessonContent = {
         "cells": [
           {
             "es": "El código está completo y compilado",
-            "en": ""
+            "en": "Code is complete and compiled"
           },
           {
             "es": "Todos los casos de prueba ejecutados",
-            "en": ""
+            "en": "All test cases executed"
           }
         ]
       },
@@ -105,11 +105,11 @@ const L_5_1: LessonContent = {
         "cells": [
           {
             "es": "El entorno de pruebas está disponible",
-            "en": ""
+            "en": "Test environment is available"
           },
           {
             "es": "90% de casos pasados",
-            "en": ""
+            "en": "90% of tests passed"
           }
         ]
       },
@@ -117,11 +117,11 @@ const L_5_1: LessonContent = {
         "cells": [
           {
             "es": "Los datos de prueba están preparados",
-            "en": ""
+            "en": "Test data is prepared"
           },
           {
             "es": "Todos los defectos críticos cerrados",
-            "en": ""
+            "en": "All critical defects closed"
           }
         ]
       },
@@ -129,11 +129,11 @@ const L_5_1: LessonContent = {
         "cells": [
           {
             "es": "Los requisitos están aprobados",
-            "en": ""
+            "en": "Requirements are approved"
           },
           {
             "es": "Informe de pruebas generado",
-            "en": ""
+            "en": "Test report generated"
           }
         ]
       }
@@ -144,14 +144,14 @@ const L_5_1: LessonContent = {
     "level": 2,
     "content": {
       "es": "Estimación del Esfuerzo de Testing",
-      "en": ""
+      "en": "Test Effort Estimation"
     }
   },
   {
     "type": "paragraph",
     "content": {
       "es": "Las técnicas de estimación incluyen:",
-      "en": ""
+      "en": "Estimation techniques include:"
     }
   },
   {
@@ -160,15 +160,15 @@ const L_5_1: LessonContent = {
     "items": [
       {
         "es": "Basada en métricas: Usando datos históricos de proyectos similares",
-        "en": ""
+        "en": "Metrics-based: Using historical data from similar projects"
       },
       {
         "es": "Basada en expertos: Planning Poker, estimación en 3 puntos",
-        "en": ""
+        "en": "Expert-based: Planning Poker, 3-point estimation"
       },
       {
         "es": "Porcentaje del desarrollo: El testing suele representar el 20-40% del total",
-        "en": ""
+        "en": "Percentage of development: Testing usually represents 20-40% of the total"
       }
     ]
   }
@@ -184,14 +184,14 @@ const L_5_2: LessonContent = {
     "level": 2,
     "content": {
       "es": "Riesgo en el Contexto del Testing",
-      "en": "Risk in Testing Context"
+      "en": "Risk in the Testing Context"
     }
   },
   {
     "type": "paragraph",
     "content": {
       "es": "Un riesgo es un factor potencial que puede resultar en una consecuencia negativa en el futuro. Se calcula como:",
-      "en": "Risk Level = Probability × Impact"
+      "en": "A risk is a potential factor that can result in a negative consequence in the future. It is calculated as:"
     }
   },
   {
@@ -199,7 +199,7 @@ const L_5_2: LessonContent = {
     "variant": "info",
     "content": {
       "es": "📊 Nivel de Riesgo = Probabilidad × Impacto",
-      "en": ""
+      "en": "📊 Risk Level = Probability × Impact"
     }
   },
   {
@@ -207,7 +207,7 @@ const L_5_2: LessonContent = {
     "level": 2,
     "content": {
       "es": "Tipos de Riesgo",
-      "en": ""
+      "en": "Risk Types"
     }
   },
   {
@@ -215,15 +215,15 @@ const L_5_2: LessonContent = {
     "headers": [
       {
         "es": "Tipo",
-        "en": ""
+        "en": "Type"
       },
       {
         "es": "Descripción",
-        "en": ""
+        "en": "Description"
       },
       {
         "es": "Ejemplos",
-        "en": ""
+        "en": "Examples"
       }
     ],
     "rows": [
@@ -231,15 +231,15 @@ const L_5_2: LessonContent = {
         "cells": [
           {
             "es": "Riesgo de Producto",
-            "en": ""
+            "en": "Product Risk"
           },
           {
             "es": "Posibilidad de que el producto no cumpla su función",
-            "en": ""
+            "en": "Possibility that the product won't meet its function"
           },
           {
             "es": "Fallo de seguridad, rendimiento deficiente, funcionalidad incorrecta",
-            "en": ""
+            "en": "Security failure, poor performance, incorrect functionality"
           }
         ]
       },
@@ -247,15 +247,15 @@ const L_5_2: LessonContent = {
         "cells": [
           {
             "es": "Riesgo de Proyecto",
-            "en": ""
+            "en": "Project Risk"
           },
           {
             "es": "Posibilidad de que el proyecto falle en sus objetivos",
-            "en": ""
+            "en": "Possibility that the project won't meet its objectives"
           },
           {
             "es": "Exceso de presupuesto, retrasos, problemas de personal",
-            "en": ""
+            "en": "Budget overrun, delays, staffing issues"
           }
         ]
       }
@@ -266,14 +266,14 @@ const L_5_2: LessonContent = {
     "level": 2,
     "content": {
       "es": "Testing Basado en Riesgos",
-      "en": ""
+      "en": "Risk-Based Testing"
     }
   },
   {
     "type": "paragraph",
     "content": {
       "es": "El testing basado en riesgos prioriza los esfuerzos de testing según el nivel de riesgo de cada área:",
-      "en": ""
+      "en": "Risk-based testing prioritizes testing efforts according to the risk level of each area:"
     }
   },
   {
@@ -282,23 +282,23 @@ const L_5_2: LessonContent = {
     "items": [
       {
         "es": "Identificar los riesgos del producto",
-        "en": ""
+        "en": "Identify product risks"
       },
       {
         "es": "Evaluar su probabilidad e impacto",
-        "en": ""
+        "en": "Assess their probability and impact"
       },
       {
         "es": "Priorizar el testing en áreas de mayor riesgo",
-        "en": ""
+        "en": "Prioritize testing in higher-risk areas"
       },
       {
         "es": "Mitigar los riesgos mediante pruebas",
-        "en": ""
+        "en": "Mitigate risks through testing"
       },
       {
         "es": "Monitorear los riesgos a lo largo del proyecto",
-        "en": ""
+        "en": "Monitor risks throughout the project"
       }
     ]
   },
@@ -307,7 +307,7 @@ const L_5_2: LessonContent = {
     "variant": "tip",
     "content": {
       "es": "📌 Ejemplo: En un sistema bancario, el módulo de transferencias tiene mayor riesgo que la página de inicio. Por lo tanto, se le asigna más esfuerzo de testing y técnicas más exhaustivas.",
-      "en": ""
+      "en": "📌 Example: In a banking system, the transfers module has higher risk than the home page. Therefore, more testing effort and more exhaustive techniques are assigned to it."
     }
   }
 ],
@@ -329,7 +329,7 @@ const L_5_3: LessonContent = {
     "type": "paragraph",
     "content": {
       "es": "El monitoreo es la recopilación continua de información sobre el progreso de las pruebas para compararlo con lo planificado. Responde a la pregunta: ¿dónde estamos?",
-      "en": "Test monitoring is the ongoing collection of information about testing progress to compare it against the plan. It answers: where are we?"
+      "en": "Monitoring is the ongoing collection of information about testing progress to compare it against the plan. It answers: where are we?"
     }
   },
   {
@@ -344,7 +344,7 @@ const L_5_3: LessonContent = {
     "type": "paragraph",
     "content": {
       "es": "El control es la toma de acciones correctivas basadas en la información recopilada. Responde a: ¿qué hacemos con lo que sabemos?",
-      "en": "Test control is taking corrective actions based on collected information. It answers: what do we do with what we know?"
+      "en": "Control is taking corrective actions based on collected information. It answers: what do we do with what we know?"
     }
   },
   {
@@ -372,7 +372,7 @@ const L_5_3: LessonContent = {
       },
       {
         "es": "Descripción",
-        "en": "Description"
+        "en": "Descripción"
       }
     ],
     "rows": [
@@ -462,7 +462,7 @@ const L_5_3: LessonContent = {
     "type": "paragraph",
     "content": {
       "es": "El equipo de testing comunica su progreso mediante informes. Existen dos tipos principales:",
-      "en": "Two main types:"
+      "en": "The testing team communicates its progress through reports. There are two main types:"
     }
   },
   {
@@ -491,7 +491,7 @@ const L_5_3: LessonContent = {
     "type": "paragraph",
     "content": {
       "es": "Los criterios de entrada (también llamados Definition of Ready) definen las condiciones que deben cumplirse antes de iniciar una actividad de testing:",
-      "en": "Entry criteria (Definition of Ready) define conditions that must be met before starting a testing activity."
+      "en": "Entry criteria (also called Definition of Ready) define conditions that must be met before starting a testing activity:"
     }
   },
   {
@@ -500,15 +500,15 @@ const L_5_3: LessonContent = {
     "items": [
       {
         "es": "Entorno de prueba disponible y configurado",
-        "en": ""
+        "en": "Test environment available and configured"
       },
       {
         "es": "Datos de prueba preparados",
-        "en": ""
+        "en": "Test data prepared"
       },
       {
         "es": "Código del objeto de prueba disponible y estable",
-        "en": ""
+        "en": "Test object code available and stable"
       }
     ]
   },
@@ -516,7 +516,7 @@ const L_5_3: LessonContent = {
     "type": "paragraph",
     "content": {
       "es": "Los criterios de salida (también llamados Definition of Done) definen cuándo el testing está suficientemente completo:",
-      "en": ""
+      "en": "Exit criteria (also called Definition of Done) define when testing is sufficiently complete:"
     }
   },
   {
@@ -525,15 +525,15 @@ const L_5_3: LessonContent = {
     "items": [
       {
         "es": "Porcentaje mínimo de casos de prueba ejecutados",
-        "en": ""
+        "en": "Minimum percentage of test cases executed"
       },
       {
         "es": "Número máximo de defectos abiertos por severidad",
-        "en": ""
+        "en": "Maximum number of open defects by severity"
       },
       {
         "es": "Cobertura mínima de requisitos o código alcanzada",
-        "en": ""
+        "en": "Minimum requirements or code coverage achieved"
       }
     ]
   },
@@ -542,7 +542,7 @@ const L_5_3: LessonContent = {
     "variant": "warning",
     "content": {
       "es": "⚠️ Para el examen: En contextos ágiles, los criterios de entrada/salida suelen llamarse Definition of Ready y Definition of Done respectivamente.",
-      "en": ""
+      "en": "⚠️ For the exam: In agile contexts, entry/exit criteria are often called Definition of Ready and Definition of Done respectively."
     }
   },
   {
@@ -550,7 +550,7 @@ const L_5_3: LessonContent = {
     "variant": "tip",
     "content": {
       "es": "📌 Ejemplo de acción de control: El monitoreo detecta que solo se han ejecutado el 40% de los casos de prueba cuando debería ser el 70%. El control puede implicar: reasignar testers, reducir alcance, negociar fecha de entrega o priorizar las pruebas de mayor riesgo.",
-      "en": ""
+      "en": "📌 Control action example: Monitoring detects only 40% of test cases executed when 70% was expected. Control may involve: reassigning testers, reducing scope, negotiating delivery date or prioritizing highest-risk tests."
     }
   },
   {
@@ -558,14 +558,14 @@ const L_5_3: LessonContent = {
     "level": 2,
     "content": {
       "es": "Gestión de completitud de pruebas",
-      "en": ""
+      "en": "Test completion management"
     }
   },
   {
     "type": "paragraph",
     "content": {
       "es": "Al cierre de una fase o proyecto de testing se realizan las siguientes actividades:",
-      "en": ""
+      "en": "At the close of a testing phase or project, the following activities are performed:"
     }
   },
   {
@@ -574,19 +574,19 @@ const L_5_3: LessonContent = {
     "items": [
       {
         "es": "Verificar que todos los defectos están cerrados o aceptados como riesgo conocido",
-        "en": ""
+        "en": "Verify that all defects are closed or accepted as known risk"
       },
       {
         "es": "Entregar el testware al equipo de mantenimiento",
-        "en": ""
+        "en": "Deliver testware to the maintenance team"
       },
       {
         "es": "Analizar lecciones aprendidas para mejorar futuros proyectos",
-        "en": ""
+        "en": "Analyze lessons learned to improve future projects"
       },
       {
         "es": "Archivar resultados, logs y evidencias de prueba",
-        "en": ""
+        "en": "Archive results, logs and test evidence"
       }
     ]
   }
@@ -682,7 +682,7 @@ const L_5_4: LessonContent = {
       },
       {
         "es": "Descripción",
-        "en": "Description"
+        "en": "Descripción"
       }
     ],
     "rows": [
@@ -786,14 +786,14 @@ const L_5_4: LessonContent = {
     "level": 2,
     "content": {
       "es": "Herramientas de gestión de configuración",
-      "en": ""
+      "en": "Configuration management tools"
     }
   },
   {
     "type": "paragraph",
     "content": {
       "es": "Las herramientas más comunes en la industria son:",
-      "en": ""
+      "en": "The most common tools in the industry are:"
     }
   },
   {
@@ -802,19 +802,19 @@ const L_5_4: LessonContent = {
     "items": [
       {
         "es": "Control de versiones de código: Git, SVN",
-        "en": ""
+        "en": "Source code version control: Git, SVN"
       },
       {
         "es": "Gestión de entornos: Docker, Ansible, Terraform",
-        "en": ""
+        "en": "Environment management: Docker, Ansible, Terraform"
       },
       {
         "es": "Gestión de artefactos: Nexus, Artifactory",
-        "en": ""
+        "en": "Artifact management: Nexus, Artifactory"
       },
       {
         "es": "Gestión de configuración de pruebas: TestRail, Xray (integrados con Jira)",
-        "en": ""
+        "en": "Test configuration management: TestRail, Xray (integrated with Jira)"
       }
     ]
   },
@@ -823,7 +823,7 @@ const L_5_4: LessonContent = {
     "variant": "warning",
     "content": {
       "es": "⚠️ Para el examen: La gestión de la configuración apoya al testing asegurando que todos los artefactos están identificados, versionados y son reproducibles. Recuerda que incluye testware (casos de prueba, datos, entornos) además del código.",
-      "en": ""
+      "en": "⚠️ For the exam: CM supports testing by ensuring all artifacts are identified, versioned and reproducible. Remember it includes testware (test cases, data, environments) in addition to code."
     }
   },
   {
@@ -831,21 +831,21 @@ const L_5_4: LessonContent = {
     "level": 2,
     "content": {
       "es": "Línea base (Baseline)",
-      "en": ""
+      "en": "Baseline"
     }
   },
   {
     "type": "paragraph",
     "content": {
       "es": "Una línea base es una instantánea aprobada y verificada de un conjunto de ítems de configuración en un momento determinado. Solo puede modificarse mediante un proceso formal de control de cambios.",
-      "en": ""
+      "en": "A baseline is an approved and verified snapshot of a set of configuration items at a specific point in time. It can only be modified through a formal change control process."
     }
   },
   {
     "type": "paragraph",
     "content": {
       "es": "Ejemplo: la línea base de la versión 1.0 incluye el código, los casos de prueba ejecutados y los informes de prueba de ese release.",
-      "en": ""
+      "en": "Example: the version 1.0 baseline includes the code, executed test cases and test reports from that release."
     }
   }
 ],
@@ -867,7 +867,7 @@ const L_5_5: LessonContent = {
     "type": "paragraph",
     "content": {
       "es": "Un defecto pasa por diferentes estados desde que se detecta hasta que se cierra:",
-      "en": "New → Assigned → In Fix → Pending Retest → Reopened / Closed"
+      "en": "A defect goes through different states from detection to closure:"
     }
   },
   {
@@ -875,7 +875,7 @@ const L_5_5: LessonContent = {
     "variant": "tip",
     "content": {
       "es": "📌 Estados típicos:\n  \nNuevo → Asignado → En corrección → Pendiente retest → Reabierto / Cerrado",
-      "en": ""
+      "en": "📌 Typical states:\n  \nNew → Assigned → In Fix → Pending Retest → Reopened / Closed"
     }
   },
   {
@@ -883,14 +883,14 @@ const L_5_5: LessonContent = {
     "level": 2,
     "content": {
       "es": "Informe de Defecto",
-      "en": ""
+      "en": "Defect Report"
     }
   },
   {
     "type": "paragraph",
     "content": {
       "es": "Un informe de defecto bien escrito debe incluir:",
-      "en": ""
+      "en": "A well-written defect report should include:"
     }
   },
   {
@@ -899,35 +899,35 @@ const L_5_5: LessonContent = {
     "items": [
       {
         "es": "ID único y título descriptivo",
-        "en": ""
+        "en": "Unique ID and descriptive title"
       },
       {
         "es": "Fecha de detección y autor",
-        "en": ""
+        "en": "Detection date and author"
       },
       {
         "es": "Objeto de prueba (módulo, versión)",
-        "en": ""
+        "en": "Test object (module, version)"
       },
       {
         "es": "Entorno de prueba (OS, browser, etc.)",
-        "en": ""
+        "en": "Test environment (OS, browser, etc.)"
       },
       {
         "es": "Pasos para reproducir el defecto",
-        "en": ""
+        "en": "Steps to reproduce the defect"
       },
       {
         "es": "Resultado esperado vs resultado actual",
-        "en": ""
+        "en": "Expected vs actual result"
       },
       {
         "es": "Severidad y prioridad",
-        "en": ""
+        "en": "Severity and priority"
       },
       {
         "es": "Evidencia: capturas de pantalla, logs",
-        "en": ""
+        "en": "Evidence: screenshots, logs"
       }
     ]
   },
@@ -936,7 +936,7 @@ const L_5_5: LessonContent = {
     "level": 2,
     "content": {
       "es": "Severidad vs Prioridad",
-      "en": ""
+      "en": "Severity vs Priority"
     }
   },
   {
@@ -948,11 +948,11 @@ const L_5_5: LessonContent = {
       },
       {
         "es": "Alta prioridad",
-        "en": ""
+        "en": "High priority"
       },
       {
         "es": "Baja prioridad",
-        "en": ""
+        "en": "Low priority"
       }
     ],
     "rows": [
@@ -960,15 +960,15 @@ const L_5_5: LessonContent = {
         "cells": [
           {
             "es": "Alta severidad",
-            "en": ""
+            "en": "High severity"
           },
           {
             "es": "Sistema caído, afecta a todos",
-            "en": ""
+            "en": "System down, affects everyone"
           },
           {
             "es": "Crash en función rara vez usada",
-            "en": ""
+            "en": "Crash in rarely used function"
           }
         ]
       },
@@ -976,15 +976,15 @@ const L_5_5: LessonContent = {
         "cells": [
           {
             "es": "Baja severidad",
-            "en": ""
+            "en": "Low severity"
           },
           {
             "es": "Error tipográfico en página principal",
-            "en": ""
+            "en": "Typo on main page"
           },
           {
             "es": "Error visual en pantalla de configuración",
-            "en": ""
+            "en": "Visual error on settings screen"
           }
         ]
       }
@@ -995,7 +995,7 @@ const L_5_5: LessonContent = {
     "variant": "warning",
     "content": {
       "es": "⚠️ Para el examen: Severidad = impacto técnico. Prioridad = urgencia de corrección. Son dimensiones independientes.",
-      "en": ""
+      "en": "⚠️ For the exam: Severity = technical impact. Priority = urgency of fix. Independent dimensions."
     }
   },
   {
