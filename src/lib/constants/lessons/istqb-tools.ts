@@ -1,5 +1,5 @@
 /**
- * Tool Support for Testing
+ * Tool Support for Testing — ISTQB CTFL v4.0, Chapter 6
  * Auto-generated from migration/content.js
  */
 
@@ -16,14 +16,14 @@ const L_6_1: LessonContent = {
     "level": 2,
     "content": {
       "es": "Herramientas de Testing",
-      "en": "Testing Tool Categories"
+      "en": "Testing Tools"
     }
   },
   {
     "type": "paragraph",
     "content": {
       "es": "Las herramientas de testing pueden soportar muchas actividades del proceso de prueba:",
-      "en": ""
+      "en": "Testing tools can support many activities of the test process:"
     }
   },
   {
@@ -31,7 +31,7 @@ const L_6_1: LessonContent = {
     "level": 2,
     "content": {
       "es": "Categorías de Herramientas",
-      "en": "Benefits of Automation"
+      "en": "Tool Categories"
     }
   },
   {
@@ -39,11 +39,11 @@ const L_6_1: LessonContent = {
     "headers": [
       {
         "es": "Categoría",
-        "en": ""
+        "en": "Category"
       },
       {
         "es": "Ejemplos",
-        "en": ""
+        "en": "Examples"
       }
     ],
     "rows": [
@@ -51,11 +51,11 @@ const L_6_1: LessonContent = {
         "cells": [
           {
             "es": "Gestión de pruebas",
-            "en": ""
+            "en": "Test management"
           },
           {
             "es": "TestRail, Zephyr, Xray",
-            "en": ""
+            "en": "TestRail, Zephyr, Xray"
           }
         ]
       },
@@ -63,11 +63,11 @@ const L_6_1: LessonContent = {
         "cells": [
           {
             "es": "Análisis estático",
-            "en": ""
+            "en": "Static analysis"
           },
           {
             "es": "SonarQube, ESLint, FindBugs",
-            "en": ""
+            "en": "SonarQube, ESLint, FindBugs"
           }
         ]
       },
@@ -75,11 +75,11 @@ const L_6_1: LessonContent = {
         "cells": [
           {
             "es": "Automatización de UI",
-            "en": ""
+            "en": "UI automation"
           },
           {
             "es": "Selenium, Playwright, Cypress",
-            "en": ""
+            "en": "Selenium, Playwright, Cypress"
           }
         ]
       },
@@ -87,11 +87,11 @@ const L_6_1: LessonContent = {
         "cells": [
           {
             "es": "Pruebas de API",
-            "en": ""
+            "en": "API testing"
           },
           {
             "es": "Postman, RestAssured, SoapUI",
-            "en": ""
+            "en": "Postman, RestAssured, SoapUI"
           }
         ]
       },
@@ -99,11 +99,11 @@ const L_6_1: LessonContent = {
         "cells": [
           {
             "es": "Pruebas de rendimiento",
-            "en": ""
+            "en": "Performance testing"
           },
           {
             "es": "JMeter, Gatling, k6",
-            "en": ""
+            "en": "JMeter, Gatling, k6"
           }
         ]
       },
@@ -111,11 +111,11 @@ const L_6_1: LessonContent = {
         "cells": [
           {
             "es": "Pruebas unitarias",
-            "en": ""
+            "en": "Unit testing"
           },
           {
             "es": "JUnit, pytest, NUnit",
-            "en": ""
+            "en": "JUnit, pytest, NUnit"
           }
         ]
       },
@@ -123,11 +123,11 @@ const L_6_1: LessonContent = {
         "cells": [
           {
             "es": "CI/CD",
-            "en": ""
+            "en": "CI/CD"
           },
           {
             "es": "Jenkins, GitHub Actions, GitLab CI",
-            "en": ""
+            "en": "Jenkins, GitHub Actions, GitLab CI"
           }
         ]
       },
@@ -135,11 +135,11 @@ const L_6_1: LessonContent = {
         "cells": [
           {
             "es": "Seguimiento de defectos",
-            "en": ""
+            "en": "Defect tracking"
           },
           {
             "es": "Jira, Bugzilla, Redmine",
-            "en": ""
+            "en": "Jira, Bugzilla, Redmine"
           }
         ]
       }
@@ -150,7 +150,7 @@ const L_6_1: LessonContent = {
     "level": 2,
     "content": {
       "es": "Beneficios de la Automatización",
-      "en": "Risks of Automation"
+      "en": "Benefits of Automation"
     }
   },
   {
@@ -159,23 +159,23 @@ const L_6_1: LessonContent = {
     "items": [
       {
         "es": "Ejecución más rápida de pruebas de regresión",
-        "en": "Unrealistic expectations, high initial cost, maintenance overhead, false sense of security"
+        "en": "Faster regression test execution"
       },
       {
         "es": "Mayor consistencia y repetibilidad",
-        "en": ""
+        "en": "Greater consistency and repeatability"
       },
       {
         "es": "Cobertura ampliada (más pruebas en menos tiempo)",
-        "en": ""
+        "en": "Extended coverage (more tests in less time)"
       },
       {
         "es": "Disponibilidad 24/7 (integración continua)",
-        "en": ""
+        "en": "24/7 availability (continuous integration)"
       },
       {
         "es": "Reducción del trabajo manual repetitivo",
-        "en": ""
+        "en": "Reduction of repetitive manual work"
       }
     ]
   },
@@ -184,7 +184,7 @@ const L_6_1: LessonContent = {
     "level": 2,
     "content": {
       "es": "Riesgos de la Automatización",
-      "en": ""
+      "en": "Risks of Automation"
     }
   },
   {
@@ -193,23 +193,23 @@ const L_6_1: LessonContent = {
     "items": [
       {
         "es": "Expectativas poco realistas sobre los beneficios",
-        "en": ""
+        "en": "Unrealistic expectations about benefits"
       },
       {
         "es": "Alto costo inicial de implementación",
-        "en": ""
+        "en": "High initial implementation cost"
       },
       {
         "es": "Mantenimiento costoso de scripts (especialmente con UI cambiante)",
-        "en": ""
+        "en": "Costly script maintenance (especially with changing UI)"
       },
       {
         "es": "Falsa sensación de seguridad",
-        "en": ""
+        "en": "False sense of security"
       },
       {
         "es": "Dependencia de herramientas específicas",
-        "en": ""
+        "en": "Dependency on specific tools"
       }
     ]
   },
@@ -218,7 +218,7 @@ const L_6_1: LessonContent = {
     "variant": "info",
     "content": {
       "es": "💡 Consideraciones para adoptar herramientas:\n  \n1. Evaluar la madurez del proceso existente\n  \n2. Pilotar antes de adoptar masivamente\n  \n3. Capacitar al equipo\n  \n4. Establecer métricas de ROI claras",
-      "en": ""
+      "en": "💡 Considerations for tool adoption:\n  \n1. Assess the maturity of the existing process\n  \n2. Pilot before mass adoption\n  \n3. Train the team\n  \n4. Establish clear ROI metrics"
     }
   },
   {
