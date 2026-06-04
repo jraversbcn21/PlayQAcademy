@@ -192,7 +192,22 @@
     "incorrect": "No es correcto. ¡Inténtalo de nuevo!",
     "explanation": "Explicación",
     "attempts": "Intentos: {{count}}",
-    "retry": "Intentar de Nuevo"
+    "retry": "Intentar de Nuevo",
+    "flashcard": {
+      "flip": "Voltear tarjeta",
+      "tapToFlip": "Toca para voltear",
+      "speak": "Escuchar",
+      "stopSpeaking": "Detener"
+    }
+  },
+  "glossary": {
+    "title": "Glosario ISTQB",
+    "subtitle": "Términos clave del syllabus CTFL v4.0",
+    "search": "Buscar término...",
+    "noResults": "No se encontraron términos",
+    "chapter": "Capítulo",
+    "allChapters": "Todos los capítulos",
+    "entryCount": "{{count}} términos"
   },
   "dashboard": {
     "greeting": "Bienvenido de nuevo, {{name}}",
@@ -369,6 +384,25 @@
       "signUp": "Regístrate gratis",
       "haveAccount": "Ya tengo cuenta",
       "goToDashboard": "Ir al Dashboard"
+    }
+  },
+  "campus": {
+    "title": "Campus",
+    "backToDashboard": "Volver al Dashboard",
+    "modules": "Módulos",
+    "comingSoon": "Próximamente",
+    "active": "Activo",
+    "qaFundamentals": {
+      "title": "Fundamentos de QA",
+      "description": "Introducción al testing de software y conceptos esenciales para comenzar tu carrera en QA."
+    },
+    "istqb": {
+      "title": "ISTQB CTFL Foundation",
+      "description": "Certificación ISTQB Foundation Level v4.0 — El estándar internacional en testing de software."
+    },
+    "automation": {
+      "title": "Automatización con Playwright",
+      "description": "De QA Manual a QA Automation. Aprende Playwright y TypeScript con 8 módulos y 44 lecciones."
     }
   },
   "privacy": {
