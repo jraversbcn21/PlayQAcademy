@@ -304,12 +304,23 @@
   "curriculum": {
     "hero": {
       "title": "El currículum completo",
-      "subtitle": "44 lecciones, 8 módulos, ~13 horas de contenido profesional bilingüe",
+      "subtitle": "3 campus, 14 módulos, 66 lecciones, ~22 horas de contenido profesional bilingüe",
       "stats": {
-        "lessons": "44 lecciones interactivas",
-        "modules": "8 módulos progresivos",
+        "lessons": "66 lecciones interactivas",
+        "modules": "14 módulos progresivos",
+        "campuses": "3 campus especializados",
         "bilingual": "Bilingüe ES/EN"
       }
+    },
+    "campuses": {
+      "title": "Elige tu campus",
+      "subtitle": "Cada campus es un camino de aprendizaje independiente con sus propios módulos, lecciones y certificación.",
+      "explore": "Explorar campus",
+      "lessonsCount": "{{count}} lecciones",
+      "modulesCount": "{{count}} módulos",
+      "minutesCount": "{{minutes}} min",
+      "comingSoon": "Próximamente",
+      "active": "Activo"
     },
     "modules": {
       "title": "Tu camino de QA Manual a QA Automation Engineer",
@@ -346,21 +357,30 @@
       "cicd": {
         "title": "CI/CD profesional",
         "description": "De funciona en mi máquina a corre en cada PR"
+      },
+      "istqb": {
+        "title": "Certificación ISTQB CTFL",
+        "description": "El estándar internacional en testing de software, syllabus v4.0"
+      },
+      "staticTesting": {
+        "title": "Testing estático y revisiones",
+        "description": "Revisiones de código, inspecciones y análisis estático para detectar defectos temprano"
+      },
+      "testDesign": {
+        "title": "Técnicas de diseño de pruebas",
+        "description": "Partición de equivalencia, análisis de valor límite, tablas de decisión y más"
       }
     },
     "certification": {
       "title": "Camino a la certificación",
-      "exam1Title": "TypeScript Foundations Mastery",
-      "exam2Title": "Playwright + Locators",
-      "exam3Title": "Midterm: Módulos 1-4",
-      "exam4Title": "Certificación Final: Currículum Completo",
+      "subtitle": "Cada campus tiene su propio examen de certificación. Completa los módulos y demuestra tu conocimiento.",
       "questions": "{{count}} preguntas",
       "timeLimit": "{{time}} min",
       "passing": "Nota mínima {{percent}}%",
       "unlocksBadge": "Desbloquea: insignia PlayQ Certified 🏆"
     },
     "whyThis": {
-      "title": "Por qué este campus y no otro",
+      "title": "Por qué PlayQ Academy",
       "creator": {
         "title": "Diseñado por alguien viviendo la transición",
         "description": "No por una empresa que vende cursos. Por un QA Manual que está haciendo exactamente esta transición ahora mismo."

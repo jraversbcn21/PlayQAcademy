@@ -304,12 +304,23 @@
   "curriculum": {
     "hero": {
       "title": "The complete curriculum",
-      "subtitle": "44 lessons, 8 modules, ~13 hours of professional bilingual content",
+      "subtitle": "3 campuses, 14 modules, 66 lessons, ~22 hours of professional bilingual content",
       "stats": {
-        "lessons": "44 interactive lessons",
-        "modules": "8 progressive modules",
+        "lessons": "66 interactive lessons",
+        "modules": "14 progressive modules",
+        "campuses": "3 specialized campuses",
         "bilingual": "Bilingual ES/EN"
       }
+    },
+    "campuses": {
+      "title": "Choose your campus",
+      "subtitle": "Each campus is an independent learning path with its own modules, lessons, and certification.",
+      "explore": "Explore campus",
+      "lessonsCount": "{{count}} lessons",
+      "modulesCount": "{{count}} modules",
+      "minutesCount": "{{minutes}} min",
+      "comingSoon": "Coming Soon",
+      "active": "Active"
     },
     "modules": {
       "title": "Your path from Manual QA to Automation Engineer",
@@ -346,21 +357,30 @@
       "cicd": {
         "title": "Professional CI/CD",
         "description": "From works on my machine to runs on every PR"
+      },
+      "istqb": {
+        "title": "ISTQB CTFL Certification",
+        "description": "The international standard in software testing, v4.0 syllabus"
+      },
+      "staticTesting": {
+        "title": "Static testing and reviews",
+        "description": "Code reviews, inspections, and static analysis to detect defects early"
+      },
+      "testDesign": {
+        "title": "Test design techniques",
+        "description": "Equivalence partitioning, boundary value analysis, decision tables, and more"
       }
     },
     "certification": {
       "title": "Path to certification",
-      "exam1Title": "TypeScript Foundations Mastery",
-      "exam2Title": "Playwright + Locators",
-      "exam3Title": "Midterm: Modules 1-4",
-      "exam4Title": "Final Certification: Full Curriculum",
+      "subtitle": "Each campus has its own certification exam. Complete the modules and demonstrate your knowledge.",
       "questions": "{{count}} questions",
       "timeLimit": "{{time}} min",
       "passing": "Passing score {{percent}}%",
       "unlocksBadge": "Unlocks: PlayQ Certified badge 🏆"
     },
     "whyThis": {
-      "title": "Why this campus over others",
+      "title": "Why PlayQ Academy",
       "creator": {
         "title": "Designed by someone living the transition",
         "description": "Not by a company selling courses. By a Manual QA who is making exactly this transition right now."

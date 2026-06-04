@@ -1,26 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
+import { CAMPUSES, getModulesForCampus } from "@/lib/constants/campuses";
 import { CURRICULUM } from "@/lib/constants/curriculum";
 import { EXAMS } from "@/lib/constants/exams";
-import type { Difficulty, CurriculumModule } from "@/lib/constants/curriculum";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 import Card from "@/components/ui/Card";
-
-/* ------------------------------------------------------------------ */
-/*  Difficulty config                                                  */
-/* ------------------------------------------------------------------ */
-
-const DIFFICULTY_CONFIG: Record<Difficulty, { color: "success" | "warning" | "error" }> = {
-  beginner: { color: "success" },
-  intermediate: { color: "warning" },
-  advanced: { color: "error" },
-};
 
 /* ------------------------------------------------------------------ */
 /*  Skill icons                                                        */
@@ -33,32 +22,10 @@ const SKILLS = [
   { key: "pom", icon: "🏗️" },
   { key: "api", icon: "🔌" },
   { key: "cicd", icon: "🚀" },
+  { key: "istqb", icon: "📜" },
+  { key: "staticTesting", icon: "📄" },
+  { key: "testDesign", icon: "🎯" },
 ] as const;
-
-/* ------------------------------------------------------------------ */
-/*  Module card data factory                                            */
-/* ------------------------------------------------------------------ */
-
-function moduleCardData(mod: CurriculumModule, lng: string, t: (k: string, opts?: Record<string, unknown>) => string) {
-  const lang = lng === "es" ? "es" : "en";
-  const totalMin = mod.estimatedMinutes;
-  const lessonsCount = mod.lessons.length;
-  const diffCfg = DIFFICULTY_CONFIG[mod.difficulty];
-
-  return {
-    order: mod.order,
-    title: mod.title[lang],
-    description: mod.description[lang],
-    difficultyLabel: t(`curriculum.modules.${mod.difficulty}`),
-    difficultyColor: diffCfg.color,
-    statsText: `${t("curriculum.modules.lessonsCount", { count: lessonsCount })} · ${totalMin} ${t("curriculum.modules.minutes")}`,
-    lessons: mod.lessons.map((l, idx) => ({
-      number: `${mod.order}.${idx + 1}`,
-      title: l.title[lang],
-      minutes: l.estimatedMinutes,
-    })),
-  };
-}
 
 /* ================================================================== */
 /*  Page component                                                     */
@@ -68,12 +35,6 @@ export default function CurriculumPage() {
   const { t } = useTranslation("common");
   const { lng } = useParams() as { lng: string };
   const { user } = useAuth();
-
-  const [expandedModule, setExpandedModule] = useState<number | null>(null);
-
-  function toggleExpand(order: number) {
-    setExpandedModule((prev) => (prev === order ? null : order));
-  }
 
   function skillKey(kind: "title" | "description", key: string) {
     return `curriculum.skills.${key}.${kind}`;
@@ -118,6 +79,9 @@ export default function CurriculumPage() {
               {t("curriculum.hero.stats.modules")}
             </span>
             <span className="rounded-full bg-brand-orange-500/10 px-4 py-1.5 text-sm font-medium text-brand-orange-400 ring-1 ring-inset ring-brand-orange-500/20">
+              {t("curriculum.hero.stats.campuses")}
+            </span>
+            <span className="rounded-full bg-brand-purple-500/10 px-4 py-1.5 text-sm font-medium text-brand-purple-400 ring-1 ring-inset ring-brand-purple-500/20">
               {t("curriculum.hero.stats.bilingual")}
             </span>
           </div>
@@ -125,81 +89,68 @@ export default function CurriculumPage() {
       </section>
 
       {/* ================================================================ */}
-      {/*  SECTION 2 — Module Grid                                         */}
+      {/*  SECTION 2 — Campus Selector                                      */}
       {/* ================================================================ */}
       <section className="border-t border-[var(--color-border)] px-4 py-16 lg:py-20">
         <div className="container-app">
-          <h2 className="mb-12 text-center text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
-            {t("curriculum.modules.title")}
+          <h2 className="mb-4 text-center text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
+            {t("curriculum.campuses.title")}
           </h2>
+          <p className="mx-auto mb-12 max-w-2xl text-center text-[var(--color-text-secondary)]">
+            {t("curriculum.campuses.subtitle")}
+          </p>
 
-          <div className="grid gap-6 lg:grid-cols-2">
-            {CURRICULUM.map((mod, idx) => {
-              const data = moduleCardData(mod, lng, t);
-              const isExpanded = expandedModule === mod.order;
+          <div className="grid gap-6 lg:grid-cols-3">
+            {CAMPUSES.map((campus, idx) => {
+              const lang = lng === "es" ? "es" : "en";
+              const moduleIds = getModulesForCampus(campus.id);
+              const modules = moduleIds
+                .map((id) => CURRICULUM.find((m) => m.id === id))
+                .filter((m): m is NonNullable<typeof m> => m !== undefined);
+              const totalLessons = modules.reduce((sum, mod) => sum + mod.lessons.length, 0);
+              const totalMinutes = modules.reduce((sum, mod) => sum + mod.estimatedMinutes, 0);
 
               return (
-                <div
-                  key={mod.id}
-                  className="animate-fade-in-up"
-                  style={{ animationDelay: `${idx * 50}ms` }}
+                <Link
+                  key={campus.id}
+                  href={`/${lng}/campus/${campus.id}`}
+                  className="animate-fade-in-up block"
+                  style={{ animationDelay: `${idx * 100}ms` }}
                 >
-                  <Card variant="highlight" className="group transition-transform hover:-translate-y-0.5">
-                    <div className="mb-3 flex items-start justify-between">
+                  <Card variant="highlight" className="group h-full transition-all hover:-translate-y-1 hover:shadow-xl">
+                    <div className="mb-4 flex items-start justify-between">
                       <span className="rounded-md bg-brand-blue-500/10 px-2.5 py-1 font-mono text-xs font-semibold text-brand-blue-400">
-                        M{mod.order}
+                        {t("curriculum.campuses.modulesCount", { count: modules.length })}
                       </span>
-                      <Badge variant={data.difficultyColor} size="sm">
-                        {data.difficultyLabel}
+                      <Badge variant={campus.status === "active" ? "success" : "warning"} size="sm">
+                        {campus.status === "active" ? t("curriculum.campuses.active") : t("curriculum.campuses.comingSoon")}
                       </Badge>
                     </div>
 
-                    <h3 className="mb-2 text-lg font-semibold text-[var(--color-text-primary)]">
-                      {data.title}
+                    <h3 className="mb-2 text-xl font-bold text-[var(--color-text-primary)] group-hover:text-brand-blue-400">
+                      {campus.title[lang]}
                     </h3>
-                    <p className="mb-3 text-sm leading-relaxed text-[var(--color-text-secondary)]">
-                      {data.description}
-                    </p>
-                    <p className="mb-4 text-xs text-[var(--color-text-muted)]">
-                      {data.statsText}
+                    <p className="mb-4 text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                      {campus.description[lang]}
                     </p>
 
-                    <button
-                      type="button"
-                      onClick={() => toggleExpand(mod.order)}
-                      className="flex items-center gap-1 text-sm font-medium text-brand-blue-400 transition-colors hover:text-brand-blue-300"
-                    >
-                      {isExpanded ? t("curriculum.modules.collapseLessons") : t("curriculum.modules.expandLessons")}
-                      <svg
-                        className={["h-4 w-4 transition-transform", isExpanded ? "rotate-180" : ""].join(" ")}
-                        fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden="true"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" />
+                    <div className="mb-4 flex flex-wrap gap-2 text-xs text-[var(--color-text-muted)]">
+                      <span className="rounded-full bg-[var(--color-bg-elevated)] px-2.5 py-1">
+                        {t("curriculum.campuses.lessonsCount", { count: totalLessons })}
+                      </span>
+                      <span className="rounded-full bg-[var(--color-bg-elevated)] px-2.5 py-1">
+                        {t("curriculum.campuses.minutesCount", { minutes: totalMinutes })}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-sm font-medium text-brand-blue-400">
+                      {t("curriculum.campuses.explore")}
+                      <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                       </svg>
-                    </button>
-
-                    {isExpanded && (
-                      <div className="mt-4 space-y-2 border-t border-[var(--color-border)] pt-4">
-                        {data.lessons.map((lesson) => (
-                          <div
-                            key={lesson.number}
-                            className="flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-[var(--color-bg-elevated)]"
-                          >
-                            <div className="flex items-center gap-3">
-                              <span className="font-mono text-xs font-medium text-brand-blue-400 shrink-0">
-                                {lesson.number}
-                              </span>
-                              <span className="text-[var(--color-text-secondary)]">{lesson.title}</span>
-                            </div>
-                            <span className="text-xs text-[var(--color-text-muted)] shrink-0">
-                              {lesson.minutes} {t("curriculum.modules.minutes")}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                    </div>
                   </Card>
-                </div>
+                </Link>
               );
             })}
           </div>
@@ -235,10 +186,13 @@ export default function CurriculumPage() {
       {/* ================================================================ */}
       <section className="border-t border-[var(--color-border)] px-4 py-16 lg:py-20">
         <div className="container-app">
-          <h2 className="mb-12 text-center text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
+          <h2 className="mb-4 text-center text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
             {t("curriculum.certification.title")}
           </h2>
-          <div className="flex flex-col gap-6 lg:flex-row lg:gap-4">
+          <p className="mx-auto mb-12 max-w-2xl text-center text-[var(--color-text-secondary)]">
+            {t("curriculum.certification.subtitle")}
+          </p>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {examRows.map((exam) => (
               <div key={exam.number} className="flex-1">
                 <Card variant="achievement" className="relative h-full">
