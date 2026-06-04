@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
-import { CAMPUSES, getModulesForCampus, getCampusById } from "@/lib/constants/campuses";
+import { getModulesForCampus, getCampusById } from "@/lib/constants/campuses";
 import { CURRICULUM } from "@/lib/constants/curriculum";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";

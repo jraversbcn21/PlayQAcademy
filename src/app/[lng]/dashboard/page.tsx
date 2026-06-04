@@ -13,7 +13,6 @@ import { CAMPUSES } from "@/lib/constants/campuses";
 import Button from "@/components/ui/Button";
 import ProgressBar from "@/components/ui/ProgressBar";
 import StatCard from "@/components/dashboard/StatCard";
-import ModuleCard from "@/components/dashboard/ModuleCard";
 import AchievementCard from "@/components/dashboard/AchievementCard";
 import type { Achievement } from "@/components/dashboard/AchievementCard";
 import type { EarnedBadge } from "@/types/gamification";
@@ -88,7 +87,7 @@ export default function DashboardPage({
   const { user, loading: authLoading } = useAuth();
   const {
     progressData,
-    loading: progressLoading,
+    loading: _progressLoading,
   } = useProgress(user?.uid);
   const { data: gData } = useGamification(user?.uid);
 

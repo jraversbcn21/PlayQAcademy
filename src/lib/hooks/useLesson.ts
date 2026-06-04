@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useCallback, useState, useEffect } from "react";
-import type { CurriculumLesson, CurriculumModule } from "@/lib/constants/curriculum";
 import {
   CURRICULUM,
   getModuleById,
@@ -88,7 +87,7 @@ export function useLesson(
     const les = mod ? getLessonById(moduleId, lessonId) : null;
     const content = getLessonContent(moduleId, lessonId);
     const exists = !!mod && !!les && !!content;
-    const lngKey = lng === "es" ? "es" : "en";
+    const _lngKey = lng === "es" ? "es" : "en";
 
     if (!mod || !les) {
       return { content: null, meta: null, exists: false };
