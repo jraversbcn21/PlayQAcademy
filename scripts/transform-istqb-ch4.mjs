@@ -298,7 +298,7 @@ for (const topicId of topicIds) {
 
   // Flashcards for chapter 4 at end of last lesson
   if (topicId === topicIds[topicIds.length - 1]) {
-    const fcs = FLASHCARDS.filter((fc) => fc.chapter === 4);
+    const fcs = FLASHCARDS.filter((fc) => fc.chapter === 3);
     for (const fc of fcs) {
       sections.push({
         type: "flashcard",

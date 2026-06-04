@@ -579,50 +579,86 @@ const L_4_5: LessonContent = {
   },
   {
     "type": "flashcard",
-    "flashcardId": "istqb-fc-23",
+    "flashcardId": "istqb-fc-16",
     "front": {
-      "es": "¿Qué es el Riesgo de Producto vs. Riesgo de Proyecto?",
-      "en": "What is Product Risk vs. Project Risk?"
+      "es": "¿Qué es la Partición de Equivalencia (EP)?",
+      "en": "What is Equivalence Partitioning (EP)?"
     },
     "back": {
-      "es": "Riesgo de producto: posibilidad de que el producto no cumpla su función (defectos funcionales, problemas de rendimiento). Riesgo de proyecto: posibilidad de que el proyecto no logre sus objetivos (presupuesto, plazos, recursos).",
-      "en": "Product risk: possibility that the product won't fulfill its function (functional defects, performance issues). Project risk: possibility that the project won't achieve its objectives (budget, timelines, resources)."
+      "es": "Técnica de caja negra que divide los datos de entrada en particiones donde todos los valores se comportan igual. Se prueba un valor representativo de cada partición (válida e inválida).",
+      "en": "Black-box technique that divides input data into partitions where all values behave the same. Test one representative value per partition (valid and invalid)."
     }
   },
   {
     "type": "flashcard",
-    "flashcardId": "istqb-fc-24",
+    "flashcardId": "istqb-fc-17",
     "front": {
-      "es": "¿Qué son los criterios de entrada y salida en testing?",
-      "en": "What are entry and exit criteria in testing?"
+      "es": "¿Qué es el Análisis de Valor Límite (BVA)?",
+      "en": "What is Boundary Value Analysis (BVA)?"
     },
     "back": {
-      "es": "Entrada (Entry): condiciones que deben cumplirse para iniciar una fase de prueba (ej: el código está compilado). Salida (Exit): condiciones para completar la fase (ej: 90% de casos pasados, todos los críticos).",
-      "en": "Entry criteria: conditions that must be met to start a test phase (e.g., code is compiled). Exit criteria: conditions to complete the phase (e.g., 90% tests passed, all critical ones)."
+      "es": "Técnica de caja negra que prueba los valores en los BORDES de las particiones. BVA-2: mínimo y máximo de cada borde. BVA-3: también incluye los valores inmediatamente adyacentes.",
+      "en": "Black-box technique testing values at the EDGES of partitions. BVA-2: min and max of each boundary. BVA-3: also includes immediately adjacent values."
     }
   },
   {
     "type": "flashcard",
-    "flashcardId": "istqb-fc-25",
+    "flashcardId": "istqb-fc-18",
     "front": {
-      "es": "¿Qué información debe incluir un informe de defecto?",
-      "en": "What information should a defect report include?"
+      "es": "¿Para qué se usan las Tablas de Decisión?",
+      "en": "When are Decision Tables used?"
     },
     "back": {
-      "es": "ID, título, descripción, pasos para reproducir, resultado esperado, resultado actual, severidad, prioridad, entorno, versión del software, y evidencia (capturas, logs).",
-      "en": "ID, title, description, steps to reproduce, expected result, actual result, severity, priority, environment, software version, and evidence (screenshots, logs)."
+      "es": "Para probar combinaciones de condiciones (lógica de negocio compleja). Cada columna es una 'regla' que combina condiciones con resultados. Número de reglas = 2^n (n = número de condiciones).",
+      "en": "For testing combinations of conditions (complex business logic). Each column is a 'rule' combining conditions with outcomes. Number of rules = 2^n (n = number of conditions)."
     }
   },
   {
     "type": "flashcard",
-    "flashcardId": "istqb-fc-26",
+    "flashcardId": "istqb-fc-19",
     "front": {
-      "es": "¿Cuál es la diferencia entre SEVERIDAD y PRIORIDAD en un defecto?",
-      "en": "What is the difference between SEVERITY and PRIORITY in a defect?"
+      "es": "¿Qué es la prueba de Transición de Estado?",
+      "en": "What is State Transition Testing?"
     },
     "back": {
-      "es": "Severidad: impacto técnico del defecto (cuánto daño hace al sistema). Prioridad: urgencia de la corrección (cuándo debe corregirse). Un defecto puede ser de alta severidad pero baja prioridad y viceversa.",
-      "en": "Severity: technical impact of the defect (how much damage it does to the system). Priority: urgency of the fix (when it must be fixed). A defect can have high severity but low priority and vice versa."
+      "es": "Técnica de caja negra para sistemas con estados. El comportamiento depende del estado actual y del evento recibido. Se modela con diagramas de estado y tablas de transición.",
+      "en": "Black-box technique for systems with states. Behavior depends on current state and received event. Modeled with state diagrams and transition tables."
+    }
+  },
+  {
+    "type": "flashcard",
+    "flashcardId": "istqb-fc-20",
+    "front": {
+      "es": "¿Qué cubren las pruebas de SENTENCIA y de RAMA?",
+      "en": "What do STATEMENT and BRANCH coverage cover?"
+    },
+    "back": {
+      "es": "Sentencia (Statement): % de sentencias ejecutables ejecutadas. Rama (Branch): % de ramas del código ejecutadas (incluyendo verdadero/falso). Branch coverage es más fuerte que statement coverage.",
+      "en": "Statement: % of executable statements executed. Branch: % of code branches executed (including true/false). Branch coverage is stronger than statement coverage."
+    }
+  },
+  {
+    "type": "flashcard",
+    "flashcardId": "istqb-fc-21",
+    "front": {
+      "es": "¿Qué es el Testing Exploratorio?",
+      "en": "What is Exploratory Testing?"
+    },
+    "back": {
+      "es": "Técnica basada en experiencia donde el tester diseña y ejecuta pruebas simultáneamente, aprendiendo del sistema a medida que avanza. Útil para encontrar defectos que las pruebas formales no detectan.",
+      "en": "Experience-based technique where the tester simultaneously designs and executes tests, learning from the system as they go. Useful for finding defects that formal tests miss."
+    }
+  },
+  {
+    "type": "flashcard",
+    "flashcardId": "istqb-fc-22",
+    "front": {
+      "es": "¿Qué es ATDD (Acceptance Test-Driven Development)?",
+      "en": "What is ATDD (Acceptance Test-Driven Development)?"
+    },
+    "back": {
+      "es": "Técnica colaborativa donde los casos de prueba de aceptación se crean ANTES del desarrollo, con la participación de desarrolladores, testers y stakeholders. Los tests guían el desarrollo.",
+      "en": "Collaborative technique where acceptance test cases are created BEFORE development, with participation of developers, testers and stakeholders. Tests drive development."
     }
   }
 ],
