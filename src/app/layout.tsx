@@ -23,20 +23,20 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | PlayQ Academy",
-    default: "PlayQ Academy — Test Automation with Playwright",
+    template: "%s | PlayQAcademy",
+    default: "PlayQAcademy — Test Automation with Playwright",
   },
   description:
-    "De QA Manual a QA Automatizado. Aprende Playwright y TypeScript con PlayQ Academy, la plataforma de formación en automatización de pruebas líder en español.",
+    "De QA Manual a QA Automatizado. Aprende Playwright y TypeScript con PlayQAcademy, la plataforma de formación en automatización de pruebas líder en español.",
   keywords: [
     "Playwright",
     "TypeScript",
     "test automation",
     "QA automation",
-    "PlayQ Academy",
+    "PlayQAcademy",
   ],
   openGraph: {
-    title: "PlayQ Academy — Test Automation with Playwright",
+    title: "PlayQAcademy — Test Automation with Playwright",
     description:
       "De QA Manual a QA Automatizado. Tu transición comienza aquí.",
     type: "website",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PlayQ Academy",
+    title: "PlayQAcademy",
     description:
       "From Manual QA to Automated QA. Your transition starts here.",
   },

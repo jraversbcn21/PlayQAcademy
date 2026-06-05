@@ -1,6 +1,6 @@
 {
   "hero": {
-    "titleLine1": "PlayQ Academy",
+    "titleLine1": "PlayQAcademy",
     "titleLine2": "Test Automation with Playwright",
     "tagline": "De QA Manual a QA Automatizado. Tu transición comienza aquí.",
     "ctaPrimary": "Regístrate aquí",
@@ -34,8 +34,8 @@
     "title": "La calidad no es un accidente",
     "name": "Jorge Carreño Ortiz",
     "role": "QA Tester → QA Automation Engineer | Barcelona · Amaris Consulting",
-    "description": "QA Tester experimentado liderando la transición de QA Manual a QA Automation en su equipo. PlayQ Academy es el campus que le hubiera gustado tener cuando empezó esta transición — y lo está construyendo mientras la vive.",
-    "portfolio": "Previamente creó MyCampusISTQB, un campus completo para la certificación ISTQB Foundation, donde demostró que la pedagogía técnica de calidad cambia carreras. PlayQ Academy es la siguiente evolución de esa misión.",
+    "description": "QA Tester experimentado liderando la transición de QA Manual a QA Automation en su equipo. PlayQAcademy es el campus que le hubiera gustado tener cuando empezó esta transición — y lo está construyendo mientras la vive.",
+    "portfolio": "Previamente creó MyCampusISTQB, un campus completo para la certificación ISTQB Foundation, donde demostró que la pedagogía técnica de calidad cambia carreras. PlayQAcademy es la siguiente evolución de esa misión.",
     "linkedinLabel": "LinkedIn",
     "linkedinTooltip": "Mi LinkedIn",
     "githubLabel": "GitHub",
@@ -211,7 +211,7 @@
   },
   "dashboard": {
     "greeting": "Bienvenido de nuevo, {{name}}",
-    "welcomeMessage": "¡Bienvenido a PlayQ Academy, {{name}}! Comienza tu camino de aprendizaje.",
+    "welcomeMessage": "¡Bienvenido a PlayQAcademy, {{name}}! Comienza tu camino de aprendizaje.",
     "resumeLearning": "Continuar aprendiendo",
     "continue": "Continuar",
     "totalPoints": "Puntos Totales",
@@ -299,7 +299,7 @@
       "terms": "Términos de servicio",
       "cookies": "Política de cookies"
     },
-    "copyright": "© {{year}} PlayQ Academy. Todos los derechos reservados."
+    "copyright": "© {{year}} PlayQAcademy. Todos los derechos reservados."
   },
   "curriculum": {
     "hero": {
@@ -380,7 +380,7 @@
       "unlocksBadge": "Desbloquea: insignia PlayQ Certified 🏆"
     },
     "whyThis": {
-      "title": "Por qué PlayQ Academy",
+      "title": "Por qué PlayQAcademy",
       "creator": {
         "title": "Diseñado por alguien viviendo la transición",
         "description": "No por una empresa que vende cursos. Por un QA Manual que está haciendo exactamente esta transición ahora mismo."
@@ -427,15 +427,15 @@
   },
   "privacy": {
     "title": "Política de Privacidad",
-    "metaDescription": "Política de Privacidad de PlayQ Academy. Conoce cómo recopilamos, usamos y protegemos tus datos personales conforme al RGPD.",
+    "metaDescription": "Política de Privacidad de PlayQAcademy. Conoce cómo recopilamos, usamos y protegemos tus datos personales conforme al RGPD.",
     "lastUpdated": "Última actualización: 24 de mayo de 2026",
     "backToHome": "Volver al inicio",
     "s1Heading": "1. Introducción",
-    "s1Body": "En PlayQ Academy, accesible desde https://playq.academy, la privacidad de nuestros usuarios es una prioridad. Esta Política de Privacidad describe qué información personal recopilamos, cómo la utilizamos, con quién la compartimos y qué derechos te asisten en relación con tus datos. Al utilizar nuestra plataforma, aceptas las prácticas descritas en esta política.",
+    "s1Body": "En PlayQAcademy, accesible desde https://playq.academy, la privacidad de nuestros usuarios es una prioridad. Esta Política de Privacidad describe qué información personal recopilamos, cómo la utilizamos, con quién la compartimos y qué derechos te asisten en relación con tus datos. Al utilizar nuestra plataforma, aceptas las prácticas descritas en esta política.",
     "s2Heading": "2. Responsable del Tratamiento",
-    "s2Body": "El responsable del tratamiento de tus datos personales es SidMaier, creador y titular de PlayQ Academy, con domicilio en Barcelona, España. Puedes contactar con el responsable en cualquier momento a través del correo electrónico: sidmaierlabs@gmail.com.",
+    "s2Body": "El responsable del tratamiento de tus datos personales es SidMaier, creador y titular de PlayQAcademy, con domicilio en Barcelona, España. Puedes contactar con el responsable en cualquier momento a través del correo electrónico: sidmaierlabs@gmail.com.",
     "s3Heading": "3. Datos que Recopilamos",
-    "s3Body": "PlayQ Academy recopila únicamente los datos estrictamente necesarios para proporcionar el servicio de aprendizaje en línea. No recopilamos información de pago, no mostramos publicidad y no vendemos datos a terceros.",
+    "s3Body": "PlayQAcademy recopila únicamente los datos estrictamente necesarios para proporcionar el servicio de aprendizaje en línea. No recopilamos información de pago, no mostramos publicidad y no vendemos datos a terceros.",
     "s3Body2": "Los datos que recopilamos se agrupan en las siguientes categorías:",
     "s3List": [
       "Información de cuenta: dirección de correo electrónico, nombre de visualización (displayName) y foto de perfil (opcional). Estos datos se obtienen al registrarte mediante correo electrónico o mediante autenticación con Google a través de Firebase Authentication.",
@@ -455,14 +455,14 @@
     "s5Heading": "5. Base Legal del Tratamiento",
     "s5Body": "El tratamiento de tus datos personales se fundamenta en las siguientes bases legales según el Reglamento General de Protección de Datos (RGPD - Reglamento UE 2016/679):",
     "s5List": [
-      "Consentimiento (Art. 6.1.a): al registrarte en PlayQ Academy, otorgas tu consentimiento explícito para el tratamiento de tus datos con las finalidades descritas en esta política. Puedes retirar tu consentimiento en cualquier momento solicitando la eliminación de tu cuenta.",
+      "Consentimiento (Art. 6.1.a): al registrarte en PlayQAcademy, otorgas tu consentimiento explícito para el tratamiento de tus datos con las finalidades descritas en esta política. Puedes retirar tu consentimiento en cualquier momento solicitando la eliminación de tu cuenta.",
       "Ejecución del contrato (Art. 6.1.b): el tratamiento es necesario para prestarte el servicio de plataforma educativa que has solicitado al crear tu cuenta.",
       "Interés legítimo (Art. 6.1.f): el análisis agregado y anónimo del uso de la plataforma para mejorar el contenido y la experiencia de aprendizaje se basa en nuestro interés legítimo como proveedor del servicio educativo."
     ],
     "s6Heading": "6. Destinatarios y Encargados del Tratamiento",
     "s6Body": "Para prestarte el servicio, recurrimos a los siguientes proveedores tecnológicos que actúan como encargados del tratamiento: Firebase (Google LLC) proporciona la infraestructura de autenticación de usuarios (Firebase Authentication) y la base de datos en la nube (Firestore) donde se almacenan tus datos de cuenta, progreso y gamificación. Los datos se almacenan en centros de datos de Google ubicados dentro del Espacio Económico Europeo. Vercel Inc. proporciona el alojamiento (hosting) de la plataforma web. Vercel procesa tu dirección IP y datos de navegación de forma transitoria para servir las páginas. Ninguno de estos proveedores utiliza tus datos para fines propios. No compartimos, vendemos ni alquilamos tus datos personales a terceros bajo ninguna circunstancia.",
     "s7Heading": "7. Plazo de Conservación",
-    "s7Body": "Conservamos tus datos personales durante el tiempo que mantengas tu cuenta activa en PlayQ Academy. Si solicitas la eliminación de tu cuenta, eliminaremos todos tus datos personales en un plazo máximo de 30 días naturales desde la recepción de tu solicitud, salvo que exista una obligación legal que requiera una conservación más prolongada. Los datos de uso agregados y anonimizados (que no permiten identificarte) podrán conservarse indefinidamente con fines estadísticos y de mejora del servicio.",
+    "s7Body": "Conservamos tus datos personales durante el tiempo que mantengas tu cuenta activa en PlayQAcademy. Si solicitas la eliminación de tu cuenta, eliminaremos todos tus datos personales en un plazo máximo de 30 días naturales desde la recepción de tu solicitud, salvo que exista una obligación legal que requiera una conservación más prolongada. Los datos de uso agregados y anonimizados (que no permiten identificarte) podrán conservarse indefinidamente con fines estadísticos y de mejora del servicio.",
     "s8Heading": "8. Tus Derechos",
     "s8Body": "Como usuario ubicado en la Unión Europea, el RGPD te otorga los siguientes derechos sobre tus datos personales:",
     "s8List": [
@@ -477,7 +477,7 @@
     "s9Heading": "9. Medidas de Seguridad",
     "s9Body": "Implementamos medidas técnicas y organizativas para proteger tus datos personales contra accesos no autorizados, alteración, divulgación o destrucción. La autenticación se gestiona a través de Firebase Authentication, que utiliza protocolos estándar de la industria (OAuth 2.0, HTTPS). Los datos en Firestore están protegidos por reglas de seguridad que garantizan que cada usuario solo pueda leer y modificar sus propios datos. La comunicación entre tu navegador y nuestros servidores se realiza mediante HTTPS con cifrado TLS.",
     "s10Heading": "10. Menores de Edad",
-    "s10Body": "PlayQ Academy no está dirigido a menores de 16 años. No recopilamos conscientemente datos personales de menores de 16 años. Si eres padre, madre o tutor y tienes conocimiento de que un menor a tu cargo nos ha proporcionado datos personales sin tu consentimiento, por favor contacta con nosotros en sidmaierlabs@gmail.com para proceder a su eliminación inmediata.",
+    "s10Body": "PlayQAcademy no está dirigido a menores de 16 años. No recopilamos conscientemente datos personales de menores de 16 años. Si eres padre, madre o tutor y tienes conocimiento de que un menor a tu cargo nos ha proporcionado datos personales sin tu consentimiento, por favor contacta con nosotros en sidmaierlabs@gmail.com para proceder a su eliminación inmediata.",
     "s11Heading": "11. Cambios en esta Política",
     "s11Body": "Nos reservamos el derecho de actualizar esta Política de Privacidad en cualquier momento para reflejar cambios en nuestras prácticas de tratamiento de datos o por exigencias legales. La fecha de última actualización se reflejará al inicio de esta página. Te recomendamos revisar esta política periódicamente. El uso continuado de la plataforma tras la publicación de cambios constituye la aceptación de dichos cambios.",
     "s12Heading": "12. Contacto",
@@ -485,17 +485,17 @@
   },
   "terms": {
     "title": "Términos de Servicio",
-    "metaDescription": "Términos de Servicio de PlayQ Academy. Condiciones de uso de la plataforma de aprendizaje de Playwright y TypeScript.",
+    "metaDescription": "Términos de Servicio de PlayQAcademy. Condiciones de uso de la plataforma de aprendizaje de Playwright y TypeScript.",
     "lastUpdated": "Última actualización: 24 de mayo de 2026",
     "backToHome": "Volver al inicio",
     "s1Heading": "1. Aceptación de los Términos",
-    "s1Body": "Al acceder o utilizar PlayQ Academy (en adelante, la Plataforma), aceptas quedar vinculado por estos Términos de Servicio. Si no estás de acuerdo con alguno de estos términos, no debes utilizar la Plataforma. Estos términos constituyen un acuerdo legalmente vinculante entre tú (el Usuario) y SidMaier (el Titular), creador y propietario de PlayQ Academy.",
+    "s1Body": "Al acceder o utilizar PlayQAcademy (en adelante, la Plataforma), aceptas quedar vinculado por estos Términos de Servicio. Si no estás de acuerdo con alguno de estos términos, no debes utilizar la Plataforma. Estos términos constituyen un acuerdo legalmente vinculante entre tú (el Usuario) y SidMaier (el Titular), creador y propietario de PlayQAcademy.",
     "s2Heading": "2. Descripción del Servicio",
-    "s2Body": "PlayQ Academy es una plataforma educativa en línea que ofrece contenido formativo gratuito sobre automatización de pruebas con Playwright y TypeScript. La Plataforma incluye: lecciones interactivas con ejercicios prácticos, un sistema de gamificación con puntos, insignias y ranking, exámenes de certificación, y un playground interactivo para practicar tests. El acceso a todo el contenido formativo es completamente gratuito y no se requiere tarjeta de crédito ni pago alguno.",
+    "s2Body": "PlayQAcademy es una plataforma educativa en línea que ofrece contenido formativo gratuito sobre automatización de pruebas con Playwright y TypeScript. La Plataforma incluye: lecciones interactivas con ejercicios prácticos, un sistema de gamificación con puntos, insignias y ranking, exámenes de certificación, y un playground interactivo para practicar tests. El acceso a todo el contenido formativo es completamente gratuito y no se requiere tarjeta de crédito ni pago alguno.",
     "s3Heading": "3. Elegibilidad",
-    "s3Body": "Para crear una cuenta en PlayQ Academy, debes tener al menos 16 años de edad. Al registrarte, declaras que cumples con este requisito de edad. Nos reservamos el derecho de suspender o eliminar cuentas de usuarios que no cumplan con este requisito.",
+    "s3Body": "Para crear una cuenta en PlayQAcademy, debes tener al menos 16 años de edad. Al registrarte, declaras que cumples con este requisito de edad. Nos reservamos el derecho de suspender o eliminar cuentas de usuarios que no cumplan con este requisito.",
     "s4Heading": "4. Cuentas de Usuario",
-    "s4Body": "Al crear una cuenta en PlayQ Academy, aceptas las siguientes responsabilidades:",
+    "s4Body": "Al crear una cuenta en PlayQAcademy, aceptas las siguientes responsabilidades:",
     "s4List": [
       "Proporcionar información veraz, precisa y completa durante el proceso de registro.",
       "Mantener la confidencialidad de tus credenciales de acceso (correo electrónico y contraseña). Eres responsable de toda la actividad que ocurra bajo tu cuenta.",
@@ -504,7 +504,7 @@
       "Aceptar que el Titular no será responsable de ninguna pérdida o daño derivado del incumplimiento de estas obligaciones de seguridad."
     ],
     "s5Heading": "5. Uso Aceptable",
-    "s5Body": "Al utilizar PlayQ Academy, te comprometes a no realizar las siguientes actividades prohibidas:",
+    "s5Body": "Al utilizar PlayQAcademy, te comprometes a no realizar las siguientes actividades prohibidas:",
     "s5List": [
       "Utilizar la Plataforma para cualquier propósito ilegal o no autorizado.",
       "Intentar acceder a áreas restringidas de la Plataforma, a servidores o a cuentas de otros usuarios sin autorización.",
@@ -516,13 +516,13 @@
       "Utilizar la Plataforma para enviar comunicaciones no solicitadas (spam) o para fines comerciales no autorizados."
     ],
     "s6Heading": "6. Propiedad Intelectual",
-    "s6Body": "Todo el contenido disponible en PlayQ Academy —incluyendo pero no limitado a textos, lecciones, ejercicios, cuestionarios, imágenes, gráficos, logotipos, código de ejemplo, estructura del currículum y diseño de la interfaz— es propiedad intelectual exclusiva de SidMaier y está protegido por las leyes de propiedad intelectual de España y los tratados internacionales aplicables. Se te concede una licencia limitada, no exclusiva, no transferible y revocable para acceder y utilizar el contenido de la Plataforma exclusivamente para tu aprendizaje personal. No está permitido: reproducir, distribuir, modificar, crear obras derivadas, exhibir públicamente, transmitir o explotar comercialmente ningún contenido de la Plataforma sin autorización previa por escrito del Titular.",
+    "s6Body": "Todo el contenido disponible en PlayQAcademy —incluyendo pero no limitado a textos, lecciones, ejercicios, cuestionarios, imágenes, gráficos, logotipos, código de ejemplo, estructura del currículum y diseño de la interfaz— es propiedad intelectual exclusiva de SidMaier y está protegido por las leyes de propiedad intelectual de España y los tratados internacionales aplicables. Se te concede una licencia limitada, no exclusiva, no transferible y revocable para acceder y utilizar el contenido de la Plataforma exclusivamente para tu aprendizaje personal. No está permitido: reproducir, distribuir, modificar, crear obras derivadas, exhibir públicamente, transmitir o explotar comercialmente ningún contenido de la Plataforma sin autorización previa por escrito del Titular.",
     "s7Heading": "7. Contenido Generado por el Usuario",
-    "s7Body": "Actualmente, PlayQ Academy no permite a los usuarios publicar o cargar contenido propio más allá de la información de perfil (nombre de visualización y foto de perfil). Cualquier información que proporciones en tu perfil debe ser apropiada y no infringir derechos de terceros. Nos reservamos el derecho de eliminar cualquier contenido de perfil que consideremos inapropiado.",
+    "s7Body": "Actualmente, PlayQAcademy no permite a los usuarios publicar o cargar contenido propio más allá de la información de perfil (nombre de visualización y foto de perfil). Cualquier información que proporciones en tu perfil debe ser apropiada y no infringir derechos de terceros. Nos reservamos el derecho de eliminar cualquier contenido de perfil que consideremos inapropiado.",
     "s8Heading": "8. Exención de Garantías",
-    "s8Body": "La Plataforma se proporciona tal cual (as is) y según disponibilidad (as available), sin garantías de ningún tipo, ya sean expresas o implícitas. El Titular no garantiza que la Plataforma esté libre de errores, interrupciones o vulnerabilidades de seguridad. El contenido educativo se ofrece con fines formativos y no constituye asesoramiento profesional. Los exámenes de certificación de PlayQ Academy son reconocimientos internos de la plataforma y no constituyen certificaciones oficiales reconocidas por entidades externas.",
+    "s8Body": "La Plataforma se proporciona tal cual (as is) y según disponibilidad (as available), sin garantías de ningún tipo, ya sean expresas o implícitas. El Titular no garantiza que la Plataforma esté libre de errores, interrupciones o vulnerabilidades de seguridad. El contenido educativo se ofrece con fines formativos y no constituye asesoramiento profesional. Los exámenes de certificación de PlayQAcademy son reconocimientos internos de la plataforma y no constituyen certificaciones oficiales reconocidas por entidades externas.",
     "s9Heading": "9. Limitación de Responsabilidad",
-    "s9Body": "En la máxima medida permitida por la legislación aplicable, SidMaier no será responsable de ningún daño directo, indirecto, incidental, especial, consecuente o punitivo que resulte de: (a) el uso o la imposibilidad de uso de la Plataforma, (b) la pérdida de datos de progreso o gamificación debida a fallos técnicos, siempre que no sean consecuencia de negligencia grave o dolo por parte del Titular, (c) la conducta de terceros en la Plataforma, y (d) el contenido de sitios web externos enlazados desde la Plataforma. Esta limitación de responsabilidad se aplica independientemente de la teoría legal en que se base la reclamación. Dado que PlayQ Academy es un servicio gratuito, la responsabilidad total del Titular, en caso de determinarse judicialmente, se limitará al importe de 100 euros.",
+    "s9Body": "En la máxima medida permitida por la legislación aplicable, SidMaier no será responsable de ningún daño directo, indirecto, incidental, especial, consecuente o punitivo que resulte de: (a) el uso o la imposibilidad de uso de la Plataforma, (b) la pérdida de datos de progreso o gamificación debida a fallos técnicos, siempre que no sean consecuencia de negligencia grave o dolo por parte del Titular, (c) la conducta de terceros en la Plataforma, y (d) el contenido de sitios web externos enlazados desde la Plataforma. Esta limitación de responsabilidad se aplica independientemente de la teoría legal en que se base la reclamación. Dado que PlayQAcademy es un servicio gratuito, la responsabilidad total del Titular, en caso de determinarse judicialmente, se limitará al importe de 100 euros.",
     "s10Heading": "10. Terminación",
     "s10Body": "Nos reservamos el derecho de suspender o cancelar tu cuenta y tu acceso a la Plataforma en cualquier momento, con o sin previo aviso, si consideramos que has violado estos Términos de Servicio o has incurrido en una conducta fraudulenta o perjudicial para la Plataforma o sus usuarios. Puedes cancelar tu cuenta en cualquier momento desde la configuración de la Plataforma. En tal caso, se eliminarán todos tus datos personales conforme a lo establecido en nuestra Política de Privacidad.",
     "s11Heading": "11. Legislación Aplicable",
@@ -534,21 +534,21 @@
   },
   "cookies": {
     "title": "Política de Cookies",
-    "metaDescription": "Política de Cookies de PlayQ Academy. Conoce qué cookies utilizamos y cómo gestionarlas en tu navegador.",
+    "metaDescription": "Política de Cookies de PlayQAcademy. Conoce qué cookies utilizamos y cómo gestionarlas en tu navegador.",
     "lastUpdated": "Última actualización: 24 de mayo de 2026",
     "backToHome": "Volver al inicio",
     "s1Heading": "1. ¿Qué son las Cookies?",
     "s1Body": "Las cookies son pequeños archivos de texto que los sitios web almacenan en tu dispositivo (ordenador, tableta o teléfono móvil) cuando los visitas. Las cookies se utilizan ampliamente para que los sitios web funcionen correctamente, para recordar preferencias del usuario y para proporcionar información a los propietarios del sitio. Las cookies pueden ser de sesión (se eliminan al cerrar el navegador) o persistentes (permanecen en tu dispositivo durante un período determinado).",
     "s2Heading": "2. Tipos de Cookies que Utilizamos",
-    "s2Body": "En PlayQ Academy utilizamos exclusivamente cookies técnicas estrictamente necesarias para el funcionamiento de la plataforma. No utilizamos cookies de publicidad, de seguimiento, de análisis ni de terceros con fines comerciales. Nuestro uso de cookies es mínimo y transparente.",
+    "s2Body": "En PlayQAcademy utilizamos exclusivamente cookies técnicas estrictamente necesarias para el funcionamiento de la plataforma. No utilizamos cookies de publicidad, de seguimiento, de análisis ni de terceros con fines comerciales. Nuestro uso de cookies es mínimo y transparente.",
     "s3Heading": "3. Cookies Estrictamente Necesarias",
-    "s3Body": "Las siguientes cookies son esenciales para el funcionamiento de PlayQ Academy y no pueden desactivarse en nuestros sistemas:",
+    "s3Body": "Las siguientes cookies son esenciales para el funcionamiento de PlayQAcademy y no pueden desactivarse en nuestros sistemas:",
     "s3List": [
       "Cookie de sesión de Firebase Authentication (__session / auth_token): gestionada por Firebase Auth para mantener tu sesión iniciada mientras navegas por la plataforma. Es una cookie de sesión que se elimina al cerrar sesión. Sin esta cookie, no podrías acceder a las áreas protegidas (dashboard, lecciones, exámenes).",
       "Cookie de preferencia de idioma (i18next): almacena tu idioma preferido (es o en) para que la plataforma te muestre el contenido en el idioma correcto en cada visita. Es una cookie persistente con una duración de un año. Sin esta cookie, la plataforma utilizaría la detección automática de idioma en cada visita."
     ],
     "s4Heading": "4. Cookies que NO Utilizamos",
-    "s4Body": "Para tu tranquilidad, te informamos explícitamente de que PlayQ Academy NO utiliza: cookies de publicidad comportamental, cookies de seguimiento entre sitios (cross-site tracking), cookies de análisis de terceros (como Google Analytics), cookies de redes sociales, píxeles de seguimiento, ni tecnologías de huella digital (fingerprinting). No recopilamos datos de navegación con fines publicitarios ni compartimos información con redes publicitarias. No existe publicidad en la plataforma.",
+    "s4Body": "Para tu tranquilidad, te informamos explícitamente de que PlayQAcademy NO utiliza: cookies de publicidad comportamental, cookies de seguimiento entre sitios (cross-site tracking), cookies de análisis de terceros (como Google Analytics), cookies de redes sociales, píxeles de seguimiento, ni tecnologías de huella digital (fingerprinting). No recopilamos datos de navegación con fines publicitarios ni compartimos información con redes publicitarias. No existe publicidad en la plataforma.",
     "s5Heading": "5. Cómo Gestionar las Cookies",
     "s5Body": "Puedes configurar tu navegador para que rechace todas las cookies o para que te avise cuando se envía una cookie. Sin embargo, ten en cuenta que si desactivas las cookies de sesión, las áreas protegidas de la plataforma no funcionarán correctamente (no podrás iniciar sesión ni acceder a las lecciones). Cada navegador tiene un procedimiento diferente para gestionar las cookies:",
     "s5List": [

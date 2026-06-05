@@ -29,14 +29,14 @@ export async function generateMetadata({
 
   return {
     title: {
-      template: `%s | PlayQ Academy`,
-      default: "PlayQ Academy — Test Automation with Playwright",
+      template: `%s | PlayQAcademy`,
+      default: "PlayQAcademy — Test Automation with Playwright",
     },
     description: isEs
-      ? "De QA Manual a QA Automatizado. Aprende Playwright y TypeScript con PlayQ Academy."
-      : "From Manual QA to Automated QA. Learn Playwright and TypeScript with PlayQ Academy.",
+      ? "De QA Manual a QA Automatizado. Aprende Playwright y TypeScript con PlayQAcademy."
+      : "From Manual QA to Automated QA. Learn Playwright and TypeScript with PlayQAcademy.",
     openGraph: {
-      title: "PlayQ Academy — Test Automation with Playwright",
+      title: "PlayQAcademy — Test Automation with Playwright",
       description: isEs
         ? "De QA Manual a QA Automatizado. Tu transición comienza aquí."
         : "From Manual QA to Automated QA. Your transition starts here.",
