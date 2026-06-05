@@ -649,6 +649,40 @@ export const CURRICULUM: CurriculumModule[] = [
       lesson("istqb-l6-1", "Soporte de herramientas al testing", "Tool support for testing", "Categorías de herramientas, beneficios y riesgos de la automatización.", "Tool categories, benefits and risks of automation.", 20),
     ]
   ),
+
+  /* ---------- QA Fundamentals Module 1 ---------- */
+  module_(
+    "qa-intro",
+    15,
+    "Introducción al Testing de Software",
+    "Introduction to Software Testing",
+    "Conceptos fundamentales del testing de software y su rol en el desarrollo.",
+    "Fundamental concepts of software testing and its role in development.",
+    30,
+    "beginner",
+    false,
+    [
+      lesson("qa-intro-l1", "¿Qué es el testing de software?", "What is Software Testing?", "Descubre los principios básicos del testing y por qué es esencial en el desarrollo de software.", "Discover the basic principles of testing and why it is essential in software development.", 15),
+      lesson("qa-intro-l2", "El rol del QA en un equipo de desarrollo", "The QA Role in a Development Team", "Comprende las responsabilidades de un QA y cómo colabora con desarrolladores y product owners.", "Understand QA responsibilities and how they collaborate with developers and product owners.", 15),
+    ]
+  ),
+
+  /* ---------- QA Fundamentals Module 2 ---------- */
+  module_(
+    "qa-basics",
+    16,
+    "Conceptos Básicos de QA",
+    "QA Basic Concepts",
+    "Tipos de pruebas, niveles de testing y conceptos esenciales para comenzar.",
+    "Test types, testing levels, and essential concepts to get started.",
+    30,
+    "beginner",
+    false,
+    [
+      lesson("qa-basics-l1", "Tipos de pruebas: funcionales vs no funcionales", "Test Types: Functional vs Non-Functional", "Aprende la diferencia entre pruebas funcionales y no funcionales con ejemplos prácticos.", "Learn the difference between functional and non-functional tests with practical examples.", 15),
+      lesson("qa-basics-l2", "Niveles de testing: unitario, integración, sistema, aceptación", "Testing Levels: Unit, Integration, System, Acceptance", "Comprende los diferentes niveles de testing y cuándo aplicar cada uno.", "Understand the different testing levels and when to apply each one.", 15),
+    ]
+  ),
 ];
 
 /* ------------------------------------------------------------------ */

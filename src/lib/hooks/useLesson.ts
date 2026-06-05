@@ -22,6 +22,8 @@ import { getAllLessonsContent as getIstqbStaticTestingContent } from "@/lib/cons
 import { getAllLessonsContent as getIstqbTestAnalysisContent } from "@/lib/constants/lessons/istqb-test-analysis";
 import { getAllLessonsContent as getIstqbManagementContent } from "@/lib/constants/lessons/istqb-management";
 import { getAllLessonsContent as getIstqbToolsContent } from "@/lib/constants/lessons/istqb-tools";
+import { QA_INTRO_LESSONS } from "@/lib/constants/lessons/qa-intro";
+import { QA_BASICS_LESSONS } from "@/lib/constants/lessons/qa-basics";
 import { updateUserProgress as fbUpdateProgress } from "@/lib/firebase/firestore";
 import { updateDoc, setDoc, doc, arrayUnion, arrayRemove, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
@@ -52,6 +54,8 @@ const LESSON_REGISTRY: Record<string, LessonContent> = (() => {
     ...getIstqbTestAnalysisContent(),
     ...getIstqbManagementContent(),
     ...getIstqbToolsContent(),
+    ...QA_INTRO_LESSONS,
+    ...QA_BASICS_LESSONS,
   ];
   const map: Record<string, LessonContent> = {};
   for (const lc of all) {
