@@ -1,10 +1,10 @@
 "use client";
 
 /**
- * Landing page — Hero section with feature cards.
+ * Landing page — Hero section, campus grid, and feature cards.
  *
- * The entry point for PlayQ Academy. Renders an animated gradient heading,
- * bilingual tagline, two CTA buttons, and three feature highlight cards.
+ * The entry point for PlayQAcademy. Renders an animated gradient heading,
+ * bilingual tagline, two CTA buttons, a campus grid, and three feature cards.
  */
 
 import { useParams } from "next/navigation";
@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
+import CampusGrid from "@/components/campus/CampusGrid";
 
 /* ------------------------------------------------------------------ */
 /*  Decorative icons for feature cards                                 */
@@ -73,11 +74,7 @@ export default function HomePage() {
           {/* Animated gradient heading */}
           <h1 className="mx-auto max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
             <span className="animate-gradient bg-gradient-to-r from-brand-blue-400 via-brand-green-400 to-brand-orange-400 bg-[length:200%_auto] bg-clip-text text-transparent">
-              {t("hero.titleLine1")}
-            </span>
-            <br />
-            <span className="text-[var(--color-text-primary)]">
-              {t("hero.titleLine2")}
+              {t("hero.title")}
             </span>
           </h1>
 
@@ -93,7 +90,7 @@ export default function HomePage() {
                 {t("hero.ctaPrimary")}
               </Button>
             </Link>
-            <Link href={`/${lng}/curriculum`}>
+            <Link href="#campuses">
               <Button variant="secondary" size="lg">
                 {t("hero.ctaSecondary")}
               </Button>
@@ -101,6 +98,16 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── Campus grid ──────────────────────────────────────── */}
+      <div id="campuses">
+        <CampusGrid
+          lng={lng}
+          t={t}
+          titleKey="landing.campuses.title"
+          subtitleKey="landing.campuses.subtitle"
+        />
+      </div>
 
       {/* ── Feature cards ─────────────────────────────────────── */}
       <section className="border-t border-[var(--color-border)] px-4 py-20">

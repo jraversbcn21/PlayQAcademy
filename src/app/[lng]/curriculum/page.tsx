@@ -4,12 +4,10 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
-import { CAMPUSES, getModulesForCampus } from "@/lib/constants/campuses";
-import { CURRICULUM } from "@/lib/constants/curriculum";
 import { EXAMS } from "@/lib/constants/exams";
 import Button from "@/components/ui/Button";
-import Badge from "@/components/ui/Badge";
 import Card from "@/components/ui/Card";
+import CampusGrid from "@/components/campus/CampusGrid";
 
 /* ------------------------------------------------------------------ */
 /*  Skill icons                                                        */
@@ -91,71 +89,12 @@ export default function CurriculumPage() {
       {/* ================================================================ */}
       {/*  SECTION 2 — Campus Selector                                      */}
       {/* ================================================================ */}
-      <section className="border-t border-[var(--color-border)] px-4 py-16 lg:py-20">
-        <div className="container-app">
-          <h2 className="mb-4 text-center text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
-            {t("curriculum.campuses.title")}
-          </h2>
-          <p className="mx-auto mb-12 max-w-2xl text-center text-[var(--color-text-secondary)]">
-            {t("curriculum.campuses.subtitle")}
-          </p>
-
-          <div className="grid gap-6 lg:grid-cols-3">
-            {CAMPUSES.map((campus, idx) => {
-              const lang = lng === "es" ? "es" : "en";
-              const moduleIds = getModulesForCampus(campus.id);
-              const modules = moduleIds
-                .map((id) => CURRICULUM.find((m) => m.id === id))
-                .filter((m): m is NonNullable<typeof m> => m !== undefined);
-              const totalLessons = modules.reduce((sum, mod) => sum + mod.lessons.length, 0);
-              const totalMinutes = modules.reduce((sum, mod) => sum + mod.estimatedMinutes, 0);
-
-              return (
-                <Link
-                  key={campus.id}
-                  href={`/${lng}/campus/${campus.id}`}
-                  className="animate-fade-in-up block"
-                  style={{ animationDelay: `${idx * 100}ms` }}
-                >
-                  <Card variant="highlight" className="group h-full transition-all hover:-translate-y-1 hover:shadow-xl">
-                    <div className="mb-4 flex items-start justify-between">
-                      <span className="rounded-md bg-brand-blue-500/10 px-2.5 py-1 font-mono text-xs font-semibold text-brand-blue-400">
-                        {t("curriculum.campuses.modulesCount", { count: modules.length })}
-                      </span>
-                      <Badge variant={campus.status === "active" ? "success" : "warning"} size="sm">
-                        {campus.status === "active" ? t("curriculum.campuses.active") : t("curriculum.campuses.comingSoon")}
-                      </Badge>
-                    </div>
-
-                    <h3 className="mb-2 text-xl font-bold text-[var(--color-text-primary)] group-hover:text-brand-blue-400">
-                      {campus.title[lang]}
-                    </h3>
-                    <p className="mb-4 text-sm leading-relaxed text-[var(--color-text-secondary)]">
-                      {campus.description[lang]}
-                    </p>
-
-                    <div className="mb-4 flex flex-wrap gap-2 text-xs text-[var(--color-text-muted)]">
-                      <span className="rounded-full bg-[var(--color-bg-elevated)] px-2.5 py-1">
-                        {t("curriculum.campuses.lessonsCount", { count: totalLessons })}
-                      </span>
-                      <span className="rounded-full bg-[var(--color-bg-elevated)] px-2.5 py-1">
-                        {t("curriculum.campuses.minutesCount", { minutes: totalMinutes })}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-2 text-sm font-medium text-brand-blue-400">
-                      {t("curriculum.campuses.explore")}
-                      <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  </Card>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <CampusGrid
+        lng={lng}
+        t={t}
+        titleKey="curriculum.campuses.title"
+        subtitleKey="curriculum.campuses.subtitle"
+      />
 
       {/* ================================================================ */}
       {/*  SECTION 3 — Skills                                              */}

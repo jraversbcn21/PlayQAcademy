@@ -1,8 +1,7 @@
 {
   "hero": {
-    "titleLine1": "PlayQAcademy",
-    "titleLine2": "Test Automation with Playwright",
-    "tagline": "From Manual QA to Automated QA. Your transition starts here.",
+    "title": "Your QA career starts here",
+    "tagline": "Three campuses, one path: from QA fundamentals to automation with Playwright.",
     "ctaPrimary": "Register here",
     "ctaSecondary": "View Curriculum",
     "feature1": {
@@ -16,6 +15,12 @@
     "feature3": {
       "title": "Bilingual ES/EN Content",
       "description": "All content available in Spanish and English. Prepare for international teams and interviews."
+    }
+  },
+  "landing": {
+    "campuses": {
+      "title": "Choose your campus",
+      "subtitle": "Each campus is an independent learning path with its own modules, lessons, and certification."
     }
   },
   "nav": {
@@ -423,6 +428,14 @@
     "automation": {
       "title": "Playwright Automation",
       "description": "From Manual QA to QA Automation. Learn Playwright and TypeScript with 8 modules and 44 lessons."
+    },
+    "card": {
+      "modulesCount": "{{count}} modules",
+      "active": "Active",
+      "comingSoon": "Coming Soon",
+      "lessonsCount": "{{count}} lessons",
+      "minutesCount": "{{minutes}} min",
+      "explore": "Explore campus"
     }
   },
   "privacy": {
