@@ -33,7 +33,7 @@ export const CAMPUSES: Campus[] = [
       "qa-intro",
       "qa-basics",
     ],
-    status: "active",
+    status: "coming_soon",
   },
   {
     id: "istqb",
