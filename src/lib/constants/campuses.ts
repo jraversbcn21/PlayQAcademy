@@ -29,10 +29,7 @@ export const CAMPUSES: Campus[] = [
       es: "Introducción al testing de software y conceptos esenciales para comenzar tu carrera en QA.",
       en: "Introduction to software testing and essential concepts to start your QA career.",
     },
-    moduleIds: [
-      "qa-intro",
-      "qa-basics",
-    ],
+    moduleIds: [],
     status: "coming_soon",
   },
   {
