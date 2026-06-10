@@ -18,6 +18,7 @@ import type { ExamAttempt, ExamAnswer, Exam } from "@/types/exam";
 import { EXAMS_BY_ID } from "@/lib/constants/exams";
 import { generateExamQuestions, calculateScore } from "@/lib/exam/scoring";
 import { getQuestionBank } from "@/lib/exam/scoring";
+import { getLevelFromPoints } from "@/lib/gamification/levels";
 
 /* ------------------------------------------------------------------ */
 /*  Start exam attempt                                                 */
@@ -68,7 +69,6 @@ export async function saveAnswer(
     selectedIds.length === correctIds.length &&
     selectedIds.every((id) => correctIds.includes(id));
 
-  // Store in local state via the hook; also sync to Firestore
   const ref = doc(db, "exam_attempts", attemptId);
   const snap = await getDoc(ref);
   if (!snap.exists()) return;
@@ -92,7 +92,7 @@ export async function saveAnswer(
 /*  Submit exam                                                        */
 /* ------------------------------------------------------------------ */
 
-export async function submitExam(attemptId: string): Promise<ExamAttempt> {
+export async function submitExam(attemptId: string, answers: ExamAnswer[]): Promise<ExamAttempt> {
   if (!db) throw new Error("Firestore not initialised");
 
   const ref = doc(db, "exam_attempts", attemptId);
@@ -100,12 +100,10 @@ export async function submitExam(attemptId: string): Promise<ExamAttempt> {
   if (!snap.exists()) throw new Error("Attempt not found");
 
   const data = snap.data() as DocumentData;
-  const answers: ExamAnswer[] = (data["answers"] as ExamAnswer[]) ?? [];
   const examId = data["examId"] as string;
   const exam = EXAMS_BY_ID[examId];
   if (!exam) throw new Error("Exam not found");
 
-  // Calculate score
   const questions = generateExamQuestions(examId, data["userId"] as string, exam.moduleIds, exam.questionCount);
   const score = calculateScore(answers, questions);
 
@@ -116,6 +114,7 @@ export async function submitExam(attemptId: string): Promise<ExamAttempt> {
   const updated: Partial<ExamAttempt> = {
     submittedAt: new Date().toISOString(),
     timeSpent,
+    answers,
     score,
     passed,
     status: "submitted",
@@ -123,15 +122,26 @@ export async function submitExam(attemptId: string): Promise<ExamAttempt> {
 
   await updateDoc(ref, updated);
 
-  // Award points if passed
   if (passed && db) {
-    const pointsEarned = Math.round(score * 2); // 200 max for perfect score
-    const gRef = doc(db, "gamification", data["userId"] as string);
-    const gSnap = await getDoc(gRef);
-    if (gSnap.exists()) {
-      const gData = gSnap.data() as DocumentData;
-      const currentPoints = (gData["totalPoints"] as number) ?? 0;
-      await updateDoc(gRef, { totalPoints: currentPoints + pointsEarned });
+    try {
+      const pointsEarned = Math.round(score * 2);
+      const gRef = doc(db, "gamification", data["userId"] as string);
+      const gSnap = await getDoc(gRef);
+      if (gSnap.exists()) {
+        const gData = gSnap.data() as DocumentData;
+        const currentPoints = (gData["totalPoints"] as number) ?? 0;
+        const newTotalPoints = currentPoints + pointsEarned;
+        const newLevel = getLevelFromPoints(newTotalPoints).level;
+        await updateDoc(gRef, { totalPoints: newTotalPoints, level: newLevel });
+      }
+    } catch (err) {
+      console.error("[exam-gamification-write-failed]", {
+        userId: data["userId"],
+        examId,
+        attemptId,
+        score,
+        error: err,
+      });
     }
   }
 
