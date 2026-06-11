@@ -411,12 +411,20 @@
       "goToDashboard": "Go to Dashboard"
     }
   },
-  "campus": {
+   "campus": {
     "title": "Campus",
     "backToDashboard": "Back to Dashboard",
     "modules": "Modules",
     "comingSoon": "Coming Soon",
     "active": "Active",
+    "lessons": "{{count}} lessons",
+    "duration": "{{minutes}} min",
+    "overallProgress": "Overall progress",
+    "module": "Module",
+    "lessonsCount": "{{count}} lessons",
+    "minutesCount": "{{minutes}} min",
+    "notFound": "Campus not found",
+    "takeExam": "Take exam",
     "qaFundamentals": {
       "title": "QA Fundamentals",
       "description": "Introduction to software testing and essential concepts to start your QA career."

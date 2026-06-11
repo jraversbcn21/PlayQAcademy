@@ -72,6 +72,20 @@ export default function CampusPage() {
             <Badge variant="error">{t("campus.comingSoon")}</Badge>
           )}
         </div>
+
+        {campusId === "istqb" && (
+          <div className="mt-6">
+            <Link
+              href={`/${lng}/exams/exam-istqb-ctfl/start`}
+              className="inline-flex items-center gap-2 rounded-lg bg-brand-blue-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-brand-blue-600"
+            >
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {t("campus.takeExam")}
+            </Link>
+          </div>
+        )}
       </div>
 
       {/* Progress overview */}
@@ -89,7 +103,7 @@ export default function CampusPage() {
 
       {/* Modules grid */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {modules.map((mod) => {
+        {modules.map((mod, index) => {
           const isLocked = campus.status === "coming_soon";
 
           return (
@@ -104,7 +118,7 @@ export default function CampusPage() {
               <Card className="h-full p-5 transition-all hover:border-brand-blue-500/30 hover:shadow-lg hover:shadow-brand-blue-500/5">
                 <div className="mb-3 flex items-center justify-between">
                   <span className="rounded-full bg-brand-blue-500/20 px-2.5 py-0.5 text-xs font-medium text-brand-blue-400">
-                    {t("campus.module")} {mod.order}
+                    {t("campus.module")} {index + 1}
                   </span>
                   {isLocked && (
                     <svg className="h-4 w-4 text-[var(--color-text-muted)]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">

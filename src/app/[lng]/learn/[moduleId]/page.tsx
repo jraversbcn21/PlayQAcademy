@@ -7,6 +7,7 @@ import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
 import { useProgress } from "@/lib/hooks/useProgress";
 import { getModuleById } from "@/lib/constants/curriculum";
+import { getCampusForModule } from "@/lib/constants/campuses";
 import type { CurriculumLesson } from "@/lib/constants/curriculum";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
@@ -80,12 +81,17 @@ export default function ModuleOverviewPage({
 
   const title = mod.title[lng as "es" | "en"] ?? mod.title.en;
   const description = mod.description[lng as "es" | "en"] ?? mod.description.en;
+  const campus = getCampusForModule(moduleId);
+  const campusPosition = campus?.moduleIds.indexOf(moduleId) ?? -1;
+  const campusRelativeNumber = campusPosition >= 0 ? campusPosition + 1 : mod.order;
   const prevModTitle = (() => {
-    const prev = getModuleById(`m${mod.order - 1}`);
-    if (prev) {
-      return prev.title[lng as "es" | "en"] ?? prev.title.en;
-    }
-    return "";
+    if (!campus) return null;
+    if (campusPosition <= 0) return null;
+    const prevModuleId = campus.moduleIds[campusPosition - 1];
+    if (!prevModuleId) return null;
+    const prev = getModuleById(prevModuleId);
+    if (!prev) return null;
+    return prev.title[lng as "es" | "en"] ?? prev.title.en;
   })();
 
   const modProgress = progressData?.modules.find(
@@ -112,12 +118,12 @@ export default function ModuleOverviewPage({
           </Link>
           <span>/</span>
           <span className="text-[var(--color-text-primary)]">
-            {tFn("lesson.breadcrumb.module")} {mod.order}
+            {tFn("lesson.breadcrumb.module")} {campusRelativeNumber}
           </span>
         </nav>
 
         {/* Locked state */}
-        {!unlocked && (
+        {!unlocked && prevModTitle && (
           <div className="mb-8 rounded-xl border border-amber-500/20 bg-amber-500/10 p-5">
             <p className="text-sm text-amber-400">
               {lng === "es"

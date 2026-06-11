@@ -14,6 +14,17 @@
 import type { Campus } from "@/types/campus";
 
 /* ------------------------------------------------------------------ */
+/*  Feature flags                                                      */
+/* ------------------------------------------------------------------ */
+
+/**
+ * When false, all modules are unlocked regardless of progress.
+ * When true, modules unlock only after completing the previous module
+ * within the same campus.
+ */
+export const ENFORCE_MODULE_LOCKING = false;
+
+/* ------------------------------------------------------------------ */
 /*  Campus definitions                                                 */
 /* ------------------------------------------------------------------ */
 

@@ -121,7 +121,7 @@ export default function FlashcardSection({
         }}
         role="button"
         tabIndex={0}
-        aria-label={t("flashcard.flip")}
+        aria-label={t("lesson.flashcard.flip")}
       >
         {/* Label */}
         <div className="mb-3 flex items-center justify-between">
@@ -129,7 +129,7 @@ export default function FlashcardSection({
             {currentLabel}
           </span>
           <span className="text-xs text-[var(--color-text-muted)]">
-            {t("flashcard.tapToFlip")}
+            {t("lesson.flashcard.tapToFlip")}
           </span>
         </div>
 
@@ -163,21 +163,21 @@ export default function FlashcardSection({
               ? "border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20"
               : "border-[var(--color-border)] bg-[var(--color-bg-secondary)] text-[var(--color-text-secondary)] hover:border-brand-blue-500/30 hover:text-brand-blue-400",
           ].join(" ")}
-          aria-label={speaking ? t("flashcard.stopSpeaking") : t("flashcard.speak")}
+          aria-label={speaking ? t("lesson.flashcard.stopSpeaking") : t("lesson.flashcard.speak")}
         >
           {speaking ? (
             <>
               <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                 <rect x="6" y="6" width="12" height="12" rx="1" />
               </svg>
-              {t("flashcard.stopSpeaking")}
+              {t("lesson.flashcard.stopSpeaking")}
             </>
           ) : (
             <>
               <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
               </svg>
-              {t("flashcard.speak")}
+              {t("lesson.flashcard.speak")}
             </>
           )}
         </button>

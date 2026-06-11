@@ -411,12 +411,20 @@
       "goToDashboard": "Ir al Dashboard"
     }
   },
-  "campus": {
+   "campus": {
     "title": "Campus",
     "backToDashboard": "Volver al Dashboard",
     "modules": "Módulos",
     "comingSoon": "Próximamente",
     "active": "Activo",
+    "lessons": "{{count}} lecciones",
+    "duration": "{{minutes}} min",
+    "overallProgress": "Progreso general",
+    "module": "Módulo",
+    "lessonsCount": "{{count}} lecciones",
+    "minutesCount": "{{minutes}} min",
+    "notFound": "Campus no encontrado",
+    "takeExam": "Hacer examen",
     "qaFundamentals": {
       "title": "Fundamentos de QA",
       "description": "Introducción al testing de software y conceptos esenciales para comenzar tu carrera en QA."
