@@ -53,8 +53,9 @@ function Logo(): ReactNode {
         <path d="M14 2L26 24H2L14 2Z" fill="currentColor" className="text-brand-blue-500" />
       </svg>
       <span>PlayQ</span>
-      <span className="text-brand-green-400" aria-hidden="true">
-        &#9679;
+      <span className="relative flex h-2 w-2" aria-hidden="true">
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-blue-400 opacity-75" />
+        <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-blue-500" />
       </span>
     </Link>
   );
@@ -463,7 +464,7 @@ export default function Navbar({ currentLng }: NavbarProps) {
                   className={[
                     "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                     isActive
-                      ? "text-brand-green-400"
+                      ? "text-brand-blue-400"
                       : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-elevated)]",
                   ].join(" ")}
                 >
