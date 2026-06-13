@@ -22,7 +22,6 @@ import {
 import resourcesToBackend from "i18next-resources-to-backend";
 import { useParams } from "next/navigation";
 import { getOptions, languages, cookieName } from "./settings";
-import type { SupportedLocale, defaultNS } from "./settings";
 
 const runsOnServerSide = typeof window === "undefined";
 
@@ -84,7 +83,7 @@ export function useTranslation(
    * The middleware sets `i18next` cookie on every request, which
    * is used as fallback when the URL segment changes.
    */
-  const [activeLng, setActiveLng] = useState(lng);
+  const [_activeLng, setActiveLng] = useState(lng);
 
   useEffect(() => {
     const cookieLng = getCookieLocale();

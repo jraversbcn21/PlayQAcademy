@@ -1,6 +1,5 @@
 "use client";
 
-import { useCallback } from "react";
 import { db } from "@/lib/firebase/config";
 import {
   doc,
@@ -14,10 +13,9 @@ import {
   updateDoc,
   type DocumentData,
 } from "firebase/firestore";
-import type { ExamAttempt, ExamAnswer, Exam } from "@/types/exam";
+import type { ExamAttempt, ExamAnswer } from "@/types/exam";
 import { EXAMS_BY_ID } from "@/lib/constants/exams";
 import { generateExamQuestions, calculateScore } from "@/lib/exam/scoring";
-import { getQuestionBank } from "@/lib/exam/scoring";
 import { getLevelFromPoints } from "@/lib/gamification/levels";
 import { recordExamPassed } from "@/lib/hooks/useGamification";
 

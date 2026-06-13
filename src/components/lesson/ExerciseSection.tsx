@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, type ReactNode } from "react";
+import { useState, useCallback } from "react";
 import { useTranslation } from "@/lib/i18n/client";
 import type { Bilingual } from "@/types/lesson";
 import { useAuth } from "@/context/AuthContext";
@@ -49,7 +49,7 @@ export default function ExerciseSectionRenderer({
   const [userCode, setUserCode] = useState(starterCode);
   const [recording, setRecording] = useState(false);
 
-  const instText = (instructions as Record<string, string>)[lng] ?? instructions.en;
+  const instText = instructions[lng as "es" | "en"] ?? instructions.en;
 
   const showNextHint = useCallback(() => {
     setShownHints((prev) => Math.min(prev + 1, hints.length));
@@ -144,7 +144,7 @@ export default function ExerciseSectionRenderer({
           </h4>
           <div className="space-y-2">
             {hints.slice(0, shownHints).map((hint, idx) => {
-              const hintText = (hint as Record<string, string>)[lng] ?? hint.en;
+              const hintText = hint[lng as "es" | "en"] ?? hint.en;
               return (
                 <p key={idx} className="text-sm text-[var(--color-text-secondary)]">
                   <span className="mr-2 font-mono text-xs text-amber-400">{idx + 1}.</span>

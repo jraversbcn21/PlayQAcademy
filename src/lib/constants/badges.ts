@@ -397,5 +397,5 @@ const RARITY_ORDER: Record<string, number> = {
 };
 
 export const BADGES_SORTED_BY_RARITY = [...BADGES].sort(
-  (a, b) => RARITY_ORDER[a.rarity] - RARITY_ORDER[b.rarity]
+  (a, b) => (RARITY_ORDER[a.rarity] ?? 0) - (RARITY_ORDER[b.rarity] ?? 0)
 );

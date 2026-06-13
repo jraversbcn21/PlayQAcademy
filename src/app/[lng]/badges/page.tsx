@@ -1,15 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback, type ReactNode } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
 import { useGamification } from "@/lib/hooks/useGamification";
-import { getLevelFromPoints } from "@/lib/gamification/levels";
-import { BADGES_BY_ID, BADGES_SORTED_BY_RARITY } from "@/lib/constants/badges";
+import { BADGES_SORTED_BY_RARITY } from "@/lib/constants/badges";
 import type { Badge, EarnedBadge } from "@/types/gamification";
-import Button from "@/components/ui/Button";
-import Badge from "@/components/ui/Badge";
 import ProgressBar from "@/components/ui/ProgressBar";
 
 /* ------------------------------------------------------------------ */
@@ -57,7 +54,6 @@ export default function BadgesPage({ params: { lng } }: BadgesPageProps) {
   const earnedBadges = BADGES_SORTED_BY_RARITY.filter((b) => earnedIds.has(b.id));
   const unearnedBadges = BADGES_SORTED_BY_RARITY.filter((b) => !earnedIds.has(b.id));
 
-  const totalLessons = gData?.earnedBadges ? 44 : 0; // Curriculum total
   const earnedBadgeCount = earnedBadges.length;
   const totalBadgeCount = BADGES_SORTED_BY_RARITY.length;
 

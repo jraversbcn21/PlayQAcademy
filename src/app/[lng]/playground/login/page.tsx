@@ -23,7 +23,7 @@ export default function LoginPage({ params: { lng } }: { params: { lng: string }
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [_submitted, setSubmitted] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
   const [loggedIn, setLoggedIn] = useState<{ email: string; role: string } | null>(null);
 

@@ -86,10 +86,10 @@ All items below have been verified by Jorge with his own eyes in the browser. Ev
 
 5. **QA Fundamentals campus content: curriculum and lessons.** Create 3-5 modules with introductory QA content. **Separate branch.**
 
-6. **Lint cleanup: ~45 pre-existing lint errors + 3 unused imports in useExamAttempt.ts.** Run `npm run lint`, fix all errors. Remove unused imports (`useCallback`, `Exam`, `getQuestionBank`) from `useExamAttempt.ts`. **Separate branch after merge to main.**
+6. **~~Lint cleanup: ~45 pre-existing lint errors + 3 unused imports in useExamAttempt.ts.~~ — DONE** (branch `chore/lint-typecheck-cleanup`). Fixed all 45 lint errors (unused imports/vars across ~24 files) AND all 13 typecheck errors (Metadata import from `next`, `Bilingual` access via `[lng as "es"|"en"]`, `RARITY_ORDER ?? 0`, `unlockedAt` cast, `updateDoc` `UpdateData<DocumentData>` cast, duplicate `Badge` import). `npm run typecheck` and `npm run lint` are both clean (0 errors). **Remaining:** 4 `@next/next/no-img-element` *warnings* (leaderboard, playground/files, Navbar, LessonRenderer) — not errors; converting `<img>`→`next/image` needs width/height + `images.remotePatterns` for avatar domains, deferred as its own change.
 
 ## Pre-existing debt (do not touch without instruction)
 
 - **SEO/OG metadata layout.tsx Playwright-only** — `layout.tsx` hardcodes Playwright-specific metadata. Needs campus-aware metadata. **→ Now addressed by the planned QA Campus restructure (Step 2 = neutralize root branding; Step 5 = optional per-campus metadata). See top of file.**
-- **~45 lint errors pre-existing across codebase** — Do not fix in feature branches. Separate cleanup branch after merge.
-- **3 unused imports in useExamAttempt.ts** — `useCallback`, `Exam`, `getQuestionBank` confirmed pre-existing via `git diff`. Do not remove in feature branches; goes to lint cleanup branch.
+- **~~~45 lint errors + 3 unused imports in useExamAttempt.ts~~ — RESOLVED** by `chore/lint-typecheck-cleanup` (task #6 above). Codebase is lint- and typecheck-clean (0 errors); 4 `<img>` warnings remain by choice.
+- **4 `<img>` → `next/image` warnings** — leaderboard avatar, playground/files, Navbar avatar, LessonRenderer image. Conversion needs `images.remotePatterns` config for external avatar domains; deferred to a dedicated change.

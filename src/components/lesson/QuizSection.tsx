@@ -8,7 +8,6 @@ import { useGamificationUI } from "@/context/GamificationContext";
 import { recordQuizAnswer } from "@/lib/hooks/useGamification";
 import { getLevelFromPoints } from "@/lib/gamification/levels";
 import Button from "@/components/ui/Button";
-import Badge from "@/components/ui/Badge";
 
 /* ------------------------------------------------------------------ */
 /*  Props                                                              */
@@ -50,8 +49,8 @@ export default function QuizSectionRenderer({
   const [recording, setRecording] = useState(false);
   const attemptCountRef = useRef(0);
 
-  const qText = (question as Record<string, string>)[lng] ?? question.en;
-  const expText = (explanation as Record<string, string>)[lng] ?? explanation.en;
+  const qText = question[lng as "es" | "en"] ?? question.en;
+  const expText = explanation[lng as "es" | "en"] ?? explanation.en;
 
   const handleSubmit = useCallback(async () => {
     if (!selectedId || recording) return;
@@ -112,7 +111,7 @@ export default function QuizSectionRenderer({
       {/* Options */}
       <div className="space-y-2 mb-4">
         {options.map((opt) => {
-          const optText = (opt.text as Record<string, string>)[lng] ?? opt.text.en;
+          const optText = opt.text[lng as "es" | "en"] ?? opt.text.en;
           const isSelected = selectedId === opt.id;
           const isCorrectOption = opt.id === correctOptionId;
 

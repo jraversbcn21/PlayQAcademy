@@ -11,8 +11,6 @@ import {
   setDoc,
   getDoc,
   updateDoc,
-  arrayUnion,
-  serverTimestamp,
   type Firestore,
   type DocumentData,
 } from "firebase/firestore";
@@ -167,7 +165,7 @@ export async function getUserProgress(
       moduleId: val.moduleId ?? key,
       completedLessons: val.completedLessons ?? [],
       percentComplete: val.percentComplete ?? 0,
-      unlockedAt: val.unlockedAt ? new Date(val.unlockedAt as string) : null,
+      unlockedAt: val.unlockedAt ? new Date(val.unlockedAt as unknown as string) : null,
     };
   }
 

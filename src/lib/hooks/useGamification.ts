@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import type { Badge, EarnedBadge, UserGamification, LeaderboardEntry } from "@/types/gamification";
+import type { Badge, UserGamification, LeaderboardEntry } from "@/types/gamification";
 import { BADGES, BADGES_BY_ID } from "@/lib/constants/badges";
 import { getLevelFromPoints, getPointsToNextLevel, getLevelProgress } from "@/lib/gamification/levels";
 import { checkAndAwardBadges, type BadgeCheckContext } from "@/lib/gamification/badgeChecker";
@@ -115,7 +115,6 @@ export async function recordQuizAnswer(
     let totalPoints: number;
     let currentLevel: number;
     let currentStreak: number;
-    let earnedBadges: EarnedBadge[];
 
     if (snap.exists()) {
       const d = snap.data() as Record<string, unknown>;
@@ -130,7 +129,6 @@ export async function recordQuizAnswer(
       totalPoints = (d["totalPoints"] as number) ?? 0;
       currentLevel = (d["level"] as number) ?? 1;
       currentStreak = (d["currentStreak"] as number) ?? 0;
-      earnedBadges = (d["earnedBadges"] as EarnedBadge[]) ?? [];
     } else {
       correctQuizIds = [];
       completedExerciseIds = [];
@@ -138,7 +136,6 @@ export async function recordQuizAnswer(
       totalPoints = 0;
       currentLevel = 1;
       currentStreak = 0;
-      earnedBadges = [];
     }
 
     quizStats.totalAttempts++;
@@ -239,7 +236,6 @@ export async function recordExerciseCompleted(
     let totalPoints: number;
     let currentLevel: number;
     let currentStreak: number;
-    let earnedBadges: EarnedBadge[];
 
     if (snap.exists()) {
       const d = snap.data() as Record<string, unknown>;
@@ -254,7 +250,6 @@ export async function recordExerciseCompleted(
       totalPoints = (d["totalPoints"] as number) ?? 0;
       currentLevel = (d["level"] as number) ?? 1;
       currentStreak = (d["currentStreak"] as number) ?? 0;
-      earnedBadges = (d["earnedBadges"] as EarnedBadge[]) ?? [];
     } else {
       correctQuizIds = [];
       completedExerciseIds = [];
@@ -262,7 +257,6 @@ export async function recordExerciseCompleted(
       totalPoints = 0;
       currentLevel = 1;
       currentStreak = 0;
-      earnedBadges = [];
     }
 
     let pointsAwarded = 0;
