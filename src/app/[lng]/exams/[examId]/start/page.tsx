@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
 import { useProgress } from "@/lib/hooks/useProgress";
-import { EXAMS_BY_ID } from "@/lib/constants/exams";
+import { EXAMS_BY_ID, isExamReady } from "@/lib/constants/exams";
 import { startExamAttempt } from "@/lib/hooks/useExamAttempt";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
@@ -39,6 +39,7 @@ export default function ExamStartPage({ params: { lng, examId } }: StartPageProp
 
   if (!exam || !user) return null;
 
+  const ready = isExamReady(exam);
   const isLocked = exam.requiresModuleCompletion.some((mid) => !isModuleUnlocked(mid));
   const title = exam.title[lng as "es" | "en"] ?? exam.title.en;
   const desc = exam.description[lng as "es" | "en"] ?? exam.description.en;
@@ -50,6 +51,22 @@ export default function ExamStartPage({ params: { lng, examId } }: StartPageProp
     } catch {
       // Error handling
     }
+  }
+
+  if (!ready) {
+    return (
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4">
+        <div className="text-center">
+          <Badge variant="warning" size="md" className="mb-4">{lng === "es" ? "Próximamente" : "Coming Soon"}</Badge>
+          <p className="text-[var(--color-text-muted)]">
+            {lng === "es" ? "Este examen aún no está disponible. El banco de preguntas se está preparando." : "This exam isn't available yet. Its question bank is being prepared."}
+          </p>
+          <Link href={`/${lng}/exams`}>
+            <Button variant="secondary" size="sm" className="mt-4">{lng === "es" ? "Volver" : "Back"}</Button>
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   if (isLocked) {

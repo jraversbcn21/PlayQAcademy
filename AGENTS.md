@@ -58,7 +58,7 @@ All items below have been verified by Jorge with his own eyes in the browser. Ev
 - **Status:** active
 - **Modules:** 8 (m1-typescript-foundations through m8-cicd-reporting)
 - **Lessons:** 44 (header displays 44, actual count is 41 — known bug, see below)
-- **Exam:** 4 exams defined (`exam-module-1`, `exam-module-2-3`, `exam-midterm`, `exam-final`). Only `exam-module-1` has a question bank (25 questions). The other 3 exams have no question banks for modules m2-m8, causing infinite spinner or incorrect question counts. **Broken — see known bugs.**
+- **Exam:** 4 exams defined (`exam-module-1`, `exam-module-2-3`, `exam-midterm`, `exam-final`). Only `exam-module-1` has a question bank (25 questions). The other 3 have no banks for m2-m8 and are now gated as "Coming Soon" via `isExamReady` (see Known bugs #3) — they surface but are not startable until banks exist.
 
 ## Known bugs (confirmed, separate branches required)
 
@@ -66,7 +66,7 @@ All items below have been verified by Jorge with his own eyes in the browser. Ev
 
 2. **~~Results page two-denominator bug~~ — FIXED** (same branch). Results page derives `correct` and `total` from the same question set (`total = questions.length`, `correct` restricted to that set), so the fraction and the headline percentage always agree. Note: old attempts stored before this fix keep their points-weighted `score` in Firestore (not recomputed); only new attempts are fully consistent.
 
-3. **3 content-less exams** — `exam-module-2-3` (infinite spinner, 0 questions for m2+m3), `exam-midterm` (25 questions shown vs 40 promised, only m1 has questions), `exam-final` (25 questions shown vs 60 promised, only m1 has questions). Question banks for m2-m8 do not exist. **Separate branch: hide or gate these exams.**
+3. **~~3 content-less exams~~ — FIXED** (branch `fix/gate-contentless-exams`). New data-driven helper `isExamReady(exam)` in `exams.ts` (= `getQuestionsForModules(exam.moduleIds).length >= exam.questionCount`) gates `exam-module-2-3`, `exam-midterm`, `exam-final`. They now show a "Coming Soon"/"Próximamente" badge (not startable) in the `/exams` index, the campus detail page, and the `start` page (defense in depth). The `take` page also shows a proper "unavailable" message instead of the infinite spinner when a bank is empty. When question banks for m2-m8 are added later, these exams light up automatically (no code change — the helper is data-driven).
 
 4. **/exams global index mixes all campuses** — `/[lng]/exams` shows all 5 exams regardless of campus. Needs per-campus separation (e.g., ISTQB exams section, Automation exams section). **Separate branch.**
 
@@ -78,7 +78,7 @@ All items below have been verified by Jorge with his own eyes in the browser. Ev
 
 1. **~~Fix calculateScore to correct/total + fix results page two-denominator bug.~~ — DONE** (branch `fix/exam-score-denominators`, browser-verified). Equal-weight model chosen; see Known bugs #1–#2 above.
 
-2. **Gate or hide 3 content-less exams while question banks for m2-m8 do not exist.** Either hide `exam-module-2-3`, `exam-midterm`, `exam-final` from `/exams` index, or show "Coming Soon" badge. **Separate branch.**
+2. **~~Gate or hide 3 content-less exams while question banks for m2-m8 do not exist.~~ — DONE** (branch `fix/gate-contentless-exams`). "Coming Soon" badge approach via data-driven `isExamReady`; see Known bugs #3 above.
 
 3. **/exams redesign: separate per-campus exam index instead of global mixed list.** Group exams by campus (ISTQB section, Automation section). **Separate branch.**
 

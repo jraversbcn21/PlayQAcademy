@@ -95,6 +95,7 @@ export default function ExamTakePage({ params: { lng, examId, attemptId } }: Tak
   const router = useRouter();
   const { user } = useAuth();
   const [questions, setQuestions] = useState<ExamQuestion[]>([]);
+  const [generated, setGenerated] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState<Record<number, string[]>>({});
   const [flagged, setFlagged] = useState<Set<number>>(new Set());
@@ -109,6 +110,7 @@ export default function ExamTakePage({ params: { lng, examId, attemptId } }: Tak
     if (!exam) return;
     const qs = generateExamQuestions(examId, user.uid, exam.moduleIds, exam.questionCount);
     setQuestions(qs);
+    setGenerated(true);
     endTimeRef.current = Date.now() + exam.timeLimit * 1000;
   }, [user, examId, lng, router]);
 
@@ -176,6 +178,27 @@ export default function ExamTakePage({ params: { lng, examId, attemptId } }: Tak
   }, [saveCurrentAnswer, buildAnswers, attemptId, examId, lng, router]);
 
   const exam = EXAMS_BY_ID[examId];
+
+  // Generated but no questions available → empty bank. Show a message instead
+  // of spinning forever (exams with no question bank for their modules).
+  if (exam && generated && questions.length === 0) {
+    return (
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4">
+        <div className="text-center">
+          <p className="mb-1 text-lg font-semibold text-[var(--color-text-primary)]">
+            {lng === "es" ? "Examen no disponible" : "Exam unavailable"}
+          </p>
+          <p className="mb-4 text-sm text-[var(--color-text-muted)]">
+            {lng === "es" ? "Este examen aún no tiene preguntas. El banco se está preparando." : "This exam has no questions yet. Its bank is being prepared."}
+          </p>
+          <Button variant="secondary" size="sm" onClick={() => router.push(`/${lng}/exams`)}>
+            {lng === "es" ? "Volver a Exámenes" : "Back to Exams"}
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   if (!exam || questions.length === 0) {
     return <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-blue-500 border-t-transparent" /></div>;
   }
