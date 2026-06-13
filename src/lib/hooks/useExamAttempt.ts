@@ -19,6 +19,7 @@ import { EXAMS_BY_ID } from "@/lib/constants/exams";
 import { generateExamQuestions, calculateScore } from "@/lib/exam/scoring";
 import { getQuestionBank } from "@/lib/exam/scoring";
 import { getLevelFromPoints } from "@/lib/gamification/levels";
+import { recordExamPassed } from "@/lib/hooks/useGamification";
 
 /* ------------------------------------------------------------------ */
 /*  Start exam attempt                                                 */
@@ -143,6 +144,9 @@ export async function submitExam(attemptId: string, answers: ExamAnswer[]): Prom
         error: err,
       });
     }
+
+    // Award any exam-pass badges (non-blocking — swallows its own errors).
+    await recordExamPassed(data["userId"] as string, examId);
   }
 
   return {

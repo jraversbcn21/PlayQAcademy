@@ -82,7 +82,7 @@ All items below have been verified by Jorge with his own eyes in the browser. Ev
 
 3. **~~/exams redesign: separate per-campus exam index instead of global mixed list.~~ — DONE** (branch `feature/exams-by-campus`, PR #4, browser-verified). See Known bugs #4 above.
 
-4. **exam-pass badge: add badge criteria for passing an exam.** Currently no badge exists for exam passing. Add `exam_passed` criteria type to `badgeChecker.ts`, define badge(s) in `badges.ts`. **Separate branch.** ← IN PROGRESS (branch `feature/exam-passed-badge`).
+4. **~~exam-pass badge: add badge criteria for passing an exam.~~ — DONE** (branch `feature/exam-passed-badge`, PR pending merge). Added `{ type: "exam_passed"; examId }` criteria (`gamification.ts` + `badgeChecker.ts` with optional `passedExamIds` context), two badges in `badges.ts` (🥇 `module_1_exam_passed` rare/150pts → `exam-module-1`; 🎓 `istqb_ctfl_passed` epic/400pts → `exam-istqb-ctfl`), and `recordExamPassed(uid, examId)` in `useGamification.ts` called from `submitExam` on a pass. `playq_certified` left untouched (its `exam-final` has no bank → would be unobtainable). **Partially verified:** typecheck clean (no new errors), routes compile, badge catalog count went 21→23. **Pending end-to-end test by Jorge:** pass an exam and confirm the badge moves to "Earned". Note: only passes *after* this deploy award badges (no retroactive award).
 
 5. **QA Fundamentals campus content: curriculum and lessons.** Create 3-5 modules with introductory QA content. **Separate branch.**
 

@@ -336,8 +336,56 @@ export async function recordExerciseCompleted(
   }
 }
 
-/* ------------------------------------------------------------------ */
-/*  Hook                                                               */
+/**
+ * After an exam is passed, check and award any exam-pass badges.
+ *
+ * Exam points/level are written by `submitExam` in useExamAttempt.ts; this
+ * function only evaluates badge criteria. It builds the full badge context
+ * (so all criteria are checked correctly, not just exam ones) and marks the
+ * just-passed exam as passed. Non-blocking: a Firestore failure returns [].
+ */
+export async function recordExamPassed(uid: string, examId: string): Promise<Badge[]> {
+  if (!db) return [];
+
+  try {
+    const ref = doc(db, "gamification", uid);
+    const snap = await getDoc(ref);
+    const d = snap.exists() ? (snap.data() as Record<string, unknown>) : null;
+
+    const correctQuizIds = (d?.["correctQuizIds"] as string[]) ?? [];
+    const completedExerciseIds = (d?.["completedExerciseIds"] as string[]) ?? [];
+    const currentStreak = (d?.["currentStreak"] as number) ?? 0;
+
+    const progress = await getUserProgress(uid);
+    let totalLessonsCompleted = 0;
+    const completedModuleIds: string[] = [];
+    if (progress) {
+      for (const [, mp] of Object.entries(progress.modules)) {
+        totalLessonsCompleted += mp.completedLessons.length;
+        if (mp.completedLessons.length > 0) {
+          completedModuleIds.push(mp.moduleId || "");
+        }
+      }
+    }
+
+    const badgeContext: BadgeCheckContext = {
+      totalLessonsCompleted,
+      completedModuleIds,
+      perfectQuizIds: correctQuizIds,
+      exerciseCompletedCount: completedExerciseIds.length,
+      currentStreak,
+      passedExamIds: [examId],
+    };
+
+    return await checkAndAwardBadges(uid, badgeContext);
+  } catch (err) {
+    if (process.env.NODE_ENV === "development") {
+      console.warn("[recordExamPassed] Firestore error (non-blocking):", err);
+    }
+    return [];
+  }
+}
+
 /* ------------------------------------------------------------------ */
 /*  Hook                                                               */
 /* ------------------------------------------------------------------ */
