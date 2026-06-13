@@ -1,4 +1,4 @@
-# AGENTS.md — PlayQAcademy / feature/unified-campus
+# AGENTS.md — PlayQAcademy / main
 
 ## Project overview
 
@@ -6,9 +6,10 @@ PlayQAcademy is a bilingual (ES/EN) learning platform for software QA profession
 
 ## Branch state
 
-- **HEAD:** 4d353ed feat(campus): make /[lng] a neutral QA Campus hub, data-driven exam links
-- **Branch:** `feature/qa-campus-root` (from `feature/unified-campus`)
-- **Status:** QA Campus restructure (Steps 1, 2, 3, 4, 6) complete and manually verified by Jorge on `/es` and `/en` (2026-06-13). Step 5 (per-campus SEO metadata) deferred to follow-up. Ready for PR/merge to `feature/unified-campus`.
+- **HEAD:** bbb94b0 Merge pull request #1 from jraversbcn21/feature/qa-campus-root (into `main`)
+- **Branch:** `main` — up to date with `origin/main`.
+- **Status:** PR #1 (`feature/qa-campus-root`) was created and merged with `main` as base instead of the planned `feature/unified-campus`. Net effect: all of `feature/unified-campus`'s prior work (ISTQB content/wiring, exam fixes, gamification fixes, landing restructure) plus the QA Campus root restructure (Steps 1, 2, 3, 4, 6, see below) are now all in `main`. No conflicts, no data/code loss. **`feature/unified-campus` (local at `22f2dca`, origin at `38691fa`) is now fully merged into `main` and is obsolete** — safe to delete once confirmed. `feature/qa-campus-root` is likewise fully merged and obsolete.
+- Step 5 (per-campus SEO metadata) remains deferred to a follow-up branch off `main`.
 
 ## QA Campus restructure — done, verified, closed (do not reopen)
 
