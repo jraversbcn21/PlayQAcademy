@@ -4,6 +4,7 @@
 
 import type { Exam } from "@/types/exam";
 import { getModulesForCampus } from "./campuses";
+import { getQuestionsForModules } from "@/lib/exam/scoring";
 import "./examQuestions/module-1";
 import "./examQuestions/istqb";
 
@@ -147,4 +148,23 @@ export function getExamsForCampus(campusId: string): Exam[] {
   return EXAMS.filter((exam) =>
     exam.moduleIds.every((moduleId) => campusModuleIds.has(moduleId)),
   );
+}
+
+/**
+ * Number of questions currently available in the registered bank for an exam,
+ * across all of its modules.
+ */
+export function getAvailableQuestionCount(exam: Exam): number {
+  return getQuestionsForModules(exam.moduleIds).length;
+}
+
+/**
+ * Whether an exam has enough questions in the bank to be delivered as designed
+ * (i.e. it can serve its full `questionCount`). Exams whose question banks do
+ * not exist yet (e.g. modules m2–m8) are not ready and should be surfaced as
+ * "coming soon" rather than being startable — starting one would otherwise
+ * serve fewer questions than promised, or spin forever on an empty pool.
+ */
+export function isExamReady(exam: Exam): boolean {
+  return getAvailableQuestionCount(exam) >= exam.questionCount;
 }

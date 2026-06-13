@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
 import { useProgress } from "@/lib/hooks/useProgress";
-import { EXAMS } from "@/lib/constants/exams";
+import { EXAMS, isExamReady } from "@/lib/constants/exams";
 import { getExamHistory } from "@/lib/hooks/useExamAttempt";
 import type { ExamAttempt } from "@/types/exam";
 import Button from "@/components/ui/Button";
@@ -71,6 +71,7 @@ export default function ExamsPage({ params: { lng } }: ExamsPageProps) {
         {/* Exam cards */}
         <div className="space-y-4">
           {EXAMS.map((exam) => {
+            const ready = isExamReady(exam);
             const isLocked = exam.requiresModuleCompletion.some((mid) => !isModuleUnlocked(mid));
             const bestAttempt = history
               .filter((a) => a.examId === exam.id)
@@ -84,7 +85,7 @@ export default function ExamsPage({ params: { lng } }: ExamsPageProps) {
                 key={exam.id}
                 className={[
                   "rounded-xl border bg-[var(--color-bg-secondary)] p-5 transition-shadow hover:shadow-md",
-                  isLocked ? "border-[var(--color-border)] opacity-70" : "border-[var(--color-border)]",
+                  isLocked || !ready ? "border-[var(--color-border)] opacity-70" : "border-[var(--color-border)]",
                 ].join(" ")}
               >
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -93,7 +94,8 @@ export default function ExamsPage({ params: { lng } }: ExamsPageProps) {
                       <Badge variant={exam.type === "final" ? "error" : exam.type === "midterm" ? "warning" : "info"} size="sm">
                         {exam.type}
                       </Badge>
-                      {isLocked && <Badge variant="locked" size="sm">{lng === "es" ? "Bloqueado" : "Locked"}</Badge>}
+                      {!ready && <Badge variant="warning" size="sm">{lng === "es" ? "Próximamente" : "Coming Soon"}</Badge>}
+                      {ready && isLocked && <Badge variant="locked" size="sm">{lng === "es" ? "Bloqueado" : "Locked"}</Badge>}
                     </div>
                     <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">{title}</h3>
                     <p className="mt-1 text-sm text-[var(--color-text-muted)]">{desc}</p>
@@ -108,7 +110,9 @@ export default function ExamsPage({ params: { lng } }: ExamsPageProps) {
                       </p>
                     )}
                   </div>
-                  {isLocked ? (
+                  {!ready ? (
+                    <Badge variant="warning" size="md">{lng === "es" ? "Próximamente" : "Coming Soon"}</Badge>
+                  ) : isLocked ? (
                     <Badge variant="locked" size="md">{lng === "es" ? "Bloqueado" : "Locked"}</Badge>
                   ) : (
                     <Link href={`/${lng}/exams/${exam.id}/start`}>
