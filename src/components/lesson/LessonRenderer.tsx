@@ -5,6 +5,8 @@ import { useTranslation } from "@/lib/i18n/client";
 import type { LessonSection, Bilingual } from "@/types/lesson";
 import QuizSectionRenderer from "./QuizSection";
 import ExerciseSectionRenderer from "./ExerciseSection";
+import FlashcardSection from "./FlashcardSection";
+import TableSection from "./TableSection";
 
 /* ------------------------------------------------------------------ */
 /*  Props                                                              */
@@ -329,6 +331,28 @@ export default function LessonRenderer({ sections, lng, moduleId, lessonId }: Le
                 lng={lng}
                 moduleId={moduleId}
                 lessonId={lessonId}
+              />
+            );
+
+          case "flashcard":
+            return (
+              <FlashcardSection
+                key={key}
+                flashcardId={section.flashcardId}
+                front={section.front}
+                back={section.back}
+                lng={lng}
+              />
+            );
+
+          case "table":
+            return (
+              <TableSection
+                key={key}
+                headers={section.headers}
+                rows={section.rows}
+                caption={section.caption}
+                lng={lng}
               />
             );
 

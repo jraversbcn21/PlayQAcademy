@@ -1,7 +1,7 @@
 /**
  * Module 8 — CI/CD and Reporting
  *
- * The GRADUATION MODULE of PlayQ Academy. Transforms the student from
+ * The GRADUATION MODULE of PlayQAcademy. Transforms the student from
  * "someone who writes tests locally" into "someone who operates testing
  * infrastructure in production." After this module, the student is ready
  * to join a senior QA team.
@@ -943,8 +943,8 @@ const L8_5: LessonContent = {
     {
       type: "paragraph",
       content: {
-        es: "Este es el ejercicio final de PlayQ Academy. No es un ejercicio más — es la demostración de que has completado la transición de QA Manual a QA Automation Engineer. Vas a crear desde cero un repositorio público con un proyecto Playwright completo, una suite de tests que integra todo lo aprendido, y un pipeline de CI/CD en GitHub Actions que ejecuta los tests automáticamente en cada push. Este repositorio será la prueba tangible de tus habilidades — el proyecto que enlazarás en tu CV y mostrarás en entrevistas.",
-        en: "This is the final exercise of PlayQ Academy. It's not just another exercise — it's the demonstration that you've completed the transition from Manual QA to QA Automation Engineer. You'll create from scratch a public repository with a complete Playwright project, a test suite that integrates everything you've learned, and a CI/CD pipeline on GitHub Actions that runs tests automatically on every push. This repository will be the tangible proof of your skills — the project you'll link on your CV and show in interviews.",
+        es: "Este es el ejercicio final de PlayQAcademy. No es un ejercicio más — es la demostración de que has completado la transición de QA Manual a QA Automation Engineer. Vas a crear desde cero un repositorio público con un proyecto Playwright completo, una suite de tests que integra todo lo aprendido, y un pipeline de CI/CD en GitHub Actions que ejecuta los tests automáticamente en cada push. Este repositorio será la prueba tangible de tus habilidades — el proyecto que enlazarás en tu CV y mostrarás en entrevistas.",
+        en: "This is the final exercise of PlayQAcademy. It's not just another exercise — it's the demonstration that you've completed the transition from Manual QA to QA Automation Engineer. You'll create from scratch a public repository with a complete Playwright project, a test suite that integrates everything you've learned, and a CI/CD pipeline on GitHub Actions that runs tests automatically on every push. This repository will be the tangible proof of your skills — the project you'll link on your CV and show in interviews.",
       },
     },
     {
@@ -1078,8 +1078,8 @@ export default defineConfig({
       type: "callout",
       variant: "important",
       content: {
-        es: "🎓 CHECKLIST DE GRADUACIÓN — Has completado PlayQ Academy si:\n\n• ✅ Tu repositorio `playwright-portfolio` es público en GitHub\n• ✅ Tiene un proyecto Playwright con TypeScript y 3 navegadores\n• ✅ Usas Page Object Model en tus tests\n• ✅ Tienes tests de UI, API y mixtos (UI+API)\n• ✅ El workflow de GitHub Actions se ejecuta en cada push y PR\n• ✅ Los artefactos del reporte HTML se suben en cada build\n• ✅ El workflow pasa correctamente (build verde en GitHub)\n• ✅ Puedes explicar cada línea del workflow a un compañero",
-        en: "🎓 GRADUATION CHECKLIST — You've completed PlayQ Academy if:\n\n• ✅ Your `playwright-portfolio` repo is public on GitHub\n• ✅ It has a Playwright project with TypeScript and 3 browsers\n• ✅ You use Page Object Model in your tests\n• ✅ You have UI, API, and mixed (UI+API) tests\n• ✅ The GitHub Actions workflow runs on every push and PR\n• ✅ HTML report artifacts upload on every build\n• ✅ The workflow passes successfully (green build on GitHub)\n• ✅ You can explain every line of the workflow to a colleague",
+        es: "🎓 CHECKLIST DE GRADUACIÓN — Has completado PlayQAcademy si:\n\n• ✅ Tu repositorio `playwright-portfolio` es público en GitHub\n• ✅ Tiene un proyecto Playwright con TypeScript y 3 navegadores\n• ✅ Usas Page Object Model en tus tests\n• ✅ Tienes tests de UI, API y mixtos (UI+API)\n• ✅ El workflow de GitHub Actions se ejecuta en cada push y PR\n• ✅ Los artefactos del reporte HTML se suben en cada build\n• ✅ El workflow pasa correctamente (build verde en GitHub)\n• ✅ Puedes explicar cada línea del workflow a un compañero",
+        en: "🎓 GRADUATION CHECKLIST — You've completed PlayQAcademy if:\n\n• ✅ Your `playwright-portfolio` repo is public on GitHub\n• ✅ It has a Playwright project with TypeScript and 3 browsers\n• ✅ You use Page Object Model in your tests\n• ✅ You have UI, API, and mixed (UI+API) tests\n• ✅ The GitHub Actions workflow runs on every push and PR\n• ✅ HTML report artifacts upload on every build\n• ✅ The workflow passes successfully (green build on GitHub)\n• ✅ You can explain every line of the workflow to a colleague",
       },
     },
     {
@@ -1093,8 +1093,8 @@ export default defineConfig({
     {
       type: "paragraph",
       content: {
-        es: "Has completado PlayQ Academy. Hace 8 módulos empezaste escribiendo tu primera interfaz de TypeScript. Hoy terminas habiendo construido un pipeline de CI/CD que ejecuta tests en 3 navegadores simultáneamente, con Page Object Model, tests de API, mocks, variables de entorno seguras, y reportes HTML profesionales. No has 'visto un curso'. Has adquirido un oficio.",
-        en: "You've completed PlayQ Academy. Eight modules ago you started by writing your first TypeScript interface. Today you finish having built a CI/CD pipeline that runs tests across 3 browsers simultaneously, with Page Object Model, API tests, mocks, secure environment variables, and professional HTML reports. You haven't 'watched a course'. You've acquired a craft.",
+        es: "Has completado PlayQAcademy. Hace 8 módulos empezaste escribiendo tu primera interfaz de TypeScript. Hoy terminas habiendo construido un pipeline de CI/CD que ejecuta tests en 3 navegadores simultáneamente, con Page Object Model, tests de API, mocks, variables de entorno seguras, y reportes HTML profesionales. No has 'visto un curso'. Has adquirido un oficio.",
+        en: "You've completed PlayQAcademy. Eight modules ago you started by writing your first TypeScript interface. Today you finish having built a CI/CD pipeline that runs tests across 3 browsers simultaneously, with Page Object Model, API tests, mocks, secure environment variables, and professional HTML reports. You haven't 'watched a course'. You've acquired a craft.",
       },
     },
     {

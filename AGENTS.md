@@ -1,236 +1,94 @@
-# PlayQ Academy — Agent Instructions
+# AGENTS.md — PlayQAcademy / feature/unified-campus
 
-## Quick commands
+## Project overview
 
-```bash
-npm run dev          # Start dev server (localhost:3000 → redirects to /es)
-npm run build        # Production build
-npm run lint         # ESLint (next/core-web-vitals)
-npm run typecheck    # tsc --noEmit (strict + noUncheckedIndexedAccess)
-```
+PlayQAcademy is a bilingual (ES/EN) learning platform for software QA professionals, built with Next.js 14 (App Router), TypeScript (strict), Firebase (Auth + Firestore), and Tailwind CSS. The platform organizes content into three campuses: QA Fundamentals (coming soon), ISTQB CTFL Foundation (active, 6 modules, 21 lessons), and Playwright Automation (active, 8 modules, 44 lessons). Each campus contains modules, each module contains lessons with interactive content (flashcards, quizzes, exercises), and campuses have associated exams. Gamification (points, levels, badges) tracks user progress across all campuses.
 
-Run `typecheck` after every significant change. Run `lint` after typecheck passes.
+## Branch state
 
-## Architecture overview
+- **HEAD:** 4d353ed feat(campus): make /[lng] a neutral QA Campus hub, data-driven exam links
+- **Branch:** `feature/qa-campus-root` (from `feature/unified-campus`)
+- **Status:** QA Campus restructure (Steps 1, 2, 3, 4, 6) complete and manually verified by Jorge on `/es` and `/en` (2026-06-13). Step 5 (per-campus SEO metadata) deferred to follow-up. Ready for PR/merge to `feature/unified-campus`.
 
-Single Next.js 14 App Router project — no monorepo, no workspaces.
+## QA Campus restructure — done, verified, closed (do not reopen)
 
-```
-Page entrypoint:  src/app/[lng]/**          (every route is locale-prefixed)
-Root layout:      src/app/[lng]/layout.tsx   (AuthProvider → GamificationProvider → Navbar → Footer)
-Middleware:       src/middleware.ts           (locale redirect + protected route guard)
-```
+- **Goal achieved:** **"QA Campus"** is now the neutral root/entry point. Users land on the QA Campus hub (`/[lng]`) and pick one of three equal, self-contained sub-campuses (QA Fundamentals, ISTQB, Automation).
+- **Key finding (still true):** campuses are NOT nested in data — `Campus` is a *derived grouping layer over modules*; progress/exams/gamification/badges key off `moduleId`/`examId`, never `campusId`. No Firestore migration, no URL breakage, no data risk occurred.
+- **What changed:** root `/[lng]` is the QA Campus hub (sub-campus URLs stayed flat `/campus/[campusId]`, no redirects); added single fixed `QA_CAMPUS` parent abstraction (`src/types/campus.ts`, `src/lib/constants/campuses.ts`); neutralized root branding (`src/app/layout.tsx`, `src/app/[lng]/layout.tsx`); campus exam links are now data-driven via `getExamsForCampus()` (`src/lib/constants/exams.ts`, `src/app/[lng]/campus/[campusId]/page.tsx`), removing the `campusId === "istqb"` hardcode; added breadcrumb `QA Campus → {campus}` linking back to the hub.
+- **Verification:** typecheck (13 pre-existing errors, unchanged vs. pre-branch `22f2dca`) and lint (~45 pre-existing errors, unchanged) confirmed no new issues. Full manual walkthrough on `/es` and `/en` (hub, all 3 campus detail pages, exam links, breadcrumbs, lesson progress persistence) confirmed working. Details in `docs/todo-qa-campus-restructure.md`.
+- **Deferred (separate follow-up, not blocking):** Step 5 — per-campus SEO metadata for `/campus/[campusId]` (requires splitting the client page into server+client components for `generateMetadata`).
+- **Out of scope (separate branches, unchanged):** all items under "Known bugs" and "Next development tasks" below (exam content gaps, `calculateScore`, `/exams` redesign, QA Fundamentals content, lint cleanup).
 
-**Context nesting order matters.** GamificationProvider must be inside AuthProvider. Both wrap children in `[lng]/layout.tsx`. Do not reorder them.
+## Verified and closed (do not reopen)
 
-## Path aliases
+All items below have been verified by Jorge with his own eyes in the browser. Evidence is documented in `docs/session-log-2026-06-10.md`.
 
-```ts
-@/* → ./src/*
-~/* → ./public/*
-```
+1. **ISTQB exam scoring fix** — `submitExam` now accepts `answers` parameter and scores from in-memory answers, not Firestore re-read. Evidence: score 68 = 27/40 correct, confirmed in `exam_attempts` doc.
+2. **Firestore rules fix** — `in_progress → in_progress` transition allowed for answer persistence. Evidence: deployed to Firebase, no permission errors in console when `saveAnswer` writes during exam.
+3. **Gamification write isolation** — `submitExam` wraps gamification write in try/catch with `[exam-gamification-write-failed]` error logging. Evidence: browser-verified, no console errors on pass, results screen always reachable.
+4. **Level update on exam pass** — `getLevelFromPoints(newTotal)` called on same write as `totalPoints`. Evidence: totalPoints 295→561 (+266 = two exam passes: 130+136), level 3→5, both consistent with levels.ts thresholds.
+5. **Points write confirmed working** — Reconstructed from two exam passes: score 65→130pts, score 68→136pts, total delta 266, matches Firebase doc exactly.
+6. **Manual walkthrough of 21 ISTQB lessons** — All lessons render correctly, content complete, no missing translations.
+7. **EN/ES locale completeness** — No hydration flash, no empty `"en":""` strings, all i18n keys present in both locales.
+8. **Campus detail page** — ISTQB campus shows "Take exam" button, module numbering is campus-relative (1-6, not global 9-14).
+9. **Learn page breadcrumb** — Module numbering uses campus-relative position, `prevModTitle` uses campus-aware logic.
+10. **TTS audio** — "Escuchar" button works on all flashcards, no console errors.
+11. **Badge "Módulos" count** — Displays correctly on ISTQB campus page (6 modules).
+12. **Tables in modules 4-6** — Not flattened to lists, render as tables.
+13. **Campus-aware unlock logic** — `isModuleUnlocked` never crosses campus boundaries, gated behind `ENFORCE_MODULE_LOCKING = false` flag.
+14. **Flashcard i18n** — 5 keys changed from `flashcard.*` to `lesson.flashcard.*` to match project convention.
 
-Always use `@/` for imports within `src/`. Never use relative `../../../` chains.
+## Campus status
 
-## Routes
+### 1. QA Fundamentals (`qaFundamentals`)
+- **Status:** coming_soon
+- **Modules:** 0 (placeholder)
+- **Lessons:** 0
+- **Exam:** None
+- **Notes:** `moduleIds` set to `[]` to prevent false counts on landing page. Content creation is future work.
 
-| Route | Auth | Purpose |
-|---|---|---|---|
-| `/` → `/[lng]` | Public | Landing page hero + features |
-| `/[lng]/curriculum` | **Public** | Full curriculum preview (6 sections: hero, modules, skills, certification, why-this, CTA) |
-| `/[lng]/about` | **Public** | Creator profile (Jorge Carreño, photo, bio, 3 portfolio links) |
-| `/[lng]/privacy` | **Public** | Privacy Policy (GDPR-compliant, server component) |
-| `/[lng]/terms` | **Public** | Terms of Service (Spanish governing law, server component) |
-| `/[lng]/cookies` | **Public** | Cookie Policy (Firebase auth + i18n cookies, server component) |
-| `/[lng]/auth/sign-in` | Public | Sign-in form with forgot-password link |
-| `/[lng]/auth/sign-up` | Public | Sign-up form |
-| `/[lng]/auth/forgot-password` | Public | Password reset via Firebase email link |
-| `/[lng]/dashboard` | **Protected** | User dashboard (progress, stats, modules) |
-| `/[lng]/learn/[moduleId]/[lessonId]` | **Protected** | Lesson player with quizzes and exercises |
-| `/[lng]/leaderboard` | **Protected** | Top 50 ranked by points |
-| `/[lng]/exams/*` | **Protected** | Exam listing, take, results |
-| `/[lng]/badges` | **Protected** | Earned/unearned badge gallery |
-| `/[lng]/playground/*` | **Protected** | Interactive test playground |
+### 2. ISTQB CTFL Foundation (`istqb`)
+- **Status:** active
+- **Modules:** 6 (istqb-fundamentals, istqb-sdlc, istqb-static-testing, istqb-test-analysis, istqb-management, istqb-tools)
+- **Lessons:** 21
+- **Exam:** `exam-istqb-ctfl` — 40 questions, 60 minutes, 65% to pass. Question bank: 50 questions (all medium, 2 points each). **Working and verified.**
 
-## i18n (App Router native — no next-i18next)
+### 3. Playwright Automation (`automation`)
+- **Status:** active
+- **Modules:** 8 (m1-typescript-foundations through m8-cicd-reporting)
+- **Lessons:** 44 (header displays 44, actual count is 41 — known bug, see below)
+- **Exam:** 4 exams defined (`exam-module-1`, `exam-module-2-3`, `exam-midterm`, `exam-final`). Only `exam-module-1` has a question bank (25 questions). The other 3 exams have no question banks for modules m2-m8, causing infinite spinner or incorrect question counts. **Broken — see known bugs.**
 
-- **`next-i18next` has been REMOVED.** The project now uses native App Router i18n via `i18next` + `react-i18next` + `accept-language`.
-- **Single namespace: `"common"`**. All `useTranslation()` calls use `useTranslation("common")`. Translation JSON lives in `public/locales/{es,en}/common.json`.
-- **Spanish is the default locale** (`fallbackLng: "es"` in `src/lib/i18n/settings.ts`). Middleware redirects `/` → `/es`.
-- **All routes are under `[lng]`** — e.g., `/es/dashboard`, `/en/learn/m1-typescript-foundations/m1-l1`.
-- **New translation keys**: Always add to BOTH `public/locales/es/common.json` AND `public/locales/en/common.json` simultaneously. The key structure must match exactly.
-- **Client components** import `useTranslation` from `@/lib/i18n/client`. The hook auto-detects `lng` from `useParams()`.
-- **Server components** import `useTranslation` from `@/lib/i18n` (async, takes explicit `lng`). This is a plain async function — NOT a React hook — but its `use` prefix triggers `react-hooks/rules-of-hooks` in ESLint. Server-component page files using this import MUST include `/* eslint-disable react-hooks/rules-of-hooks */` at the top. See `privacy/page.tsx`, `terms/page.tsx`, `cookies/page.tsx` for examples.
-- **There is NO `appWithTranslation` wrapper.** The layout exports a plain function component.
-- **Middleware** uses `accept-language` package for locale detection and sets `i18next` cookie.
-- **`next-i18next.config.js` was deleted** — it is Pages Router only. `next.config.js` has no `i18n` block.
+## Known bugs (confirmed, separate branches required)
 
-## Styling
+1. **calculateScore points-weighted vs equal-weight mismatch** — Module 1 exam shows "6/15 Correctas" but "29%". The percentage uses points-weighted scoring (earned/total points), while the display uses raw count (correct/total questions). For ISTQB (all questions = 2 points), both produce identical results. Fix requires explicit decision on scoring model. **Separate branch.**
 
-- **Dark mode is the default**. The `<html>` element has `class="dark"`. Toggling to `.light` changes CSS custom properties defined in `src/app/globals.css`.
-- **Use `var(--color-*)` CSS custom properties** for themeable colors (text, background, border) — not Tailwind's `dark:` prefix. `brand-*` colors (blue/green/orange) are static across themes.
-- **Tailwind custom animations** available: `animate-fade-in-up`, `animate-slide-in-right`, `animate-gradient`, `animate-confetti-fall`.
-- **Tailwind content paths** scan `./src/**/*.{js,ts,jsx,tsx,mdx}`. Do not add components outside `src/`.
+2. **Results page two-denominator bug** — "6/15" uses `exam.questionCount` (static card count), "%" uses `questions.length` (real question bank length). When pool < count, denominators differ. **Separate branch.**
 
-## Firebase / Firestore
+3. **3 content-less exams** — `exam-module-2-3` (infinite spinner, 0 questions for m2+m3), `exam-midterm` (25 questions shown vs 40 promised, only m1 has questions), `exam-final` (25 questions shown vs 60 promised, only m1 has questions). Question banks for m2-m8 do not exist. **Separate branch: hide or gate these exams.**
 
-- Firebase client SDK only (no Admin SDK). All auth is client-side.
-- Config file: `src/lib/firebase/config.ts` — exports `{ app, auth, db }` (each can be `null` if env vars are missing).
-- **All callers MUST handle the `null` case.** Helper functions in `auth.ts` and `firestore.ts` use `requireAuth()` / `requireDb()` guards that throw descriptive errors.
-- **Firestore collections used:**
-  - `users/{uid}` — UserProfile (email, displayName, photoURL, role, language, createdAt, lastLoginAt)
-  - `progress/{uid}` — UserProgress (userId, modules map, bookmarks)
-  - `gamification/{uid}` — UserGamification (uid, totalPoints, level, streaks, earnedBadges, quizStats, correctQuizIds, completedExerciseIds, displayName, photoURL)
-  - `exam_attempts/{attemptId}` — ExamAttempt (id, userId, examId, answers, score, passed, status)
-- **Required Firestore composite index:**
-  - `exam_attempts`: `userId` ASC, `submittedAt` DESC (for exam history query)
-  - Single-field indexes (e.g., `gamification.totalPoints DESC`) are auto-managed by Firestore — no declaration needed
-- **Firestore security rules** are in `firestore.rules` at the project root — production-grade, least-privilege, with helper functions `isAuthenticated()` and `isOwner()`. Collection-specific rules: users (owner read/write, field-level update restrictions), progress (owner read/write, no delete), gamification (public read for leaderboard, owner write, no delete), exam_attempts (owner read/write, status-gated transitions, no delete), default deny catch-all.
-- **Firebase config files** at project root:
-  - `firebase.json` — CLI config pointing to `firestore.rules` and `firestore.indexes.json`
-  - `.firebaserc` — project alias (replace `REPLACE_WITH_YOUR_FIREBASE_PROJECT_ID` placeholder)
-  - `firestore.rules` — production security rules
-  - `firestore.indexes.json` — composite index definitions
-- **Deployment guide** at `docs/FIRESTORE_DEPLOYMENT.md` — covers CLI setup, deploy commands, verification, emulator testing, rollback, troubleshooting.
-- **`auth_token` cookie**: Set by AuthProvider on sign-in, cleared on sign-out. The middleware checks this cookie as a simple navigation guard — it is NOT a verified Firebase token. Real security lives in Firestore rules.
-- **`.env.example`** lists all required `NEXT_PUBLIC_FIREBASE_*` variables. Copy to `.env.local` to configure. Missing vars cause `null` objects, not runtime crashes (functions throw clear errors).
+4. **/exams global index mixes all campuses** — `/[lng]/exams` shows all 5 exams regardless of campus. Needs per-campus separation (e.g., ISTQB exams section, Automation exams section). **Separate branch.**
 
-## Auth system (post-bugfix behavior)
+5. **coming_soon campus is a clickable Link** — QA Fundamentals card links to `/campus/qaFundamentals` which shows empty page. Should be disabled or show "Coming Soon" modal. **Separate branch.**
 
-- **AuthProvider** in `src/context/AuthContext.tsx` now exposes `initialized: boolean` alongside `user`, `loading`, `error`.
-- **Profile sync is NON-BLOCKING.** `syncProfile()` catches all Firestore errors internally and returns a basic `UserProfile` built from Firebase User data if Firestore fails. The UI never stalls on Firestore.
-- **Sign-in/sign-up/signInWithGoogle** all call `syncProfile()` directly and set `user` + `loading=false` in `finally` blocks. They do NOT wait for `onAuthStateChanged`.
-- **15-second safety timeout** forces `loading=false` if auth gets stuck.
-- **Auth pages** use `router.replace()` (not `push()`) to prevent back-button returning to auth page. Loading guards check `!initialized || loading`.
-- **All imports are consolidated.** No duplicate `getDoc`/`updateDoc` imports anywhere.
-- **Password reset** (`src/app/[lng]/auth/forgot-password/page.tsx`): Full flow using Firebase's `sendPasswordResetEmail()`. Public page with email validation, success state, and Firebase error handling. The link on sign-in was already pointing to the correct route. Firebase hosts the actual password-change page — no backend code needed.
-- **Auth helpers** in `src/lib/firebase/auth.ts`: `signInWithGoogle`, `signInWithEmail`, `signUpWithEmail`, `signOutUser`, `sendPasswordReset`, `onAuthStateChange`. All gated by `requireAuth()` for null-safety.
+6. **Automation header: 44 lessons displayed vs 41 real** — Campus description says "44 lessons" but actual count is 41. **Separate branch.**
 
-## UX fixes applied (May 2026)
+## Next development tasks (priority order)
 
-- **Hero section** (`src/app/[lng]/page.tsx`):
-  - Removed redundant "PlayQ Academy" pill badge above the gradient heading.
-  - Both CTA buttons now navigate: primary links to `/[lng]/auth/sign-up`, secondary links to `/[lng]/curriculum`.
-  - Copy: `hero.ctaPrimary` → "Regístrate aquí" / "Register here".
-- **Navbar** (`src/components/layout/Navbar.tsx`):
-  - `nav.startFree` renamed to "Crear cuenta" / "Create account".
-- **Sign-up form** (`src/app/[lng]/auth/sign-up/page.tsx`):
-  - Unchecked terms checkbox turns label and border red inline (`text-red-500`, `border-red-500`) instead of showing a top-of-form badge. Other validation errors keep their Badge display.
-- **Curriculum page** (`src/app/[lng]/curriculum/page.tsx`):
-  - Public page with 6 sections: hero, module grid (expandable lesson lists), skills, certification timeline, "why this campus" value props, auth-aware CTA. Creator section moved to `/about`.
-- **About page** (`src/app/[lng]/about/page.tsx`):
-  - Standalone public page with Jorge Carreño's profile: photo (fallback "JC" initials), name, role, bio, portfolio description, 3 social links (LinkedIn, GitHub, ISTQB Campus). Navbar link label: "Acerca de mí" / "About me".
-- **Password reset** (`src/app/[lng]/auth/forgot-password/page.tsx`): Public page with email form, validation, and Firebase-powered reset email flow (see Auth system section above).
-- **Lesson headings**: All 44 lessons now use H2 engaging subtitles instead of H1 duplicates of the lesson title (single H1 per page = correct semantic HTML).
-- **i18n crash recovery** (May 2026):
-  - The `nav` and `auth` objects were accidentally deleted from both locale files during a key migration. Restored all 80+ keys. Verified UTF-8 encoding clean — no corrupted characters.
-- **Navbar alignment**: Added matching horizontal padding (`px-4 sm:px-6 lg:px-8`) to the navbar header to align with page section padding.
-- **Legal pages** (May 2026, 3 new public routes):
-  - `src/app/[lng]/privacy/page.tsx` — Privacy Policy (GDPR-compliant, 12 sections, server component with `generateMetadata`)
-  - `src/app/[lng]/terms/page.tsx` — Terms of Service (13 sections, Spanish governing law)
-  - `src/app/[lng]/cookies/page.tsx` — Cookie Policy (6 sections: Firebase auth session + i18n cookies, no tracking)
-  - All three use the server-side async `useTranslation` from `@/lib/i18n`. All user-facing text is in `public/locales/{es,en}/common.json` under `privacy.*`, `terms.*`, `cookies.*` keys (~130 keys per locale). Sticky back button, `max-w-4xl` prose layout, dark theme CSS custom properties.
-  - Contact email across all legal pages: `sidmaierlabs@gmail.com`. Creator referenced as "SidMaier" (not "Jorge Carreño Ortiz") in legal contexts.
-- **Leaderboard displayName fix** (May 2026):
-  - `recordQuizAnswer` and `recordExerciseCompleted` (in `src/lib/hooks/useGamification.ts`) now accept optional `displayName`/`photoURL` params and write them to gamification docs on both create and update.
-  - `QuizSection` and `ExerciseSection` pass `user.displayName`/`user.photoURL` from AuthContext to these functions.
-  - `fetchLeaderboard()` reads displayName from gamification docs directly (not from `users/{uid}`, which is restricted to owner-only reads). Falls back to `"Anonymous"` only when truly missing or empty. Handles empty strings correctly (not just null/undefined).
+1. **Fix calculateScore to correct/total + fix results page two-denominator bug.** Decide on scoring model (points-weighted or equal-weight), update `calculateScore` accordingly, fix results page to use consistent denominator. **Separate branch.**
 
-## Curriculum and lesson content
+2. **Gate or hide 3 content-less exams while question banks for m2-m8 do not exist.** Either hide `exam-module-2-3`, `exam-midterm`, `exam-final` from `/exams` index, or show "Coming Soon" badge. **Separate branch.**
 
-- **The curriculum IS the course.** `src/lib/constants/curriculum.ts` defines all 8 modules and 44 lessons as typed constants. Firestore only stores user progress (completed lesson IDs), NOT the structure itself.
-- **Lesson content is in `src/lib/constants/lessons/`.**
+3. **/exams redesign: separate per-campus exam index instead of global mixed list.** Group exams by campus (ISTQB section, Automation section). **Separate branch.**
 
-| Module | File | Status | Details |
-|---|---|---|---|
-| M1: TypeScript Foundations | `module-1.ts` | ✅ Complete | 5 lessons |
-| M2: Playwright Fundamentals | `module-2.ts` | ✅ Complete | 6 lessons |
-| M3: Locators and Selectors | `module-3.ts` | ✅ Complete | 6 lessons |
-| M4: Actions and Assertions | `module-4.ts` | ✅ Complete | 5 lessons |
-| M5: Page Object Model | `module-5.ts` | ✅ Complete | 5 lessons |
-| M6: Configuration and Environments | `module-6.ts` | ✅ Complete | 4 lessons |
-| M7: API Testing with Playwright | `module-7.ts` | ✅ Complete | 5 lessons |
-| M8: CI/CD and Reporting | `module-8.ts` | ✅ Complete | 5 lessons |
+4. **exam-pass badge: add badge criteria for passing an exam.** Currently no badge exists for exam passing. Add `exam_passed` criteria type to `badgeChecker.ts`, define badge(s) in `badges.ts`. **Separate branch.**
 
-**44 of 44 lessons authored (100% complete).**
+5. **QA Fundamentals campus content: curriculum and lessons.** Create 3-5 modules with introductory QA content. **Separate branch.**
 
-- **LESSON_REGISTRY** at `src/lib/hooks/useLesson.ts:30` spreads all 8 modules:
-  ```ts
-  [...getModule1Content(), ...getModule2Content(), ...getModule3Content(),
-   ...getModule4Content(), ...getModule5Content(), ...getModule6Content(),
-   ...getModule7Content(), ...getModule8Content()]
-  ```
-- **To add new module content**: create `src/lib/constants/lessons/module-N.ts` with a `getAllLessonsContent()` export, then import it in `src/lib/hooks/useLesson.ts` and add to the `LESSON_REGISTRY` spread. The registry keys are `"moduleId__lessonId"`.
-- **`LessonSection` discriminated union**: 9 types defined in `src/types/lesson.ts` — `heading`, `paragraph`, `code`, `callout`, `image`, `video`, `list`, `quiz`, `exercise`. The `LessonRenderer` in `src/components/lesson/LessonRenderer.tsx` maps each type to its sub-component.
-- **All code examples in lessons target the PlayQ Playground** (`/playground/login`, `/playground/signup`, `/playground/catalog`, `/playground/dynamic`) and its REST API (`/api/playground/*`). API response shapes in lessons match the actual route handlers exactly.
+6. **Lint cleanup: ~45 pre-existing lint errors + 3 unused imports in useExamAttempt.ts.** Run `npm run lint`, fix all errors. Remove unused imports (`useCallback`, `Exam`, `getQuestionBank`) from `useExamAttempt.ts`. **Separate branch after merge to main.**
 
-## Playground API (reference for lesson content)
+## Pre-existing debt (do not touch without instruction)
 
-The in-memory REST API at `src/app/api/playground/*` provides the following endpoints used across the curriculum:
-
-| Endpoint | Methods | Key response fields |
-|---|---|---|
-| `/api/playground/auth/login` | POST | `{ success, data: { token, user: { email, role } } }` |
-| `/api/playground/protected` | GET | `{ success, data: { message, token } }` (requires `Authorization: Bearer <token>`) |
-| `/api/playground/products` | GET | `{ success, data: Product[], count }` (Product: `id, name, price, category, inStock`) |
-| `/api/playground/users` | GET, POST | `{ success, data: User[] }` (User: `id, name, email, role, createdAt`) |
-| `/api/playground/users/[id]` | GET, PUT, DELETE | `{ success, data: User }` / DELETE: `{ success, message }` |
-
-**Login credentials:** `student@playq.test / Playwright123!` (student), `admin@playq.test / Admin123!` (admin). Tokens are plain strings: `playq_mock_jwt_{role}_{suffix}`.
-
-**Store** (`src/lib/playground/store.ts`): In-memory, resets on dev server restart. 3 seeded users, 6 seeded products. `nextUserId` starts at 4.
-
-## TypeScript constraints
-
-- **`strict: true` + `noUncheckedIndexedAccess: true`** in tsconfig. Array/Record access may return `undefined`.
-- **No `any` allowed** anywhere in the codebase. Use proper interfaces or `unknown` + type narrowing instead.
-- **Unused variables**: prefix with `_` (e.g., `_params`) per the ESLint `argsIgnorePattern`/`varsIgnorePattern` rule.
-
-## Known type errors (6 pre-existing, not blocking)
-
-These errors existed before lesson content authoring began and are intentionally deferred:
-
-1. `src/app/[lng]/badges/page.tsx` — Duplicate identifier `Badge` (name clash between local component and `@/components/ui/Badge` import).
-2. `src/app/[lng]/layout.tsx` — `Metadata` imported from `"react"` but must come from `"next"` in App Router.
-3. `src/components/lesson/ExerciseSection.tsx`, `LessonRenderer.tsx`, `QuizSection.tsx` — `Bilingual` type cast to `Record<string, string>` (missing index signature).
-4. `src/lib/constants/badges.ts:370` — Object possibly `undefined` (unchecked indexed access).
-5. `src/lib/firebase/firestore.ts:170` — `Date` to `string` type cast issue.
-6. `src/lib/gamification/badgeChecker.ts:72` — `Record<string, unknown>` not assignable to Firestore field types.
-
-## Gamification system
-
-- **21 badges** defined as constants in `src/lib/constants/badges.ts`. Badge criteria are stored in code, not in Firestore.
-- **10 levels** in `src/lib/gamification/levels.ts` — points-based curve from 0 to 2600+.
-- **Gamification tracking fields** in `gamification/{uid}`:
-  - `displayName`, `photoURL` — synced from AuthContext when a quiz/exercise action triggers a write (populated by `recordQuizAnswer`/`recordExerciseCompleted`). Used by the leaderboard to display real user names.
-  - `quizStats: { totalAttempts, correctOnFirstTry, perfectQuizzes }` — quiz performance counters
-  - `correctQuizIds: string[]` — quiz IDs answered correctly on first try (prevents double-counting)
-  - `completedExerciseIds: string[]` — exercise IDs marked as completed (idempotent)
-- **Badge checking** is triggered from three code paths:
-  - `markLessonComplete()` in `src/lib/hooks/useLesson.ts` — lesson completion (+10 pts, calls `checkAndAwardBadges`)
-  - `recordQuizAnswer()` in `src/lib/hooks/useGamification.ts` — quiz answer submission (+5 pts on first-try correct, idempotent via `correctQuizIds`, calls `checkAndAwardBadges`)
-  - `recordExerciseCompleted()` in `src/lib/hooks/useGamification.ts` — exercise "Mark as Tried" (+15 pts, idempotent via `completedExerciseIds`, calls `checkAndAwardBadges`)
-- `recordQuizAnswer` and `recordExerciseCompleted` are STANDALONE async functions (exported from `useGamification.ts`, not inside the hook) so QuizSection and ExerciseSection can import them directly. Both functions accept optional `displayName` and `photoURL` params — when provided, they are written to the gamification document alongside quiz/exercise data. This ensures the leaderboard can display real user names without querying the restricted `users` collection.
-- **Leaderboard display names are sourced from gamification documents** (NOT from `users/{uid}`, which is restricted to owner-only reads by Firestore rules). `fetchLeaderboard()` reads `displayName` from each gamification doc. If the field is missing or empty, it falls back to `"Anonymous"`. The displayName/photoURL get populated into gamification docs when a user first answers a quiz or marks an exercise as tried — callers (QuizSection, ExerciseSection) pass `user.displayName` and `user.photoURL` from AuthContext.
-- **QuizSection** (`src/components/lesson/QuizSection.tsx`) wires to `recordQuizAnswer` — tracks first-try via `useRef`, auto-prefixes quiz IDs with `moduleId__lessonId__`, triggers `queueBadges` and `triggerLevelUp` on result.
-- **ExerciseSection** (`src/components/lesson/ExerciseSection.tsx`) wires to `recordExerciseCompleted` — idempotent via `completedExerciseIds` check, triggers modals.
-- **LessonRenderer** now passes `moduleId` and `lessonId` to QuizSection and ExerciseSection for quiz/exercise ID construction.
-- **All gamification writes are non-blocking** — Firestore errors are caught and logged (dev mode only), UI continues unaffected.
-- **Badge/level modals** are queued via `useGamificationUI()` from `src/context/GamificationContext.tsx`. Call `queueBadges(badges)` to trigger the badge modal sequence; call `triggerLevelUp(old, new)` for level-up.
-- **`BadgeCheckContext`** (in `src/lib/gamification/badgeChecker.ts`) receives `totalLessonsCompleted`, `completedModuleIds`, `perfectQuizIds`, `exerciseCompletedCount`, and `currentStreak` — aggregated from both progress and gamification docs.
-
-## Exam system
-
-- **Question bank registration**: Each module question file calls `registerQuestions()` (from `src/lib/exam/scoring.ts`) at import time. This populates the global question bank.
-- **Exams are defined** in `src/lib/constants/exams.ts` — 4 exams with time limits, passing scores, and module requirements.
-- **Question generation** uses a seeded deterministic shuffle (`generateExamQuestions`) so the same user+exam combination gets the same questions.
-- **Timer is timestamp-based** (not interval) in the exam take page. This prevents drift if the browser throttles timers.
-
-## Conventions
-
-- **All comments in English.**
-- **All user-facing strings via i18n keys.** No hardcoded UI text (except emojis and proper nouns like "PlayQ Academy").
-- **Mobile-first responsive design.** Use `sm:`, `lg:` breakpoints. Test at 375px width.
-- **No external UI libraries.** All components are hand-built with Tailwind. No `@monaco-editor/react` or `prism-react-renderer` installed — code blocks use a plain `<pre>` tag.
-- **Firebase imports** must come from specific sub-packages (`firebase/auth`, `firebase/firestore`, `firebase/app`), not from the `firebase` barrel.
-- **Navigation**: Use `<Link href={...}>` from `next/link` for internal navigation (preferred over `router.push()`). Only use `router.replace()` for auth page redirects and `router.push()` for programmatic navigation triggered by callbacks.
+- **SEO/OG metadata layout.tsx Playwright-only** — `layout.tsx` hardcodes Playwright-specific metadata. Needs campus-aware metadata. **→ Now addressed by the planned QA Campus restructure (Step 2 = neutralize root branding; Step 5 = optional per-campus metadata). See top of file.**
+- **~45 lint errors pre-existing across codebase** — Do not fix in feature branches. Separate cleanup branch after merge.
+- **3 unused imports in useExamAttempt.ts** — `useCallback`, `Exam`, `getQuestionBank` confirmed pre-existing via `git diff`. Do not remove in feature branches; goes to lint cleanup branch.

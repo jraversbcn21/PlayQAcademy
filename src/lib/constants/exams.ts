@@ -3,6 +3,9 @@
  */
 
 import type { Exam } from "@/types/exam";
+import { getModulesForCampus } from "./campuses";
+import "./examQuestions/module-1";
+import "./examQuestions/istqb";
 
 export const EXAMS: Exam[] = [
   {
@@ -104,9 +107,44 @@ export const EXAMS: Exam[] = [
       "m8-cicd-reporting",
     ],
   },
+  {
+    id: "exam-istqb-ctfl",
+    title: {
+      es: "Simulacro ISTQB CTFL v4.0",
+      en: "ISTQB CTFL v4.0 Mock Exam",
+    },
+    description: {
+      es: "Simulacro completo de la certificación ISTQB Foundation Level. 40 preguntas cubriendo los 6 capítulos del syllabus v4.0. 60 minutos, 65% para aprobar.",
+      en: "Full ISTQB Foundation Level certification mock exam. 40 questions covering all 6 chapters of the v4.0 syllabus. 60 minutes, 65% to pass.",
+    },
+    type: "final",
+    moduleIds: [
+      "istqb-fundamentals",
+      "istqb-sdlc",
+      "istqb-static-testing",
+      "istqb-test-analysis",
+      "istqb-management",
+      "istqb-tools",
+    ],
+    questionCount: 40,
+    timeLimit: 60 * 60, // 60 minutes
+    passingScore: 65,
+    requiresModuleCompletion: [],
+  },
 ];
 
 export const EXAMS_BY_ID: Record<string, Exam> = {};
 for (const exam of EXAMS) {
   EXAMS_BY_ID[exam.id] = exam;
+}
+
+/**
+ * Get all exams that belong to a given campus, i.e. every exam whose
+ * moduleIds are a subset of the campus's moduleIds.
+ */
+export function getExamsForCampus(campusId: string): Exam[] {
+  const campusModuleIds = new Set(getModulesForCampus(campusId));
+  return EXAMS.filter((exam) =>
+    exam.moduleIds.every((moduleId) => campusModuleIds.has(moduleId)),
+  );
 }

@@ -29,17 +29,21 @@ export async function generateMetadata({
 
   return {
     title: {
-      template: `%s | PlayQ Academy`,
-      default: "PlayQ Academy — Test Automation with Playwright",
+      template: `%s | PlayQAcademy`,
+      default: isEs
+        ? "PlayQAcademy — Domina el QA de software"
+        : "PlayQAcademy — Master Software QA",
     },
     description: isEs
-      ? "De QA Manual a QA Automatizado. Aprende Playwright y TypeScript con PlayQ Academy."
-      : "From Manual QA to Automated QA. Learn Playwright and TypeScript with PlayQ Academy.",
+      ? "Fundamentos de QA, certificación ISTQB CTFL y automatización con Playwright y TypeScript, todo en una sola plataforma."
+      : "QA Fundamentals, ISTQB CTFL certification, and Playwright + TypeScript automation, all in one platform.",
     openGraph: {
-      title: "PlayQ Academy — Test Automation with Playwright",
+      title: isEs
+        ? "PlayQAcademy — Domina el QA de software"
+        : "PlayQAcademy — Master Software QA",
       description: isEs
-        ? "De QA Manual a QA Automatizado. Tu transición comienza aquí."
-        : "From Manual QA to Automated QA. Your transition starts here.",
+        ? "Fundamentos de QA, certificación ISTQB CTFL y automatización con Playwright. Tu carrera en QA comienza aquí."
+        : "QA Fundamentals, ISTQB CTFL certification, and Playwright automation. Your QA career starts here.",
       locale: isEs ? "es_ES" : "en_US",
       type: "website",
     },

@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useCallback, useState, useEffect } from "react";
-import type { CurriculumLesson, CurriculumModule } from "@/lib/constants/curriculum";
 import {
   CURRICULUM,
   getModuleById,
@@ -17,6 +16,12 @@ import { getAllLessonsContent as getModule5Content } from "@/lib/constants/lesso
 import { getAllLessonsContent as getModule6Content } from "@/lib/constants/lessons/module-6";
 import { getAllLessonsContent as getModule7Content } from "@/lib/constants/lessons/module-7";
 import { getAllLessonsContent as getModule8Content } from "@/lib/constants/lessons/module-8";
+import { getAllLessonsContent as getIstqbFundamentalsContent } from "@/lib/constants/lessons/istqb-fundamentals";
+import { getAllLessonsContent as getIstqbSdlcContent } from "@/lib/constants/lessons/istqb-sdlc";
+import { getAllLessonsContent as getIstqbStaticTestingContent } from "@/lib/constants/lessons/istqb-static-testing";
+import { getAllLessonsContent as getIstqbTestAnalysisContent } from "@/lib/constants/lessons/istqb-test-analysis";
+import { getAllLessonsContent as getIstqbManagementContent } from "@/lib/constants/lessons/istqb-management";
+import { getAllLessonsContent as getIstqbToolsContent } from "@/lib/constants/lessons/istqb-tools";
 import { updateUserProgress as fbUpdateProgress } from "@/lib/firebase/firestore";
 import { updateDoc, setDoc, doc, arrayUnion, arrayRemove, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
@@ -32,7 +37,22 @@ import { getLevelFromPoints } from "@/lib/gamification/levels";
  * Add new module content files here as they are written.
  */
 const LESSON_REGISTRY: Record<string, LessonContent> = (() => {
-  const all = [...getModule1Content(), ...getModule2Content(), ...getModule3Content(), ...getModule4Content(), ...getModule5Content(), ...getModule6Content(), ...getModule7Content(), ...getModule8Content()];
+  const all = [
+    ...getModule1Content(),
+    ...getModule2Content(),
+    ...getModule3Content(),
+    ...getModule4Content(),
+    ...getModule5Content(),
+    ...getModule6Content(),
+    ...getModule7Content(),
+    ...getModule8Content(),
+    ...getIstqbFundamentalsContent(),
+    ...getIstqbSdlcContent(),
+    ...getIstqbStaticTestingContent(),
+    ...getIstqbTestAnalysisContent(),
+    ...getIstqbManagementContent(),
+    ...getIstqbToolsContent(),
+  ];
   const map: Record<string, LessonContent> = {};
   for (const lc of all) {
     map[`${lc.moduleId}__${lc.id}`] = lc;
@@ -67,7 +87,7 @@ export function useLesson(
     const les = mod ? getLessonById(moduleId, lessonId) : null;
     const content = getLessonContent(moduleId, lessonId);
     const exists = !!mod && !!les && !!content;
-    const lngKey = lng === "es" ? "es" : "en";
+    const _lngKey = lng === "es" ? "es" : "en";
 
     if (!mod || !les) {
       return { content: null, meta: null, exists: false };

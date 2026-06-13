@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import type { ModuleProgress, UserProgress } from "@/types/auth";
 import { getUserProgress } from "@/lib/firebase/firestore";
 import { CURRICULUM, type CurriculumModule } from "@/lib/constants/curriculum";
+import { getCampusForModule, ENFORCE_MODULE_LOCKING } from "@/lib/constants/campuses";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -42,21 +43,34 @@ interface UseProgressResult {
 /* ------------------------------------------------------------------ */
 
 /**
- * Modules 1-3 are always unlocked.
- * Module N (N > 3) unlocks when the previous module (order N-1) is 100 % complete.
+ * Campus-aware unlock logic:
+ * - If ENFORCE_MODULE_LOCKING is false, all modules are unlocked.
+ * - First module in a campus is always unlocked.
+ * - Module at position i (i > 0) unlocks when module at position i-1
+ *   in the SAME campus is 100% complete.
+ * - Never looks across campus boundaries.
  */
 function isModuleUnlocked(
-  moduleOrder: number,
+  moduleId: string,
   progressDoc: UserProgress | null
 ): boolean {
-  if (moduleOrder <= 3) return true;
+  if (!ENFORCE_MODULE_LOCKING) return true;
 
-  const prevModule = CURRICULUM.find((m) => m.order === moduleOrder - 1);
+  const campus = getCampusForModule(moduleId);
+  if (!campus) return true;
+
+  const moduleIds = campus.moduleIds;
+  const position = moduleIds.indexOf(moduleId);
+  if (position <= 0) return true;
+
+  const prevModuleId = moduleIds[position - 1];
+  if (!prevModuleId) return true;
+  const prevModule = CURRICULUM.find((m) => m.id === prevModuleId);
   if (!prevModule) return true;
 
   if (!progressDoc) return false;
 
-  const prevProgress = progressDoc.modules[prevModule.id];
+  const prevProgress = progressDoc.modules[prevModuleId];
   if (!prevProgress) return false;
 
   const total = prevModule.lessons.length;
@@ -119,7 +133,7 @@ export function useProgress(userId: string | undefined): UseProgressResult {
         totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
       let status: "locked" | "in_progress" | "completed";
-      if (!isModuleUnlocked(mod.order, rawProgress)) {
+      if (!isModuleUnlocked(mod.id, rawProgress)) {
         status = "locked";
       } else if (percent >= 100) {
         status = "completed";
@@ -201,7 +215,7 @@ export function useProgress(userId: string | undefined): UseProgressResult {
     (moduleId: string): boolean => {
       const mod = CURRICULUM.find((m) => m.id === moduleId);
       if (!mod) return false;
-      return isModuleUnlocked(mod.order, rawProgress);
+      return isModuleUnlocked(moduleId, rawProgress);
     },
     [rawProgress]
   );

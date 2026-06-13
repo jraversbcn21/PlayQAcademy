@@ -1,5 +1,5 @@
 /**
- * PlayQ Academy — 20 Badge Definitions.
+ * PlayQAcademy — 20 Badge Definitions.
  *
  * Each badge has a unique id, bilingual name/description, emoji icon,
  * rarity, points reward, and typed criteria used by badgeChecker.ts.
@@ -19,8 +19,8 @@ export const BADGES: Badge[] = [
       en: "First Step",
     },
     description: {
-      es: "Bienvenido a PlayQ Academy. Tu viaje hacia la automatización comienza.",
-      en: "Welcome to PlayQ Academy. Your automation journey begins.",
+      es: "Bienvenido a PlayQAcademy. Tu viaje hacia la automatización comienza.",
+      en: "Welcome to PlayQAcademy. Your automation journey begins.",
     },
     icon: "👋",
     rarity: "common",
@@ -289,8 +289,8 @@ export const BADGES: Badge[] = [
   {
     id: "all_modules_complete",
     name: {
-      es: "Graduado PlayQ Academy",
-      en: "PlayQ Academy Graduate",
+      es: "Graduado PlayQAcademy",
+      en: "PlayQAcademy Graduate",
     },
     description: {
       es: "Completaste los 8 módulos del curso. ¡Eres un QA Automatizado!",
@@ -338,8 +338,8 @@ export const BADGES: Badge[] = [
       en: "PlayQ Certified",
     },
     description: {
-      es: "Aprobaste el Examen de Certificación Final con 80% o más. Eres oficialmente un QA Automatizado certificado por PlayQ Academy.",
-      en: "You passed the Final Certification Exam with 80%+. You are officially a PlayQ Academy Certified Automated QA.",
+      es: "Aprobaste el Examen de Certificación Final con 80% o más. Eres oficialmente un QA Automatizado certificado por PlayQAcademy.",
+      en: "You passed the Final Certification Exam with 80%+. You are officially a PlayQAcademy Certified Automated QA.",
     },
     icon: "📜",
     rarity: "legendary",

@@ -9,10 +9,10 @@ import { useGamification } from "@/lib/hooks/useGamification";
 import { getLevelFromPoints, getLevelProgress } from "@/lib/gamification/levels";
 import { BADGES_BY_ID } from "@/lib/constants/badges";
 import { TOTAL_LESSONS, CURRICULUM } from "@/lib/constants/curriculum";
+import { CAMPUSES } from "@/lib/constants/campuses";
 import Button from "@/components/ui/Button";
 import ProgressBar from "@/components/ui/ProgressBar";
 import StatCard from "@/components/dashboard/StatCard";
-import ModuleCard from "@/components/dashboard/ModuleCard";
 import AchievementCard from "@/components/dashboard/AchievementCard";
 import type { Achievement } from "@/components/dashboard/AchievementCard";
 import type { EarnedBadge } from "@/types/gamification";
@@ -87,7 +87,7 @@ export default function DashboardPage({
   const { user, loading: authLoading } = useAuth();
   const {
     progressData,
-    loading: progressLoading,
+    loading: _progressLoading,
   } = useProgress(user?.uid);
   const { data: gData } = useGamification(user?.uid);
 
@@ -290,36 +290,114 @@ export default function DashboardPage({
           </div>
         </div>
 
-        {/* ── Active modules grid ────────────────────────────── */}
+        {/* ── Campus selector ────────────────────────────────── */}
         <div
           className="mb-8 animate-fade-in-up"
           style={{ animationDelay: "250ms", animationFillMode: "backwards" as const }}
         >
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-lg font-bold text-[var(--color-text-primary)]">
-              {t("dashboard.yourModules")}
+              {t("campus.title")}
             </h2>
-            <span className="text-xs text-[var(--color-text-muted)]">
-              {unlockedModules.length} / {CURRICULUM.length} {t("dashboard.modulesUnlocked")}
-            </span>
           </div>
 
-          {progressLoading ? (
-            <div className="flex items-center justify-center py-12">
-              <div className="h-6 w-6 animate-spin rounded-full border-2 border-brand-blue-500 border-t-transparent" />
-            </div>
-          ) : (
-            <div className="grid gap-4 sm:grid-cols-2">
-              {(progressData?.modules ?? []).map((info, idx) => (
-                <ModuleCard
-                  key={info.module.id}
-                  info={info}
-                  lng={lng}
-                  index={idx}
-                />
-              ))}
-            </div>
-          )}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {CAMPUSES.map((campus, idx) => {
+              const campusTitle = campus.title[lng as "es" | "en"] ?? campus.title.en;
+              const campusDesc = campus.description[lng as "es" | "en"] ?? campus.description.en;
+
+              // Calculate campus progress
+              const campusModuleIds = campus.moduleIds;
+              const campusModules = CURRICULUM.filter((m) => campusModuleIds.includes(m.id));
+              const campusTotalLessons = campusModules.reduce((sum, m) => sum + m.lessons.length, 0);
+              const campusCompletedLessons = (progressData?.modules ?? [])
+                .filter((info) => campusModuleIds.includes(info.module.id))
+                .reduce((sum, info) => sum + info.completedLessonCount, 0);
+              const campusPercent = campusTotalLessons > 0
+                ? Math.round((campusCompletedLessons / campusTotalLessons) * 100)
+                : 0;
+
+              return (
+                <div
+                  key={campus.id}
+                  className={[
+                    "group relative overflow-hidden rounded-xl border transition-all duration-300",
+                    "animate-fade-in-up opacity-0 cursor-pointer",
+                    campus.status === "active"
+                      ? "border-[var(--color-border)] bg-[var(--color-bg-secondary)] hover:border-brand-blue-500/30 hover:shadow-lg hover:shadow-brand-blue-500/5"
+                      : "cursor-not-allowed border-[var(--color-border)] bg-[var(--color-bg-secondary)]/50",
+                  ].join(" ")}
+                  style={{ animationDelay: `${idx * 100}ms`, animationFillMode: "forwards" }}
+                  onClick={() => {
+                    if (campus.status === "active") {
+                      router.push(`/${lng}/campus/${campus.id}`);
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      if (campus.status === "active") {
+                        router.push(`/${lng}/campus/${campus.id}`);
+                      }
+                    }
+                  }}
+                  role={campus.status === "active" ? "button" : "presentation"}
+                  tabIndex={campus.status === "active" ? 0 : -1}
+                >
+                  {/* Coming soon overlay */}
+                  {campus.status !== "active" && (
+                    <div className="absolute inset-0 z-10 flex items-center justify-center bg-[var(--color-bg-secondary)]/70 backdrop-blur-[1px]">
+                      <span className="rounded-full bg-brand-orange-500/20 px-3 py-1 text-xs font-medium text-brand-orange-400">
+                        {t("campus.comingSoon")}
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="p-5">
+                    {/* Header */}
+                    <div className="mb-3">
+                      <h3 className="text-base font-semibold text-[var(--color-text-primary)]">
+                        {campusTitle}
+                      </h3>
+                      <p className="mt-1 line-clamp-2 text-xs text-[var(--color-text-muted)]">
+                        {campusDesc}
+                      </p>
+                    </div>
+
+                    {/* Stats */}
+                    <div className="mb-3 flex items-center gap-4 text-xs text-[var(--color-text-muted)]">
+                      <span>{campusModules.length} {t("dashboard.yourModules").toLowerCase()}</span>
+                      <span>{campusTotalLessons} {t("dashboard.lessons").toLowerCase()}</span>
+                    </div>
+
+                    {/* Progress bar */}
+                    <div className="mb-4">
+                      <div className="mb-1 flex items-center justify-between text-xs">
+                        <span className="text-[var(--color-text-muted)]">{t("dashboard.overallProgress")}</span>
+                        <span className="font-bold tabular-nums text-brand-blue-400">{campusPercent}%</span>
+                      </div>
+                      <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--color-bg-elevated)]">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-brand-blue-500 to-brand-green-400 transition-all duration-500"
+                          style={{ width: `${campusPercent}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* CTA */}
+                    {campus.status === "active" && (
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        className="w-full justify-center !bg-brand-orange-500 hover:!bg-brand-orange-400"
+                      >
+                        {campusPercent > 0 ? t("dashboard.continueModule") : t("dashboard.startModule")}
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* ── Recent achievements ────────────────────────────── */}

@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { EXAMS_BY_ID } from "@/lib/constants/exams";
 import { generateExamQuestions } from "@/lib/exam/scoring";
 import { saveAnswer, submitExam, abandonAttempt } from "@/lib/hooks/useExamAttempt";
-import type { ExamQuestion, ExamDifficulty } from "@/types/exam";
+import type { ExamQuestion, ExamDifficulty, ExamAnswer } from "@/types/exam";
 import Button from "@/components/ui/Button";
 
 /* ------------------------------------------------------------------ */
@@ -140,8 +140,18 @@ export default function ExamTakePage({ params: { lng, examId, attemptId } }: Tak
     if (!currentQ) return;
     const sel = selectedOptions[currentIdx] ?? [];
     setAnswered((prev) => ({ ...prev, [currentIdx]: sel.length > 0 }));
-    saveAnswer(attemptId, currentQ.id, sel, currentQ.correctOptionIds, 0).catch(() => {});
+    saveAnswer(attemptId, currentQ.id, sel, currentQ.correctOptionIds, 0).catch((e) => console.error("Failed to save answer:", e));
   }, [currentIdx, currentQ, selectedOptions, attemptId]);
+
+  const buildAnswers = useCallback((): ExamAnswer[] => {
+    return questions.map((q, idx) => {
+      const selectedOptionIds = selectedOptions[idx] ?? [];
+      const isCorrect =
+        selectedOptionIds.length === q.correctOptionIds.length &&
+        selectedOptionIds.every((id) => q.correctOptionIds.includes(id));
+      return { questionId: q.id, selectedOptionIds, isCorrect, timeSpent: 0 };
+    });
+  }, [questions, selectedOptions]);
 
   const goTo = useCallback((idx: number) => {
     saveCurrentAnswer();
@@ -153,15 +163,17 @@ export default function ExamTakePage({ params: { lng, examId, attemptId } }: Tak
 
   const handleTimeUp = useCallback(async () => {
     saveCurrentAnswer();
-    await submitExam(attemptId);
+    const answers = buildAnswers();
+    await submitExam(attemptId, answers);
     router.push(`/${lng}/exams/${examId}/results/${attemptId}`);
-  }, [saveCurrentAnswer, attemptId, examId, lng, router]);
+  }, [saveCurrentAnswer, buildAnswers, attemptId, examId, lng, router]);
 
   const handleSubmit = useCallback(async () => {
     saveCurrentAnswer();
-    await submitExam(attemptId);
+    const answers = buildAnswers();
+    await submitExam(attemptId, answers);
     router.push(`/${lng}/exams/${examId}/results/${attemptId}`);
-  }, [saveCurrentAnswer, attemptId, examId, lng, router]);
+  }, [saveCurrentAnswer, buildAnswers, attemptId, examId, lng, router]);
 
   const exam = EXAMS_BY_ID[examId];
   if (!exam || questions.length === 0) {

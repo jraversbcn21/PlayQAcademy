@@ -83,6 +83,24 @@ export interface ExerciseSection {
   hints: Bilingual[];
 }
 
+export interface FlashcardSection {
+  type: "flashcard";
+  flashcardId: string; // unique id for tracking
+  front: Bilingual;
+  back: Bilingual;
+}
+
+export interface TableRow {
+  cells: Bilingual[];
+}
+
+export interface TableSection {
+  type: "table";
+  headers: Bilingual[];
+  rows: TableRow[];
+  caption?: Bilingual;
+}
+
 export type LessonSection =
   | HeadingSection
   | ParagraphSection
@@ -92,7 +110,9 @@ export type LessonSection =
   | VideoSection
   | ListSection
   | QuizSection
-  | ExerciseSection;
+  | ExerciseSection
+  | FlashcardSection
+  | TableSection;
 
 /* ------------------------------------------------------------------ */
 /*  Lesson content                                                     */
