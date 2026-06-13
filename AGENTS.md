@@ -6,10 +6,17 @@ PlayQAcademy is a bilingual (ES/EN) learning platform for software QA profession
 
 ## Branch state
 
-- **HEAD:** bbb94b0 Merge pull request #1 from jraversbcn21/feature/qa-campus-root (into `main`)
-- **Branch:** `main` — up to date with `origin/main`.
-- **Status:** PR #1 (`feature/qa-campus-root`) was created and merged with `main` as base instead of the planned `feature/unified-campus`. Net effect: all of `feature/unified-campus`'s prior work (ISTQB content/wiring, exam fixes, gamification fixes, landing restructure) plus the QA Campus root restructure (Steps 1, 2, 3, 4, 6, see below) are now all in `main`. No conflicts, no data/code loss. **`feature/unified-campus` (local at `22f2dca`, origin at `38691fa`) is now fully merged into `main` and is obsolete** — safe to delete once confirmed. `feature/qa-campus-root` is likewise fully merged and obsolete.
-- Step 5 (per-campus SEO metadata) remains deferred to a follow-up branch off `main`.
+- **HEAD:** 7cd5268 (`main`, in sync with `origin/main`). Working tree clean.
+- **Status:** All planned work is merged into `main`. The repo passes `npm run typecheck` **and** `npm run lint` with **0 errors** (4 `<img>` warnings remain by choice — see Pre-existing debt).
+- **PRs merged this session (#2–#7):**
+  - **#2** `fix/exam-score-denominators` — equal-weight scoring + consistent results denominators (Known bugs #1–#2)
+  - **#3** `fix/gate-contentless-exams` — gate content-less exams as "Coming Soon" (Known bug #3)
+  - **#4** `feature/exams-by-campus` — group `/exams` index by campus (Known bug #4)
+  - **#5** `feature/exam-passed-badge` — exam-pass badges (task #4; **end-to-end pass test still pending**, see task #4)
+  - **#6** `chore/lint-typecheck-cleanup` — fixed all lint + typecheck errors (13 typecheck, 45 lint → 0) (task #6)
+  - **#7** `fix/landing-cta-buttons` — removed redundant hero "Regístrate aquí" CTA; renamed "Ver currículum" → "Ver campus" (`hero.ctaSecondary`); dropped unused `hero.ctaPrimary` key
+- **History note:** PR #1 (`feature/qa-campus-root`) was merged with `main` as base instead of the planned `feature/unified-campus`, bringing all prior unified-campus work (ISTQB content/wiring, exam/gamification fixes, landing restructure) into `main` in one step — no conflicts, no data/code loss. `feature/unified-campus` and `feature/qa-campus-root` are fully merged and deleted.
+- **Only remaining "Next development task":** #5 (QA Fundamentals campus content). Step 5 of the QA Campus restructure (per-campus SEO metadata) also remains deferred.
 
 ## QA Campus restructure — done, verified, closed (do not reopen)
 
@@ -82,7 +89,7 @@ All items below have been verified by Jorge with his own eyes in the browser. Ev
 
 3. **~~/exams redesign: separate per-campus exam index instead of global mixed list.~~ — DONE** (branch `feature/exams-by-campus`, PR #4, browser-verified). See Known bugs #4 above.
 
-4. **~~exam-pass badge: add badge criteria for passing an exam.~~ — DONE** (branch `feature/exam-passed-badge`, PR pending merge). Added `{ type: "exam_passed"; examId }` criteria (`gamification.ts` + `badgeChecker.ts` with optional `passedExamIds` context), two badges in `badges.ts` (🥇 `module_1_exam_passed` rare/150pts → `exam-module-1`; 🎓 `istqb_ctfl_passed` epic/400pts → `exam-istqb-ctfl`), and `recordExamPassed(uid, examId)` in `useGamification.ts` called from `submitExam` on a pass. `playq_certified` left untouched (its `exam-final` has no bank → would be unobtainable). **Partially verified:** typecheck clean (no new errors), routes compile, badge catalog count went 21→23. **Pending end-to-end test by Jorge:** pass an exam and confirm the badge moves to "Earned". Note: only passes *after* this deploy award badges (no retroactive award).
+4. **~~exam-pass badge: add badge criteria for passing an exam.~~ — DONE** (branch `feature/exam-passed-badge`, PR #5 merged). Added `{ type: "exam_passed"; examId }` criteria (`gamification.ts` + `badgeChecker.ts` with optional `passedExamIds` context), two badges in `badges.ts` (🥇 `module_1_exam_passed` rare/150pts → `exam-module-1`; 🎓 `istqb_ctfl_passed` epic/400pts → `exam-istqb-ctfl`), and `recordExamPassed(uid, examId)` in `useGamification.ts` called from `submitExam` on a pass. `playq_certified` left untouched (its `exam-final` has no bank → would be unobtainable). **Partially verified:** typecheck clean (no new errors), routes compile, badge catalog count went 21→23. **Pending end-to-end test by Jorge:** pass an exam and confirm the badge moves to "Earned". Note: only passes *after* this deploy award badges (no retroactive award).
 
 5. **QA Fundamentals campus content: curriculum and lessons.** Create 3-5 modules with introductory QA content. **Separate branch.**
 
