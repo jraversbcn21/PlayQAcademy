@@ -62,9 +62,9 @@ All items below have been verified by Jorge with his own eyes in the browser. Ev
 
 ## Known bugs (confirmed, separate branches required)
 
-1. **calculateScore points-weighted vs equal-weight mismatch** — Module 1 exam shows "6/15 Correctas" but "29%". The percentage uses points-weighted scoring (earned/total points), while the display uses raw count (correct/total questions). For ISTQB (all questions = 2 points), both produce identical results. Fix requires explicit decision on scoring model. **Separate branch.**
+1. **~~calculateScore points-weighted vs equal-weight mismatch~~ — FIXED** (branch `fix/exam-score-denominators`). `calculateScore` now uses the decided equal-weight model (`correct / total questions × 100`) instead of points-weighted. Browser-verified by Jorge on `exam-module-1` (non-uniform points bank: 1/2/3 pts): 3/15 → 20% (reprobado), 11/15 → 73% (aprobado) — headline % now equals `round(correct/total×100)` in both cases.
 
-2. **Results page two-denominator bug** — "6/15" uses `exam.questionCount` (static card count), "%" uses `questions.length` (real question bank length). When pool < count, denominators differ. **Separate branch.**
+2. **~~Results page two-denominator bug~~ — FIXED** (same branch). Results page derives `correct` and `total` from the same question set (`total = questions.length`, `correct` restricted to that set), so the fraction and the headline percentage always agree. Note: old attempts stored before this fix keep their points-weighted `score` in Firestore (not recomputed); only new attempts are fully consistent.
 
 3. **3 content-less exams** — `exam-module-2-3` (infinite spinner, 0 questions for m2+m3), `exam-midterm` (25 questions shown vs 40 promised, only m1 has questions), `exam-final` (25 questions shown vs 60 promised, only m1 has questions). Question banks for m2-m8 do not exist. **Separate branch: hide or gate these exams.**
 
@@ -76,7 +76,7 @@ All items below have been verified by Jorge with his own eyes in the browser. Ev
 
 ## Next development tasks (priority order)
 
-1. **Fix calculateScore to correct/total + fix results page two-denominator bug.** Decide on scoring model (points-weighted or equal-weight), update `calculateScore` accordingly, fix results page to use consistent denominator. **Separate branch.**
+1. **~~Fix calculateScore to correct/total + fix results page two-denominator bug.~~ — DONE** (branch `fix/exam-score-denominators`, browser-verified). Equal-weight model chosen; see Known bugs #1–#2 above.
 
 2. **Gate or hide 3 content-less exams while question banks for m2-m8 do not exist.** Either hide `exam-module-2-3`, `exam-midterm`, `exam-final` from `/exams` index, or show "Coming Soon" badge. **Separate branch.**
 

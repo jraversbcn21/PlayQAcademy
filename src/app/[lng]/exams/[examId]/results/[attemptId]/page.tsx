@@ -49,11 +49,14 @@ export default function ExamResultsPage({ params: { lng, examId, attemptId } }: 
   if (!exam) return null;
 
   const passed = attempt.passed;
-  const correct = attempt.answers.filter((a) => a.isCorrect).length;
-  const total = questions.length;
-  const scoreColor = attempt.score >= 80 ? "text-brand-green-400" : attempt.score >= 50 ? "text-amber-400" : "text-red-400";
-
+  // Single source of truth for the denominator: the question set. `correct`
+  // is restricted to that set so `round(correct/total*100)` equals
+  // `attempt.score` (both equal-weight) — keeps the fraction and the headline
+  // percentage consistent.
   const qMap = new Map(questions.map((q) => [q.id, q]));
+  const total = questions.length;
+  const correct = attempt.answers.filter((a) => a.isCorrect && qMap.has(a.questionId)).length;
+  const scoreColor = attempt.score >= 80 ? "text-brand-green-400" : attempt.score >= 50 ? "text-amber-400" : "text-red-400";
   const weakModules = identifyWeakAreas(attempt.answers, questions);
   const weakModuleNames = weakModules.map((mid) => {
     const mod = CURRICULUM.find((m) => m.id === mid);
