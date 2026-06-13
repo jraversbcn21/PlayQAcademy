@@ -6,24 +6,18 @@ PlayQAcademy is a bilingual (ES/EN) learning platform for software QA profession
 
 ## Branch state
 
-- **HEAD:** 38691fa chore(walkthrough): manual verification complete — ISTQB 21 lessons, EN/ES locales, campus and learn page fixes
-- **origin/feature/unified-campus:** 38691fa (same as HEAD)
-- **Status:** Up to date with origin, pushed
+- **HEAD:** 4d353ed feat(campus): make /[lng] a neutral QA Campus hub, data-driven exam links
+- **Branch:** `feature/qa-campus-root` (from `feature/unified-campus`)
+- **Status:** QA Campus restructure (Steps 1, 2, 3, 4, 6) complete and manually verified by Jorge on `/es` and `/en` (2026-06-13). Step 5 (per-campus SEO metadata) deferred to follow-up. Ready for PR/merge to `feature/unified-campus`.
 
-## Planned next session — QA Campus restructure (NOT yet started)
+## QA Campus restructure — done, verified, closed (do not reopen)
 
-A full plan was approved and a step-by-step checklist was written. **No code touched yet.**
-
-- **Goal:** make **"QA Campus"** the neutral root/entry point. Users land on the QA Campus hub (`/[lng]`) and pick one of three equal, self-contained sub-campuses (QA Fundamentals, ISTQB, Automation).
-- **Key finding:** the campuses are NOT actually nested in data — `Campus` is a *derived grouping layer over modules*; progress/exams/gamification/badges key off `moduleId`/`examId`, never `campusId`. So **no Firestore migration, no URL breakage, no data risk.** The perceived "nesting under Automation" is **branding/domain leakage**, not hierarchy.
-- **Confirmed decisions:** (1) root `/[lng]` becomes the QA Campus hub, sub-campus URLs stay flat `/campus/[campusId]` (no redirects); (2) single fixed `QA_CAMPUS` parent abstraction (not a generic group model); (3) neutralize the automation-centric root branding + make campus exam links data-driven (remove the `campusId === "istqb"` hardcode).
-- **Out of scope here:** all items under "Known bugs" and "Next development tasks" below (exam content gaps, `calculateScore`, `/exams` redesign, QA Fundamentals content, lint).
-
-**What to do next session:**
-1. Create branch `feature/qa-campus-root` from `feature/unified-campus`.
-2. Open **`docs/todo-qa-campus-restructure.md`** (actionable checklist) and execute Steps 1→6 in order. Detailed rationale/risk per step lives in the approved plan at `~/.claude/plans/idempotent-giggling-wolf.md`.
-3. Critical files: `src/types/campus.ts` (`QaCampus`), `src/lib/constants/campuses.ts` (`QA_CAMPUS`, `getSubCampuses()`), `src/lib/constants/exams.ts` (`getExamsForCampus()`), `src/app/layout.tsx` + `src/app/[lng]/layout.tsx` (neutral branding), `src/app/[lng]/page.tsx` (hub), `src/app/[lng]/campus/[campusId]/page.tsx` (data-driven exams + breadcrumb), `public/locales/{es,en}/common.json` (new keys, keep ES/EN parity).
-4. Verify per the checklist's end-to-end section (typecheck, dev on :3001, walk `/es` + `/en`, confirm lesson progress still saves).
+- **Goal achieved:** **"QA Campus"** is now the neutral root/entry point. Users land on the QA Campus hub (`/[lng]`) and pick one of three equal, self-contained sub-campuses (QA Fundamentals, ISTQB, Automation).
+- **Key finding (still true):** campuses are NOT nested in data — `Campus` is a *derived grouping layer over modules*; progress/exams/gamification/badges key off `moduleId`/`examId`, never `campusId`. No Firestore migration, no URL breakage, no data risk occurred.
+- **What changed:** root `/[lng]` is the QA Campus hub (sub-campus URLs stayed flat `/campus/[campusId]`, no redirects); added single fixed `QA_CAMPUS` parent abstraction (`src/types/campus.ts`, `src/lib/constants/campuses.ts`); neutralized root branding (`src/app/layout.tsx`, `src/app/[lng]/layout.tsx`); campus exam links are now data-driven via `getExamsForCampus()` (`src/lib/constants/exams.ts`, `src/app/[lng]/campus/[campusId]/page.tsx`), removing the `campusId === "istqb"` hardcode; added breadcrumb `QA Campus → {campus}` linking back to the hub.
+- **Verification:** typecheck (13 pre-existing errors, unchanged vs. pre-branch `22f2dca`) and lint (~45 pre-existing errors, unchanged) confirmed no new issues. Full manual walkthrough on `/es` and `/en` (hub, all 3 campus detail pages, exam links, breadcrumbs, lesson progress persistence) confirmed working. Details in `docs/todo-qa-campus-restructure.md`.
+- **Deferred (separate follow-up, not blocking):** Step 5 — per-campus SEO metadata for `/campus/[campusId]` (requires splitting the client page into server+client components for `generateMetadata`).
+- **Out of scope (separate branches, unchanged):** all items under "Known bugs" and "Next development tasks" below (exam content gaps, `calculateScore`, `/exams` redesign, QA Fundamentals content, lint cleanup).
 
 ## Verified and closed (do not reopen)
 

@@ -34,7 +34,7 @@ Bugs de exámenes (`exam-module-2-3`, `exam-midterm`, `exam-final`, `calculateSc
   - `hero.title` y `landing.campuses.title/subtitle` ya estaban en framing neutral ("Tu carrera en QA empieza aquí" / "Elige tu campus") — sin cambios.
   - `hero.tagline` actualizado a "Bienvenido al Campus QA: elige tu camino entre Fundamentos de QA, certificación ISTQB CTFL y automatización con Playwright." (ES) / "Welcome to QA Campus: choose your path between QA Fundamentals, ISTQB CTFL certification, and Playwright automation." (EN).
 - [x] `public/locales/es/common.json` y `public/locales/en/common.json`: actualizar esas claves. **Mantener paridad ES/EN** (sin strings vacíos, sin claves faltantes — AGENTS.md item 7).
-- [ ] **Validar:** `/es` y `/en` muestran copy del hub, sin flash de hidratación, sin warnings de claves faltantes. *(diferido a verificación end-to-end final — la página se ve correctamente en `/es` vía curl; el patrón SSR-en-es-luego-corrige-cliente es preexistente, igual que `hero.title`)*
+- [x] **Validar:** `/es` y `/en` muestran copy del hub, sin flash de hidratación, sin warnings de claves faltantes. *(confirmado en walkthrough manual final — ver Verificación final end-to-end)*
 
 ## Paso 4 — Página sub-campus: exámenes data-driven + breadcrumb padre (riesgo: medio)
 - [x] `src/app/[lng]/campus/[campusId]/page.tsx`: reemplazar el bloque `campusId === "istqb"` (líneas 76-88) por `getExamsForCampus(campusId).map(...)` → un enlace "Tomar examen" por examen a `/${lng}/exams/${exam.id}/start`, título desde `exam.title[lang]`.
@@ -59,15 +59,17 @@ Bugs de exámenes (`exam-module-2-3`, `exam-midterm`, `exam-final`, `calculateSc
 ---
 
 ## Verificación final end-to-end
-1. [ ] `npm run typecheck` limpio; `npm run lint` sin errores **nuevos** (más allá de los ~45 preexistentes documentados).
-2. [ ] `npm run dev` (puerto 3001), recorrido en **`/es` y `/en`**:
-   - [ ] Hub root: hero neutral QA Campus + 3 cards; `<title>` sin "Playwright".
-   - [ ] `/campus/istqb`: botón examen CTFL funciona; breadcrumb → hub.
-   - [ ] `/campus/automation`: lista exámenes; breadcrumb → hub.
-   - [ ] `/campus/qaFundamentals`: coming-soon, sin exámenes, sin crash.
-   - [ ] Abrir una lección (logueado) y confirmar que el progreso sigue guardándose (prueba que la capa de datos no se tocó).
-3. [ ] i18n: sin warnings de claves faltantes; sin strings `""`; sin flash de hidratación.
-4. [ ] Helper: assert de `getExamsForCampus("istqb")` y `getExamsForCampus("automation")`.
+1. [x] `npm run typecheck` limpio; `npm run lint` sin errores **nuevos** (más allá de los ~45 preexistentes documentados). *(13 errores de typecheck + ~45 de lint confirmados idénticos al commit pre-rama `22f2dca` — no son nuevos)*
+2. [x] `npm run dev` (puerto 3001), recorrido en **`/es` y `/en`**:
+   - [x] Hub root: hero neutral QA Campus + 3 cards; `<title>` sin "Playwright".
+   - [x] `/campus/istqb`: botón examen CTFL funciona; breadcrumb → hub.
+   - [x] `/campus/automation`: lista exámenes; breadcrumb → hub.
+   - [x] `/campus/qaFundamentals`: coming-soon, sin exámenes, sin crash.
+   - [x] Abrir una lección (logueado) y confirmar que el progreso sigue guardándose (prueba que la capa de datos no se tocó).
+3. [x] i18n: sin warnings de claves faltantes; sin strings `""`; sin flash de hidratación.
+4. [x] Helper: assert de `getExamsForCampus("istqb")` y `getExamsForCampus("automation")`. *(cubierto en Paso 1)*
+
+**Walkthrough manual confirmado por Jorge en `/es` y `/en` — 2026-06-13. Restructure QA Campus root listo para PR/merge.**
 
 ## Archivos críticos a tocar
 - `src/types/campus.ts` — interface `QaCampus`
