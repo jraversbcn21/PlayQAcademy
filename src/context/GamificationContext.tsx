@@ -5,8 +5,6 @@ import {
   useContext,
   useState,
   useCallback,
-  useEffect,
-  useRef,
   type ReactNode,
 } from "react";
 import type { Badge, LevelInfo } from "@/types/gamification";

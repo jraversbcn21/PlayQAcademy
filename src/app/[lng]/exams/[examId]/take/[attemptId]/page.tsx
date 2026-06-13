@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { EXAMS_BY_ID } from "@/lib/constants/exams";
 import { generateExamQuestions } from "@/lib/exam/scoring";
-import { saveAnswer, submitExam, abandonAttempt } from "@/lib/hooks/useExamAttempt";
-import type { ExamQuestion, ExamDifficulty, ExamAnswer } from "@/types/exam";
+import { saveAnswer, submitExam } from "@/lib/hooks/useExamAttempt";
+import type { ExamQuestion, ExamAnswer } from "@/types/exam";
 import Button from "@/components/ui/Button";
 
 /* ------------------------------------------------------------------ */
@@ -27,7 +27,6 @@ function ExamTimer({ endTime, onTimeUp }: { endTime: number; onTimeUp: () => voi
 
   const m = Math.floor(remaining / 60);
   const s = remaining % 60;
-  const pct = (remaining / (EXAMS_BY_ID[Object.keys(EXAMS_BY_ID)[0] ?? "exam-module-1"]?.timeLimit ?? 1200)) * 100;
   let color = "text-brand-green-400";
   if (remaining < 120) color = "text-red-400 animate-pulse";
   else if (remaining < 600) color = "text-amber-400";

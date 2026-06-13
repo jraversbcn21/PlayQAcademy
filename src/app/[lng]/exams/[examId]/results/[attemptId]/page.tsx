@@ -11,7 +11,6 @@ import { identifyWeakAreas } from "@/lib/exam/scoring";
 import { CURRICULUM } from "@/lib/constants/curriculum";
 import type { ExamAttempt, ExamQuestion } from "@/types/exam";
 import Button from "@/components/ui/Button";
-import Badge from "@/components/ui/Badge";
 
 /* ------------------------------------------------------------------ */
 /*  Page                                                               */

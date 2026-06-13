@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { USERS, PRODUCTS, getNextUserId, type PlaygroundUser } from "@/lib/playground/store";
+import { USERS, getNextUserId, type PlaygroundUser } from "@/lib/playground/store";
 
 export async function GET() {
   return NextResponse.json({ success: true, data: USERS, count: USERS.length });

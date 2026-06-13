@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
-import { useGamification } from "@/lib/hooks/useGamification";
 import StreakIndicator from "@/components/gamification/StreakIndicator";
 import Button from "@/components/ui/Button";
 

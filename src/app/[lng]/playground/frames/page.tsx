@@ -6,7 +6,6 @@ import ExerciseHeader from "@/components/playground/ExerciseHeader";
 
 export default function FramesPage({ params: { lng } }: { params: { lng: string } }) {
   const { t: _t } = useTranslation("common");
-  const [showPopup, setShowPopup] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [frameMsg, setFrameMsg] = useState("");
 

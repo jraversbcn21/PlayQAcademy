@@ -2,8 +2,7 @@
  * Exam scoring and question generation utilities.
  */
 
-import type { ExamQuestion, ExamAnswer, ExamDifficulty } from "@/types/exam";
-import { CURRICULUM } from "@/lib/constants/curriculum";
+import type { ExamQuestion, ExamAnswer } from "@/types/exam";
 
 /* ------------------------------------------------------------------ */
 /*  Question bank registry (populated by module question files)         */

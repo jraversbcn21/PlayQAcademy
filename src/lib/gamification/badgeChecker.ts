@@ -3,11 +3,11 @@
  * and awards any that are newly met criteria.
  */
 
-import type { Badge, BadgeCriteria, EarnedBadge, UserGamification } from "@/types/gamification";
-import { BADGES, BADGES_BY_ID } from "@/lib/constants/badges";
+import type { Badge, BadgeCriteria, EarnedBadge } from "@/types/gamification";
+import { BADGES } from "@/lib/constants/badges";
 import { CURRICULUM } from "@/lib/constants/curriculum";
 import { db } from "@/lib/firebase/config";
-import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, getDoc, updateDoc, arrayUnion, type DocumentData, type UpdateData } from "firebase/firestore";
 
 /* ------------------------------------------------------------------ */
 /*  Context passed after each key event                                */
@@ -71,7 +71,7 @@ export async function checkAndAwardBadges(
     updates.totalPoints = currentPoints + pointsToAdd;
   }
 
-  await updateDoc(ref, updates).catch(() => {
+  await updateDoc(ref, updates as UpdateData<DocumentData>).catch(() => {
     // Create the doc if it doesn't exist yet
   });
 

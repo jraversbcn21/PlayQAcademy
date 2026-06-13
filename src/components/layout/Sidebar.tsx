@@ -178,8 +178,6 @@ export default function Sidebar({ currentLng: _currentLng, onLessonSelect, class
       <ul className="flex-1 space-y-0.5 px-2 py-2">
         {MOCK_MODULES.map((mod, modIdx) => {
           const isExpanded = expandedModules.has(modIdx);
-          const completedLessons = mod.lessons.filter((l) => l.completed).length;
-          const totalLessons = mod.lessons.length;
 
           return (
             <li key={mod.translationKey}>

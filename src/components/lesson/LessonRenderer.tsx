@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, type ReactNode } from "react";
+import { useState, useCallback } from "react";
 import { useTranslation } from "@/lib/i18n/client";
 import type { LessonSection, Bilingual } from "@/types/lesson";
 import QuizSectionRenderer from "./QuizSection";
@@ -24,7 +24,7 @@ interface LessonRendererProps {
 /* ------------------------------------------------------------------ */
 
 function tText(bi: Bilingual, lng: string): string {
-  return (bi as Record<string, string>)[lng] ?? bi.en;
+  return bi[lng as "es" | "en"] ?? bi.en;
 }
 
 /* ------------------------------------------------------------------ */

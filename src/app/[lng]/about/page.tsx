@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
 
 /* ------------------------------------------------------------------ */
@@ -48,7 +47,6 @@ const ABOUT_LINKS = [
 
 export default function AboutPage() {
   const { t } = useTranslation("common");
-  const { lng } = useParams() as { lng: string };
 
   const [imgError, setImgError] = useState(false);
 
