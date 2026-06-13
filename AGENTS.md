@@ -68,7 +68,7 @@ All items below have been verified by Jorge with his own eyes in the browser. Ev
 
 3. **~~3 content-less exams~~ — FIXED** (branch `fix/gate-contentless-exams`). New data-driven helper `isExamReady(exam)` in `exams.ts` (= `getQuestionsForModules(exam.moduleIds).length >= exam.questionCount`) gates `exam-module-2-3`, `exam-midterm`, `exam-final`. They now show a "Coming Soon"/"Próximamente" badge (not startable) in the `/exams` index, the campus detail page, and the `start` page (defense in depth). The `take` page also shows a proper "unavailable" message instead of the infinite spinner when a bank is empty. When question banks for m2-m8 are added later, these exams light up automatically (no code change — the helper is data-driven).
 
-4. **/exams global index mixes all campuses** — `/[lng]/exams` shows all 5 exams regardless of campus. Needs per-campus separation (e.g., ISTQB exams section, Automation exams section). **Separate branch.**
+4. **~~/exams global index mixes all campuses~~ — FIXED** (branch `feature/exams-by-campus`, PR #4). `/[lng]/exams` now groups exams into per-campus sections via `getSubCampuses()` + `getExamsForCampus()`, each with a campus heading and a "View campus →" link. Campuses with no exams (QA Fundamentals) are skipped. Browser-verified on `/es` and `/en`.
 
 5. **coming_soon campus is a clickable Link** — QA Fundamentals card links to `/campus/qaFundamentals` which shows empty page. Should be disabled or show "Coming Soon" modal. **Separate branch.**
 
@@ -80,9 +80,9 @@ All items below have been verified by Jorge with his own eyes in the browser. Ev
 
 2. **~~Gate or hide 3 content-less exams while question banks for m2-m8 do not exist.~~ — DONE** (branch `fix/gate-contentless-exams`). "Coming Soon" badge approach via data-driven `isExamReady`; see Known bugs #3 above.
 
-3. **/exams redesign: separate per-campus exam index instead of global mixed list.** Group exams by campus (ISTQB section, Automation section). **Separate branch.**
+3. **~~/exams redesign: separate per-campus exam index instead of global mixed list.~~ — DONE** (branch `feature/exams-by-campus`, PR #4, browser-verified). See Known bugs #4 above.
 
-4. **exam-pass badge: add badge criteria for passing an exam.** Currently no badge exists for exam passing. Add `exam_passed` criteria type to `badgeChecker.ts`, define badge(s) in `badges.ts`. **Separate branch.**
+4. **exam-pass badge: add badge criteria for passing an exam.** Currently no badge exists for exam passing. Add `exam_passed` criteria type to `badgeChecker.ts`, define badge(s) in `badges.ts`. **Separate branch.** ← IN PROGRESS (branch `feature/exam-passed-badge`).
 
 5. **QA Fundamentals campus content: curriculum and lessons.** Create 3-5 modules with introductory QA content. **Separate branch.**
 
