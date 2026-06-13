@@ -19,36 +19,42 @@ Bugs de exámenes (`exam-module-2-3`, `exam-midterm`, `exam-final`, `calculateSc
 ---
 
 ## Paso 1 — Abstracción padre + helper de exámenes (riesgo: bajo)
-- [ ] `src/types/campus.ts`: añadir interface `QaCampus` (`id`, `title: Bilingual`, `description: Bilingual`, `tagline?: Bilingual`).
-- [ ] `src/lib/constants/campuses.ts`: exportar `QA_CAMPUS: QaCampus` (id `"qa"`, título "Campus QA" / "QA Campus") y añadir `getSubCampuses(): Campus[]` (= `CAMPUSES` ordenado por `order`).
-- [ ] `src/lib/constants/exams.ts`: añadir `getExamsForCampus(campusId): Exam[]` — filtra `EXAMS` donde **todos** los `exam.moduleIds` estén en los `moduleIds` del campus (subset = propiedad inequívoca). Reutiliza `getModulesForCampus`.
-- [ ] **Validar:** `npm run typecheck`; comprobar `getExamsForCampus("istqb") === ["exam-istqb-ctfl"]` y `getExamsForCampus("automation")` = los 4 exámenes de automation.
+- [x] `src/types/campus.ts`: añadir interface `QaCampus` (`id`, `title: Bilingual`, `description: Bilingual`, `tagline?: Bilingual`).
+- [x] `src/lib/constants/campuses.ts`: exportar `QA_CAMPUS: QaCampus` (id `"qa"`, título "Campus QA" / "QA Campus") y añadir `getSubCampuses(): Campus[]` (= `CAMPUSES` ordenado por `order`).
+- [x] `src/lib/constants/exams.ts`: añadir `getExamsForCampus(campusId): Exam[]` — filtra `EXAMS` donde **todos** los `exam.moduleIds` estén en los `moduleIds` del campus (subset = propiedad inequívoca). Reutiliza `getModulesForCampus`.
+- [x] **Validar:** `npm run typecheck`; comprobar `getExamsForCampus("istqb") === ["exam-istqb-ctfl"]` y `getExamsForCampus("automation")` = los 4 exámenes de automation.
 
 ## Paso 2 — Neutralizar branding del root (riesgo: bajo)
-- [ ] `src/app/layout.tsx:24-52`: title default → neutral (ej. "PlayQAcademy — Domina el QA de software"); actualizar description/keywords/openGraph/twitter a copy QA-amplio (Fundamentos + ISTQB + Automation).
-- [ ] `src/app/[lng]/layout.tsx:23-47`: misma neutralización en `generateMetadata` (mantener ramas ES/EN y template `%s | PlayQAcademy`).
-- [ ] **Validar:** view-source de `<title>`/`<meta og:*>` en `/es` y `/en` sin "Playwright" en el title default.
+- [x] `src/app/layout.tsx:24-52`: title default → neutral (ej. "PlayQAcademy — Domina el QA de software"); actualizar description/keywords/openGraph/twitter a copy QA-amplio (Fundamentos + ISTQB + Automation).
+- [x] `src/app/[lng]/layout.tsx:23-47`: misma neutralización en `generateMetadata` (mantener ramas ES/EN y template `%s | PlayQAcademy`).
+- [x] **Validar:** view-source de `<title>`/`<meta og:*>` en `/es` y `/en` sin "Playwright" en el title default.
 
 ## Paso 3 — Reframe del landing como hub QA Campus (riesgo: bajo-medio)
-- [ ] `src/app/[lng]/page.tsx`: mantener hero + `CampusGrid` (ya itera `CAMPUSES`); actualizar copy del hero a framing "QA Campus" vía claves i18n (`hero.title`, `hero.tagline`, `landing.campuses.title/subtitle`). Opcional: tomar título/subtítulo del hub desde `QA_CAMPUS`.
-- [ ] `public/locales/es/common.json` y `public/locales/en/common.json`: actualizar esas claves. **Mantener paridad ES/EN** (sin strings vacíos, sin claves faltantes — AGENTS.md item 7).
-- [ ] **Validar:** `/es` y `/en` muestran copy del hub, sin flash de hidratación, sin warnings de claves faltantes.
+- [x] `src/app/[lng]/page.tsx`: mantener hero + `CampusGrid` (ya itera `CAMPUSES`); actualizar copy del hero a framing "QA Campus" vía claves i18n (`hero.title`, `hero.tagline`, `landing.campuses.title/subtitle`). Opcional: tomar título/subtítulo del hub desde `QA_CAMPUS`.
+  - `hero.title` y `landing.campuses.title/subtitle` ya estaban en framing neutral ("Tu carrera en QA empieza aquí" / "Elige tu campus") — sin cambios.
+  - `hero.tagline` actualizado a "Bienvenido al Campus QA: elige tu camino entre Fundamentos de QA, certificación ISTQB CTFL y automatización con Playwright." (ES) / "Welcome to QA Campus: choose your path between QA Fundamentals, ISTQB CTFL certification, and Playwright automation." (EN).
+- [x] `public/locales/es/common.json` y `public/locales/en/common.json`: actualizar esas claves. **Mantener paridad ES/EN** (sin strings vacíos, sin claves faltantes — AGENTS.md item 7).
+- [ ] **Validar:** `/es` y `/en` muestran copy del hub, sin flash de hidratación, sin warnings de claves faltantes. *(diferido a verificación end-to-end final — la página se ve correctamente en `/es` vía curl; el patrón SSR-en-es-luego-corrige-cliente es preexistente, igual que `hero.title`)*
 
 ## Paso 4 — Página sub-campus: exámenes data-driven + breadcrumb padre (riesgo: medio)
-- [ ] `src/app/[lng]/campus/[campusId]/page.tsx`: reemplazar el bloque `campusId === "istqb"` (líneas 76-88) por `getExamsForCampus(campusId).map(...)` → un enlace "Tomar examen" por examen a `/${lng}/exams/${exam.id}/start`, título desde `exam.title[lang]`.
-- [ ] Añadir breadcrumb `QA Campus → {campus.title[lang]}`, con el padre enlazando a `/${lng}` (hub). Mantener el "volver al dashboard" existente.
-- [ ] **Nota:** los 3 exámenes rotos de automation quedarán visibles aquí (ya lo estaban en `/exams`). Su corrección es rama aparte — anotarlo en el PR.
-- [ ] **Validar:** ISTQB muestra botón CTFL → `/exams/exam-istqb-ctfl/start`; automation lista sus exámenes; qaFundamentals sin exámenes ni crash; breadcrumb padre vuelve al hub. Ambos idiomas.
+- [x] `src/app/[lng]/campus/[campusId]/page.tsx`: reemplazar el bloque `campusId === "istqb"` (líneas 76-88) por `getExamsForCampus(campusId).map(...)` → un enlace "Tomar examen" por examen a `/${lng}/exams/${exam.id}/start`, título desde `exam.title[lang]`.
+- [x] Añadir breadcrumb `QA Campus → {campus.title[lang]}`, con el padre enlazando a `/${lng}` (hub). Mantener el "volver al dashboard" existente.
+- [x] **Nota:** los 3 exámenes rotos de automation quedarán visibles aquí (ya lo estaban en `/exams`). Su corrección es rama aparte — anotarlo en el PR.
+- [x] **Validar:** ISTQB muestra botón CTFL → `/exams/exam-istqb-ctfl/start`; automation lista sus exámenes; qaFundamentals sin exámenes ni crash; breadcrumb padre vuelve al hub. Ambos idiomas.
+  - Confirmado vía curl: ISTQB → 1 link (`exam-istqb-ctfl`), automation → 4 links (`exam-module-1`, `exam-module-2-3`, `exam-midterm`, `exam-final`), qaFundamentals → 0 links. Breadcrumb "Campus QA"/"QA Campus" → `/es` y `/en` respectivamente, en los 3 campus.
 
 ## Paso 5 — (Opcional, misma rama) metadata SEO por campus (riesgo: medio)
+- [ ] **DIFERIDO a follow-up** — pasos 1-4 ya cumplen el requisito central (decisión tomada al cierre de esta sesión).
 - [ ] La página es `"use client"`, así que `generateMetadata` no puede ir directo. Extraer el componente actual a un hijo cliente (ej. `CampusDetail.tsx`) y convertir `page.tsx` en server component que añade `generateMetadata` (deriva title/description de `getCampusById`) y renderiza el hijo cliente.
 - [ ] Mantener `useParams`/`useTranslation` y demás hooks en el hijo cliente.
 - [ ] **Validar:** OG de `/es/campus/istqb` vs `/es/campus/automation` difieren y coinciden con el campus.
-- [ ] *Si falta tiempo, diferir a follow-up: los pasos 1-4 ya cumplen el requisito central.*
 
 ## Paso 6 — Pase de consistencia (riesgo: bajo)
-- [ ] Verificar `Navbar`/`Footer`: logo/home apunta al hub `/[lng]` y sin etiquetas solo-automation.
-- [ ] Confirmar que `dashboard/page.tsx` (grid de campus, itera `CAMPUSES`) se lee bien bajo el framing QA Campus.
+- [x] Verificar `Navbar`/`Footer`: logo/home apunta al hub `/[lng]` y sin etiquetas solo-automation.
+  - Navbar `Logo` → `/` (redirige a `/[lng]` hub vía middleware). Footer brand → `/${currentLng}` (hub). Ambos OK sin cambios.
+  - `footer.tagline` era automation-céntrico ("De QA Manual a QA Automatizado..."/"From Manual QA to Automated QA..."). Actualizado a framing QA Campus neutral en ES/EN, consistente con `hero.tagline` y metadata de Paso 2.
+- [x] Confirmar que `dashboard/page.tsx` (grid de campus, itera `CAMPUSES`) se lee bien bajo el framing QA Campus.
+  - Sección "Campus selector" usa `t("campus.title")` = "Campus" (neutral), itera `CAMPUSES` con estilo igualitario para las 3. Sin cambios necesarios.
 
 ---
 

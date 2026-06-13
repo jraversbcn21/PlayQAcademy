@@ -3,6 +3,7 @@
  */
 
 import type { Exam } from "@/types/exam";
+import { getModulesForCampus } from "./campuses";
 import "./examQuestions/module-1";
 import "./examQuestions/istqb";
 
@@ -135,4 +136,15 @@ export const EXAMS: Exam[] = [
 export const EXAMS_BY_ID: Record<string, Exam> = {};
 for (const exam of EXAMS) {
   EXAMS_BY_ID[exam.id] = exam;
+}
+
+/**
+ * Get all exams that belong to a given campus, i.e. every exam whose
+ * moduleIds are a subset of the campus's moduleIds.
+ */
+export function getExamsForCampus(campusId: string): Exam[] {
+  const campusModuleIds = new Set(getModulesForCampus(campusId));
+  return EXAMS.filter((exam) =>
+    exam.moduleIds.every((moduleId) => campusModuleIds.has(moduleId)),
+  );
 }

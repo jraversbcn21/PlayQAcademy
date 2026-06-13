@@ -33,3 +33,22 @@ export interface Campus {
   /** Whether the campus is currently active or coming soon. */
   status: CampusStatus;
 }
+
+/* ------------------------------------------------------------------ */
+/*  QA Campus (root hub)                                               */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The single neutral root that hosts the sub-campuses (QA Fundamentals,
+ * ISTQB, Automation). Not part of CAMPUSES — it's the parent hub.
+ */
+export interface QaCampus {
+  /** Semantic ID (e.g. "qa"). */
+  id: string;
+  /** Hub name in both languages. */
+  title: Bilingual;
+  /** Hub description in both languages. */
+  description: Bilingual;
+  /** Optional short tagline in both languages. */
+  tagline?: Bilingual;
+}

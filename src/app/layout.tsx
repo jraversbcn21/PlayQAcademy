@@ -24,21 +24,24 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: {
     template: "%s | PlayQAcademy",
-    default: "PlayQAcademy — Test Automation with Playwright",
+    default: "PlayQAcademy — Domina el QA de software",
   },
   description:
-    "De QA Manual a QA Automatizado. Aprende Playwright y TypeScript con PlayQAcademy, la plataforma de formación en automatización de pruebas líder en español.",
+    "Aprende QA desde cero hasta la automatización: Fundamentos de QA, certificación ISTQB CTFL y automatización con Playwright y TypeScript, todo en una sola plataforma.",
   keywords: [
+    "QA",
+    "testing de software",
+    "ISTQB",
+    "ISTQB CTFL",
     "Playwright",
     "TypeScript",
-    "test automation",
-    "QA automation",
+    "automatización de pruebas",
     "PlayQAcademy",
   ],
   openGraph: {
-    title: "PlayQAcademy — Test Automation with Playwright",
+    title: "PlayQAcademy — Domina el QA de software",
     description:
-      "De QA Manual a QA Automatizado. Tu transición comienza aquí.",
+      "Fundamentos de QA, certificación ISTQB CTFL y automatización con Playwright. Tu carrera en QA comienza aquí.",
     type: "website",
     locale: "es_ES",
     alternateLocale: "en_US",
@@ -47,7 +50,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "PlayQAcademy",
     description:
-      "From Manual QA to Automated QA. Your transition starts here.",
+      "Master software QA: Fundamentals, ISTQB CTFL certification, and Playwright automation — all in one platform.",
   },
 };
 

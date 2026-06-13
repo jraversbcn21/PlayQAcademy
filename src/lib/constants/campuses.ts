@@ -11,7 +11,7 @@
  *   3. Playwright + TypeScript Automation (existing 8 modules)
  */
 
-import type { Campus } from "@/types/campus";
+import type { Campus, QaCampus } from "@/types/campus";
 
 /* ------------------------------------------------------------------ */
 /*  Feature flags                                                      */
@@ -23,6 +23,26 @@ import type { Campus } from "@/types/campus";
  * within the same campus.
  */
 export const ENFORCE_MODULE_LOCKING = false;
+
+/* ------------------------------------------------------------------ */
+/*  QA Campus (root hub)                                               */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The neutral root hub. The landing page ("/[lng]") presents this as
+ * the entry point, with the three campuses below as equal sub-campuses.
+ */
+export const QA_CAMPUS: QaCampus = {
+  id: "qa",
+  title: {
+    es: "Campus QA",
+    en: "QA Campus",
+  },
+  description: {
+    es: "El punto de partida para tu carrera en QA: Fundamentos, ISTQB CTFL y Automatización con Playwright en un solo lugar.",
+    en: "Your starting point for a QA career: Fundamentals, ISTQB CTFL, and Playwright Automation all in one place.",
+  },
+};
 
 /* ------------------------------------------------------------------ */
 /*  Campus definitions                                                 */
@@ -115,4 +135,12 @@ export function getModulesForCampus(campusId: string): string[] {
  */
 export function getCampusById(campusId: string): Campus | null {
   return CAMPUSES.find((c) => c.id === campusId) ?? null;
+}
+
+/**
+ * Get all sub-campuses (QA Fundamentals, ISTQB, Automation) ordered by
+ * their display order, for rendering under the QA Campus hub.
+ */
+export function getSubCampuses(): Campus[] {
+  return [...CAMPUSES].sort((a, b) => a.order - b.order);
 }

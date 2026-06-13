@@ -1,7 +1,7 @@
 {
   "hero": {
     "title": "Your QA career starts here",
-    "tagline": "Three campuses, one path: from QA fundamentals to automation with Playwright.",
+    "tagline": "Welcome to QA Campus: choose your path between QA Fundamentals, ISTQB CTFL certification, and Playwright automation.",
     "ctaPrimary": "Register here",
     "ctaSecondary": "View Curriculum",
     "feature1": {
@@ -285,7 +285,7 @@
     "api": "API Playground"
   },
   "footer": {
-    "tagline": "From Manual QA to Automated QA. Your transition starts here.",
+    "tagline": "QA Fundamentals, ISTQB CTFL certification, and Playwright automation. Your QA career starts here.",
     "learn": {
       "title": "Learn",
       "courses": "Courses",

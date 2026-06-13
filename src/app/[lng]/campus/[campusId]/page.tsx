@@ -3,7 +3,8 @@
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
-import { getModulesForCampus, getCampusById } from "@/lib/constants/campuses";
+import { getModulesForCampus, getCampusById, QA_CAMPUS } from "@/lib/constants/campuses";
+import { getExamsForCampus } from "@/lib/constants/exams";
 import { CURRICULUM } from "@/lib/constants/curriculum";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
@@ -24,6 +25,7 @@ export default function CampusPage() {
   const modules = moduleIds
     .map((id) => CURRICULUM.find((m) => m.id === id))
     .filter((m): m is NonNullable<typeof m> => m !== undefined);
+  const exams = getExamsForCampus(campusId);
 
   if (!campus) {
     return (
@@ -46,6 +48,14 @@ export default function CampusPage() {
     <div className="mx-auto max-w-6xl px-4 py-8">
       {/* Header */}
       <div className="mb-8">
+        <nav aria-label="breadcrumb" className="mb-2 flex items-center gap-2 text-sm text-[var(--color-text-muted)]">
+          <Link href={`/${lng}`} className="hover:text-[var(--color-text-primary)] hover:underline">
+            {QA_CAMPUS.title[lang]}
+          </Link>
+          <span aria-hidden="true">/</span>
+          <span className="text-[var(--color-text-primary)]">{campus.title[lang]}</span>
+        </nav>
+
         <Link href={`/${lng}/dashboard`} className="mb-4 inline-flex items-center gap-2 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]">
           <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -73,17 +83,25 @@ export default function CampusPage() {
           )}
         </div>
 
-        {campusId === "istqb" && (
+        {exams.length > 0 && (
           <div className="mt-6">
-            <Link
-              href={`/${lng}/exams/exam-istqb-ctfl/start`}
-              className="inline-flex items-center gap-2 rounded-lg bg-brand-blue-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-brand-blue-600"
-            >
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+            <h2 className="mb-3 text-sm font-semibold text-[var(--color-text-secondary)]">
               {t("campus.takeExam")}
-            </Link>
+            </h2>
+            <div className="flex flex-wrap gap-3">
+              {exams.map((exam) => (
+                <Link
+                  key={exam.id}
+                  href={`/${lng}/exams/${exam.id}/start`}
+                  className="inline-flex items-center gap-2 rounded-lg bg-brand-blue-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-brand-blue-600"
+                >
+                  <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  {exam.title[lang]}
+                </Link>
+              ))}
+            </div>
           </div>
         )}
       </div>
