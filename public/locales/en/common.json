@@ -2,8 +2,7 @@
   "hero": {
     "title": "Your QA career starts here",
     "tagline": "Welcome to QA Campus: choose your path between QA Fundamentals, ISTQB CTFL certification, and Playwright automation.",
-    "ctaPrimary": "Register here",
-    "ctaSecondary": "View Curriculum",
+    "ctaSecondary": "View Campus",
     "feature1": {
       "title": "40+ Interactive Lessons",
       "description": "From testing fundamentals to advanced Playwright patterns. Learn at your own pace with hands-on exercises."
