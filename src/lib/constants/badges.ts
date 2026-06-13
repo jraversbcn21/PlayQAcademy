@@ -346,6 +346,36 @@ export const BADGES: Badge[] = [
     points: 1500,
     criteria: { type: "all_modules_completed" },
   },
+  {
+    id: "module_1_exam_passed",
+    name: {
+      es: "Maestría del Módulo 1",
+      en: "Module 1 Mastery",
+    },
+    description: {
+      es: "Aprobaste el examen del Módulo 1 — Fundamentos de TypeScript.",
+      en: "You passed the Module 1 exam — TypeScript Foundations.",
+    },
+    icon: "🥇",
+    rarity: "rare",
+    points: 150,
+    criteria: { type: "exam_passed", examId: "exam-module-1" },
+  },
+  {
+    id: "istqb_ctfl_passed",
+    name: {
+      es: "Certificación ISTQB CTFL",
+      en: "ISTQB CTFL Certified",
+    },
+    description: {
+      es: "Aprobaste el simulacro ISTQB CTFL v4.0. ¡Estás listo para la certificación oficial!",
+      en: "You passed the ISTQB CTFL v4.0 mock exam. You're ready for the official certification!",
+    },
+    icon: "🎓",
+    rarity: "epic",
+    points: 400,
+    criteria: { type: "exam_passed", examId: "exam-istqb-ctfl" },
+  },
 ];
 
 /**

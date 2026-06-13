@@ -22,6 +22,8 @@ export interface BadgeCheckContext {
   currentStreak: number;
   /** Speed data: moduleId → minutes taken to complete */
   moduleCompletionTimes?: Record<string, number>;
+  /** Exam IDs the user has passed (populated from the exam flow). */
+  passedExamIds?: string[];
 }
 
 /* ------------------------------------------------------------------ */
@@ -110,6 +112,9 @@ function meetsCriteria(criteria: BadgeCriteria, ctx: BadgeCheckContext): boolean
       if (!ctx.moduleCompletionTimes) return false;
       const time = ctx.moduleCompletionTimes[criteria.moduleId];
       return time !== undefined && time < criteria.minutesUnder;
+
+    case "exam_passed":
+      return ctx.passedExamIds?.includes(criteria.examId) ?? false;
 
     default:
       return false;

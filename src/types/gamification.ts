@@ -20,7 +20,8 @@ export type BadgeCriteria =
   | { type: "streak_days"; days: number }
   | { type: "first_login" }
   | { type: "exercise_completed"; count: number }
-  | { type: "speed_learner"; minutesUnder: number; moduleId: string };
+  | { type: "speed_learner"; minutesUnder: number; moduleId: string }
+  | { type: "exam_passed"; examId: string };
 
 export interface Badge {
   id: string;
