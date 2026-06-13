@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
 import { useProgress } from "@/lib/hooks/useProgress";
-import { EXAMS, isExamReady } from "@/lib/constants/exams";
+import { getExamsForCampus, isExamReady } from "@/lib/constants/exams";
+import { getSubCampuses } from "@/lib/constants/campuses";
 import { getExamHistory } from "@/lib/hooks/useExamAttempt";
 import type { ExamAttempt } from "@/types/exam";
 import Button from "@/components/ui/Button";
@@ -68,61 +69,83 @@ export default function ExamsPage({ params: { lng } }: ExamsPageProps) {
           ))}
         </div>
 
-        {/* Exam cards */}
-        <div className="space-y-4">
-          {EXAMS.map((exam) => {
-            const ready = isExamReady(exam);
-            const isLocked = exam.requiresModuleCompletion.some((mid) => !isModuleUnlocked(mid));
-            const bestAttempt = history
-              .filter((a) => a.examId === exam.id)
-              .sort((a, b) => b.score - a.score)[0];
-
-            const title = exam.title[lng as "es" | "en"] ?? exam.title.en;
-            const desc = exam.description[lng as "es" | "en"] ?? exam.description.en;
+        {/* Exams grouped by campus */}
+        <div className="space-y-10">
+          {getSubCampuses().map((campus) => {
+            const campusExams = getExamsForCampus(campus.id);
+            if (campusExams.length === 0) return null;
 
             return (
-              <div
-                key={exam.id}
-                className={[
-                  "rounded-xl border bg-[var(--color-bg-secondary)] p-5 transition-shadow hover:shadow-md",
-                  isLocked || !ready ? "border-[var(--color-border)] opacity-70" : "border-[var(--color-border)]",
-                ].join(" ")}
-              >
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex-1">
-                    <div className="mb-2 flex items-center gap-2">
-                      <Badge variant={exam.type === "final" ? "error" : exam.type === "midterm" ? "warning" : "info"} size="sm">
-                        {exam.type}
-                      </Badge>
-                      {!ready && <Badge variant="warning" size="sm">{lng === "es" ? "Próximamente" : "Coming Soon"}</Badge>}
-                      {ready && isLocked && <Badge variant="locked" size="sm">{lng === "es" ? "Bloqueado" : "Locked"}</Badge>}
-                    </div>
-                    <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">{title}</h3>
-                    <p className="mt-1 text-sm text-[var(--color-text-muted)]">{desc}</p>
-                    <div className="mt-2 flex flex-wrap gap-3 text-xs text-[var(--color-text-muted)]">
-                      <span>{exam.questionCount} {lng === "es" ? "preguntas" : "questions"}</span>
-                      <span>{fmtTime(exam.timeLimit)} min</span>
-                      <span>{lng === "es" ? "Nota de corte:" : "Pass:"} {exam.passingScore}%</span>
-                    </div>
-                    {bestAttempt && (
-                      <p className="mt-2 text-xs font-medium text-brand-green-400">
-                        {lng === "es" ? "Mejor puntuación:" : "Best score:"} {bestAttempt.score}% {bestAttempt.passed ? "✓" : ""}
-                      </p>
-                    )}
-                  </div>
-                  {!ready ? (
-                    <Badge variant="warning" size="md">{lng === "es" ? "Próximamente" : "Coming Soon"}</Badge>
-                  ) : isLocked ? (
-                    <Badge variant="locked" size="md">{lng === "es" ? "Bloqueado" : "Locked"}</Badge>
-                  ) : (
-                    <Link href={`/${lng}/exams/${exam.id}/start`}>
-                      <Button variant="primary" className="!bg-brand-orange-500 hover:!bg-brand-orange-400">
-                        {lng === "es" ? "Comenzar" : "Start"}
-                      </Button>
-                    </Link>
-                  )}
+              <section key={campus.id}>
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
+                    {campus.title[lng as "es" | "en"] ?? campus.title.en}
+                  </h2>
+                  <Link
+                    href={`/${lng}/campus/${campus.id}`}
+                    className="shrink-0 text-sm font-medium text-brand-blue-400 hover:underline"
+                  >
+                    {lng === "es" ? "Ver campus →" : "View campus →"}
+                  </Link>
                 </div>
-              </div>
+                <div className="space-y-4">
+                  {campusExams.map((exam) => {
+                    const ready = isExamReady(exam);
+                    const isLocked = exam.requiresModuleCompletion.some((mid) => !isModuleUnlocked(mid));
+                    const bestAttempt = history
+                      .filter((a) => a.examId === exam.id)
+                      .sort((a, b) => b.score - a.score)[0];
+
+                    const title = exam.title[lng as "es" | "en"] ?? exam.title.en;
+                    const desc = exam.description[lng as "es" | "en"] ?? exam.description.en;
+
+                    return (
+                      <div
+                        key={exam.id}
+                        className={[
+                          "rounded-xl border bg-[var(--color-bg-secondary)] p-5 transition-shadow hover:shadow-md",
+                          isLocked || !ready ? "border-[var(--color-border)] opacity-70" : "border-[var(--color-border)]",
+                        ].join(" ")}
+                      >
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                          <div className="flex-1">
+                            <div className="mb-2 flex items-center gap-2">
+                              <Badge variant={exam.type === "final" ? "error" : exam.type === "midterm" ? "warning" : "info"} size="sm">
+                                {exam.type}
+                              </Badge>
+                              {!ready && <Badge variant="warning" size="sm">{lng === "es" ? "Próximamente" : "Coming Soon"}</Badge>}
+                              {ready && isLocked && <Badge variant="locked" size="sm">{lng === "es" ? "Bloqueado" : "Locked"}</Badge>}
+                            </div>
+                            <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">{title}</h3>
+                            <p className="mt-1 text-sm text-[var(--color-text-muted)]">{desc}</p>
+                            <div className="mt-2 flex flex-wrap gap-3 text-xs text-[var(--color-text-muted)]">
+                              <span>{exam.questionCount} {lng === "es" ? "preguntas" : "questions"}</span>
+                              <span>{fmtTime(exam.timeLimit)} min</span>
+                              <span>{lng === "es" ? "Nota de corte:" : "Pass:"} {exam.passingScore}%</span>
+                            </div>
+                            {bestAttempt && (
+                              <p className="mt-2 text-xs font-medium text-brand-green-400">
+                                {lng === "es" ? "Mejor puntuación:" : "Best score:"} {bestAttempt.score}% {bestAttempt.passed ? "✓" : ""}
+                              </p>
+                            )}
+                          </div>
+                          {!ready ? (
+                            <Badge variant="warning" size="md">{lng === "es" ? "Próximamente" : "Coming Soon"}</Badge>
+                          ) : isLocked ? (
+                            <Badge variant="locked" size="md">{lng === "es" ? "Bloqueado" : "Locked"}</Badge>
+                          ) : (
+                            <Link href={`/${lng}/exams/${exam.id}/start`}>
+                              <Button variant="primary" className="!bg-brand-orange-500 hover:!bg-brand-orange-400">
+                                {lng === "es" ? "Comenzar" : "Start"}
+                              </Button>
+                            </Link>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
             );
           })}
         </div>
