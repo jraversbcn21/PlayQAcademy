@@ -74,29 +74,30 @@ export function generateExamQuestions(
 /*  Scoring                                                            */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Score an exam attempt using an equal-weight model: every question counts
+ * the same, regardless of its `points` value. Returns the percentage of
+ * questions answered correctly, rounded to the nearest integer.
+ *
+ * The denominator is the number of questions in the exam set (`questions`),
+ * so unanswered or missing questions count as incorrect. This keeps the
+ * headline score consistent with the "correct / total" fraction shown on
+ * the results page (no points-weighted vs. equal-weight drift).
+ */
 export function calculateScore(
   answers: ExamAnswer[],
   questions: ExamQuestion[]
 ): number {
   if (questions.length === 0) return 0;
 
-  const questionMap = new Map<string, ExamQuestion>();
-  for (const q of questions) questionMap.set(q.id, q);
+  const questionIds = new Set(questions.map((q) => q.id));
 
-  let earned = 0;
-  let total = 0;
-
+  let correct = 0;
   for (const ans of answers) {
-    const question = questionMap.get(ans.questionId);
-    if (!question) {
-      // Question not in the exam set — skip
-      continue;
-    }
-    total += question.points;
-    if (ans.isCorrect) earned += question.points;
+    if (ans.isCorrect && questionIds.has(ans.questionId)) correct++;
   }
 
-  return total > 0 ? Math.round((earned / total) * 100) : 0;
+  return Math.round((correct / questions.length) * 100);
 }
 
 export function getQuestionPoints(question: ExamQuestion): number {
