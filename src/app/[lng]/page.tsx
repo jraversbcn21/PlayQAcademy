@@ -83,13 +83,8 @@ export default function HomePage() {
             {t("hero.tagline")}
           </p>
 
-          {/* CTA buttons */}
+          {/* CTA button */}
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <Link href={`/${lng}/auth/sign-up`}>
-              <Button variant="primary" size="lg" className="!bg-brand-orange-500 hover:!bg-brand-orange-400">
-                {t("hero.ctaPrimary")}
-              </Button>
-            </Link>
             <Link href="#campuses">
               <Button variant="secondary" size="lg">
                 {t("hero.ctaSecondary")}
