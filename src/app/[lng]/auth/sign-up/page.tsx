@@ -58,7 +58,7 @@ function calculateStrength(password: string): StrengthResult {
 
   if (clamped <= 30) return { score: clamped, color: "bg-red-500" };
   if (clamped <= 60) return { score: clamped, color: "bg-amber-500" };
-  return { score: clamped, color: "bg-brand-green-500" };
+  return { score: clamped, color: "bg-brand-gold-500" };
 }
 
 function validatePassword(password: string): string | null {
@@ -158,7 +158,7 @@ export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
   if (!initialized || (loading && !submitting)) {
     return (
       <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-blue-500 border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-forest-500 border-t-transparent" />
       </div>
     );
   }
@@ -228,7 +228,7 @@ export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
                 placeholder={t("auth.signUp.displayNamePlaceholder")}
-                className="mt-1.5 block w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:border-brand-blue-500 focus:outline-none focus:ring-1 focus:ring-brand-blue-500"
+                className="mt-1.5 block w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:border-brand-forest-500 focus:outline-none focus:ring-1 focus:ring-brand-forest-500"
               />
             </div>
 
@@ -248,7 +248,7 @@ export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t("auth.signUp.emailPlaceholder")}
-                className="mt-1.5 block w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:border-brand-blue-500 focus:outline-none focus:ring-1 focus:ring-brand-blue-500"
+                className="mt-1.5 block w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:border-brand-forest-500 focus:outline-none focus:ring-1 focus:ring-brand-forest-500"
               />
             </div>
 
@@ -268,7 +268,7 @@ export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder={t("auth.signUp.passwordPlaceholder")}
-                className="mt-1.5 block w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:border-brand-blue-500 focus:outline-none focus:ring-1 focus:ring-brand-blue-500"
+                className="mt-1.5 block w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:border-brand-forest-500 focus:outline-none focus:ring-1 focus:ring-brand-forest-500"
               />
 
               {/* Password strength bar */}
@@ -307,7 +307,7 @@ export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder={t("auth.signUp.confirmPasswordPlaceholder")}
-                className="mt-1.5 block w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:border-brand-blue-500 focus:outline-none focus:ring-1 focus:ring-brand-blue-500"
+                className="mt-1.5 block w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:border-brand-forest-500 focus:outline-none focus:ring-1 focus:ring-brand-forest-500"
               />
               {!passwordsMatch && (
                 <p className="mt-1 text-xs text-red-400">
@@ -327,7 +327,7 @@ export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
                   if (e.target.checked) setTermsError(false);
                 }}
                 className={[
-                  "mt-1 h-4 w-4 rounded border bg-[var(--color-bg-secondary)] text-brand-blue-600 focus:ring-brand-blue-500",
+                  "mt-1 h-4 w-4 rounded border bg-[var(--color-bg-secondary)] text-brand-forest-600 focus:ring-brand-forest-500",
                   termsError ? "border-red-500" : "border-[var(--color-border)]",
                 ].join(" ")}
               />
@@ -361,7 +361,7 @@ export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
           {t("auth.signUp.haveAccount")}{" "}
           <Link
             href={`/${lng}/auth/sign-in`}
-            className="font-medium text-brand-blue-400 hover:text-brand-blue-300"
+            className="font-medium text-brand-forest-400 hover:text-brand-forest-300"
           >
             {t("auth.signUp.signInLink")}
           </Link>

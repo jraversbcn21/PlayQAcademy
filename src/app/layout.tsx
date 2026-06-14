@@ -1,16 +1,26 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Chakra_Petch, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-/*
- * Inter is the recommended Google Font for a technical learning platform:
- * - Excellent legibility at both small UI sizes and large headings
- * - Clean, modern, neutral character — does not distract from content
- * - Broad language support & active maintenance by Rasmus Andersson
- */
-const inter = Inter({
+/* Plus Jakarta Sans — base body font across the app */
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-plus-jakarta-sans",
+  display: "swap",
+});
+
+/* Chakra Petch — display font for large hero headlines */
+const chakraPetch = Chakra_Petch({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-chakra-petch",
+  display: "swap",
+});
+
+/* Space Grotesk — heading font for the logo wordmark and card titles */
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
   display: "swap",
 });
 
@@ -60,7 +70,19 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="es" className={`${inter.variable} ${jetbrainsMono.variable} dark`}>
+    <html
+      lang="es"
+      className={`${plusJakartaSans.variable} ${chakraPetch.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} light`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/* Apply the persisted theme before paint to avoid a flash of the wrong theme. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.remove('light')}}catch(e){}`,
+          }}
+        />
+      </head>
       <body className="min-h-screen antialiased">{children}</body>
     </html>
   );

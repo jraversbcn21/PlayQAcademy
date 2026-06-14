@@ -81,7 +81,7 @@ function TrendArrow({ trend }: { trend: number }) {
     <span
       className={[
         "ml-1.5 inline-flex items-center gap-0.5 text-xs font-medium",
-        isPositive ? "text-brand-green-400" : "text-red-400",
+        isPositive ? "text-brand-gold-400" : "text-red-400",
       ].join(" ")}
     >
       <svg
@@ -152,7 +152,7 @@ export default function StatCard({
       className={[
         "rounded-xl border p-5 transition-shadow",
         isHighlight
-          ? "border-brand-blue-500/30 bg-brand-blue-500/5 shadow-lg shadow-brand-blue-500/5"
+          ? "border-brand-forest-500/30 bg-brand-forest-500/5 shadow-lg shadow-brand-forest-500/5"
           : "border-[var(--color-border)] bg-[var(--color-bg-secondary)]",
         className,
       ].join(" ")}

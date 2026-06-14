@@ -118,14 +118,14 @@ export default function QuizSectionRenderer({
           let optionStyle = "border-[var(--color-border)] hover:border-[var(--color-text-muted)]";
           if (submitted) {
             if (isCorrectOption) {
-              optionStyle = "border-brand-green-500/50 bg-brand-green-500/10";
+              optionStyle = "border-brand-gold-500/50 bg-brand-gold-500/10";
             } else if (isSelected && !isCorrect) {
               optionStyle = "border-red-500/50 bg-red-500/10";
             } else {
               optionStyle = "border-[var(--color-border)] opacity-50";
             }
           } else if (isSelected) {
-            optionStyle = "border-brand-blue-500/50 bg-brand-blue-500/10";
+            optionStyle = "border-brand-forest-500/50 bg-brand-forest-500/10";
           }
 
           return (
@@ -142,15 +142,15 @@ export default function QuizSectionRenderer({
               <span
                 className={[
                   "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-xs",
-                  isSelected ? "border-brand-blue-500 text-brand-blue-400" : "border-[var(--color-border)] text-[var(--color-text-muted)]",
-                  submitted && isCorrectOption ? "border-brand-green-500 text-brand-green-400" : "",
+                  isSelected ? "border-brand-forest-500 text-brand-forest-400" : "border-[var(--color-border)] text-[var(--color-text-muted)]",
+                  submitted && isCorrectOption ? "border-brand-gold-500 text-brand-gold-400" : "",
                 ].join(" ")}
               >
                 {submitted && isCorrectOption ? "✓" : String.fromCharCode(97 + options.indexOf(opt))}
               </span>
               <span className={[
                 "text-[var(--color-text-secondary)]",
-                submitted && isCorrectOption ? "text-brand-green-400 font-medium" : "",
+                submitted && isCorrectOption ? "text-brand-gold-400 font-medium" : "",
               ].join(" ")}>
                 {optText}
               </span>
@@ -161,8 +161,8 @@ export default function QuizSectionRenderer({
 
       {/* Result feedback */}
       {submitted && isCorrect && (
-        <div className="rounded-lg border border-brand-green-500/20 bg-brand-green-500/10 p-4">
-          <p className="mb-2 text-sm font-medium text-brand-green-400">
+        <div className="rounded-lg border border-brand-gold-500/20 bg-brand-gold-500/10 p-4">
+          <p className="mb-2 text-sm font-medium text-brand-gold-400">
             ✅ {t("lesson.correct")}
           </p>
           <p className="text-sm text-[var(--color-text-secondary)]">{expText}</p>

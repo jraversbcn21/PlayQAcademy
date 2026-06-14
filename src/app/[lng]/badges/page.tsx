@@ -45,7 +45,7 @@ export default function BadgesPage({ params: { lng } }: BadgesPageProps) {
   if (authLoading || !user || gLoading) {
     return (
       <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-blue-500 border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-forest-500 border-t-transparent" />
       </div>
     );
   }
@@ -63,7 +63,7 @@ export default function BadgesPage({ params: { lng } }: BadgesPageProps) {
   const rarityGlowClass = (badge: Badge) => {
     const map: Record<string, string> = {
       common: "border-slate-500/20",
-      rare: "border-brand-blue-500/20",
+      rare: "border-brand-forest-500/20",
       epic: "border-purple-500/20",
       legendary: "border-yellow-500/30",
     };
@@ -82,7 +82,7 @@ export default function BadgesPage({ params: { lng } }: BadgesPageProps) {
 
         {/* Stats bar */}
         <div className="mb-6">
-          <ProgressBar value={Math.round((earnedBadgeCount / totalBadgeCount) * 100)} size="md" showLabel barColor="bg-gradient-to-r from-brand-blue-500 to-purple-500" />
+          <ProgressBar value={Math.round((earnedBadgeCount / totalBadgeCount) * 100)} size="md" showLabel barColor="bg-gradient-to-r from-brand-forest-500 to-purple-500" />
         </div>
 
         {/* Filter tabs */}
@@ -95,7 +95,7 @@ export default function BadgesPage({ params: { lng } }: BadgesPageProps) {
               className={[
                 "rounded-lg px-3 py-1.5 text-xs font-medium transition-colors",
                 filter === f.value
-                  ? "bg-brand-blue-600 text-white"
+                  ? "bg-brand-forest-600 text-white"
                   : "bg-[var(--color-bg-elevated)] text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]",
               ].join(" ")}
             >

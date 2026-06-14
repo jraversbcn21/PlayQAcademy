@@ -81,7 +81,7 @@ export default function LeaderboardPage({ params: { lng } }: LeaderboardPageProp
   if (authLoading || !user) {
     return (
       <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-blue-500 border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-forest-500 border-t-transparent" />
       </div>
     );
   }
@@ -131,7 +131,7 @@ export default function LeaderboardPage({ params: { lng } }: LeaderboardPageProp
                   className={[
                     "flex items-center gap-4 rounded-xl border p-4 transition-colors",
                     isCurrentUser
-                      ? "border-brand-blue-500/40 bg-brand-blue-500/5"
+                      ? "border-brand-forest-500/40 bg-brand-forest-500/5"
                       : "border-[var(--color-border)] bg-[var(--color-bg-secondary)] hover:bg-[var(--color-bg-elevated)]",
                   ].join(" ")}
                 >
@@ -150,7 +150,7 @@ export default function LeaderboardPage({ params: { lng } }: LeaderboardPageProp
                       className="h-8 w-8 rounded-full object-cover"
                     />
                   ) : (
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-blue-500/20 text-xs font-bold text-brand-blue-400">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-forest-500/20 text-xs font-bold text-brand-forest-400">
                       {(entry.displayName ?? "?")[0]?.toUpperCase()}
                     </div>
                   )}
@@ -160,7 +160,7 @@ export default function LeaderboardPage({ params: { lng } }: LeaderboardPageProp
                     <p className="truncate text-sm font-medium text-[var(--color-text-primary)]">
                       {entry.displayName}
                       {isCurrentUser && (
-                        <span className="ml-2 text-[10px] text-brand-blue-400">({lng === "es" ? "Tú" : "You"})</span>
+                        <span className="ml-2 text-[10px] text-brand-forest-400">({lng === "es" ? "Tú" : "You"})</span>
                       )}
                     </p>
                     <p className="truncate text-xs text-[var(--color-text-muted)]">
@@ -170,7 +170,7 @@ export default function LeaderboardPage({ params: { lng } }: LeaderboardPageProp
 
                   {/* Points + badges */}
                   <div className="shrink-0 text-right">
-                    <p className="text-sm font-bold tabular-nums text-brand-green-400">
+                    <p className="text-sm font-bold tabular-nums text-brand-gold-400">
                       {entry.totalPoints.toLocaleString()} pts
                     </p>
                     <p className="text-xs text-[var(--color-text-muted)]">

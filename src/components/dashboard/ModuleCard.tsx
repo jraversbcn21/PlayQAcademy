@@ -78,7 +78,7 @@ export default function ModuleCard({ info, lng, index }: ModuleCardProps) {
         "animate-fade-in-up opacity-0",
         isLocked
           ? "cursor-not-allowed border-[var(--color-border)] bg-[var(--color-bg-secondary)]/50"
-          : "cursor-pointer border-[var(--color-border)] bg-[var(--color-bg-secondary)] hover:border-brand-blue-500/30 hover:shadow-lg hover:shadow-brand-blue-500/5",
+          : "cursor-pointer border-[var(--color-border)] bg-[var(--color-bg-secondary)] hover:border-brand-forest-500/30 hover:shadow-lg hover:shadow-brand-forest-500/5",
       ].join(" ")}
       style={{ animationDelay: `${index * 100}ms`, animationFillMode: "forwards" }}
       onClick={handleClick}
@@ -133,7 +133,7 @@ export default function ModuleCard({ info, lng, index }: ModuleCardProps) {
             value={percentComplete}
             size="sm"
             showLabel
-            barColor={isCompleted ? "bg-brand-green-500" : "bg-brand-blue-500"}
+            barColor={isCompleted ? "bg-brand-gold-500" : "bg-brand-forest-500"}
           />
         </div>
 
@@ -144,7 +144,7 @@ export default function ModuleCard({ info, lng, index }: ModuleCardProps) {
             size="sm"
             className={[
               "w-full justify-center",
-              !isCompleted ? "!bg-brand-orange-500 hover:!bg-brand-orange-400" : "",
+              !isCompleted ? "!bg-brand-terra-500 hover:!bg-brand-terra-400" : "",
             ].join(" ")}
           >
             {isCompleted

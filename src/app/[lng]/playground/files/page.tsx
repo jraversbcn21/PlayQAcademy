@@ -62,7 +62,7 @@ export default function FilesPage({ params: { lng } }: { params: { lng: string }
             onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
             onDragLeave={() => setDragOver(false)}
             onDrop={handleDrop}
-            className={["rounded-lg border-2 border-dashed p-8 text-center transition-colors cursor-pointer", dragOver ? "border-brand-blue-500 bg-brand-blue-500/5" : "border-[var(--color-border)] hover:border-[var(--color-text-muted)]"].join(" ")}
+            className={["rounded-lg border-2 border-dashed p-8 text-center transition-colors cursor-pointer", dragOver ? "border-brand-forest-500 bg-brand-forest-500/5" : "border-[var(--color-border)] hover:border-[var(--color-text-muted)]"].join(" ")}
             onClick={() => fileInput.current?.click()}
             role="button"
             tabIndex={0}
@@ -86,7 +86,7 @@ export default function FilesPage({ params: { lng } }: { params: { lng: string }
         {/* Multi file upload */}
         <section className="mb-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-5">
           <h2 className="mb-3 text-sm font-semibold text-[var(--color-text-primary)]">{lng === "es" ? "Subida Múltiple" : "Multiple Upload"}</h2>
-          <label className="inline-block rounded-lg bg-brand-blue-600 px-4 py-2 text-sm text-white hover:bg-brand-blue-500 cursor-pointer">
+          <label className="inline-block rounded-lg bg-brand-forest-600 px-4 py-2 text-sm text-white hover:bg-brand-forest-500 cursor-pointer">
             {lng === "es" ? "Seleccionar Archivos" : "Select Files"}
             <input type="file" multiple onChange={handleMulti} className="hidden" />
           </label>
@@ -101,10 +101,10 @@ export default function FilesPage({ params: { lng } }: { params: { lng: string }
         <section className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-5">
           <h2 className="mb-3 text-sm font-semibold text-[var(--color-text-primary)]">{lng === "es" ? "Descargas" : "Downloads"}</h2>
           <div className="flex flex-wrap gap-3">
-            <button onClick={() => triggerDownload("sample.csv", "id,name,email\n1,Alice,alice@test.com\n2,Bob,bob@test.com", "text/csv")} className="rounded-lg bg-brand-blue-600 px-4 py-2 text-sm text-white hover:bg-brand-blue-500">
+            <button onClick={() => triggerDownload("sample.csv", "id,name,email\n1,Alice,alice@test.com\n2,Bob,bob@test.com", "text/csv")} className="rounded-lg bg-brand-forest-600 px-4 py-2 text-sm text-white hover:bg-brand-forest-500">
               📥 {lng === "es" ? "Descargar CSV" : "Download CSV"}
             </button>
-            <button onClick={() => triggerDownload("report.pdf", "%PDF-1.4 mock report content", "application/pdf")} className="rounded-lg bg-brand-orange-500 px-4 py-2 text-sm text-white hover:bg-brand-orange-400">
+            <button onClick={() => triggerDownload("report.pdf", "%PDF-1.4 mock report content", "application/pdf")} className="rounded-lg bg-brand-terra-500 px-4 py-2 text-sm text-white hover:bg-brand-terra-400">
               📄 {lng === "es" ? "Generar Reporte PDF" : "Generate PDF Report"}
             </button>
           </div>

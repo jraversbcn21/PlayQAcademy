@@ -123,8 +123,8 @@ export default function ExamStartPage({ params: { lng, examId } }: StartPageProp
         </div>
 
         {/* Tips */}
-        <div className="mb-8 rounded-xl border border-brand-green-500/20 bg-brand-green-500/5 p-5">
-          <h3 className="mb-2 text-sm font-semibold text-brand-green-400">
+        <div className="mb-8 rounded-xl border border-brand-gold-500/20 bg-brand-gold-500/5 p-5">
+          <h3 className="mb-2 text-sm font-semibold text-brand-gold-400">
             {lng === "es" ? "Consejos para el éxito" : "Tips for Success"}
           </h3>
           <ul className="space-y-1 text-sm text-[var(--color-text-secondary)]">
@@ -136,7 +136,7 @@ export default function ExamStartPage({ params: { lng, examId } }: StartPageProp
 
         {/* Actions */}
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
-          <Button variant="primary" size="lg" className="!bg-brand-orange-500 hover:!bg-brand-orange-400" onClick={handleStart}>
+          <Button variant="primary" size="lg" className="!bg-brand-terra-500 hover:!bg-brand-terra-400" onClick={handleStart}>
             {lng === "es" ? "¡Estoy listo! — Comenzar Examen" : "I'm Ready — Start Exam"}
           </Button>
           <Link href={`/${lng}/exams`}>

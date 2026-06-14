@@ -33,7 +33,7 @@ export default function CampusPageClient() {
         <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">
           {t("campus.notFound")}
         </h1>
-        <Link href={`/${lng}/dashboard`} className="mt-4 inline-block text-brand-blue-500 hover:underline">
+        <Link href={`/${lng}/dashboard`} className="mt-4 inline-block text-brand-forest-500 hover:underline">
           {t("campus.backToDashboard")}
         </Link>
       </div>
@@ -94,7 +94,7 @@ export default function CampusPageClient() {
                   <Link
                     key={exam.id}
                     href={`/${lng}/exams/${exam.id}/start`}
-                    className="inline-flex items-center gap-2 rounded-lg bg-brand-blue-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-brand-blue-600"
+                    className="inline-flex items-center gap-2 rounded-lg bg-brand-forest-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-brand-forest-600"
                   >
                     <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -149,9 +149,9 @@ export default function CampusPageClient() {
                 isLocked ? "cursor-not-allowed opacity-60" : "",
               ].join(" ")}
             >
-              <Card className="h-full p-5 transition-all hover:border-brand-blue-500/30 hover:shadow-lg hover:shadow-brand-blue-500/5">
+              <Card className="h-full p-5 transition-all hover:border-brand-forest-500/30 hover:shadow-lg hover:shadow-brand-forest-500/5">
                 <div className="mb-3 flex items-center justify-between">
-                  <span className="rounded-full bg-brand-blue-500/20 px-2.5 py-0.5 text-xs font-medium text-brand-blue-400">
+                  <span className="rounded-full bg-brand-forest-500/20 px-2.5 py-0.5 text-xs font-medium text-brand-forest-400">
                     {t("campus.module")} {index + 1}
                   </span>
                   {isLocked && (
@@ -161,7 +161,7 @@ export default function CampusPageClient() {
                   )}
                 </div>
 
-                <h3 className="mb-2 font-semibold text-[var(--color-text-primary)] group-hover:text-brand-blue-400">
+                <h3 className="mb-2 font-semibold text-[var(--color-text-primary)] group-hover:text-brand-forest-400">
                   {mod.title[lang]}
                 </h3>
 

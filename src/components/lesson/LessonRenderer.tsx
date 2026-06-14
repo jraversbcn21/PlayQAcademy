@@ -117,9 +117,9 @@ const CALLOUT_ICONS: Record<string, string> = {
 };
 
 const CALLOUT_STYLES: Record<string, string> = {
-  info: "border-brand-blue-500/20 bg-brand-blue-500/5",
+  info: "border-brand-forest-500/20 bg-brand-forest-500/5",
   warning: "border-amber-500/20 bg-amber-500/5",
-  tip: "border-brand-green-500/20 bg-brand-green-500/5",
+  tip: "border-brand-gold-500/20 bg-brand-gold-500/5",
   important: "border-red-500/20 bg-red-500/5",
 };
 

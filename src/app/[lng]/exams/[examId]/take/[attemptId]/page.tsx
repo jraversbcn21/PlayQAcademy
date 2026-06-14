@@ -28,7 +28,7 @@ function ExamTimer({ endTime, onTimeUp }: { endTime: number; onTimeUp: () => voi
 
   const m = Math.floor(remaining / 60);
   const s = remaining % 60;
-  let color = "text-brand-green-400";
+  let color = "text-brand-gold-400";
   if (remaining < 120) color = "text-red-400 animate-pulse";
   else if (remaining < 600) color = "text-amber-400";
 
@@ -60,8 +60,8 @@ function QuestionNavigator({
           const isAnswered = answers[i];
           const isFlagged = flagged.has(i);
           let cls = "border-[var(--color-border)] text-[var(--color-text-muted)]";
-          if (isCurrent) cls = "border-brand-blue-500 bg-brand-blue-500/20 text-brand-blue-400";
-          else if (isAnswered) cls = "border-brand-green-500/50 bg-brand-green-500/10 text-brand-green-400";
+          if (isCurrent) cls = "border-brand-forest-500 bg-brand-forest-500/20 text-brand-forest-400";
+          else if (isAnswered) cls = "border-brand-gold-500/50 bg-brand-gold-500/10 text-brand-gold-400";
           if (isFlagged) cls += " ring-1 ring-amber-400";
 
           return (
@@ -77,8 +77,8 @@ function QuestionNavigator({
         })}
       </div>
       <div className="flex gap-3 text-[10px] text-[var(--color-text-muted)]">
-        <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-brand-blue-500/50" />Current</span>
-        <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-brand-green-500/50" />Answered</span>
+        <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-brand-forest-500/50" />Current</span>
+        <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-brand-gold-500/50" />Answered</span>
         <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-sm ring-1 ring-amber-400" />Flagged</span>
       </div>
     </div>
@@ -203,7 +203,7 @@ export default function ExamTakePage({ params: { lng, examId, attemptId } }: Tak
   }
 
   if (!exam || questions.length === 0) {
-    return <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-blue-500 border-t-transparent" /></div>;
+    return <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-forest-500 border-t-transparent" /></div>;
   }
 
   const title = exam.title[lng as "es" | "en"] ?? exam.title.en;
@@ -224,7 +224,7 @@ export default function ExamTakePage({ params: { lng, examId, attemptId } }: Tak
         {/* Progress bar */}
         <div className="mx-auto max-w-6xl px-4 pb-2">
           <div className="h-1 overflow-hidden rounded-full bg-[var(--color-bg-elevated)]">
-            <div className="h-full rounded-full bg-brand-blue-500 transition-all" style={{ width: `${((currentIdx + 1) / questions.length) * 100}%` }} />
+            <div className="h-full rounded-full bg-brand-forest-500 transition-all" style={{ width: `${((currentIdx + 1) / questions.length) * 100}%` }} />
           </div>
         </div>
       </div>
@@ -237,7 +237,7 @@ export default function ExamTakePage({ params: { lng, examId, attemptId } }: Tak
             <div>
               {/* Question text */}
               <div className="mb-4">
-                <span className="mb-2 inline-block rounded-md bg-brand-blue-500/10 px-2 py-0.5 text-xs font-medium text-brand-blue-400">
+                <span className="mb-2 inline-block rounded-md bg-brand-forest-500/10 px-2 py-0.5 text-xs font-medium text-brand-forest-400">
                   {currentQ.difficulty} &middot; {currentQ.points} {lng === "es" ? "punto(s)" : "pt(s)"}
                 </span>
                 <p className="text-base font-medium text-[var(--color-text-primary)] sm:text-lg">
@@ -264,13 +264,13 @@ export default function ExamTakePage({ params: { lng, examId, attemptId } }: Tak
                       className={[
                         "flex w-full items-center gap-3 rounded-lg border px-4 py-3 text-left text-sm transition-colors",
                         isSelected
-                          ? "border-brand-blue-500/50 bg-brand-blue-500/10 text-[var(--color-text-primary)]"
+                          ? "border-brand-forest-500/50 bg-brand-forest-500/10 text-[var(--color-text-primary)]"
                           : "border-[var(--color-border)] text-[var(--color-text-secondary)] hover:border-[var(--color-text-muted)]",
                       ].join(" ")}
                     >
                       <span className={[
                         "flex h-5 w-5 shrink-0 items-center justify-center rounded border text-xs",
-                        isSelected ? "border-brand-blue-500 bg-brand-blue-500/20 text-brand-blue-400" : "border-[var(--color-border)]",
+                        isSelected ? "border-brand-forest-500 bg-brand-forest-500/20 text-brand-forest-400" : "border-[var(--color-border)]",
                       ].join(" ")}>
                         {isSelected && (isMulti ? "✓" : "●")}
                       </span>
@@ -305,7 +305,7 @@ export default function ExamTakePage({ params: { lng, examId, attemptId } }: Tak
                   {lng === "es" ? "Siguiente →" : "Next →"}
                 </Button>
               ) : (
-                <Button variant="primary" size="sm" className="!bg-brand-orange-500" onClick={() => setShowSubmitConfirm(true)}>
+                <Button variant="primary" size="sm" className="!bg-brand-terra-500" onClick={() => setShowSubmitConfirm(true)}>
                   {lng === "es" ? "Finalizar" : "Finish"}
                 </Button>
               )}
@@ -353,7 +353,7 @@ export default function ExamTakePage({ params: { lng, examId, attemptId } }: Tak
               <Button variant="secondary" size="sm" className="flex-1" onClick={() => setShowSubmitConfirm(false)}>
                 {lng === "es" ? "Cancelar" : "Cancel"}
               </Button>
-              <Button variant="primary" size="sm" className="flex-1 !bg-brand-orange-500" onClick={handleSubmit}>
+              <Button variant="primary" size="sm" className="flex-1 !bg-brand-terra-500" onClick={handleSubmit}>
                 {lng === "es" ? "Entregar" : "Submit"}
               </Button>
             </div>

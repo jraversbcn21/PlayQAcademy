@@ -24,7 +24,7 @@ import { CAMPUS_TILES, DEFAULT_TILE } from "@/components/campus/CampusCard";
 
 function PointsIcon(): ReactNode {
   return (
-    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-blue-400 to-brand-blue-600 text-white shadow-lg shadow-brand-blue-500/30">
+    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-forest-400 to-brand-forest-600 text-white shadow-lg shadow-brand-forest-500/30">
       <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
@@ -34,7 +34,7 @@ function PointsIcon(): ReactNode {
 
 function LessonsIcon(): ReactNode {
   return (
-    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-green-400 to-brand-green-600 text-white shadow-lg shadow-brand-green-500/30">
+    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-gold-400 to-brand-gold-600 text-white shadow-lg shadow-brand-gold-500/30">
       <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
       </svg>
@@ -44,7 +44,7 @@ function LessonsIcon(): ReactNode {
 
 function StreakIcon(): ReactNode {
   return (
-    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-orange-400 to-brand-orange-600 text-white shadow-lg shadow-brand-orange-500/30">
+    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-terra-400 to-brand-terra-600 text-white shadow-lg shadow-brand-terra-500/30">
       <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
       </svg>
@@ -81,8 +81,8 @@ function ArrowIcon(): ReactNode {
 function PulsingDot(): ReactNode {
   return (
     <span className="relative flex h-2 w-2" aria-hidden="true">
-      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-blue-400 opacity-75" />
-      <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-blue-500" />
+      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-forest-400 opacity-75" />
+      <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-forest-500" />
     </span>
   );
 }
@@ -129,7 +129,7 @@ export default function DashboardPage({
   if (authLoading || !user) {
     return (
       <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-blue-500 border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-forest-500 border-t-transparent" />
       </div>
     );
   }
@@ -193,8 +193,8 @@ export default function DashboardPage({
       <div className="container-app">
         {/* Welcome banner (only on first sign-up) */}
         {showWelcomeToast && (
-          <div className="mb-8 animate-fade-in-up rounded-xl border border-brand-green-500/20 bg-brand-green-500/10 p-4">
-            <p className="text-sm font-medium text-brand-green-400">
+          <div className="mb-8 animate-fade-in-up rounded-xl border border-brand-gold-500/20 bg-brand-gold-500/10 p-4">
+            <p className="text-sm font-medium text-brand-gold-400">
               {t("dashboard.welcomeMessage", { name: user.displayName ?? user.email })}
             </p>
           </div>
@@ -212,23 +212,23 @@ export default function DashboardPage({
               </p>
             </div>
             {/* Level badge */}
-            <div className="flex items-center gap-3 rounded-xl border border-brand-orange-500/20 bg-brand-orange-500/5 px-4 py-2.5">
+            <div className="flex items-center gap-3 rounded-xl border border-brand-terra-500/20 bg-brand-terra-500/5 px-4 py-2.5">
               <div className="text-right">
                 <p className="text-xs text-[var(--color-text-muted)]">
                   {lng === "es" ? "Nivel" : "Level"} {levelInfo.level}
                 </p>
-                <p className="text-sm font-semibold text-brand-orange-400">
+                <p className="text-sm font-semibold text-brand-terra-400">
                   {levelTitle}
                 </p>
               </div>
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-orange-400 to-brand-orange-600 text-lg font-bold text-white shadow-lg shadow-brand-orange-500/30">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-terra-400 to-brand-terra-600 text-lg font-bold text-white shadow-lg shadow-brand-terra-500/30">
                 {levelInfo.level}
               </div>
             </div>
           </div>
           {/* Level progress mini bar */}
           <div className="mt-3 max-w-xs">
-            <ProgressBar value={levelPct} size="sm" barColor="bg-gradient-to-r from-brand-orange-400 to-brand-orange-600" />
+            <ProgressBar value={levelPct} size="sm" barColor="bg-gradient-to-r from-brand-terra-400 to-brand-terra-600" />
           </div>
         </div>
 
@@ -238,14 +238,14 @@ export default function DashboardPage({
             className="mb-8 animate-fade-in-up"
             style={{ animationDelay: "100ms", animationFillMode: "backwards" as const }}
           >
-            <div className="rounded-xl border border-brand-blue-500/20 bg-brand-blue-500/5 p-5">
+            <div className="rounded-xl border border-brand-forest-500/20 bg-brand-forest-500/5 p-5">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-blue-400 to-brand-blue-600 text-white shadow-lg shadow-brand-blue-500/30">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-forest-400 to-brand-forest-600 text-white shadow-lg shadow-brand-forest-500/30">
                     <PlayIcon />
                   </div>
                   <div>
-                    <span className="inline-flex items-center gap-2 rounded-full bg-brand-blue-500/10 px-3 py-1 text-xs font-semibold text-brand-blue-400">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-brand-forest-500/10 px-3 py-1 text-xs font-semibold text-brand-forest-400">
                       <PulsingDot />
                       {t("dashboard.resumeLearning")}
                     </span>
@@ -257,7 +257,7 @@ export default function DashboardPage({
                 </div>
                 <Button
                   variant="primary"
-                  className="group !rounded-2xl !bg-gradient-to-br !from-brand-blue-500 !to-brand-blue-700 !shadow-lg !shadow-brand-blue-500/30 !transition-all hover:-translate-y-0.5 hover:!shadow-xl hover:shadow-brand-blue-500/40"
+                  className="group !rounded-2xl !bg-gradient-to-br !from-brand-forest-500 !to-brand-forest-700 !shadow-lg !shadow-brand-forest-500/30 !transition-all hover:-translate-y-0.5 hover:!shadow-xl hover:shadow-brand-forest-500/40"
                   rightIcon={<ArrowIcon />}
                   onClick={() =>
                     router.push(`/${lng}/learn/${resumeModule.module.id}`)
@@ -312,14 +312,14 @@ export default function DashboardPage({
               <h2 className="text-sm font-semibold text-[var(--color-text-primary)]">
                 {t("dashboard.overallProgress")}
               </h2>
-              <span className="text-sm font-bold tabular-nums text-brand-blue-400">
+              <span className="text-sm font-bold tabular-nums text-brand-forest-400">
                 {overallPercent}%
               </span>
             </div>
             <ProgressBar
               value={overallPercent}
               size="lg"
-              barColor="bg-gradient-to-r from-brand-blue-500 to-brand-green-400"
+              barColor="bg-gradient-to-r from-brand-forest-500 to-brand-gold-400"
             />
             <p className="mt-2 text-xs text-[var(--color-text-muted)]">
               {completedLessons} / {TOTAL_LESSONS} {t("dashboard.lessons")} {t("dashboard.completed").toLowerCase()}
@@ -362,7 +362,7 @@ export default function DashboardPage({
                     "group relative overflow-hidden rounded-xl border transition-all duration-300",
                     "animate-fade-in-up opacity-0 cursor-pointer",
                     campus.status === "active"
-                      ? "border-[var(--color-border)] bg-[var(--color-bg-secondary)] hover:border-brand-blue-500/30 hover:shadow-lg hover:shadow-brand-blue-500/5"
+                      ? "border-[var(--color-border)] bg-[var(--color-bg-secondary)] hover:border-brand-forest-500/30 hover:shadow-lg hover:shadow-brand-forest-500/5"
                       : "cursor-not-allowed border-[var(--color-border)] bg-[var(--color-bg-secondary)]/50",
                   ].join(" ")}
                   style={{ animationDelay: `${idx * 100}ms`, animationFillMode: "forwards" }}
@@ -384,7 +384,7 @@ export default function DashboardPage({
                   {/* Coming soon overlay */}
                   {campus.status !== "active" && (
                     <div className="absolute inset-0 z-10 flex items-center justify-center bg-[var(--color-bg-secondary)]/70 backdrop-blur-[1px]">
-                      <span className="rounded-full bg-brand-orange-500/20 px-3 py-1 text-xs font-medium text-brand-orange-400">
+                      <span className="rounded-full bg-brand-terra-500/20 px-3 py-1 text-xs font-medium text-brand-terra-400">
                         {t("campus.comingSoon")}
                       </span>
                     </div>
@@ -422,7 +422,7 @@ export default function DashboardPage({
                     <div className="mb-4">
                       <div className="mb-1 flex items-center justify-between text-xs">
                         <span className="text-[var(--color-text-muted)]">{t("dashboard.overallProgress")}</span>
-                        <span className="font-bold tabular-nums text-brand-blue-400">{campusPercent}%</span>
+                        <span className="font-bold tabular-nums text-brand-forest-400">{campusPercent}%</span>
                       </div>
                       <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--color-bg-elevated)]">
                         <div

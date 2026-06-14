@@ -43,7 +43,7 @@ export default function PlaygroundLayout({ children, params: { lng } }: Playgrou
               className={[
                 "shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors",
                 pathname === `/${lng}/playground`
-                  ? "bg-brand-blue-600 text-white"
+                  ? "bg-brand-forest-600 text-white"
                   : "text-[var(--color-text-muted)] hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-primary)]",
               ].join(" ")}
             >
@@ -59,7 +59,7 @@ export default function PlaygroundLayout({ children, params: { lng } }: Playgrou
                   className={[
                     "shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors flex items-center gap-1",
                     isActive
-                      ? "bg-brand-blue-600 text-white"
+                      ? "bg-brand-forest-600 text-white"
                       : "text-[var(--color-text-muted)] hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-primary)]",
                   ].join(" ")}
                 >
@@ -73,8 +73,8 @@ export default function PlaygroundLayout({ children, params: { lng } }: Playgrou
               className={[
                 "shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors",
                 pathname === `/${lng}/playground/setup`
-                  ? "bg-brand-green-600 text-white"
-                  : "text-brand-green-400 hover:bg-brand-green-500/10",
+                  ? "bg-brand-gold-600 text-white"
+                  : "text-brand-gold-400 hover:bg-brand-gold-500/10",
               ].join(" ")}
             >
               ⚙️ {lng === "es" ? "Setup" : "Setup"}

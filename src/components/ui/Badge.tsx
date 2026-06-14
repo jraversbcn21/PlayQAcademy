@@ -12,13 +12,13 @@ interface BadgeProps {
 
 const variantClasses: Record<BadgeVariant, string> = {
   success:
-    "bg-brand-green-500/10 text-brand-green-400 ring-brand-green-500/20",
+    "bg-brand-gold-500/10 text-brand-gold-400 ring-brand-gold-500/20",
   warning:
     "bg-amber-500/10 text-amber-400 ring-amber-500/20",
   error:
     "bg-red-500/10 text-red-400 ring-red-500/20",
   info:
-    "bg-brand-blue-500/10 text-brand-blue-400 ring-brand-blue-500/20",
+    "bg-brand-forest-500/10 text-brand-forest-400 ring-brand-forest-500/20",
   locked:
     "bg-slate-500/10 text-[var(--color-text-muted)] ring-slate-500/20",
 };
@@ -29,10 +29,10 @@ const sizeClasses: Record<BadgeSize, string> = {
 };
 
 const dotColors: Record<BadgeVariant, string> = {
-  success: "bg-brand-green-400",
+  success: "bg-brand-gold-400",
   warning: "bg-amber-400",
   error: "bg-red-400",
-  info: "bg-brand-blue-400",
+  info: "bg-brand-forest-400",
   locked: "bg-[var(--color-text-muted)]",
 };
 

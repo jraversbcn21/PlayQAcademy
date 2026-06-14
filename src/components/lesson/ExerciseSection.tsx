@@ -90,8 +90,8 @@ export default function ExerciseSectionRenderer({
   return (
     <div className="not-prose my-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] overflow-hidden">
       {/* Header */}
-      <div className="flex items-center gap-3 border-b border-[var(--color-border)] bg-brand-blue-500/5 px-5 py-3">
-        <svg className="h-5 w-5 text-brand-blue-400 shrink-0" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
+      <div className="flex items-center gap-3 border-b border-[var(--color-border)] bg-brand-forest-500/5 px-5 py-3">
+        <svg className="h-5 w-5 text-brand-forest-400 shrink-0" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
         </svg>
         <h3 className="text-sm font-semibold text-[var(--color-text-primary)]">
@@ -158,8 +158,8 @@ export default function ExerciseSectionRenderer({
 
       {/* Solution (revealable) */}
       {showSolution && (
-        <div className="border-b border-[var(--color-border)] bg-brand-green-500/5 p-5">
-          <h4 className="mb-3 text-sm font-medium text-brand-green-400">
+        <div className="border-b border-[var(--color-border)] bg-brand-gold-500/5 p-5">
+          <h4 className="mb-3 text-sm font-medium text-brand-gold-400">
             {t("lesson.solution")}
           </h4>
           <pre className="overflow-x-auto rounded-lg bg-[#0d1117] p-4 font-mono text-sm leading-relaxed text-[#c9d1d9]">
@@ -192,7 +192,7 @@ export default function ExerciseSectionRenderer({
           <Button
             variant="primary"
             size="sm"
-            className="ml-auto !bg-brand-green-600 hover:!bg-brand-green-500"
+            className="ml-auto !bg-brand-gold-600 hover:!bg-brand-gold-500"
             onClick={handleMarkAsTried}
           >
             {t("lesson.markAsTried")}
@@ -200,7 +200,7 @@ export default function ExerciseSectionRenderer({
         )}
 
         {tried && (
-          <span className="ml-auto inline-flex items-center gap-1.5 text-sm font-medium text-brand-green-400">
+          <span className="ml-auto inline-flex items-center gap-1.5 text-sm font-medium text-brand-gold-400">
             <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
             {t("lesson.tried")}
           </span>

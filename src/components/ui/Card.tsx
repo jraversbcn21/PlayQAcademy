@@ -18,11 +18,11 @@ const variantWrapperClasses: Record<CardVariant, string> = {
   default:
     "rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-6",
   highlight:
-    "rounded-xl border border-brand-blue-500/30 bg-brand-blue-500/5 p-6 shadow-lg shadow-brand-blue-500/5",
+    "rounded-xl border border-brand-forest-500/30 bg-brand-forest-500/5 p-6 shadow-lg shadow-brand-forest-500/5",
   lesson:
-    "rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-6 transition-colors hover:border-brand-blue-500/30",
+    "rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-6 transition-colors hover:border-brand-forest-500/30",
   achievement:
-    "rounded-xl border border-brand-green-500/20 bg-brand-green-500/5 p-6",
+    "rounded-xl border border-brand-gold-500/20 bg-brand-gold-500/5 p-6",
 };
 
 export default function Card({
@@ -37,7 +37,7 @@ export default function Card({
     <div className={[variantWrapperClasses[variant], className].join(" ")}>
       {/* Lesson number badge */}
       {number !== undefined && (
-        <span className="mb-3 inline-block rounded-md bg-brand-blue-500/10 px-2.5 py-1 font-mono text-xs font-semibold text-brand-blue-400">
+        <span className="mb-3 inline-block rounded-md bg-brand-forest-500/10 px-2.5 py-1 font-mono text-xs font-semibold text-brand-forest-400">
           {String(number).padStart(2, "0")}
         </span>
       )}

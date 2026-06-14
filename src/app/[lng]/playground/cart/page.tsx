@@ -108,17 +108,17 @@ export default function CartPage({ params: { lng } }: { params: { lng: string } 
                 placeholder={lng === "es" ? "Código de cupón" : "Enter coupon code"}
                 className="flex-1 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-3 py-2 text-sm"
               />
-              <button type="button" onClick={applyCoupon} className="rounded-lg bg-brand-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-blue-500">
+              <button type="button" onClick={applyCoupon} className="rounded-lg bg-brand-forest-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-forest-500">
                 {lng === "es" ? "Aplicar" : "Apply"}
               </button>
             </div>
             {couponError && <p className="mb-4 text-xs text-red-400" role="alert">{couponError}</p>}
-            {couponApplied && <p className="mb-4 text-xs text-brand-green-400">✓ PLAYQ10: {lng === "es" ? "10% de descuento aplicado" : "10% off applied"}</p>}
+            {couponApplied && <p className="mb-4 text-xs text-brand-gold-400">✓ PLAYQ10: {lng === "es" ? "10% de descuento aplicado" : "10% off applied"}</p>}
 
             {/* Totals */}
             <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-4 space-y-2 text-sm">
               <div className="flex justify-between text-[var(--color-text-secondary)]"><span>{lng === "es" ? "Subtotal" : "Subtotal"}</span><span>${subtotal.toFixed(2)}</span></div>
-              {discount > 0 && <div className="flex justify-between text-brand-green-400"><span>{lng === "es" ? "Descuento (10%)" : "Discount (10%)"}</span><span>−${discount.toFixed(2)}</span></div>}
+              {discount > 0 && <div className="flex justify-between text-brand-gold-400"><span>{lng === "es" ? "Descuento (10%)" : "Discount (10%)"}</span><span>−${discount.toFixed(2)}</span></div>}
               <div className="flex justify-between text-[var(--color-text-secondary)]"><span>{lng === "es" ? "Impuesto (8%)" : "Tax (8%)"}</span><span>${tax.toFixed(2)}</span></div>
               <div className="flex justify-between border-t border-[var(--color-border)] pt-2 text-base font-bold text-[var(--color-text-primary)]">
                 <span>{lng === "es" ? "Total" : "Total"}</span>
@@ -130,7 +130,7 @@ export default function CartPage({ params: { lng } }: { params: { lng: string } 
               <button type="button" className="flex-1 rounded-lg border border-[var(--color-border)] px-4 py-2.5 text-sm font-medium text-[var(--color-text-primary)] hover:bg-[var(--color-bg-elevated)]">
                 {lng === "es" ? "Seguir Comprando" : "Continue Shopping"}
               </button>
-              <button type="button" className="flex-1 rounded-lg bg-brand-orange-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-orange-400">
+              <button type="button" className="flex-1 rounded-lg bg-brand-terra-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-terra-400">
                 {lng === "es" ? "Pagar" : "Checkout"}
               </button>
             </div>

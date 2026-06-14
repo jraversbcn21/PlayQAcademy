@@ -54,21 +54,21 @@ export interface CampusTile {
 
 export const DEFAULT_TILE: CampusTile = {
   icon: <IconBook />,
-  gradient: "from-brand-blue-400 to-brand-blue-600",
-  shadow: "shadow-brand-blue-500/30",
+  gradient: "from-brand-forest-400 to-brand-forest-600",
+  shadow: "shadow-brand-forest-500/30",
 };
 
 export const CAMPUS_TILES: Record<string, CampusTile> = {
   qaFundamentals: DEFAULT_TILE,
   istqb: {
     icon: <IconCertificate />,
-    gradient: "from-brand-green-400 to-brand-green-600",
-    shadow: "shadow-brand-green-500/30",
+    gradient: "from-brand-gold-400 to-brand-gold-600",
+    shadow: "shadow-brand-gold-500/30",
   },
   automation: {
     icon: <IconAutomation />,
-    gradient: "from-brand-orange-400 to-brand-orange-600",
-    shadow: "shadow-brand-orange-500/30",
+    gradient: "from-brand-terra-400 to-brand-terra-600",
+    shadow: "shadow-brand-terra-500/30",
   },
 };
 
@@ -104,7 +104,7 @@ export default function CampusCard({ campus, lng, t, animationDelay = 0 }: Campu
           </Badge>
         </div>
 
-        <h3 className="mb-2 text-xl font-bold text-[var(--color-text-primary)] group-hover:text-brand-blue-400">
+        <h3 className="mb-2 font-heading text-xl font-bold text-[var(--color-text-primary)] group-hover:text-brand-forest-400">
           {campus.title[lang]}
         </h3>
         <p className="mb-4 text-sm leading-relaxed text-[var(--color-text-secondary)]">
@@ -123,7 +123,7 @@ export default function CampusCard({ campus, lng, t, animationDelay = 0 }: Campu
           </span>
         </div>
 
-        <div className="flex items-center gap-2 text-sm font-medium text-brand-blue-400 transition-[gap] duration-200 group-hover:gap-3">
+        <div className="flex items-center gap-2 text-sm font-medium text-brand-forest-400 transition-[gap] duration-200 group-hover:gap-3">
           {t("campus.card.explore")}
           <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />

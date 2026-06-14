@@ -107,12 +107,12 @@ export default function Footer({ currentLng }: FooterProps) {
                 fill="none"
                 aria-hidden="true"
               >
-                <path d="M14 2L26 24H2L14 2Z" fill="currentColor" className="text-brand-blue-500" />
+                <path d="M14 2L26 24H2L14 2Z" fill="currentColor" className="text-brand-forest-500" />
               </svg>
               PlayQ
               <span className="relative flex h-2 w-2" aria-hidden="true">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-blue-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-blue-500" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-forest-400 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-forest-500" />
               </span>
             </Link>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-[var(--color-text-muted)]">

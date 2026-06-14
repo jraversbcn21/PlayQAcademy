@@ -25,7 +25,7 @@ interface AchievementCardProps {
 
 const rarityGlow: Record<BadgeRarity, string> = {
   common: "border-slate-500/20 bg-slate-500/5 text-slate-400",
-  rare: "border-brand-blue-500/30 bg-brand-blue-500/5 text-brand-blue-400",
+  rare: "border-brand-forest-500/30 bg-brand-forest-500/5 text-brand-forest-400",
   epic: "border-purple-500/30 bg-purple-500/5 text-purple-400",
 };
 
@@ -37,7 +37,7 @@ const rarityLabel: Record<BadgeRarity, string> = {
 
 const rarityDot: Record<BadgeRarity, string> = {
   common: "bg-slate-400",
-  rare: "bg-brand-blue-400",
+  rare: "bg-brand-forest-400",
   epic: "bg-purple-400",
 };
 

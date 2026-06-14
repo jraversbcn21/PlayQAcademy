@@ -39,7 +39,7 @@ export default function ExamsPage({ params: { lng } }: ExamsPageProps) {
   }, [user]);
 
   if (authLoading || !user) {
-    return <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-blue-500 border-t-transparent" /></div>;
+    return <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-forest-500 border-t-transparent" /></div>;
   }
 
   const passedCount = history.filter((a) => a.passed).length;
@@ -83,7 +83,7 @@ export default function ExamsPage({ params: { lng } }: ExamsPageProps) {
                   </h2>
                   <Link
                     href={`/${lng}/campus/${campus.id}`}
-                    className="shrink-0 text-sm font-medium text-brand-blue-400 hover:underline"
+                    className="shrink-0 text-sm font-medium text-brand-forest-400 hover:underline"
                   >
                     {lng === "es" ? "Ver campus →" : "View campus →"}
                   </Link>
@@ -124,7 +124,7 @@ export default function ExamsPage({ params: { lng } }: ExamsPageProps) {
                               <span>{lng === "es" ? "Nota de corte:" : "Pass:"} {exam.passingScore}%</span>
                             </div>
                             {bestAttempt && (
-                              <p className="mt-2 text-xs font-medium text-brand-green-400">
+                              <p className="mt-2 text-xs font-medium text-brand-gold-400">
                                 {lng === "es" ? "Mejor puntuación:" : "Best score:"} {bestAttempt.score}% {bestAttempt.passed ? "✓" : ""}
                               </p>
                             )}
@@ -135,7 +135,7 @@ export default function ExamsPage({ params: { lng } }: ExamsPageProps) {
                             <Badge variant="locked" size="md">{lng === "es" ? "Bloqueado" : "Locked"}</Badge>
                           ) : (
                             <Link href={`/${lng}/exams/${exam.id}/start`}>
-                              <Button variant="primary" className="!bg-brand-orange-500 hover:!bg-brand-orange-400">
+                              <Button variant="primary" className="!bg-brand-terra-500 hover:!bg-brand-terra-400">
                                 {lng === "es" ? "Comenzar" : "Start"}
                               </Button>
                             </Link>

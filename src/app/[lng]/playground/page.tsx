@@ -62,7 +62,7 @@ export default function PlaygroundHomePage({ params: { lng } }: PageProps) {
           </p>
           <div className="mt-6 flex justify-center gap-3">
             <Link href={`/${lng}/playground/setup`}>
-              <span className="inline-flex items-center rounded-lg bg-brand-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-green-500 transition-colors">
+              <span className="inline-flex items-center rounded-lg bg-brand-gold-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-gold-500 transition-colors">
                 ⚙️ {lng === "es" ? "Guía de Setup" : "Setup Guide"}
               </span>
             </Link>
@@ -72,7 +72,7 @@ export default function PlaygroundHomePage({ params: { lng } }: PageProps) {
         {/* Exercise grid */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {EXERCISE_CARDS.map((card) => {
-            const diffColors: Record<Difficulty, string> = { beginner: "border-brand-green-500/30", intermediate: "border-amber-500/30", advanced: "border-red-500/30" };
+            const diffColors: Record<Difficulty, string> = { beginner: "border-brand-gold-500/30", intermediate: "border-amber-500/30", advanced: "border-red-500/30" };
             return (
               <Link
                 key={card.href}
@@ -80,11 +80,11 @@ export default function PlaygroundHomePage({ params: { lng } }: PageProps) {
                 className={[
                   "group rounded-xl border bg-[var(--color-bg-secondary)] p-5 transition-all hover:shadow-lg",
                   diffColors[card.difficulty],
-                  "hover:border-brand-blue-500/40",
+                  "hover:border-brand-forest-500/40",
                 ].join(" ")}
               >
                 <div className="mb-3 text-3xl">{card.icon}</div>
-                <h3 className="mb-1 text-base font-semibold text-[var(--color-text-primary)] group-hover:text-brand-blue-400 transition-colors">
+                <h3 className="mb-1 text-base font-semibold text-[var(--color-text-primary)] group-hover:text-brand-forest-400 transition-colors">
                   {lng === "es" ? card.titleEs : card.titleEn}
                 </h3>
                 <p className="mb-3 text-xs leading-relaxed text-[var(--color-text-muted)]">

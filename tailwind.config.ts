@@ -11,46 +11,48 @@ const config: Config = {
       colors: {
         // PlayQ Academy custom palette
         brand: {
-          blue: {
-            50:  "#E8EEFB",
-            100: "#C5D5F5",
-            200: "#9DB9EF",
-            300: "#759DE8",
-            400: "#5888E3",
-            500: "#3A73DD", // primary — professional technical blue
-            600: "#3365C9",
-            700: "#2954B0",
-            800: "#214498",
-            900: "#162C71",
+          forest: {
+            50:  "#F0F9F6",
+            100: "#DDF4EA",
+            200: "#B1E6D0",
+            300: "var(--brand-forest-300)",
+            400: "var(--brand-forest-400)",
+            500: "#1C7A52", // primary — forest green
+            600: "#156544",
+            700: "#0F5236",
+            800: "#0B3D28",
+            900: "#072C1D",
           },
-          green: {
-            50:  "#ECFDF5",
-            100: "#D1FAE5",
-            200: "#A7F3D0",
-            300: "#6EE7B7",
-            400: "#34D399",
-            500: "#10B981", // secondary — "test passing green"
-            600: "#059669",
-            700: "#047857",
-            800: "#065F46",
-            900: "#064E3B",
+          terra: {
+            50:  "#F9F2F0",
+            100: "#F2DED9",
+            200: "#E5B9AE",
+            300: "var(--brand-terra-300)",
+            400: "var(--brand-terra-400)",
+            500: "#BF472D", // accent — terracotta
+            600: "#93351D",
+            700: "#752815",
+            800: "#581D0E",
+            900: "#3E1409",
           },
-          orange: {
-            50:  "#FFF7ED",
-            100: "#FFEDD5",
-            200: "#FED7AA",
-            300: "#FDBA74",
-            400: "#FB923C",
-            500: "#F97316", // accent — energetic orange
-            600: "#EA580C",
-            700: "#C2410C",
-            800: "#9A3412",
-            900: "#7C2D12",
+          gold: {
+            50:  "#F9F6F0",
+            100: "#F2EAD9",
+            200: "#E5D3AE",
+            300: "var(--brand-gold-300)",
+            400: "var(--brand-gold-400)",
+            500: "#B6862F", // tertiary — gold (achievements / ISTQB)
+            600: "#997224",
+            700: "#7A5A1A",
+            800: "#5A4211",
+            900: "#412F0B",
           },
         },
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        sans: ["var(--font-plus-jakarta-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-chakra-petch)", "var(--font-space-grotesk)", "sans-serif"],
+        heading: ["var(--font-space-grotesk)", "sans-serif"],
         mono: ["var(--font-jetbrains-mono)", "monospace"],
       },
       keyframes: {

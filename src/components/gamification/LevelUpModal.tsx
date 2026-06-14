@@ -21,7 +21,7 @@ interface LevelUpModalProps {
 
 function AnimatedLevel({ level }: { level: number }) {
   return (
-    <span className="animate-fade-in-up text-5xl font-black tabular-nums text-brand-orange-400">
+    <span className="animate-fade-in-up text-5xl font-black tabular-nums text-brand-terra-400">
       {level}
     </span>
   );
@@ -67,19 +67,19 @@ export default function LevelUpModal({
   return (
     <dialog
       ref={dialogRef}
-      className="fixed inset-0 z-50 m-auto max-w-sm rounded-2xl border border-brand-orange-500/30 bg-[var(--color-bg-secondary)] p-0 shadow-2xl backdrop:bg-black/60"
+      className="fixed inset-0 z-50 m-auto max-w-sm rounded-2xl border border-brand-terra-500/30 bg-[var(--color-bg-secondary)] p-0 shadow-2xl backdrop:bg-black/60"
       onClick={(e) => {
         if (e.target === dialogRef.current) dismiss();
       }}
     >
       <div
         className={[
-          "bg-gradient-to-br from-brand-orange-500/10 to-brand-orange-600/5 p-8 text-center transition-all duration-300 rounded-2xl",
+          "bg-gradient-to-br from-brand-terra-500/10 to-brand-terra-600/5 p-8 text-center transition-all duration-300 rounded-2xl",
           show ? "scale-100 opacity-100" : "scale-90 opacity-0",
         ].join(" ")}
       >
         {/* Icon */}
-        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-brand-orange-500/20 text-3xl">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-brand-terra-500/20 text-3xl">
           ⬆
         </div>
 
@@ -94,7 +94,7 @@ export default function LevelUpModal({
         </div>
 
         {/* New title */}
-        <h2 className="mb-4 text-xl font-bold text-brand-orange-400">
+        <h2 className="mb-4 text-xl font-bold text-brand-terra-400">
           {newTitle}
         </h2>
 
@@ -108,7 +108,7 @@ export default function LevelUpModal({
         <Button
           variant="primary"
           onClick={dismiss}
-          className="w-full justify-center !bg-brand-orange-500 hover:!bg-brand-orange-400"
+          className="w-full justify-center !bg-brand-terra-500 hover:!bg-brand-terra-400"
         >
           {lng === "es" ? "¡Genial!" : "Awesome!"}
         </Button>

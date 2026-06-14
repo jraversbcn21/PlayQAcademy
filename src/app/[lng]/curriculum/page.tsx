@@ -62,7 +62,7 @@ export default function CurriculumPage() {
       <section className="flex min-h-[40vh] items-center justify-center px-4 py-20">
         <div className="container-app text-center">
           <h1 className="mx-auto max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-            <span className="animate-gradient bg-gradient-to-r from-brand-blue-400 via-brand-green-400 to-brand-orange-400 bg-[length:200%_auto] bg-clip-text text-transparent">
+            <span className="animate-gradient bg-gradient-to-r from-brand-forest-400 via-brand-gold-400 to-brand-terra-400 bg-[length:200%_auto] bg-clip-text text-transparent">
               {t("curriculum.hero.title")}
             </span>
           </h1>
@@ -70,13 +70,13 @@ export default function CurriculumPage() {
             {t("curriculum.hero.subtitle")}
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <span className="rounded-full bg-brand-blue-500/10 px-4 py-1.5 text-sm font-medium text-brand-blue-400 ring-1 ring-inset ring-brand-blue-500/20">
+            <span className="rounded-full bg-brand-forest-500/10 px-4 py-1.5 text-sm font-medium text-brand-forest-400 ring-1 ring-inset ring-brand-forest-500/20">
               {t("curriculum.hero.stats.lessons")}
             </span>
-            <span className="rounded-full bg-brand-green-500/10 px-4 py-1.5 text-sm font-medium text-brand-green-400 ring-1 ring-inset ring-brand-green-500/20">
+            <span className="rounded-full bg-brand-gold-500/10 px-4 py-1.5 text-sm font-medium text-brand-gold-400 ring-1 ring-inset ring-brand-gold-500/20">
               {t("curriculum.hero.stats.modules")}
             </span>
-            <span className="rounded-full bg-brand-orange-500/10 px-4 py-1.5 text-sm font-medium text-brand-orange-400 ring-1 ring-inset ring-brand-orange-500/20">
+            <span className="rounded-full bg-brand-terra-500/10 px-4 py-1.5 text-sm font-medium text-brand-terra-400 ring-1 ring-inset ring-brand-terra-500/20">
               {t("curriculum.hero.stats.campuses")}
             </span>
             <span className="rounded-full bg-brand-purple-500/10 px-4 py-1.5 text-sm font-medium text-brand-purple-400 ring-1 ring-inset ring-brand-purple-500/20">
@@ -136,7 +136,7 @@ export default function CurriculumPage() {
               <div key={exam.number} className="flex-1">
                 <Card variant="achievement" className="relative h-full">
                   <div className="mb-4 flex items-center gap-3">
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-blue-500/20 text-sm font-bold text-brand-blue-400">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-forest-500/20 text-sm font-bold text-brand-forest-400">
                       {exam.number}
                     </span>
                     <h3 className="text-sm font-semibold text-[var(--color-text-primary)]">{exam.title}</h3>
@@ -147,7 +147,7 @@ export default function CurriculumPage() {
                     <p>{exam.passingLabel}</p>
                   </div>
                   {exam.isFinal && (
-                    <p className="mt-4 rounded-lg bg-brand-blue-500/10 px-3 py-2 text-sm font-medium text-brand-blue-400">
+                    <p className="mt-4 rounded-lg bg-brand-forest-500/10 px-3 py-2 text-sm font-medium text-brand-forest-400">
                       {t("curriculum.certification.unlocksBadge")}
                     </p>
                   )}
@@ -222,14 +222,14 @@ export default function CurriculumPage() {
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             {user ? (
               <Link href={`/${lng}/dashboard`}>
-                <Button variant="primary" size="lg" className="!bg-brand-orange-500 hover:!bg-brand-orange-400">
+                <Button variant="primary" size="lg" className="!bg-brand-terra-500 hover:!bg-brand-terra-400">
                   {t("curriculum.cta.goToDashboard")}
                 </Button>
               </Link>
             ) : (
               <>
                 <Link href={`/${lng}/auth/sign-up`}>
-                  <Button variant="primary" size="lg" className="!bg-brand-orange-500 hover:!bg-brand-orange-400">
+                  <Button variant="primary" size="lg" className="!bg-brand-terra-500 hover:!bg-brand-terra-400">
                     {t("curriculum.cta.signUp")}
                   </Button>
                 </Link>

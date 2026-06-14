@@ -32,7 +32,9 @@
     "startFree": "Crear cuenta",
     "menuOpen": "Abrir menú",
     "menuClose": "Cerrar menú",
-    "languageSwitcher": "Cambiar idioma"
+    "languageSwitcher": "Cambiar idioma",
+    "themeToLight": "Cambiar a modo claro",
+    "themeToDark": "Cambiar a modo oscuro"
   },
   "about": {
     "title": "La calidad no es un accidente",

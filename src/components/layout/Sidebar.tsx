@@ -109,7 +109,7 @@ function ChevronIcon({ open }: { open: boolean }): ReactNode {
 
 function ModuleIcon(): ReactNode {
   return (
-    <svg className="h-5 w-5 text-brand-blue-400" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
+    <svg className="h-5 w-5 text-brand-forest-400" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
       <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
     </svg>
   );
@@ -168,7 +168,7 @@ export default function Sidebar({ currentLng: _currentLng, onLessonSelect, class
         <button
           type="button"
           onClick={toggleAll}
-          className="text-xs text-[var(--color-text-muted)] transition-colors hover:text-brand-blue-400"
+          className="text-xs text-[var(--color-text-muted)] transition-colors hover:text-brand-forest-400"
         >
           {expandedAll ? t("sidebar.collapseAll") : t("sidebar.expandAll")}
         </button>
@@ -220,12 +220,12 @@ export default function Sidebar({ currentLng: _currentLng, onLessonSelect, class
                             ? "cursor-not-allowed opacity-50"
                             : "hover:bg-[var(--color-bg-elevated)]",
                           lesson.completed
-                            ? "text-brand-green-400"
+                            ? "text-brand-gold-400"
                             : "text-[var(--color-text-secondary)]",
                         ].join(" ")}
                       >
                         {lesson.completed ? (
-                          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-brand-green-500/20 text-brand-green-400">
+                          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-brand-gold-500/20 text-brand-gold-400">
                             <CheckIcon />
                           </span>
                         ) : lesson.locked ? (

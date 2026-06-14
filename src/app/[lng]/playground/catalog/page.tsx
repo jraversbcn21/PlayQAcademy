@@ -92,7 +92,7 @@ export default function CatalogPage({ params: { lng } }: { params: { lng: string
 
         {/* Cart counter */}
         <div className="mb-4 text-right">
-          <span className="inline-flex items-center gap-1 rounded-lg bg-brand-orange-500/10 px-3 py-1 text-sm text-brand-orange-400" role="status" aria-label={`${cart.length} items in cart`}>
+          <span className="inline-flex items-center gap-1 rounded-lg bg-brand-terra-500/10 px-3 py-1 text-sm text-brand-terra-400" role="status" aria-label={`${cart.length} items in cart`}>
             🛒 {cart.length} {lng === "es" ? "en carrito" : "in cart"}
           </span>
         </div>
@@ -112,7 +112,7 @@ export default function CatalogPage({ params: { lng } }: { params: { lng: string
               <legend className="mb-2 text-xs font-medium text-[var(--color-text-muted)]">{lng === "es" ? "Categoría" : "Category"}</legend>
               {CATEGORIES.map((cat) => (
                 <label key={cat} className="flex items-center gap-2 text-sm text-[var(--color-text-secondary)] mb-1 cursor-pointer">
-                  <input type="checkbox" checked={selectedCats.has(cat)} onChange={() => toggleCat(cat)} className="h-4 w-4 rounded border-[var(--color-border)] bg-[var(--color-bg-secondary)] text-brand-blue-600" />
+                  <input type="checkbox" checked={selectedCats.has(cat)} onChange={() => toggleCat(cat)} className="h-4 w-4 rounded border-[var(--color-border)] bg-[var(--color-bg-secondary)] text-brand-forest-600" />
                   {cat}
                 </label>
               ))}
@@ -157,13 +157,13 @@ export default function CatalogPage({ params: { lng } }: { params: { lng: string
                   <h3 className="font-semibold text-sm text-[var(--color-text-primary)]">{p.name}</h3>
                   <p className="text-xs text-[var(--color-text-muted)]">{p.category}</p>
                   <div className="mt-1 flex items-center justify-between">
-                    <span className="text-lg font-bold text-brand-green-400">${p.price}</span>
+                    <span className="text-lg font-bold text-brand-gold-400">${p.price}</span>
                     <span className="text-amber-400">{"★".repeat(p.rating)}{"☆".repeat(5 - p.rating)}</span>
                   </div>
                   <button
                     type="button"
                     onClick={() => addToCart(p)}
-                    className="mt-3 w-full rounded-lg bg-brand-orange-500 px-3 py-2 text-xs font-semibold text-white hover:bg-brand-orange-400"
+                    className="mt-3 w-full rounded-lg bg-brand-terra-500 px-3 py-2 text-xs font-semibold text-white hover:bg-brand-terra-400"
                   >
                     {lng === "es" ? "Agregar al Carrito" : "Add to Cart"}
                   </button>
@@ -176,7 +176,7 @@ export default function CatalogPage({ params: { lng } }: { params: { lng: string
               <nav className="mt-6 flex items-center justify-center gap-1" aria-label={lng === "es" ? "Paginación" : "Pagination"}>
                 <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={currentPage <= 1} className="rounded-lg border border-[var(--color-border)] px-3 py-1 text-sm disabled:opacity-50">←</button>
                 {Array.from({ length: totalPages }, (_, i) => (
-                  <button key={i} onClick={() => setPage(i + 1)} className={["rounded-lg border px-3 py-1 text-sm", i + 1 === currentPage ? "border-brand-blue-500 bg-brand-blue-500/20 text-brand-blue-400" : "border-[var(--color-border)] text-[var(--color-text-muted)]"].join(" ")}>
+                  <button key={i} onClick={() => setPage(i + 1)} className={["rounded-lg border px-3 py-1 text-sm", i + 1 === currentPage ? "border-brand-forest-500 bg-brand-forest-500/20 text-brand-forest-400" : "border-[var(--color-border)] text-[var(--color-text-muted)]"].join(" ")}>
                     {i + 1}
                   </button>
                 ))}

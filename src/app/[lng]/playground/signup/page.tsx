@@ -74,8 +74,8 @@ export default function SignUpPage({ params: { lng } }: { params: { lng: string 
     return (
       <div className="px-4 py-8">
         <div className="container-app max-w-lg">
-          <div className="rounded-xl border border-brand-green-500/20 bg-brand-green-500/10 p-6">
-            <h2 className="text-xl font-bold text-brand-green-400">{lng === "es" ? "¡Registro exitoso!" : "Registration Successful!"}</h2>
+          <div className="rounded-xl border border-brand-gold-500/20 bg-brand-gold-500/10 p-6">
+            <h2 className="text-xl font-bold text-brand-gold-400">{lng === "es" ? "¡Registro exitoso!" : "Registration Successful!"}</h2>
             <div className="mt-4 space-y-1 text-sm text-[var(--color-text-secondary)]">
               <p><strong>{lng === "es" ? "Nombre:" : "Name:"}</strong> {data.name}</p>
               <p><strong>Email:</strong> {data.email}</p>
@@ -83,7 +83,7 @@ export default function SignUpPage({ params: { lng } }: { params: { lng: string 
               <p><strong>{lng === "es" ? "País:" : "Country:"}</strong> {data.country}</p>
               <p><strong>{lng === "es" ? "Newsletter:" : "Newsletter:"}</strong> {data.newsletter ? "✅" : "❌"}</p>
             </div>
-            <button onClick={() => { setSubmitted(false); setStep(0); }} className="mt-4 text-sm text-brand-blue-400 hover:underline">
+            <button onClick={() => { setSubmitted(false); setStep(0); }} className="mt-4 text-sm text-brand-forest-400 hover:underline">
               {lng === "es" ? "← Nuevo registro" : "← New registration"}
             </button>
           </div>
@@ -110,7 +110,7 @@ export default function SignUpPage({ params: { lng } }: { params: { lng: string 
         {/* Step indicator */}
         <div className="mb-6 flex items-center gap-2">
           {STEPS.map((s, i) => (
-            <div key={s} className={["flex-1 h-1.5 rounded-full transition-colors", i <= step ? "bg-brand-blue-500" : "bg-[var(--color-bg-elevated)]"].join(" ")} />
+            <div key={s} className={["flex-1 h-1.5 rounded-full transition-colors", i <= step ? "bg-brand-forest-500" : "bg-[var(--color-bg-elevated)]"].join(" ")} />
           ))}
         </div>
         <p className="mb-4 text-xs text-[var(--color-text-muted)]">
@@ -163,7 +163,7 @@ export default function SignUpPage({ params: { lng } }: { params: { lng: string 
           {step === 2 && (
             <>
               <label className="flex items-center gap-2 text-sm text-[var(--color-text-secondary)] cursor-pointer">
-                <input type="checkbox" checked={data.newsletter} onChange={(e) => update("newsletter", e.target.checked)} className="h-4 w-4 rounded border-[var(--color-border)] bg-[var(--color-bg-secondary)] text-brand-blue-600" />
+                <input type="checkbox" checked={data.newsletter} onChange={(e) => update("newsletter", e.target.checked)} className="h-4 w-4 rounded border-[var(--color-border)] bg-[var(--color-bg-secondary)] text-brand-forest-600" />
                 {lng === "es" ? "Suscribirme al newsletter" : "Subscribe to newsletter"}
               </label>
               <div>
@@ -182,7 +182,7 @@ export default function SignUpPage({ params: { lng } }: { params: { lng: string 
                 <legend className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">{lng === "es" ? "Notificaciones" : "Notifications"}</legend>
                 {["email", "push", "none"].map((opt) => (
                   <label key={opt} className="flex items-center gap-2 text-sm text-[var(--color-text-secondary)] mb-1 cursor-pointer">
-                    <input type="radio" name="notifications" value={opt} checked={data.notifications === opt} onChange={(e) => update("notifications", e.target.value)} className="text-brand-blue-600" />
+                    <input type="radio" name="notifications" value={opt} checked={data.notifications === opt} onChange={(e) => update("notifications", e.target.value)} className="text-brand-forest-600" />
                     {opt === "email" ? (lng === "es" ? "Email" : "Email") : opt === "push" ? (lng === "es" ? "Push" : "Push") : (lng === "es" ? "Ninguna" : "None")}
                   </label>
                 ))}
@@ -208,7 +208,7 @@ export default function SignUpPage({ params: { lng } }: { params: { lng: string 
                 {lng === "es" ? "← Atrás" : "← Back"}
               </button>
             )}
-            <button type="submit" className="flex-1 rounded-lg bg-brand-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-blue-500">
+            <button type="submit" className="flex-1 rounded-lg bg-brand-forest-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-forest-500">
               {step === 3 ? (lng === "es" ? "Registrarse" : "Sign Up") : (lng === "es" ? "Siguiente →" : "Next →")}
             </button>
           </div>

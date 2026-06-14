@@ -19,7 +19,7 @@ import ProgressBar from "@/components/ui/ProgressBar";
 
 function CheckIcon(): ReactNode {
   return (
-    <svg className="h-4 w-4 text-brand-green-400" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24" aria-hidden="true">
+    <svg className="h-4 w-4 text-brand-gold-400" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24" aria-hidden="true">
       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
     </svg>
   );
@@ -27,7 +27,7 @@ function CheckIcon(): ReactNode {
 
 function PlayIcon(): ReactNode {
   return (
-    <svg className="h-4 w-4 text-brand-blue-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden="true">
+    <svg className="h-4 w-4 text-brand-forest-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden="true">
       <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 010 1.972l-11.54 6.347c-.75.412-1.667-.13-1.667-.986V5.653z" />
     </svg>
   );
@@ -169,7 +169,7 @@ export default function ModuleOverviewPage({
           {unlocked && firstAvailableLesson && (
             <Button
               variant="primary"
-              className="!bg-brand-orange-500 hover:!bg-brand-orange-400 shrink-0"
+              className="!bg-brand-terra-500 hover:!bg-brand-terra-400 shrink-0"
               onClick={() =>
                 router.push(`/${lng}/learn/${moduleId}/${firstAvailableLesson.id}`)
               }
@@ -190,7 +190,7 @@ export default function ModuleOverviewPage({
 
             const rowStyle = (() => {
               if (status === "locked") return "opacity-50 cursor-not-allowed";
-              if (status === "completed") return "hover:bg-brand-green-500/5";
+              if (status === "completed") return "hover:bg-brand-gold-500/5";
               return "hover:bg-[var(--color-bg-elevated)] cursor-pointer";
             })();
 

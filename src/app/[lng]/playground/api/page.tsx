@@ -58,7 +58,7 @@ export default function ApiPlaygroundPage({ params: { lng } }: { params: { lng: 
                 onClick={() => setExpanded(expanded === i ? null : i)}
                 className="flex w-full items-center gap-3 p-4 text-left hover:bg-[var(--color-bg-elevated)] transition-colors"
               >
-                <span className={["rounded px-2 py-0.5 font-mono text-xs font-bold", ep.method === "GET" ? "bg-brand-green-500/20 text-brand-green-400" : ep.method === "POST" ? "bg-brand-blue-500/20 text-brand-blue-400" : ep.method === "PUT" ? "bg-amber-500/20 text-amber-400" : "bg-red-500/20 text-red-400"].join(" ")}>
+                <span className={["rounded px-2 py-0.5 font-mono text-xs font-bold", ep.method === "GET" ? "bg-brand-gold-500/20 text-brand-gold-400" : ep.method === "POST" ? "bg-brand-forest-500/20 text-brand-forest-400" : ep.method === "PUT" ? "bg-amber-500/20 text-amber-400" : "bg-red-500/20 text-red-400"].join(" ")}>
                   {ep.method}
                 </span>
                 <code className="font-mono text-sm text-[var(--color-text-primary)]">{ep.path}</code>
@@ -77,7 +77,7 @@ export default function ApiPlaygroundPage({ params: { lng } }: { params: { lng: 
 
                   <div>
                     <p className="mb-1 text-xs font-medium text-[var(--color-text-muted)]">{lng === "es" ? "Respuesta:" : "Response:"}</p>
-                    <pre className="overflow-x-auto rounded-lg bg-[#0d1117] p-3 font-mono text-xs text-brand-green-400"><code>{ep.response}</code></pre>
+                    <pre className="overflow-x-auto rounded-lg bg-[#0d1117] p-3 font-mono text-xs text-brand-gold-400"><code>{ep.response}</code></pre>
                   </div>
                 </div>
               )}

@@ -40,7 +40,7 @@ export default function ExamResultsPage({ params: { lng, examId, attemptId } }: 
   }, [attemptId, examId, user]);
 
   if (loading) {
-    return <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-blue-500 border-t-transparent" /></div>;
+    return <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-forest-500 border-t-transparent" /></div>;
   }
   if (!attempt) return null;
 
@@ -55,7 +55,7 @@ export default function ExamResultsPage({ params: { lng, examId, attemptId } }: 
   const qMap = new Map(questions.map((q) => [q.id, q]));
   const total = questions.length;
   const correct = attempt.answers.filter((a) => a.isCorrect && qMap.has(a.questionId)).length;
-  const scoreColor = attempt.score >= 80 ? "text-brand-green-400" : attempt.score >= 50 ? "text-amber-400" : "text-red-400";
+  const scoreColor = attempt.score >= 80 ? "text-brand-gold-400" : attempt.score >= 50 ? "text-amber-400" : "text-red-400";
   const weakModules = identifyWeakAreas(attempt.answers, questions);
   const weakModuleNames = weakModules.map((mid) => {
     const mod = CURRICULUM.find((m) => m.id === mid);
@@ -111,15 +111,15 @@ export default function ExamResultsPage({ params: { lng, examId, attemptId } }: 
 
               return (
                 <details key={ans.questionId} className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)]">
-                  <summary className={["cursor-pointer p-4 font-medium text-sm", isCorrect ? "text-brand-green-400" : "text-red-400"].join(" ")}>
+                  <summary className={["cursor-pointer p-4 font-medium text-sm", isCorrect ? "text-brand-gold-400" : "text-red-400"].join(" ")}>
                     {isCorrect ? "✓" : "✗"} {lng === "es" ? "Pregunta" : "Question"} {i + 1}: {q.question[lng as "es" | "en"] ?? q.question.en}
                   </summary>
                   <div className="border-t border-[var(--color-border)] p-4 pt-3 space-y-2">
                     {q.codeSnippet && (
                       <pre className="overflow-x-auto rounded-lg bg-[#0d1117] p-3 font-mono text-xs text-[#c9d1d9]"><code>{q.codeSnippet}</code></pre>
                     )}
-                    <p className="text-xs"><span className="text-[var(--color-text-muted)]">{lng === "es" ? "Tu respuesta:" : "Your answer:"}</span> <span className={isCorrect ? "text-brand-green-400" : "text-red-400"}>{userAnswerText || (lng === "es" ? "(sin responder)" : "(unanswered)")}</span></p>
-                    {!isCorrect && <p className="text-xs"><span className="text-[var(--color-text-muted)]">{lng === "es" ? "Correcta:" : "Correct:"}</span> <span className="text-brand-green-400">{correctText}</span></p>}
+                    <p className="text-xs"><span className="text-[var(--color-text-muted)]">{lng === "es" ? "Tu respuesta:" : "Your answer:"}</span> <span className={isCorrect ? "text-brand-gold-400" : "text-red-400"}>{userAnswerText || (lng === "es" ? "(sin responder)" : "(unanswered)")}</span></p>
+                    {!isCorrect && <p className="text-xs"><span className="text-[var(--color-text-muted)]">{lng === "es" ? "Correcta:" : "Correct:"}</span> <span className="text-brand-gold-400">{correctText}</span></p>}
                     <p className="rounded-lg bg-[var(--color-bg-elevated)] p-3 text-xs leading-relaxed text-[var(--color-text-secondary)]">
                       {q.explanation[lng as "es" | "en"] ?? q.explanation.en}
                     </p>

@@ -112,7 +112,7 @@ export default function ForgotPasswordPage() {
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); setError(null); }}
                   placeholder={t("forgotPassword.emailPlaceholder")}
-                  className="mt-1.5 block w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:border-brand-blue-500 focus:outline-none focus:ring-1 focus:ring-brand-blue-500"
+                  className="mt-1.5 block w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:border-brand-forest-500 focus:outline-none focus:ring-1 focus:ring-brand-forest-500"
                 />
               </div>
 
@@ -135,7 +135,7 @@ export default function ForgotPasswordPage() {
           <p className="mt-6 text-center text-sm text-[var(--color-text-muted)]">
             <Link
               href={`/${lng}/auth/sign-in`}
-              className="font-medium text-brand-blue-400 transition-colors hover:text-brand-blue-300"
+              className="font-medium text-brand-forest-400 transition-colors hover:text-brand-forest-300"
             >
               {t("forgotPassword.backToSignIn")}
             </Link>

@@ -61,8 +61,8 @@ export default function AboutPage() {
           {/* Photo */}
           <div className="shrink-0">
             {imgError ? (
-              <div className="flex h-[280px] w-[280px] items-center justify-center rounded-2xl bg-brand-blue-500/10 ring-2 ring-brand-blue-500/30 shadow-xl shadow-brand-blue-500/10">
-                <span className="text-5xl font-bold text-brand-blue-400">JC</span>
+              <div className="flex h-[280px] w-[280px] items-center justify-center rounded-2xl bg-brand-forest-500/10 ring-2 ring-brand-forest-500/30 shadow-xl shadow-brand-forest-500/10">
+                <span className="text-5xl font-bold text-brand-forest-400">JC</span>
               </div>
             ) : (
               <Image
@@ -70,7 +70,7 @@ export default function AboutPage() {
                 alt={t("about.name")}
                 width={280}
                 height={280}
-                className="rounded-2xl ring-2 ring-brand-blue-500/30 shadow-xl shadow-brand-blue-500/10 object-cover"
+                className="rounded-2xl ring-2 ring-brand-forest-500/30 shadow-xl shadow-brand-forest-500/10 object-cover"
                 priority
                 onError={() => setImgError(true)}
               />
@@ -82,7 +82,7 @@ export default function AboutPage() {
             <h2 className="text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
               {t("about.name")}
             </h2>
-            <p className="mt-1 text-sm text-brand-blue-400">
+            <p className="mt-1 text-sm text-brand-forest-400">
               {t("about.role")}
             </p>
             <p className="mt-4 text-sm leading-relaxed text-[var(--color-text-secondary)]">
@@ -101,7 +101,7 @@ export default function AboutPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   title={t(link.tooltipKey)}
-                  className="rounded-lg border border-[var(--color-border)] p-2.5 text-[var(--color-text-muted)] transition-colors hover:border-brand-blue-500/40 hover:text-brand-blue-400 hover:bg-brand-blue-500/10"
+                  className="rounded-lg border border-[var(--color-border)] p-2.5 text-[var(--color-text-muted)] transition-colors hover:border-brand-forest-500/40 hover:text-brand-forest-400 hover:bg-brand-forest-500/10"
                 >
                   {link.icon}
                 </a>

@@ -54,9 +54,9 @@ export default function LoginPage({ params: { lng } }: { params: { lng: string }
     return (
       <div className="px-4 py-8">
         <div className="container-app max-w-lg">
-          <div className="rounded-xl border border-brand-green-500/20 bg-brand-green-500/10 p-8 text-center">
+          <div className="rounded-xl border border-brand-gold-500/20 bg-brand-gold-500/10 p-8 text-center">
             <p className="text-3xl mb-2">✅</p>
-            <h1 className="text-xl font-bold text-brand-green-400" role="heading" aria-level={1}>
+            <h1 className="text-xl font-bold text-brand-gold-400" role="heading" aria-level={1}>
               {lng === "es" ? "¡Inicio de sesión exitoso!" : "Login Successful!"}
             </h1>
             <p className="mt-2 text-[var(--color-text-secondary)]">
@@ -68,7 +68,7 @@ export default function LoginPage({ params: { lng } }: { params: { lng: string }
             <button
               type="button"
               onClick={() => { setLoggedIn(null); setEmail(""); setPassword(""); setSubmitted(false); setErrors({}); }}
-              className="mt-4 text-sm text-brand-blue-400 hover:underline"
+              className="mt-4 text-sm text-brand-forest-400 hover:underline"
             >
               {lng === "es" ? "← Cerrar sesión" : "← Sign out"}
             </button>
@@ -123,7 +123,7 @@ export default function LoginPage({ params: { lng } }: { params: { lng: string }
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:border-brand-blue-500 focus:outline-none focus:ring-1 focus:ring-brand-blue-500"
+              className="mt-1 block w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:border-brand-forest-500 focus:outline-none focus:ring-1 focus:ring-brand-forest-500"
               placeholder="you@example.com"
             />
             {errors.email && <p className="mt-1 text-xs text-red-400" role="alert">{errors.email}</p>}
@@ -137,7 +137,7 @@ export default function LoginPage({ params: { lng } }: { params: { lng: string }
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] focus:border-brand-blue-500 focus:outline-none focus:ring-1 focus:ring-brand-blue-500"
+              className="mt-1 block w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] focus:border-brand-forest-500 focus:outline-none focus:ring-1 focus:ring-brand-forest-500"
               placeholder="••••••••"
             />
             {errors.password && <p className="mt-1 text-xs text-red-400" role="alert">{errors.password}</p>}
@@ -149,18 +149,18 @@ export default function LoginPage({ params: { lng } }: { params: { lng: string }
                 type="checkbox"
                 checked={remember}
                 onChange={(e) => setRemember(e.target.checked)}
-                className="h-4 w-4 rounded border-[var(--color-border)] bg-[var(--color-bg-secondary)] text-brand-blue-600 focus:ring-brand-blue-500"
+                className="h-4 w-4 rounded border-[var(--color-border)] bg-[var(--color-bg-secondary)] text-brand-forest-600 focus:ring-brand-forest-500"
               />
               {lng === "es" ? "Recordarme" : "Remember me"}
             </label>
-            <button type="button" onClick={() => setShowForgot(true)} className="text-xs text-brand-blue-400 hover:underline">
+            <button type="button" onClick={() => setShowForgot(true)} className="text-xs text-brand-forest-400 hover:underline">
               {lng === "es" ? "¿Olvidaste tu contraseña?" : "Forgot password?"}
             </button>
           </div>
 
           <button
             type="submit"
-            className="w-full rounded-lg bg-brand-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-blue-500 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:ring-offset-2"
+            className="w-full rounded-lg bg-brand-forest-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-forest-500 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-forest-500 focus:ring-offset-2"
           >
             {lng === "es" ? "Iniciar Sesión" : "Sign In"}
           </button>
@@ -177,7 +177,7 @@ export default function LoginPage({ params: { lng } }: { params: { lng: string }
                 {lng === "es" ? "Ingresa tu email y te enviaremos un enlace. (Esta es una simulación — no se enviará ningún email real.)" : "Enter your email and we'll send you a link. (This is a simulation — no real email will be sent.)"}
               </p>
               <input type="email" placeholder="you@example.com" className="mb-3 block w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2.5 text-sm" />
-              <button onClick={() => setShowForgot(false)} className="w-full rounded-lg bg-brand-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-blue-500">
+              <button onClick={() => setShowForgot(false)} className="w-full rounded-lg bg-brand-forest-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-forest-500">
                 {lng === "es" ? "Enviar Enlace" : "Send Link"}
               </button>
             </div>

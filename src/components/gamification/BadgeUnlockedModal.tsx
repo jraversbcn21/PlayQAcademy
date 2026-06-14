@@ -22,14 +22,14 @@ interface BadgeUnlockedModalProps {
 
 const RARITY_GLOW: Record<string, string> = {
   common: "from-slate-500/30 to-slate-600/10 border-slate-500/30",
-  rare: "from-brand-blue-500/30 to-brand-blue-600/10 border-brand-blue-500/30",
+  rare: "from-brand-forest-500/30 to-brand-forest-600/10 border-brand-forest-500/30",
   epic: "from-purple-500/30 to-purple-600/10 border-purple-500/30",
-  legendary: "from-brand-orange-500/40 to-yellow-500/20 border-yellow-500/40",
+  legendary: "from-brand-terra-500/40 to-yellow-500/20 border-yellow-500/40",
 };
 
 const RARITY_COLOR: Record<string, string> = {
   common: "text-slate-400",
-  rare: "text-brand-blue-400",
+  rare: "text-brand-forest-400",
   epic: "text-purple-400",
   legendary: "text-yellow-400",
 };
@@ -162,7 +162,7 @@ export default function BadgeUnlockedModal({
           </p>
 
           {/* Points */}
-          <p className="mb-6 text-sm font-semibold text-brand-green-400">
+          <p className="mb-6 text-sm font-semibold text-brand-gold-400">
             +{currentBadge.points} pts
           </p>
 
@@ -170,7 +170,7 @@ export default function BadgeUnlockedModal({
           <Button
             variant="primary"
             onClick={dismissCurrent}
-            className="w-full justify-center !bg-brand-orange-500 hover:!bg-brand-orange-400"
+            className="w-full justify-center !bg-brand-terra-500 hover:!bg-brand-terra-400"
           >
             Awesome!
           </Button>

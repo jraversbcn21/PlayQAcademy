@@ -68,7 +68,7 @@ export default function FramesPage({ params: { lng } }: { params: { lng: string 
         {/* Popup */}
         <section className="mb-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-5">
           <h2 className="mb-3 text-sm font-semibold text-[var(--color-text-primary)]">{lng === "es" ? "Ventana Emergente (Popup)" : "Popup Window"}</h2>
-          <button onClick={openPopup} className="rounded-lg bg-brand-blue-600 px-4 py-2 text-sm text-white hover:bg-brand-blue-500">
+          <button onClick={openPopup} className="rounded-lg bg-brand-forest-600 px-4 py-2 text-sm text-white hover:bg-brand-forest-500">
             {lng === "es" ? "Abrir Popup" : "Open Popup"}
           </button>
         </section>
@@ -76,7 +76,7 @@ export default function FramesPage({ params: { lng } }: { params: { lng: string 
         {/* Modal */}
         <section className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-5">
           <h2 className="mb-3 text-sm font-semibold text-[var(--color-text-primary)]">{lng === "es" ? "Modal con Formulario" : "Modal with Form"}</h2>
-          <button onClick={() => setShowModal(true)} className="rounded-lg bg-brand-blue-600 px-4 py-2 text-sm text-white hover:bg-brand-blue-500">
+          <button onClick={() => setShowModal(true)} className="rounded-lg bg-brand-forest-600 px-4 py-2 text-sm text-white hover:bg-brand-forest-500">
             {lng === "es" ? "Abrir Modal" : "Open Modal"}
           </button>
         </section>
@@ -95,11 +95,11 @@ export default function FramesPage({ params: { lng } }: { params: { lng: string 
                   setFrameMsg(lng === "es" ? "✅ Enviado desde modal!" : "✅ Submitted from modal!");
                   setTimeout(() => setShowModal(false), 1000);
                 }}
-                className="w-full rounded-lg bg-brand-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-blue-500"
+                className="w-full rounded-lg bg-brand-forest-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-forest-500"
               >
                 {lng === "es" ? "Enviar" : "Submit"}
               </button>
-              {frameMsg && <p className="mt-2 text-sm text-brand-green-400">{frameMsg}</p>}
+              {frameMsg && <p className="mt-2 text-sm text-brand-gold-400">{frameMsg}</p>}
             </div>
           </div>
         )}

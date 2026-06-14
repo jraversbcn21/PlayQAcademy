@@ -48,7 +48,7 @@ export default function StreakIndicator({ uid }: StreakIndicatorProps) {
         className={[
           "text-lg transition-transform",
           pulsing ? "animate-fade-in-up" : "",
-          hasStreak ? "text-brand-orange-400" : "text-[var(--color-text-muted)]",
+          hasStreak ? "text-brand-terra-400" : "text-[var(--color-text-muted)]",
         ].join(" ")}
         aria-hidden="true"
       >

@@ -150,20 +150,20 @@ export default function DataTablePage({ params: { lng } }: { params: { lng: stri
             </thead>
             <tbody>
               {paged.map((emp) => (
-                <tr key={emp.id} className={["border-b border-[var(--color-border)]", selected.has(emp.id) ? "bg-brand-blue-500/10" : "hover:bg-[var(--color-bg-elevated)]"].join(" ")} role="row">
+                <tr key={emp.id} className={["border-b border-[var(--color-border)]", selected.has(emp.id) ? "bg-brand-forest-500/10" : "hover:bg-[var(--color-bg-elevated)]"].join(" ")} role="row">
                   <td className="p-3"><input type="checkbox" checked={selected.has(emp.id)} onChange={() => toggleSelect(emp.id)} className="h-4 w-4 rounded" aria-label={`Select ${emp.name}`} /></td>
                   <td className="p-3 text-xs tabular-nums">{emp.id}</td>
                   <td className="p-3" onClick={() => { if (editing === null) { setEditing(emp.id); setEditValue(emp.name); } }}>
                     {editing === emp.id ? (
-                      <input type="text" value={editValue} onChange={(e) => setEditValue(e.target.value)} onBlur={() => saveEdit(emp.id)} onKeyDown={(e) => e.key === "Enter" && saveEdit(emp.id)} className="w-full rounded border border-brand-blue-500 bg-[var(--color-bg-secondary)] px-2 py-1 text-xs" autoFocus />
+                      <input type="text" value={editValue} onChange={(e) => setEditValue(e.target.value)} onBlur={() => saveEdit(emp.id)} onKeyDown={(e) => e.key === "Enter" && saveEdit(emp.id)} className="w-full rounded border border-brand-forest-500 bg-[var(--color-bg-secondary)] px-2 py-1 text-xs" autoFocus />
                     ) : (
                       <span className="text-[var(--color-text-primary)]">{emp.name}</span>
                     )}
                   </td>
                   <td className="p-3 text-xs text-[var(--color-text-secondary)]">{emp.department}</td>
                   <td className="p-3 text-xs text-[var(--color-text-secondary)]">{emp.position}</td>
-                  <td className="p-3 text-xs tabular-nums text-brand-green-400">${emp.salary.toLocaleString()}</td>
-                  <td className="p-3 text-xs"><span className={["inline-flex rounded-full px-2 py-0.5 text-[10px] font-medium", emp.status === "Active" ? "bg-brand-green-500/10 text-brand-green-400" : emp.status === "Remote" ? "bg-brand-blue-500/10 text-brand-blue-400" : "bg-amber-500/10 text-amber-400"].join(" ")}>{emp.status}</span></td>
+                  <td className="p-3 text-xs tabular-nums text-brand-gold-400">${emp.salary.toLocaleString()}</td>
+                  <td className="p-3 text-xs"><span className={["inline-flex rounded-full px-2 py-0.5 text-[10px] font-medium", emp.status === "Active" ? "bg-brand-gold-500/10 text-brand-gold-400" : emp.status === "Remote" ? "bg-brand-forest-500/10 text-brand-forest-400" : "bg-amber-500/10 text-amber-400"].join(" ")}>{emp.status}</span></td>
                 </tr>
               ))}
             </tbody>

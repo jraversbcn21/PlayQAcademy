@@ -32,7 +32,9 @@
     "startFree": "Sign up",
     "menuOpen": "Open menu",
     "menuClose": "Close menu",
-    "languageSwitcher": "Switch language"
+    "languageSwitcher": "Switch language",
+    "themeToLight": "Switch to light mode",
+    "themeToDark": "Switch to dark mode"
   },
   "about": {
     "title": "Quality is not an accident",

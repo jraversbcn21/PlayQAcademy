@@ -7,6 +7,7 @@ import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
 import StreakIndicator from "@/components/gamification/StreakIndicator";
 import Button from "@/components/ui/Button";
+import ThemeToggle from "./ThemeToggle";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -50,12 +51,12 @@ function Logo(): ReactNode {
         fill="none"
         aria-hidden="true"
       >
-        <path d="M14 2L26 24H2L14 2Z" fill="currentColor" className="text-brand-blue-500" />
+        <path d="M14 2L26 24H2L14 2Z" fill="currentColor" className="text-brand-forest-500" />
       </svg>
-      <span>PlayQ</span>
+      <span className="font-heading">PlayQ</span>
       <span className="relative flex h-2 w-2" aria-hidden="true">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-blue-400 opacity-75" />
-        <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-blue-500" />
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-forest-400 opacity-75" />
+        <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-forest-500" />
       </span>
     </Link>
   );
@@ -139,7 +140,7 @@ function LanguageSwitcher({ currentLng }: { currentLng: string }): ReactNode {
             className={[
               "rounded-md px-2.5 py-1 transition-colors",
               active
-                ? "bg-brand-blue-600 text-white"
+                ? "bg-brand-forest-600 text-white"
                 : "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]",
             ].join(" ")}
           >
@@ -174,7 +175,7 @@ function UserAvatar({
         src={photoURL}
         alt={displayName ?? ""}
         referrerPolicy="no-referrer"
-        className={[dimension, "rounded-full object-cover ring-2 ring-brand-blue-500/30"].join(" ")}
+        className={[dimension, "rounded-full object-cover ring-2 ring-brand-forest-500/30"].join(" ")}
       />
     );
   }
@@ -192,7 +193,7 @@ function UserAvatar({
         dimension,
         textSize,
         "flex items-center justify-center rounded-full font-semibold",
-        "bg-brand-blue-500/20 text-brand-blue-400 ring-2 ring-brand-blue-500/30",
+        "bg-brand-forest-500/20 text-brand-forest-400 ring-2 ring-brand-forest-500/30",
       ].join(" ")}
     >
       {initials || "?"}
@@ -352,7 +353,7 @@ export default function Navbar({ currentLng }: NavbarProps) {
         <Button
           variant="primary"
           size="sm"
-          className="!bg-brand-orange-500 hover:!bg-brand-orange-400"
+          className="!bg-brand-terra-500 hover:!bg-brand-terra-400"
           onClick={() => navigateTo("/auth/sign-up")}
         >
           {t("nav.startFree")}
@@ -427,7 +428,7 @@ export default function Navbar({ currentLng }: NavbarProps) {
         <Button
           variant="primary"
           size="md"
-          className="w-full justify-center !bg-brand-orange-500 hover:!bg-brand-orange-400"
+          className="w-full justify-center !bg-brand-terra-500 hover:!bg-brand-terra-400"
           onClick={() => {
             closeMobile();
             navigateTo("/auth/sign-up");
@@ -465,7 +466,7 @@ export default function Navbar({ currentLng }: NavbarProps) {
                   className={[
                     "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                     isActive
-                      ? "text-brand-blue-400"
+                      ? "text-brand-forest-400"
                       : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-elevated)]",
                   ].join(" ")}
                 >
@@ -480,6 +481,7 @@ export default function Navbar({ currentLng }: NavbarProps) {
         <div className="flex items-center gap-3">
           {renderAuthArea()}
           {user && <StreakIndicator uid={user.uid} />}
+          <ThemeToggle />
           <LanguageSwitcher currentLng={currentLng} />
 
           {/* Hamburger — mobile only */}

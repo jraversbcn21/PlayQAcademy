@@ -4,32 +4,46 @@
 
 /* =========================================================================
    PlayQ Academy — Global Styles
-   Mobile-first, dark-mode-primary design system.
+   Mobile-first design system with light/dark theming.
    ========================================================================= */
 
 @layer base {
   /*
-   * Semantic base HTML: dark is the default palette.
-   * The .light class on <html> toggles light overrides.
+   * Semantic base HTML: :root holds the dark palette.
+   * The .light class on <html> (default theme) applies the light overrides.
    */
   :root {
-    --color-bg-primary: #0f172a;    /* slate-900 */
-    --color-bg-secondary: #1e293b;  /* slate-800 */
-    --color-bg-elevated: #334155;   /* slate-700 */
-    --color-text-primary: #f1f5f9;  /* slate-100 */
-    --color-text-secondary: #94a3b8;/* slate-400 */
-    --color-text-muted: #64748b;    /* slate-500 */
-    --color-border: #334155;        /* slate-700 */
+    --color-bg-primary: #0e1814;
+    --color-bg-secondary: #15241e;
+    --color-bg-elevated: #1a2c24;
+    --color-text-primary: #e9f2ec;
+    --color-text-secondary: #91a89b;
+    --color-text-muted: #647b6f;
+    --color-border: #243a31;
+
+    --brand-forest-300: #7dd9b3;
+    --brand-forest-400: #44cf95;
+    --brand-terra-300: #d98f7d;
+    --brand-terra-400: #ed7b5e;
+    --brand-gold-300: #d9ba7d;
+    --brand-gold-400: #e3b966;
   }
 
   .light {
-    --color-bg-primary: #ffffff;
-    --color-bg-secondary: #f8fafc;  /* slate-50 */
-    --color-bg-elevated: #f1f5f9;   /* slate-100 */
-    --color-text-primary: #0f172a;  /* slate-900 */
-    --color-text-secondary: #475569;/* slate-600 */
-    --color-text-muted: #94a3b8;    /* slate-400 */
-    --color-border: #e2e8f0;        /* slate-200 */
+    --color-bg-primary: #fbfaf5;
+    --color-bg-secondary: #ffffff;
+    --color-bg-elevated: #f3f0e6;
+    --color-text-primary: #18211d;
+    --color-text-secondary: #5d6b63;
+    --color-text-muted: #8a978e;
+    --color-border: #e6e1d3;
+
+    --brand-forest-300: #1c7a52;
+    --brand-forest-400: #156544;
+    --brand-terra-300: #bf472d;
+    --brand-terra-400: #93351d;
+    --brand-gold-300: #b6862f;
+    --brand-gold-400: #997224;
   }
 
   html {
@@ -44,7 +58,7 @@
 
   /* Focus ring for accessibility */
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-brand-orange-500;
+    @apply outline-2 outline-offset-2 outline-brand-terra-500;
   }
 }
 
@@ -58,6 +72,6 @@
 @layer utilities {
   /* Gradient text utility for hero headings */
   .text-gradient-brand {
-    @apply bg-gradient-to-r from-brand-blue-400 via-brand-blue-500 to-brand-green-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-brand-forest-400 via-brand-forest-500 to-brand-gold-400 bg-clip-text text-transparent;
   }
 }

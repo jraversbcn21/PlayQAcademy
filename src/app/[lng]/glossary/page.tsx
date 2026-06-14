@@ -69,7 +69,7 @@ export default function GlossaryPage() {
             value={search}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
             placeholder={t("glossary.search")}
-            className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2 text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:border-brand-blue-500 focus:outline-none focus:ring-2 focus:ring-brand-blue-500/20"
+            className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2 text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:border-brand-forest-500 focus:outline-none focus:ring-2 focus:ring-brand-forest-500/20"
           />
         </div>
 
@@ -78,7 +78,7 @@ export default function GlossaryPage() {
           <select
             value={chapterFilter}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setChapterFilter(e.target.value)}
-            className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2 text-[var(--color-text-primary)] focus:border-brand-blue-500 focus:outline-none focus:ring-2 focus:ring-brand-blue-500/20"
+            className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] px-4 py-2 text-[var(--color-text-primary)] focus:border-brand-forest-500 focus:outline-none focus:ring-2 focus:ring-brand-forest-500/20"
           >
             <option value="all">{t("glossary.allChapters")}</option>
             {chapters.map((ch: string) => (
@@ -108,7 +108,7 @@ export default function GlossaryPage() {
                     {tText(entry.def, lng)}
                   </p>
                 </div>
-                <span className="shrink-0 rounded-full bg-brand-blue-500/20 px-2.5 py-0.5 text-xs font-medium text-brand-blue-400">
+                <span className="shrink-0 rounded-full bg-brand-forest-500/20 px-2.5 py-0.5 text-xs font-medium text-brand-forest-400">
                   {t("glossary.chapter")} {entry.chapter}
                 </span>
               </div>

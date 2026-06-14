@@ -71,8 +71,8 @@ function ClockIcon(): ReactNode {
 
 function CompletedBanner(): ReactNode {
   return (
-    <div className="animate-fade-in-up rounded-xl border border-brand-green-500/20 bg-brand-green-500/10 p-4 text-center">
-      <p className="text-base font-semibold text-brand-green-400">
+    <div className="animate-fade-in-up rounded-xl border border-brand-gold-500/20 bg-brand-gold-500/10 p-4 text-center">
+      <p className="text-base font-semibold text-brand-gold-400">
         🎉 Lesson completed! +10 points
       </p>
       <p className="mt-1 text-sm text-[var(--color-text-muted)]">
@@ -231,7 +231,7 @@ export default function LessonPlayerPage({
               className={[
                 "rounded p-1 transition-colors hover:bg-[var(--color-bg-elevated)]",
                 bookmarked
-                  ? "text-brand-blue-400"
+                  ? "text-brand-forest-400"
                   : "text-[var(--color-text-muted)]",
               ].join(" ")}
               aria-label={bookmarked ? t("lesson.player.bookmarked") : t("lesson.player.bookmark")}
@@ -285,7 +285,7 @@ export default function LessonPlayerPage({
                     href={res.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-brand-blue-400 transition-colors hover:text-brand-blue-300"
+                    className="flex items-center gap-2 text-sm text-brand-forest-400 transition-colors hover:text-brand-forest-300"
                   >
                     <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
@@ -328,8 +328,8 @@ export default function LessonPlayerPage({
             loading={completing}
             className={
               lessonCompleted
-                ? "!bg-brand-green-600"
-                : "!bg-brand-green-600 hover:!bg-brand-green-500"
+                ? "!bg-brand-gold-600"
+                : "!bg-brand-gold-600 hover:!bg-brand-gold-500"
             }
             onClick={handleMarkComplete}
           >
@@ -348,7 +348,7 @@ export default function LessonPlayerPage({
               className={
                 !lessonCompleted
                   ? ""
-                  : "!bg-brand-orange-500 hover:!bg-brand-orange-400"
+                  : "!bg-brand-terra-500 hover:!bg-brand-terra-400"
               }
               onClick={() => {
                 if (lessonCompleted) {

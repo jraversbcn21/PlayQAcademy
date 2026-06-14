@@ -31,7 +31,7 @@ export default function ProgressBar({
   showLabel = false,
   size = "md",
   animated = true,
-  barColor = "bg-brand-green-500",
+  barColor = "bg-brand-gold-500",
   className = "",
 }: ProgressBarProps) {
   const clamped = Math.min(100, Math.max(0, value));

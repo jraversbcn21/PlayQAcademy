@@ -111,7 +111,7 @@ export default function FlashcardSection({
     <div className="not-prose my-6">
       {/* Card */}
       <div
-        className="relative cursor-pointer rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-6 transition-all hover:border-brand-blue-500/30 hover:shadow-lg hover:shadow-brand-blue-500/5"
+        className="relative cursor-pointer rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-6 transition-all hover:border-brand-forest-500/30 hover:shadow-lg hover:shadow-brand-forest-500/5"
         onClick={handleFlip}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
@@ -125,7 +125,7 @@ export default function FlashcardSection({
       >
         {/* Label */}
         <div className="mb-3 flex items-center justify-between">
-          <span className="rounded-full bg-brand-blue-500/20 px-3 py-1 text-xs font-medium text-brand-blue-400">
+          <span className="rounded-full bg-brand-forest-500/20 px-3 py-1 text-xs font-medium text-brand-forest-400">
             {currentLabel}
           </span>
           <span className="text-xs text-[var(--color-text-muted)]">
@@ -161,7 +161,7 @@ export default function FlashcardSection({
             "flex items-center gap-2 rounded-lg border px-4 py-2 text-sm transition-colors",
             speaking
               ? "border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20"
-              : "border-[var(--color-border)] bg-[var(--color-bg-secondary)] text-[var(--color-text-secondary)] hover:border-brand-blue-500/30 hover:text-brand-blue-400",
+              : "border-[var(--color-border)] bg-[var(--color-bg-secondary)] text-[var(--color-text-secondary)] hover:border-brand-forest-500/30 hover:text-brand-forest-400",
           ].join(" ")}
           aria-label={speaking ? t("lesson.flashcard.stopSpeaking") : t("lesson.flashcard.speak")}
         >
