@@ -7,6 +7,16 @@ import { getModulesForCampus } from "./campuses";
 import { getQuestionsForModules } from "@/lib/exam/scoring";
 import "./examQuestions/module-1";
 import "./examQuestions/istqb";
+import "./examQuestions/qaf-m1";
+import "./examQuestions/qaf-m2";
+import "./examQuestions/qaf-m3";
+import "./examQuestions/qaf-m4";
+import "./examQuestions/qaf-m5";
+import "./examQuestions/qaf-m6";
+import "./examQuestions/qaf-m7";
+import "./examQuestions/qaf-m8";
+import "./examQuestions/qaf-m9";
+import "./examQuestions/qaf-m10";
 
 export const EXAMS: Exam[] = [
   {
@@ -129,6 +139,99 @@ export const EXAMS: Exam[] = [
     ],
     questionCount: 40,
     timeLimit: 60 * 60, // 60 minutes
+    passingScore: 65,
+    requiresModuleCompletion: [],
+  },
+  {
+    id: "exam-qaf-m1",
+    title: {
+      es: "Dominio del Módulo 1 — Introducción al QA",
+      en: "Module 1 Mastery — Introduction to QA",
+    },
+    description: {
+      es: "Evalúa tu comprensión de los fundamentos del QA y el testing: QA/QC/testing, error/defecto/fallo y los 7 principios. 10 preguntas, 65% para aprobar.",
+      en: "Test your understanding of QA and testing fundamentals: QA/QC/testing, error/defect/failure and the 7 principles. 10 questions, 65% to pass.",
+    },
+    type: "module",
+    moduleIds: ["qaf-m1"],
+    questionCount: 10,
+    timeLimit: 15 * 60, // 15 minutes
+    passingScore: 65,
+    requiresModuleCompletion: ["qaf-m1"],
+  },
+  {
+    id: "exam-qaf-m2",
+    title: {
+      es: "Dominio del Módulo 2 — Calidad de Software",
+      en: "Module 2 Mastery — Software Quality",
+    },
+    description: {
+      es: "Evalúa tu comprensión de la calidad de software: modelo ISO/IEC 25010, calidad funcional vs no funcional y coste de la calidad. 8 preguntas, 65% para aprobar.",
+      en: "Test your understanding of software quality: ISO/IEC 25010 model, functional vs non-functional quality and cost of quality. 8 questions, 65% to pass.",
+    },
+    type: "module",
+    moduleIds: ["qaf-m2"],
+    questionCount: 8,
+    timeLimit: 12 * 60, // 12 minutes
+    passingScore: 65,
+    requiresModuleCompletion: ["qaf-m2"],
+  },
+  {
+    id: "exam-qaf-m3",
+    title: { es: "Dominio del Módulo 3 — SDLC y STLC", en: "Module 3 Mastery — SDLC and STLC" },
+    description: { es: "Modelos de desarrollo, niveles y tipos de prueba, y el ciclo de vida del testing. 6 preguntas, 65% para aprobar.", en: "Development models, test levels and types, and the testing lifecycle. 6 questions, 65% to pass." },
+    type: "module", moduleIds: ["qaf-m3"], questionCount: 6, timeLimit: 10 * 60, passingScore: 65, requiresModuleCompletion: ["qaf-m3"],
+  },
+  {
+    id: "exam-qaf-m4",
+    title: { es: "Dominio del Módulo 4 — Análisis de Requisitos", en: "Module 4 Mastery — Requirements Analysis" },
+    description: { es: "Tipos de requisitos, testing estático, criterios de aceptación y trazabilidad. 6 preguntas, 65% para aprobar.", en: "Requirement types, static testing, acceptance criteria and traceability. 6 questions, 65% to pass." },
+    type: "module", moduleIds: ["qaf-m4"], questionCount: 6, timeLimit: 10 * 60, passingScore: 65, requiresModuleCompletion: ["qaf-m4"],
+  },
+  {
+    id: "exam-qaf-m5",
+    title: { es: "Dominio del Módulo 5 — Diseño de Casos", en: "Module 5 Mastery — Test Case Design" },
+    description: { es: "Técnicas de caja negra, testing exploratorio y datos de prueba. 6 preguntas, 65% para aprobar.", en: "Black-box techniques, exploratory testing and test data. 6 questions, 65% to pass." },
+    type: "module", moduleIds: ["qaf-m5"], questionCount: 6, timeLimit: 10 * 60, passingScore: 65, requiresModuleCompletion: ["qaf-m5"],
+  },
+  {
+    id: "exam-qaf-m6",
+    title: { es: "Dominio del Módulo 6 — Ejecución y Defectos", en: "Module 6 Mastery — Execution and Defects" },
+    description: { es: "Ejecución, reporte de defectos, ciclo de vida, severidad/prioridad y métricas. 6 preguntas, 65% para aprobar.", en: "Execution, defect reporting, lifecycle, severity/priority and metrics. 6 questions, 65% to pass." },
+    type: "module", moduleIds: ["qaf-m6"], questionCount: 6, timeLimit: 10 * 60, passingScore: 65, requiresModuleCompletion: ["qaf-m6"],
+  },
+  {
+    id: "exam-qaf-m7",
+    title: { es: "Dominio del Módulo 7 — Metodologías Ágiles", en: "Module 7 Mastery — Agile Methodologies" },
+    description: { es: "Manifiesto Ágil, Scrum, Kanban y el rol del QA ágil. 6 preguntas, 65% para aprobar.", en: "Agile Manifesto, Scrum, Kanban and the agile QA role. 6 questions, 65% to pass." },
+    type: "module", moduleIds: ["qaf-m7"], questionCount: 6, timeLimit: 10 * 60, passingScore: 65, requiresModuleCompletion: ["qaf-m7"],
+  },
+  {
+    id: "exam-qaf-m8",
+    title: { es: "Dominio del Módulo 8 — Herramientas de QA", en: "Module 8 Mastery — QA Tools" },
+    description: { es: "Jira, Confluence y Azure Test Plans. 6 preguntas, 65% para aprobar.", en: "Jira, Confluence and Azure Test Plans. 6 questions, 65% to pass." },
+    type: "module", moduleIds: ["qaf-m8"], questionCount: 6, timeLimit: 10 * 60, passingScore: 65, requiresModuleCompletion: ["qaf-m8"],
+  },
+  {
+    id: "exam-qaf-m9",
+    title: { es: "Dominio del Módulo 9 — Testing Web y Mobile", en: "Module 9 Mastery — Web and Mobile Testing" },
+    description: { es: "DevTools, responsive, testing mobile y accesibilidad. 6 preguntas, 65% para aprobar.", en: "DevTools, responsive, mobile testing and accessibility. 6 questions, 65% to pass." },
+    type: "module", moduleIds: ["qaf-m9"], questionCount: 6, timeLimit: 10 * 60, passingScore: 65, requiresModuleCompletion: ["qaf-m9"],
+  },
+  {
+    id: "exam-qaf-m10",
+    title: { es: "Dominio del Módulo 10 — IA aplicada al QA", en: "Module 10 Mastery — AI Applied to QA" },
+    description: { es: "Fundamentos de IA para QA, generación con IA, riesgos y buenas prácticas. 6 preguntas, 65% para aprobar.", en: "AI fundamentals for QA, AI generation, risks and best practices. 6 questions, 65% to pass." },
+    type: "module", moduleIds: ["qaf-m10"], questionCount: 6, timeLimit: 10 * 60, passingScore: 65, requiresModuleCompletion: ["qaf-m10"],
+  },
+  {
+    id: "exam-qaf-final",
+    title: { es: "Simulacro Final — QA Fundamentals", en: "Final Mock Exam — QA Fundamentals" },
+    description: { es: "Evaluación integral del campus QA Fundamentals: 40 preguntas cubriendo los 10 módulos. 60 minutos, 65% para aprobar.", en: "Comprehensive QA Fundamentals campus assessment: 40 questions covering all 10 modules. 60 minutes, 65% to pass." },
+    type: "final",
+    moduleIds: ["qaf-m1", "qaf-m2", "qaf-m3", "qaf-m4", "qaf-m5", "qaf-m6", "qaf-m7", "qaf-m8", "qaf-m9", "qaf-m10"],
+    questionCount: 40,
+    timeLimit: 60 * 60,
     passingScore: 65,
     requiresModuleCompletion: [],
   },

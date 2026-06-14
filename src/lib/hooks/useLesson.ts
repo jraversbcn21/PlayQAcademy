@@ -22,6 +22,16 @@ import { getAllLessonsContent as getIstqbStaticTestingContent } from "@/lib/cons
 import { getAllLessonsContent as getIstqbTestAnalysisContent } from "@/lib/constants/lessons/istqb-test-analysis";
 import { getAllLessonsContent as getIstqbManagementContent } from "@/lib/constants/lessons/istqb-management";
 import { getAllLessonsContent as getIstqbToolsContent } from "@/lib/constants/lessons/istqb-tools";
+import { getAllLessonsContent as getQafM1Content } from "@/lib/constants/lessons/qaf-m1";
+import { getAllLessonsContent as getQafM2Content } from "@/lib/constants/lessons/qaf-m2";
+import { getAllLessonsContent as getQafM3Content } from "@/lib/constants/lessons/qaf-m3";
+import { getAllLessonsContent as getQafM4Content } from "@/lib/constants/lessons/qaf-m4";
+import { getAllLessonsContent as getQafM5Content } from "@/lib/constants/lessons/qaf-m5";
+import { getAllLessonsContent as getQafM6Content } from "@/lib/constants/lessons/qaf-m6";
+import { getAllLessonsContent as getQafM7Content } from "@/lib/constants/lessons/qaf-m7";
+import { getAllLessonsContent as getQafM8Content } from "@/lib/constants/lessons/qaf-m8";
+import { getAllLessonsContent as getQafM9Content } from "@/lib/constants/lessons/qaf-m9";
+import { getAllLessonsContent as getQafM10Content } from "@/lib/constants/lessons/qaf-m10";
 import { updateUserProgress as fbUpdateProgress } from "@/lib/firebase/firestore";
 import { updateDoc, setDoc, doc, arrayUnion, arrayRemove, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/config";
@@ -52,6 +62,16 @@ const LESSON_REGISTRY: Record<string, LessonContent> = (() => {
     ...getIstqbTestAnalysisContent(),
     ...getIstqbManagementContent(),
     ...getIstqbToolsContent(),
+    ...getQafM1Content(),
+    ...getQafM2Content(),
+    ...getQafM3Content(),
+    ...getQafM4Content(),
+    ...getQafM5Content(),
+    ...getQafM6Content(),
+    ...getQafM7Content(),
+    ...getQafM8Content(),
+    ...getQafM9Content(),
+    ...getQafM10Content(),
   ];
   const map: Record<string, LessonContent> = {};
   for (const lc of all) {

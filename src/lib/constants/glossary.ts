@@ -55,6 +55,19 @@ export const GLOSSARY: GlossaryEntry[] = [
   { term: "Shift-left testing", def: { es: "Enfoque donde el testing comienza lo antes posible en el SDLC para detectar defectos temprano y reducir costos.", en: "Approach where testing starts as early as possible in the SDLC to detect defects early and reduce costs." }, chapter: "2" },
   { term: "DevOps", def: { es: "Conjunto de prácticas que combina desarrollo de software y operaciones de TI para acortar el ciclo de vida del desarrollo.", en: "Set of practices combining software development and IT operations to shorten the development lifecycle." }, chapter: "2" },
   { term: "CI/CD", def: { es: "Integración Continua / Entrega Continua: prácticas de automatización que permiten integrar y desplegar cambios frecuentemente.", en: "Continuous Integration / Continuous Delivery: automation practices enabling frequent integration and deployment of changes." }, chapter: "2" },
+
+  /* ---------- QA Fundamentals — Módulo 1 ---------- */
+  { term: "Control de calidad / QC", def: { es: "Actividades orientadas al producto para detectar defectos, comprobando el producto contra criterios definidos.", en: "Product-oriented activities to detect defects, checking the product against defined criteria." }, chapter: "qaf-1" },
+  { term: "Mentalidad de testing / Testing mindset", def: { es: "Combinación de curiosidad, escepticismo profesional y atención al detalle, sin perder la colaboración.", en: "Combination of curiosity, professional skepticism and attention to detail, without losing collaboration." }, chapter: "qaf-1" },
+
+  /* ---------- QA Fundamentals — Módulo 2 ---------- */
+  { term: "SQuaRE / ISO 25010", def: { es: "Familia de normas ISO/IEC para requisitos y evaluación de calidad del software; 25010 define el modelo de calidad de producto.", en: "ISO/IEC family of standards for software quality requirements and evaluation; 25010 defines the product quality model." }, chapter: "qaf-2" },
+  { term: "Adecuación funcional / Functional suitability", def: { es: "Característica de calidad que evalúa si las funciones del sistema hacen lo correcto.", en: "Quality characteristic evaluating whether the system's functions do the right thing." }, chapter: "qaf-2" },
+  { term: "Usabilidad / Usability", def: { es: "Característica de calidad que evalúa la facilidad de aprendizaje y uso del sistema.", en: "Quality characteristic evaluating the system's ease of learning and use." }, chapter: "qaf-2" },
+  { term: "Fiabilidad / Reliability", def: { es: "Característica de calidad relativa a la disponibilidad y la tolerancia a fallos del sistema.", en: "Quality characteristic regarding system availability and fault tolerance." }, chapter: "qaf-2" },
+  { term: "Mantenibilidad / Maintainability", def: { es: "Característica de calidad que evalúa la facilidad para modificar y corregir el sistema.", en: "Quality characteristic evaluating how easily the system can be modified and fixed." }, chapter: "qaf-2" },
+  { term: "Portabilidad / Portability", def: { es: "Característica de calidad que evalúa la adaptación del sistema a distintos entornos.", en: "Quality characteristic evaluating the system's adaptation to different environments." }, chapter: "qaf-2" },
+  { term: "Coste de la calidad / Cost of quality", def: { es: "Coste de prevención y evaluación frente al coste de los fallos cuando el defecto llega al usuario.", en: "Cost of prevention and appraisal versus the cost of failures when the defect reaches the user." }, chapter: "qaf-2" },
 ];
 
 export const CHAPTER_TITLES: Record<string, { es: string; en: string }> = {
@@ -64,4 +77,6 @@ export const CHAPTER_TITLES: Record<string, { es: string; en: string }> = {
   "4": { es: "Análisis y Diseño de Pruebas", en: "Test Analysis and Design" },
   "5": { es: "Gestión de Actividades de Prueba", en: "Managing Test Activities" },
   "6": { es: "Soporte de Herramientas al Testing", en: "Tool Support for Testing" },
+  "qaf-1": { es: "QA Fundamentals — Introducción al QA", en: "QA Fundamentals — Introduction to QA" },
+  "qaf-2": { es: "QA Fundamentals — Calidad de Software", en: "QA Fundamentals — Software Quality" },
 };

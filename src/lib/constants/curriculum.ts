@@ -649,6 +649,205 @@ export const CURRICULUM: CurriculumModule[] = [
       lesson("istqb-l6-1", "Soporte de herramientas al testing", "Tool support for testing", "Categorías de herramientas, beneficios y riesgos de la automatización.", "Tool categories, benefits and risks of automation.", 20),
     ]
   ),
+
+  /* ================================================================== */
+  /*  QA Fundamentals — QA Manual / Funcional (Campus 1)                 */
+  /* ================================================================== */
+
+  /* ---------- Module 15: Introducción al QA y al Testing ---------- */
+  module_(
+    "qaf-m1",
+    15,
+    "Introducción al QA y al Testing de Software",
+    "Introduction to QA and Software Testing",
+    "Qué es QA, qué hace un QA tester manual, error/defecto/fallo y los 7 principios del testing.",
+    "What QA is, what a manual QA tester does, error/defect/failure and the 7 testing principles.",
+    80,
+    "beginner",
+    false,
+    [
+      lesson("qaf-m1-l1", "¿Qué es QA y qué es el testing?", "What is QA and what is testing?", "Definición de aseguramiento de calidad y testing de software, y por qué es necesario.", "Definition of quality assurance and software testing, and why it is necessary.", 15),
+      lesson("qaf-m1-l2", "QA vs QC vs Testing", "QA vs QC vs Testing", "Diferencias entre aseguramiento de calidad, control de calidad y testing.", "Differences between quality assurance, quality control and testing.", 15),
+      lesson("qaf-m1-l3", "Error, defecto y fallo", "Error, defect and failure", "La cadena causa-efecto: error humano, defecto en el sistema y fallo observable.", "The cause-effect chain: human error, defect in the system and observable failure.", 15),
+      lesson("qaf-m1-l4", "Los 7 principios del testing", "The 7 testing principles", "Principios fundamentales que guían toda práctica de testing.", "Fundamental principles that guide all testing practice.", 20),
+      lesson("qaf-m1-l5", "El rol y la mentalidad del QA tester", "The QA tester role and mindset", "Responsabilidades, habilidades y mentalidad crítica del tester.", "Responsibilities, skills and critical mindset of the tester.", 15),
+    ]
+  ),
+
+  /* ---------- Module 16: Fundamentos de Calidad de Software ---------- */
+  module_(
+    "qaf-m2",
+    16,
+    "Fundamentos de Calidad de Software",
+    "Software Quality Fundamentals",
+    "El modelo de calidad ISO/IEC 25010, calidad funcional vs no funcional y el coste de la calidad.",
+    "The ISO/IEC 25010 quality model, functional vs non-functional quality and the cost of quality.",
+    65,
+    "beginner",
+    false,
+    [
+      lesson("qaf-m2-l1", "¿Qué es la calidad del software?", "What is software quality?", "Definición de calidad y la perspectiva de las partes interesadas.", "Definition of quality and the stakeholders' perspective.", 15),
+      lesson("qaf-m2-l2", "El modelo de calidad ISO/IEC 25010", "The ISO/IEC 25010 quality model", "Las características de calidad del producto de software y sus subcaracterísticas.", "Software product quality characteristics and their sub-characteristics.", 20),
+      lesson("qaf-m2-l3", "Calidad funcional vs no funcional", "Functional vs non-functional quality", "Qué hace el sistema frente a cómo se comporta, y el foco del QA manual.", "What the system does versus how it behaves, and the manual QA focus.", 15),
+      lesson("qaf-m2-l4", "El coste de la calidad y de los defectos", "The cost of quality and defects", "Por qué detectar defectos temprano reduce costes (shift-left).", "Why detecting defects early reduces costs (shift-left).", 15),
+    ]
+  ),
+
+  /* ---------- Module 17: Ciclos de Vida SDLC y STLC ---------- */
+  module_(
+    "qaf-m3",
+    17,
+    "Ciclos de Vida: SDLC y STLC",
+    "Lifecycles: SDLC and STLC",
+    "Modelos de desarrollo, testing a lo largo del SDLC, niveles y tipos de prueba, y el ciclo de vida del testing.",
+    "Development models, testing throughout the SDLC, test levels and types, and the test lifecycle.",
+    80,
+    "beginner",
+    false,
+    [
+      lesson("qaf-m3-l1", "Modelos de SDLC", "SDLC models", "Waterfall, modelo en V, iterativo y ágil.", "Waterfall, V-model, iterative and agile.", 15),
+      lesson("qaf-m3-l2", "Testing a lo largo del SDLC", "Testing throughout the SDLC", "Cómo el testing se integra en cada fase del desarrollo.", "How testing integrates into each development phase.", 15),
+      lesson("qaf-m3-l3", "Niveles de prueba", "Test levels", "Componente, integración, sistema y aceptación.", "Component, integration, system and acceptance.", 15),
+      lesson("qaf-m3-l4", "Tipos de prueba", "Test types", "Funcional, no funcional, regresión y retest.", "Functional, non-functional, regression and retest.", 15),
+      lesson("qaf-m3-l5", "El ciclo de vida del testing (STLC)", "The software testing lifecycle (STLC)", "Fases del STLC desde el análisis hasta el cierre.", "STLC phases from analysis to closure.", 20),
+    ]
+  ),
+
+  /* ---------- Module 18: Análisis de Requisitos para QA ---------- */
+  module_(
+    "qaf-m4",
+    18,
+    "Análisis de Requisitos para QA",
+    "Requirements Analysis for QA",
+    "Tipos de requisitos, testing estático, historias de usuario, criterios de aceptación y trazabilidad.",
+    "Requirement types, static testing, user stories, acceptance criteria and traceability.",
+    70,
+    "intermediate",
+    false,
+    [
+      lesson("qaf-m4-l1", "Tipos de requisitos", "Types of requirements", "Requisitos funcionales, no funcionales y de negocio.", "Functional, non-functional and business requirements.", 15),
+      lesson("qaf-m4-l2", "Testing estático y revisiones", "Static testing and reviews", "Encontrar defectos en requisitos antes de ejecutar código.", "Finding defects in requirements before executing code.", 15),
+      lesson("qaf-m4-l3", "Historias de usuario y criterios de aceptación", "User stories and acceptance criteria", "Formato de historia y criterios en estilo Gherkin (Dado/Cuando/Entonces).", "Story format and Gherkin-style criteria (Given/When/Then).", 20),
+      lesson("qaf-m4-l4", "Trazabilidad de requisitos", "Requirements traceability", "Matriz de trazabilidad requisito-caso de prueba.", "Requirement-to-test-case traceability matrix.", 20),
+    ]
+  ),
+
+  /* ---------- Module 19: Diseño de Casos de Prueba ---------- */
+  module_(
+    "qaf-m5",
+    19,
+    "Diseño de Casos de Prueba",
+    "Test Case Design",
+    "Anatomía de un caso, técnicas de caja negra (EP, BVA, tablas de decisión, transición de estados) y testing exploratorio.",
+    "Anatomy of a test case, black-box techniques (EP, BVA, decision tables, state transition) and exploratory testing.",
+    100,
+    "intermediate",
+    false,
+    [
+      lesson("qaf-m5-l1", "Anatomía de un caso de prueba", "Anatomy of a test case", "Precondición, pasos, datos y resultado esperado.", "Precondition, steps, data and expected result.", 15),
+      lesson("qaf-m5-l2", "Partición de equivalencia y valores límite", "Equivalence partitioning and boundary values", "Reducir casos manteniendo cobertura con EP y BVA.", "Reduce cases while keeping coverage with EP and BVA.", 25),
+      lesson("qaf-m5-l3", "Tablas de decisión y transición de estados", "Decision tables and state transition", "Probar combinaciones de condiciones y comportamiento por estado.", "Test condition combinations and state-based behavior.", 25),
+      lesson("qaf-m5-l4", "Testing exploratorio y basado en experiencia", "Exploratory and experience-based testing", "Error guessing, charters y sesiones exploratorias.", "Error guessing, charters and exploratory sessions.", 20),
+      lesson("qaf-m5-l5", "Gestión de datos de prueba", "Test data management", "Cómo preparar datos de prueba representativos.", "How to prepare representative test data.", 15),
+    ]
+  ),
+
+  /* ---------- Module 20: Ejecución y Gestión de Defectos ---------- */
+  module_(
+    "qaf-m6",
+    20,
+    "Ejecución de Pruebas y Gestión de Defectos",
+    "Test Execution and Defect Management",
+    "Ejecución y registro, reporte profesional de defectos, ciclo de vida del defecto, severidad/prioridad y métricas.",
+    "Execution and logging, professional defect reporting, defect lifecycle, severity/priority and metrics.",
+    80,
+    "intermediate",
+    false,
+    [
+      lesson("qaf-m6-l1", "Ejecución de pruebas y registro de resultados", "Test execution and result logging", "Ejecutar casos y registrar pass/fail/blocked con evidencia.", "Run cases and log pass/fail/blocked with evidence.", 15),
+      lesson("qaf-m6-l2", "Cómo reportar un defecto profesional", "How to report a professional defect", "Anatomía de un buen bug: pasos, esperado/real y evidencias.", "Anatomy of a good bug: steps, expected/actual and evidence.", 20),
+      lesson("qaf-m6-l3", "Ciclo de vida del defecto", "Defect lifecycle", "Estados del defecto desde nuevo hasta cerrado.", "Defect states from new to closed.", 15),
+      lesson("qaf-m6-l4", "Severidad vs prioridad", "Severity vs priority", "Impacto técnico frente a urgencia de corrección.", "Technical impact versus urgency to fix.", 15),
+      lesson("qaf-m6-l5", "Métricas básicas de testing", "Basic testing metrics", "Densidad de defectos, tasa de fuga y cobertura.", "Defect density, escape rate and coverage.", 15),
+    ]
+  ),
+
+  /* ---------- Module 21: Metodologías Ágiles para QA ---------- */
+  module_(
+    "qaf-m7",
+    21,
+    "Metodologías Ágiles para QA (Scrum y Kanban)",
+    "Agile Methodologies for QA (Scrum and Kanban)",
+    "Manifiesto Ágil, Scrum, Kanban y el rol del QA dentro del equipo ágil.",
+    "Agile Manifesto, Scrum, Kanban and the QA role within the agile team.",
+    70,
+    "intermediate",
+    false,
+    [
+      lesson("qaf-m7-l1", "El Manifiesto Ágil y sus principios", "The Agile Manifesto and its principles", "Los 4 valores y 12 principios del desarrollo ágil.", "The 4 values and 12 principles of agile development.", 15),
+      lesson("qaf-m7-l2", "Scrum: roles, eventos y artefactos", "Scrum: roles, events and artifacts", "El marco Scrum según la Scrum Guide 2020.", "The Scrum framework per the 2020 Scrum Guide.", 20),
+      lesson("qaf-m7-l3", "Kanban: flujo y límites WIP", "Kanban: flow and WIP limits", "Tableros, flujo y límites de trabajo en progreso.", "Boards, flow and work-in-progress limits.", 15),
+      lesson("qaf-m7-l4", "El QA en el equipo ágil", "QA in the agile team", "Testing en el sprint, Definition of Done y de Ready.", "Testing in the sprint, Definition of Done and Ready.", 20),
+    ]
+  ),
+
+  /* ---------- Module 22: Herramientas para QA Manual ---------- */
+  module_(
+    "qaf-m8",
+    22,
+    "Herramientas para QA Manual (Jira · Confluence · Azure Test Plans)",
+    "Manual QA Tools (Jira · Confluence · Azure Test Plans)",
+    "Gestión de issues en Jira, documentación en Confluence y casos de prueba en Azure Test Plans.",
+    "Issue management in Jira, documentation in Confluence and test cases in Azure Test Plans.",
+    70,
+    "intermediate",
+    false,
+    [
+      lesson("qaf-m8-l1", "Jira para gestión de issues y defectos", "Jira for issue and defect management", "Issues, workflows, estados, prioridades y JQL básico.", "Issues, workflows, states, priorities and basic JQL.", 20),
+      lesson("qaf-m8-l2", "Confluence para documentación de pruebas", "Confluence for test documentation", "Plantillas y documentación colaborativa de QA.", "Templates and collaborative QA documentation.", 15),
+      lesson("qaf-m8-l3", "Azure Test Plans", "Azure Test Plans", "Test Plans, Suites, Cases y ejecución manual.", "Test Plans, Suites, Cases and manual execution.", 20),
+      lesson("qaf-m8-l4", "Comparativa y elección de herramientas", "Tool comparison and selection", "Criterios para elegir la herramienta adecuada.", "Criteria for choosing the right tool.", 15),
+    ]
+  ),
+
+  /* ---------- Module 23: Testing Web y Mobile Manual ---------- */
+  module_(
+    "qaf-m9",
+    23,
+    "Testing Web y Mobile Manual",
+    "Manual Web and Mobile Testing",
+    "Testing web manual con DevTools, compatibilidad/responsive, testing mobile y accesibilidad básica.",
+    "Manual web testing with DevTools, compatibility/responsive, mobile testing and basic accessibility.",
+    70,
+    "intermediate",
+    false,
+    [
+      lesson("qaf-m9-l1", "Testing web manual y DevTools", "Manual web testing and DevTools", "Uso de las herramientas de desarrollador del navegador.", "Using the browser developer tools.", 20),
+      lesson("qaf-m9-l2", "Compatibilidad y diseño responsive", "Compatibility and responsive design", "Cross-browser y comportamiento en distintos tamaños.", "Cross-browser and behavior across sizes.", 15),
+      lesson("qaf-m9-l3", "Testing mobile manual", "Manual mobile testing", "Gestos, permisos, interrupciones y redes en iOS/Android.", "Gestures, permissions, interruptions and networks on iOS/Android.", 20),
+      lesson("qaf-m9-l4", "Introducción a la accesibilidad (WCAG)", "Introduction to accessibility (WCAG)", "Conceptos básicos de accesibilidad para QA.", "Accessibility basics for QA.", 15),
+    ]
+  ),
+
+  /* ---------- Module 24: Inteligencia Artificial aplicada al QA ---------- */
+  module_(
+    "qaf-m10",
+    24,
+    "Inteligencia Artificial aplicada al QA",
+    "Artificial Intelligence Applied to QA",
+    "Fundamentos de IA para QA, generación de casos/datos con IA, análisis con IA, riesgos y proyecto final.",
+    "AI fundamentals for QA, AI-assisted case/data generation, AI analysis, risks and final project.",
+    105,
+    "advanced",
+    false,
+    [
+      lesson("qaf-m10-l1", "Fundamentos de IA para QA", "AI fundamentals for QA", "Qué es la IA generativa y cómo apoya al QA manual.", "What generative AI is and how it supports manual QA.", 15),
+      lesson("qaf-m10-l2", "Generar casos de prueba y datos con IA", "Generating test cases and data with AI", "Prompts efectivos para casos, escenarios y datos de prueba.", "Effective prompts for cases, scenarios and test data.", 20),
+      lesson("qaf-m10-l3", "Análisis de requisitos e historias con IA", "Requirements and stories analysis with AI", "Usar IA para historias de usuario y criterios de aceptación.", "Using AI for user stories and acceptance criteria.", 20),
+      lesson("qaf-m10-l4", "Limitaciones, riesgos y buenas prácticas", "Limitations, risks and best practices", "Alucinaciones, sesgos, privacidad y revisión humana.", "Hallucinations, bias, privacy and human review.", 20),
+      lesson("qaf-m10-l5", "Proyecto final del campus (capstone)", "Campus final project (capstone)", "Dossier de QA integrando análisis, diseño, ejecución y reporte.", "QA dossier integrating analysis, design, execution and reporting.", 30),
+    ]
+  ),
 ];
 
 /* ------------------------------------------------------------------ */
