@@ -127,6 +127,15 @@ export default function DashboardPage({
     (m) => m.status !== "locked"
   );
 
+  // Resume CTA: prefer the module the user has actually started but not
+  // finished yet (most recent one in curriculum order), falling back to
+  // the first unlocked module for users with no progress at all.
+  const inProgressStarted = unlockedModules.filter(
+    (m) => m.status === "in_progress" && m.completedLessonCount > 0
+  );
+  const resumeModule =
+    inProgressStarted[inProgressStarted.length - 1] ?? unlockedModules[0] ?? null;
+
   // Real gamification data
   const gPoints = gData?.totalPoints ?? 0;
   const gStreak = gData?.currentStreak ?? 0;
@@ -198,7 +207,7 @@ export default function DashboardPage({
         </div>
 
         {/* ── Resume learning CTA ────────────────────────────── */}
-        {unlockedModules.length > 0 && (
+        {resumeModule && (
           <div
             className="mb-8 animate-fade-in-up"
             style={{ animationDelay: "100ms", animationFillMode: "backwards" as const }}
@@ -214,8 +223,8 @@ export default function DashboardPage({
                       {t("dashboard.resumeLearning")}
                     </p>
                     <p className="text-xs text-[var(--color-text-muted)]">
-                      {unlockedModules[0]?.module.title[lng as "es" | "en"] ??
-                        unlockedModules[0]?.module.title.en}
+                      {resumeModule.module.title[lng as "es" | "en"] ??
+                        resumeModule.module.title.en}
                     </p>
                   </div>
                 </div>
@@ -223,7 +232,7 @@ export default function DashboardPage({
                   variant="primary"
                   className="!bg-brand-orange-500 hover:!bg-brand-orange-400"
                   onClick={() =>
-                    router.push(`/${lng}/learn/${unlockedModules[0]!.module.id}`)
+                    router.push(`/${lng}/learn/${resumeModule.module.id}`)
                   }
                 >
                   {t("dashboard.continue")}
