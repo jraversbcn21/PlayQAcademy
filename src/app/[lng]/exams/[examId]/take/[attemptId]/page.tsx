@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { useGamificationUI } from "@/context/GamificationContext";
 import { EXAMS_BY_ID } from "@/lib/constants/exams";
 import { generateExamQuestions } from "@/lib/exam/scoring";
 import { saveAnswer, submitExam } from "@/lib/hooks/useExamAttempt";
@@ -93,6 +94,7 @@ interface TakePageProps { params: { lng: string; examId: string; attemptId: stri
 export default function ExamTakePage({ params: { lng, examId, attemptId } }: TakePageProps) {
   const router = useRouter();
   const { user } = useAuth();
+  const { queueBadges } = useGamificationUI();
   const [questions, setQuestions] = useState<ExamQuestion[]>([]);
   const [generated, setGenerated] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -165,16 +167,18 @@ export default function ExamTakePage({ params: { lng, examId, attemptId } }: Tak
   const handleTimeUp = useCallback(async () => {
     saveCurrentAnswer();
     const answers = buildAnswers();
-    await submitExam(attemptId, answers);
+    const { newBadges } = await submitExam(attemptId, answers);
+    if (newBadges.length > 0) queueBadges(newBadges);
     router.push(`/${lng}/exams/${examId}/results/${attemptId}`);
-  }, [saveCurrentAnswer, buildAnswers, attemptId, examId, lng, router]);
+  }, [saveCurrentAnswer, buildAnswers, attemptId, examId, lng, router, queueBadges]);
 
   const handleSubmit = useCallback(async () => {
     saveCurrentAnswer();
     const answers = buildAnswers();
-    await submitExam(attemptId, answers);
+    const { newBadges } = await submitExam(attemptId, answers);
+    if (newBadges.length > 0) queueBadges(newBadges);
     router.push(`/${lng}/exams/${examId}/results/${attemptId}`);
-  }, [saveCurrentAnswer, buildAnswers, attemptId, examId, lng, router]);
+  }, [saveCurrentAnswer, buildAnswers, attemptId, examId, lng, router, queueBadges]);
 
   const exam = EXAMS_BY_ID[examId];
 

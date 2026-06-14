@@ -14,6 +14,7 @@ import {
   type DocumentData,
 } from "firebase/firestore";
 import type { ExamAttempt, ExamAnswer } from "@/types/exam";
+import type { Badge } from "@/types/gamification";
 import { EXAMS_BY_ID } from "@/lib/constants/exams";
 import { generateExamQuestions, calculateScore } from "@/lib/exam/scoring";
 import { getLevelFromPoints } from "@/lib/gamification/levels";
@@ -91,7 +92,10 @@ export async function saveAnswer(
 /*  Submit exam                                                        */
 /* ------------------------------------------------------------------ */
 
-export async function submitExam(attemptId: string, answers: ExamAnswer[]): Promise<ExamAttempt> {
+export async function submitExam(
+  attemptId: string,
+  answers: ExamAnswer[]
+): Promise<{ attempt: ExamAttempt; newBadges: Badge[] }> {
   if (!db) throw new Error("Firestore not initialised");
 
   const ref = doc(db, "exam_attempts", attemptId);
@@ -121,6 +125,7 @@ export async function submitExam(attemptId: string, answers: ExamAnswer[]): Prom
 
   await updateDoc(ref, updated);
 
+  let newBadges: Badge[] = [];
   if (passed && db) {
     try {
       const pointsEarned = Math.round(score * 2);
@@ -144,14 +149,17 @@ export async function submitExam(attemptId: string, answers: ExamAnswer[]): Prom
     }
 
     // Award any exam-pass badges (non-blocking — swallows its own errors).
-    await recordExamPassed(data["userId"] as string, examId);
+    newBadges = await recordExamPassed(data["userId"] as string, examId);
   }
 
   return {
-    ...(data as ExamAttempt),
-    ...updated,
-    answers,
-  } as ExamAttempt;
+    attempt: {
+      ...(data as ExamAttempt),
+      ...updated,
+      answers,
+    } as ExamAttempt,
+    newBadges,
+  };
 }
 
 /* ------------------------------------------------------------------ */
