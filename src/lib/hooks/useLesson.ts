@@ -200,8 +200,6 @@ export async function markLessonComplete(
   lessonId: string,
   totalLessonsCompleted: number,
   completedModuleIds: string[],
-  perfectQuizIds: string[],
-  exerciseCompletedCount: number,
   currentStreak: number
 ): Promise<MarkCompleteResult> {
   // Update progress in Firestore
@@ -210,6 +208,8 @@ export async function markLessonComplete(
   // Award 10 points via gamification doc
   let oldLevel = 1;
   let totalPoints = 0;
+  let correctQuizIds: string[] = [];
+  let completedExerciseIds: string[] = [];
   if (db) {
     const gRef = doc(db, "gamification", uid);
     const gSnap = await getDoc(gRef).catch(() => null);
@@ -217,6 +217,8 @@ export async function markLessonComplete(
       const d = gSnap.data() as Record<string, unknown>;
       totalPoints = ((d["totalPoints"] as number) ?? 0) + 10;
       oldLevel = (d["level"] as number) ?? 1;
+      correctQuizIds = (d["correctQuizIds"] as string[]) ?? [];
+      completedExerciseIds = (d["completedExerciseIds"] as string[]) ?? [];
       await updateDoc(gRef, { totalPoints, level: getLevelFromPoints(totalPoints).level }).catch(() => {});
     } else {
       totalPoints = 10;
@@ -237,8 +239,8 @@ export async function markLessonComplete(
   const newBadges = await checkAndAwardBadges(uid, {
     totalLessonsCompleted,
     completedModuleIds,
-    perfectQuizIds,
-    exerciseCompletedCount,
+    perfectQuizIds: correctQuizIds,
+    exerciseCompletedCount: completedExerciseIds.length,
     currentStreak,
   });
 
@@ -290,8 +292,27 @@ export function useBookmarked(
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // TODO: fetch bookmarks from user profile in Firestore
-    setBookmarked(false);
+    if (!uid || !db) {
+      setBookmarked(false);
+      return;
+    }
+
+    let cancelled = false;
+    const bookmarkValue = `${moduleId}__${lessonId}`;
+
+    getDoc(doc(db, "users", uid))
+      .then((snap) => {
+        if (cancelled) return;
+        const bookmarks = (snap.exists() ? (snap.data()["bookmarks"] as string[] | undefined) : undefined) ?? [];
+        setBookmarked(bookmarks.includes(bookmarkValue));
+      })
+      .catch(() => {
+        if (!cancelled) setBookmarked(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [uid, moduleId, lessonId]);
 
   const toggle = useCallback(async () => {

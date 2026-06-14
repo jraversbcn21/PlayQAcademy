@@ -145,8 +145,6 @@ export default function LessonPlayerPage({
         user.uid, moduleId, lessonId,
         totalCompleted + 1,
         completedMods,
-        [], // TODO: track perfect quiz IDs
-        0,  // TODO: track exercise completed count
         gData?.currentStreak ?? 0
       );
 
