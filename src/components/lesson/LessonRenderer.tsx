@@ -198,6 +198,7 @@ function ImageBlock({ src, alt, lng }: { src: string; alt: Bilingual; lng: strin
   return (
     <figure className="not-prose my-5 overflow-hidden rounded-xl border border-[var(--color-border)]">
       <div className="bg-[var(--color-bg-elevated)] p-4 flex items-center justify-center">
+        {/* eslint-disable-next-line @next/next/no-img-element -- arbitrary lesson-content URLs, no remotePatterns configured */}
         <img
           src={src}
           alt={tText(alt, lng)}

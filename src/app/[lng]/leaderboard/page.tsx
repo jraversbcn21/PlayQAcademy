@@ -142,6 +142,7 @@ export default function LeaderboardPage({ params: { lng } }: LeaderboardPageProp
 
                   {/* Avatar */}
                   {entry.photoURL ? (
+                    // eslint-disable-next-line @next/next/no-img-element -- external OAuth avatar URLs, no remotePatterns configured
                     <img
                       src={entry.photoURL}
                       alt=""

@@ -76,6 +76,7 @@ export default function FilesPage({ params: { lng } }: { params: { lng: string }
           {error && <p className="mt-2 text-xs text-red-400" role="alert">{error}</p>}
           {uploaded && (
             <div className="mt-3 rounded-lg bg-[var(--color-bg-elevated)] p-3 flex items-center gap-3">
+              {/* eslint-disable-next-line @next/next/no-img-element -- blob: object URL preview, next/image doesn't support blob sources */}
               {uploaded.preview && <img src={uploaded.preview} alt={uploaded.name} className="h-12 w-12 rounded object-cover" />}
               <div><p className="text-sm font-medium text-[var(--color-text-primary)]">✅ {lng === "es" ? "Archivo subido" : "File uploaded"}</p><p className="text-xs text-[var(--color-text-muted)]">{uploaded.name} ({(uploaded.size / 1024).toFixed(1)} KB)</p></div>
             </div>

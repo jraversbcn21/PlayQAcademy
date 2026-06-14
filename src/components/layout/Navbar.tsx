@@ -169,6 +169,7 @@ function UserAvatar({
 
   if (photoURL) {
     return (
+      // eslint-disable-next-line @next/next/no-img-element -- external OAuth avatar URLs, no remotePatterns configured
       <img
         src={photoURL}
         alt={displayName ?? ""}
