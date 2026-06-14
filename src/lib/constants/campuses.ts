@@ -103,8 +103,8 @@ export const CAMPUSES: Campus[] = [
       en: "Playwright Automation",
     },
     description: {
-      es: "De QA Manual a QA Automation. Aprende Playwright y TypeScript con 8 módulos y 44 lecciones.",
-      en: "From Manual QA to QA Automation. Learn Playwright and TypeScript with 8 modules and 44 lessons.",
+      es: "De QA Manual a QA Automation. Aprende Playwright y TypeScript con 8 módulos y 41 lecciones.",
+      en: "From Manual QA to QA Automation. Learn Playwright and TypeScript with 8 modules and 41 lessons.",
     },
     moduleIds: [
       "m1-typescript-foundations",
