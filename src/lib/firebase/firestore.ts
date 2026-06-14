@@ -11,6 +11,8 @@ import {
   setDoc,
   getDoc,
   updateDoc,
+  arrayUnion,
+  arrayRemove,
   type Firestore,
   type DocumentData,
 } from "firebase/firestore";
@@ -102,48 +104,23 @@ export async function updateUserProgress(
 ): Promise<void> {
   const firestore = requireDb();
   const ref = doc(firestore, "progress", uid);
-  const snap = await getDoc(ref);
 
-  if (!snap.exists()) {
-    // Initialise the progress document
-    const initialModules: Record<string, ModuleProgress> = {};
-    initialModules[moduleId] = {
-      moduleId,
-      completedLessons: completed ? [lessonId] : [],
-      percentComplete: 0,
-      unlockedAt: new Date(),
-    };
-
-    await setDoc(ref, {
+  // Use arrayUnion/arrayRemove with a merge write so concurrent or
+  // rapid-fire completions can't clobber each other via a stale
+  // read-modify-write race on the `modules` map.
+  await setDoc(
+    ref,
+    {
       userId: uid,
-      modules: initialModules,
-    });
-    return;
-  }
-
-  // Update existing progress
-  const data = snap.data() as DocumentData;
-  const modules = (data["modules"] ?? {}) as Record<string, ModuleProgress>;
-  const current = modules[moduleId] ?? {
-    moduleId,
-    completedLessons: [],
-    percentComplete: 0,
-    unlockedAt: null,
-  };
-
-  const lessons = current.completedLessons ?? [];
-  const updatedLessons = completed
-    ? [...new Set([...lessons, lessonId])]
-    : lessons.filter((id: string) => id !== lessonId);
-
-  // percentComplete is computed server-side / by the caller;
-  // we just store the array and let readers compute it.
-  modules[moduleId] = {
-    ...current,
-    completedLessons: updatedLessons,
-  };
-
-  await updateDoc(ref, { modules });
+      modules: {
+        [moduleId]: {
+          moduleId,
+          completedLessons: completed ? arrayUnion(lessonId) : arrayRemove(lessonId),
+        },
+      },
+    },
+    { merge: true }
+  );
 }
 
 /** Fetch the full progress document for a user. */

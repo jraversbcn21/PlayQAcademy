@@ -2,7 +2,9 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import type { Badge, UserGamification, LeaderboardEntry } from "@/types/gamification";
+import type { UserProgress } from "@/types/auth";
 import { BADGES, BADGES_BY_ID } from "@/lib/constants/badges";
+import { CURRICULUM } from "@/lib/constants/curriculum";
 import { getLevelFromPoints, getPointsToNextLevel, getLevelProgress } from "@/lib/gamification/levels";
 import { checkAndAwardBadges, type BadgeCheckContext } from "@/lib/gamification/badgeChecker";
 import { getUserProgress } from "@/lib/firebase/firestore";
@@ -67,6 +69,35 @@ function yesterdayStr(): string {
   const d = new Date();
   d.setDate(d.getDate() - 1);
   return d.toISOString().slice(0, 10);
+}
+
+/**
+ * Derive badge-checker inputs from a user's progress document.
+ *
+ * A module only counts as "completed" once every one of its lessons is
+ * done (mirrors the `status === "completed"` check in useProgress.ts) —
+ * otherwise `module_completed` badges (e.g. qaf_m1_complete) would fire
+ * after just the first lesson.
+ */
+function buildModuleCompletionContext(progress: UserProgress | null): {
+  totalLessonsCompleted: number;
+  completedModuleIds: string[];
+} {
+  let totalLessonsCompleted = 0;
+  const completedModuleIds: string[] = [];
+
+  if (progress) {
+    for (const [key, mp] of Object.entries(progress.modules)) {
+      totalLessonsCompleted += mp.completedLessons.length;
+      const moduleId = mp.moduleId || key;
+      const totalLessons = CURRICULUM.find((m) => m.id === moduleId)?.lessons.length ?? 0;
+      if (totalLessons > 0 && mp.completedLessons.length >= totalLessons) {
+        completedModuleIds.push(moduleId);
+      }
+    }
+  }
+
+  return { totalLessonsCompleted, completedModuleIds };
 }
 
 /* ------------------------------------------------------------------ */
@@ -176,17 +207,7 @@ export async function recordQuizAnswer(
     }
 
     const progress = await getUserProgress(uid);
-    let totalLessonsCompleted = 0;
-    const completedModuleIds: string[] = [];
-    if (progress) {
-      for (const [, mp] of Object.entries(progress.modules)) {
-        totalLessonsCompleted += mp.completedLessons.length;
-        if (mp.completedLessons.length > 0) {
-          const moduleFromCurriculum = mp.moduleId || "";
-          completedModuleIds.push(moduleFromCurriculum);
-        }
-      }
-    }
+    const { totalLessonsCompleted, completedModuleIds } = buildModuleCompletionContext(progress);
 
     const badgeContext: BadgeCheckContext = {
       totalLessonsCompleted,
@@ -293,16 +314,7 @@ export async function recordExerciseCompleted(
     }
 
     const progress = await getUserProgress(uid);
-    let totalLessonsCompleted = 0;
-    const completedModuleIds: string[] = [];
-    if (progress) {
-      for (const [, mp] of Object.entries(progress.modules)) {
-        totalLessonsCompleted += mp.completedLessons.length;
-        if (mp.completedLessons.length > 0) {
-          completedModuleIds.push(mp.moduleId || "");
-        }
-      }
-    }
+    const { totalLessonsCompleted, completedModuleIds } = buildModuleCompletionContext(progress);
 
     const badgeContext: BadgeCheckContext = {
       totalLessonsCompleted,
@@ -351,16 +363,7 @@ export async function recordExamPassed(uid: string, examId: string): Promise<Bad
     const currentStreak = (d?.["currentStreak"] as number) ?? 0;
 
     const progress = await getUserProgress(uid);
-    let totalLessonsCompleted = 0;
-    const completedModuleIds: string[] = [];
-    if (progress) {
-      for (const [, mp] of Object.entries(progress.modules)) {
-        totalLessonsCompleted += mp.completedLessons.length;
-        if (mp.completedLessons.length > 0) {
-          completedModuleIds.push(mp.moduleId || "");
-        }
-      }
-    }
+    const { totalLessonsCompleted, completedModuleIds } = buildModuleCompletionContext(progress);
 
     const badgeContext: BadgeCheckContext = {
       totalLessonsCompleted,

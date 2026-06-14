@@ -127,6 +127,20 @@ export default function LessonPlayerPage({
         .filter((m) => m.status === "completed")
         .map((m) => m.module.id);
 
+      // progressData reflects state BEFORE this lesson is marked complete, so
+      // a module that's about to reach 100% with this lesson isn't yet
+      // flagged "completed" above. Add it here so module-completion badges
+      // fire immediately instead of waiting for the next gamification event.
+      const currentModInfo = progressData?.modules.find((m) => m.module.id === moduleId);
+      if (
+        currentModInfo &&
+        currentModInfo.status !== "completed" &&
+        currentModInfo.completedLessonCount + 1 >= currentModInfo.totalLessonCount &&
+        !completedMods.includes(moduleId)
+      ) {
+        completedMods.push(moduleId);
+      }
+
       const result = await markLessonComplete(
         user.uid, moduleId, lessonId,
         totalCompleted + 1,
