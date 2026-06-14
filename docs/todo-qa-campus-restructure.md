@@ -44,10 +44,10 @@ Bugs de exámenes (`exam-module-2-3`, `exam-midterm`, `exam-final`, `calculateSc
   - Confirmado vía curl: ISTQB → 1 link (`exam-istqb-ctfl`), automation → 4 links (`exam-module-1`, `exam-module-2-3`, `exam-midterm`, `exam-final`), qaFundamentals → 0 links. Breadcrumb "Campus QA"/"QA Campus" → `/es` y `/en` respectivamente, en los 3 campus.
 
 ## Paso 5 — (Opcional, misma rama) metadata SEO por campus (riesgo: medio)
-- [ ] **DIFERIDO a follow-up** — pasos 1-4 ya cumplen el requisito central (decisión tomada al cierre de esta sesión).
-- [ ] La página es `"use client"`, así que `generateMetadata` no puede ir directo. Extraer el componente actual a un hijo cliente (ej. `CampusDetail.tsx`) y convertir `page.tsx` en server component que añade `generateMetadata` (deriva title/description de `getCampusById`) y renderiza el hijo cliente.
-- [ ] Mantener `useParams`/`useTranslation` y demás hooks en el hijo cliente.
-- [ ] **Validar:** OG de `/es/campus/istqb` vs `/es/campus/automation` difieren y coinciden con el campus.
+- [x] **DONE** (commit `6a43861`, follow-up session) — implementado tal como estaba previsto, con el hijo cliente llamado `CampusPageClient.tsx` (en vez de `CampusDetail.tsx`).
+- [x] La página era `"use client"`, así que `generateMetadata` no podía ir directo. Se extrajo el componente original a `CampusPageClient.tsx` y `page.tsx` pasó a ser un server component que exporta `generateMetadata` (deriva title/description/OG de `getCampusById`) y renderiza `<CampusPageClient />`.
+- [x] `useParams`/`useTranslation` y demás hooks se mantuvieron en `CampusPageClient.tsx`.
+- [x] **Validado:** vía curl, el `<title>`/`<meta name="description">`/`og:title`/`og:description`/`og:locale` difieren correctamente entre `qaFundamentals`, `automation` e `istqb` (es/en), y el caso "campus no encontrado" devuelve un título de fallback.
 
 ## Paso 6 — Pase de consistencia (riesgo: bajo)
 - [x] Verificar `Navbar`/`Footer`: logo/home apunta al hub `/[lng]` y sin etiquetas solo-automation.

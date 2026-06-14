@@ -6,8 +6,8 @@ PlayQAcademy is a bilingual (ES/EN) learning platform for software QA profession
 
 ## Branch state
 
-- **HEAD:** this commit (`fix(dashboard): resume-learning CTA` + AGENTS.md sync), descendant of `c19996a` (`main`, pushed to `origin/main`). Working tree clean.
-- **Status:** All planned work is merged into `main`. The repo passes `npm run typecheck` **and** `npm run lint` with **0 errors** (4 `<img>` warnings remain by choice — see Pre-existing debt).
+- **HEAD:** `main`, working tree clean. All work below is committed directly to `main` (no open branches/PRs).
+- **Status:** `npm run typecheck` **and** `npm run lint` both pass with **0 errors and 0 warnings**.
 - **PRs merged (#2–#7):**
   - **#2** `fix/exam-score-denominators` — equal-weight scoring + consistent results denominators (Known bugs #1–#2)
   - **#3** `fix/gate-contentless-exams` — gate content-less exams as "Coming Soon" (Known bug #3)
@@ -16,13 +16,19 @@ PlayQAcademy is a bilingual (ES/EN) learning platform for software QA profession
   - **#6** `chore/lint-typecheck-cleanup` — fixed all lint + typecheck errors (13 typecheck, 45 lint → 0) (task #6)
   - **#7** `fix/landing-cta-buttons` — removed redundant hero "Regístrate aquí" CTA; renamed "Ver currículum" → "Ver campus" (`hero.ctaSecondary`); dropped unused `hero.ctaPrimary` key
 - **History note:** PR #1 (`feature/qa-campus-root`) was merged with `main` as base instead of the planned `feature/unified-campus`, bringing all prior unified-campus work (ISTQB content/wiring, exam/gamification fixes, landing restructure) into `main` in one step — no conflicts, no data/code loss. `feature/unified-campus` and `feature/qa-campus-root` are fully merged and deleted.
-- **Direct-to-main commits after PR #7** (single-session work, no PR):
+- **Direct-to-main commits after PR #7** (single-session work, no PRs):
   - `881f1f4` chore: ignore Python bytecode artifacts in `.gitignore`
   - `8dade39` feat(landing): redesign hero/campus cards/navbar with brand-blue tech color scheme (pulsing eyebrow badge, gradient "Ver campus" CTA, colored gradient icon tiles on campus + feature cards, pulsing dot next to "PlayQ" logo) — Playwright-verified on `/es` and `/en`, light & dark mode
   - `a497612` feat(qa-fundamentals): activate full QA Fundamentals campus — 10 modules (`qaf-m1`…`qaf-m10`), 45 lessons, 10 module exams + 1 final campus exam, 11 badges (see Campus status #1)
   - `c19996a` feat(qa-fundamentals): glossary entries for modules 3-10 (completes glossary coverage for all 10 QAF modules)
-  - this commit: fix(dashboard): "Resume learning" CTA now resolves to the module the user actually has in progress, not always the first curriculum module (see Verified and closed #17)
-- **Only remaining open item:** Step 5 of the QA Campus restructure (per-campus SEO metadata for `/campus/[campusId]`) remains deferred.
+  - `9a5f55e` fix(dashboard): "Resume learning" CTA now resolves to the module the user actually has in progress, not always the first curriculum module (see Verified and closed #17)
+  - `c0223bd` fix(gamification): fix module-completion badge not awarding — `updateUserProgress` rewritten as an atomic `arrayUnion`/`arrayRemove` merge (was a racy read-modify-write that could silently drop already-completed lessons); `handleMarkComplete`'s `completedModuleIds` now derived via shared `buildModuleCompletionContext` helper so a module reaching 100% on its final lesson is recognized immediately for its `module_completed` badge.
+  - `4e0e4fd` feat(dashboard): redesign with tech-blue gradient tiles — gradient icon tiles for stat cards, pulsing-dot "resume learning" badge, per-campus gradient tiles on progress cards (reuses `CampusCard` tile definitions).
+  - `b9296da` fix(exams): show badge-unlocked popup when passing an exam — `submitExam` now propagates the `Badge[]` returned by `recordExamPassed`, so exam-pass badges (e.g. `qaf_certified`) queue a `BadgeUnlockedModal`, mirroring the lesson-completion flow.
+  - `0a76a70` fix(automation campus): correct lesson count in description (44 → 41) — m1-m8 total 41 lessons, not 44 (see Campus status #3, Known bug #6).
+  - `6a43861` feat(seo): add per-campus metadata; document remaining no-img-element warnings — split `campus/[campusId]/page.tsx` into a server component (`generateMetadata`) + `CampusPageClient.tsx`; annotated the 4 `@next/next/no-img-element` warnings with `eslint-disable` + rationale (external OAuth avatars, `blob:` preview, arbitrary lesson-content images — none compatible with `next/image` without `remotePatterns`). Lint went from 4 warnings to **0**.
+  - `b96b680` fix(gamification): persist bookmarks and feed real quiz/exercise data into lesson-complete badge check — `useBookmarked` now reads `users/{uid}.bookmarks` on mount (was hardcoded `false`, so toggled bookmarks vanished on reload); `markLessonComplete` derives `perfectQuizIds`/`exerciseCompletedCount` from the gamification doc it already fetches instead of taking them as dead `[]`/`0` parameters. **Note:** the `perfectionist` badge (`perfect_quizzes: 44`) was already obtainable via `recordQuizAnswer`'s own `checkAndAwardBadges` call (always uses the real `correctQuizIds`) — this commit makes `markLessonComplete`'s own badge check internally consistent, it does not unlock a previously-unobtainable badge.
+- **Open items:** none blocking. See "Next development tasks" for backlog.
 
 ## QA Campus restructure — done, verified, closed (do not reopen)
 
@@ -30,7 +36,7 @@ PlayQAcademy is a bilingual (ES/EN) learning platform for software QA profession
 - **Key finding (still true):** campuses are NOT nested in data — `Campus` is a *derived grouping layer over modules*; progress/exams/gamification/badges key off `moduleId`/`examId`, never `campusId`. No Firestore migration, no URL breakage, no data risk occurred.
 - **What changed:** root `/[lng]` is the QA Campus hub (sub-campus URLs stayed flat `/campus/[campusId]`, no redirects); added single fixed `QA_CAMPUS` parent abstraction (`src/types/campus.ts`, `src/lib/constants/campuses.ts`); neutralized root branding (`src/app/layout.tsx`, `src/app/[lng]/layout.tsx`); campus exam links are now data-driven via `getExamsForCampus()` (`src/lib/constants/exams.ts`, `src/app/[lng]/campus/[campusId]/page.tsx`), removing the `campusId === "istqb"` hardcode; added breadcrumb `QA Campus → {campus}` linking back to the hub.
 - **Verification:** typecheck (13 pre-existing errors, unchanged vs. pre-branch `22f2dca`) and lint (~45 pre-existing errors, unchanged) confirmed no new issues. Full manual walkthrough on `/es` and `/en` (hub, all 3 campus detail pages, exam links, breadcrumbs, lesson progress persistence) confirmed working. Details in `docs/todo-qa-campus-restructure.md`.
-- **Deferred (separate follow-up, not blocking):** Step 5 — per-campus SEO metadata for `/campus/[campusId]` (requires splitting the client page into server+client components for `generateMetadata`).
+- **Step 5 (per-campus SEO metadata) — DONE** (commit `6a43861`): `campus/[campusId]/page.tsx` is now a server component exporting `generateMetadata` (title/description/OG derived from `getCampusById`), rendering the former page UI via `CampusPageClient.tsx`. Verified via curl for all 3 campuses (es/en) plus the not-found fallback.
 - **Out of scope (separate branches, unchanged):** all items under "Known bugs" and "Next development tasks" below (exam content gaps, `calculateScore`, `/exams` redesign, QA Fundamentals content, lint cleanup).
 
 ## Verified and closed (do not reopen)
@@ -54,6 +60,7 @@ All items below have been verified by Jorge with his own eyes in the browser. Ev
 15. **QA Fundamentals campus page** — `/es/campus/qaFundamentals` Playwright-verified in light and dark mode: all 10 modules + 11 exams render with `status: "active"`, no console or page errors.
 16. **Lesson `qaf-m1-l1` content review** — Static code review (no live browser session — `/learn/*` requires a real Firebase account, none created by design) confirmed all 7 section types used (heading, paragraph, callout, list, table, flashcard, quiz) have matching renderer branches in `LessonRenderer.tsx`/`QuizSection.tsx`/`FlashcardSection.tsx`, bilingual ES/EN content is complete, and the lesson is correctly registered in `LESSON_REGISTRY` via `getAllLessonsContent()`.
 17. **Dashboard "Resume learning" CTA fix** — `unlockedModules[0]` always resolved to `m1-typescript-foundations` (first module in `CURRICULUM`) regardless of actual progress, because `ENFORCE_MODULE_LOCKING = false` means no module is ever `"locked"`. Replaced with `resumeModule`: prefers the last module in curriculum order with `status === "in_progress" && completedLessonCount > 0`, falling back to the first unlocked module for brand-new users. Browser-verified by Jorge on `/es/dashboard`: the banner now points to the QA Fundamentals module he's actually working through.
+18. **QA Fundamentals end-to-end flow** — Browser-verified using a local-dev test account (Firebase Auth + Firestore, `http://localhost:3001`): completing a lesson awards points and a `module_completed` badge, passing `exam-qaf-final` (93%) shows the results screen, and the `qaf_certified` badge unlocks via a `BadgeUnlockedModal` popup and appears as "QA Fundamentals Certificado" on `/badges`. Supersedes the "Not yet browser-verified" caveat in Campus status #1.
 
 ## Campus status
 
@@ -65,7 +72,7 @@ All items below have been verified by Jorge with his own eyes in the browser. Ev
 - **Badges:** 11 — `qaf_m1_complete`…`qaf_m10_complete` (`module_completed` criteria, one per module) + `qaf_certified` (campus completion).
 - **Glossary:** Full coverage, chapters `qaf-1`…`qaf-10` in `glossary.ts`.
 - **Sources cited in `resources`:** ISTQB CTFL v4.0 syllabus + Glossary, ISO/IEC 25010:2023, ISO/IEC/IEEE 29119, Scrum Guide 2020, Agile Manifesto, Kanban Guide, Jira/Confluence/Azure Test Plans docs, ISTQB CT-AI.
-- **Verification status:** typecheck + lint clean. Campus page (`/es/campus/qaFundamentals`) Playwright-verified in light & dark mode: all 10 modules + 11 exams render with `status: "active"`, no console/page errors. Lesson `qaf-m1-l1` statically reviewed (content + renderer wiring correct, bilingual complete, registered in `LESSON_REGISTRY`). **Not yet browser-verified:** live quiz/flashcard interaction, lesson completion → progress/gamification, and module exam flow — `/learn/*` requires a real Firebase session and no test account has been created (deliberate, see Verified and closed #16).
+- **Verification status:** typecheck + lint clean. Campus page (`/es/campus/qaFundamentals`) Playwright-verified in light & dark mode: all 10 modules + 11 exams render with `status: "active"`, no console/page errors. Lesson `qaf-m1-l1` statically reviewed (content + renderer wiring correct, bilingual complete, registered in `LESSON_REGISTRY`). Full live flow (quiz/flashcard interaction, lesson completion → progress/gamification/badges, `exam-qaf-final` pass → `qaf_certified`) browser-verified end-to-end — see Verified and closed #18.
 
 ### 2. ISTQB CTFL Foundation (`istqb`)
 - **Status:** active
@@ -76,7 +83,7 @@ All items below have been verified by Jorge with his own eyes in the browser. Ev
 ### 3. Playwright Automation (`automation`)
 - **Status:** active
 - **Modules:** 8 (m1-typescript-foundations through m8-cicd-reporting)
-- **Lessons:** 44 (header displays 44, actual count is 41 — known bug, see below)
+- **Lessons:** 41 (m1-m8 total; description corrected from a previous "44" — see Known bugs #6)
 - **Exam:** 4 exams defined (`exam-module-1`, `exam-module-2-3`, `exam-midterm`, `exam-final`). Only `exam-module-1` has a question bank (25 questions). The other 3 have no banks for m2-m8 and are now gated as "Coming Soon" via `isExamReady` (see Known bugs #3) — they surface but are not startable until banks exist.
 
 ## Known bugs (confirmed, separate branches required)
@@ -91,7 +98,7 @@ All items below have been verified by Jorge with his own eyes in the browser. Ev
 
 5. **~~coming_soon campus is a clickable Link~~ — RESOLVED.** QA Fundamentals is now `status: "active"` with full content (10 modules, 45 lessons — see Campus status #1); the campus card behaves like ISTQB/Automation.
 
-6. **Automation header: 44 lessons displayed vs 41 real** — Campus description says "44 lessons" but actual count is 41. **Separate branch.**
+6. **~~Automation header: 44 lessons displayed vs 41 real~~ — FIXED** (commit `0a76a70`). Campus description now says "41 lessons", matching the actual m1-m8 lesson count.
 
 ## Next development tasks (priority order)
 
@@ -105,10 +112,10 @@ All items below have been verified by Jorge with his own eyes in the browser. Ev
 
 5. **~~QA Fundamentals campus content: curriculum and lessons.~~ — DONE.** Full 10-module curriculum authored and activated (commits `a497612`, `c19996a`; see Campus status #1). Scope grew from the original "3-5 modules" estimate to a complete 10-module manual/functional QA track (zero → QA Junior), per plan `dreamy-doodling-cerf`.
 
-6. **~~Lint cleanup: ~45 pre-existing lint errors + 3 unused imports in useExamAttempt.ts.~~ — DONE** (branch `chore/lint-typecheck-cleanup`). Fixed all 45 lint errors (unused imports/vars across ~24 files) AND all 13 typecheck errors (Metadata import from `next`, `Bilingual` access via `[lng as "es"|"en"]`, `RARITY_ORDER ?? 0`, `unlockedAt` cast, `updateDoc` `UpdateData<DocumentData>` cast, duplicate `Badge` import). `npm run typecheck` and `npm run lint` are both clean (0 errors). **Remaining:** 4 `@next/next/no-img-element` *warnings* (leaderboard, playground/files, Navbar, LessonRenderer) — not errors; converting `<img>`→`next/image` needs width/height + `images.remotePatterns` for avatar domains, deferred as its own change.
+6. **~~Lint cleanup: ~45 pre-existing lint errors + 3 unused imports in useExamAttempt.ts.~~ — DONE** (branch `chore/lint-typecheck-cleanup`). Fixed all 45 lint errors (unused imports/vars across ~24 files) AND all 13 typecheck errors (Metadata import from `next`, `Bilingual` access via `[lng as "es"|"en"]`, `RARITY_ORDER ?? 0`, `unlockedAt` cast, `updateDoc` `UpdateData<DocumentData>` cast, duplicate `Badge` import). The 4 remaining `@next/next/no-img-element` *warnings* (leaderboard, playground/files, Navbar, LessonRenderer) were resolved separately via commit `6a43861` (`eslint-disable` + rationale comments, see Branch state). `npm run typecheck` and `npm run lint` are both clean with **0 errors and 0 warnings**.
 
 ## Pre-existing debt (do not touch without instruction)
 
-- **SEO/OG metadata layout.tsx Playwright-only** — `layout.tsx` hardcodes Playwright-specific metadata. Needs campus-aware metadata. **→ Now addressed by the planned QA Campus restructure (Step 2 = neutralize root branding; Step 5 = optional per-campus metadata). See top of file.**
-- **~~~45 lint errors + 3 unused imports in useExamAttempt.ts~~ — RESOLVED** by `chore/lint-typecheck-cleanup` (task #6 above). Codebase is lint- and typecheck-clean (0 errors); 4 `<img>` warnings remain by choice.
-- **4 `<img>` → `next/image` warnings** — leaderboard avatar, playground/files, Navbar avatar, LessonRenderer image. Conversion needs `images.remotePatterns` config for external avatar domains; deferred to a dedicated change.
+- **~~SEO/OG metadata layout.tsx Playwright-only~~ — RESOLVED.** `layout.tsx`/`[lng]/layout.tsx` neutralized in the QA Campus restructure (Step 2); per-campus metadata added via commit `6a43861` (Step 5). No remaining work here.
+- **~~~45 lint errors + 3 unused imports in useExamAttempt.ts~~ — RESOLVED** by `chore/lint-typecheck-cleanup` (task #6 above). Codebase is lint- and typecheck-clean with **0 errors and 0 warnings**.
+- **~~4 `<img>` → `next/image` warnings~~ — RESOLVED** via commit `6a43861` (`eslint-disable` + rationale: external OAuth avatars, `blob:` preview, arbitrary lesson-content images — none compatible with `next/image` without `remotePatterns`).
