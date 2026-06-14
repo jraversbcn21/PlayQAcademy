@@ -158,14 +158,7 @@ export default function StatCard({
       ].join(" ")}
     >
       {/* Icon */}
-      <div
-        className={[
-          "mb-3 inline-flex rounded-lg p-2",
-          isHighlight ? "bg-brand-blue-500/20 text-brand-blue-400" : "bg-[var(--color-bg-elevated)] text-[var(--color-text-secondary)]",
-        ].join(" ")}
-      >
-        {icon}
-      </div>
+      <div className="mb-3 inline-flex">{icon}</div>
 
       {/* Label */}
       <p className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wide">

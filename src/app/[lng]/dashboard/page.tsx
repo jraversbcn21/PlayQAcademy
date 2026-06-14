@@ -16,48 +16,74 @@ import StatCard from "@/components/dashboard/StatCard";
 import AchievementCard from "@/components/dashboard/AchievementCard";
 import type { Achievement } from "@/components/dashboard/AchievementCard";
 import type { EarnedBadge } from "@/types/gamification";
+import { CAMPUS_TILES, DEFAULT_TILE } from "@/components/campus/CampusCard";
 
 /* ------------------------------------------------------------------ */
-/*  Icons for stat cards                                               */
+/*  Icons for stat cards — gradient tiles (tech-blue design language) */
 /* ------------------------------------------------------------------ */
 
 function PointsIcon(): ReactNode {
   return (
-    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
+    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-blue-400 to-brand-blue-600 text-white shadow-lg shadow-brand-blue-500/30">
+      <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </div>
   );
 }
 
 function LessonsIcon(): ReactNode {
   return (
-    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-    </svg>
+    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-green-400 to-brand-green-600 text-white shadow-lg shadow-brand-green-500/30">
+      <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+      </svg>
+    </div>
   );
 }
 
 function StreakIcon(): ReactNode {
   return (
-    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
-    </svg>
+    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-orange-400 to-brand-orange-600 text-white shadow-lg shadow-brand-orange-500/30">
+      <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
+      </svg>
+    </div>
   );
 }
 
 function BadgeIcon(): ReactNode {
   return (
-    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-    </svg>
+    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-400 to-purple-600 text-white shadow-lg shadow-purple-500/30">
+      <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+      </svg>
+    </div>
   );
 }
 
 function PlayIcon(): ReactNode {
   return (
-    <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden="true">
+    <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" aria-hidden="true">
       <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 010 1.972l-11.54 6.347c-.75.412-1.667-.13-1.667-.986V5.653z" />
     </svg>
+  );
+}
+
+function ArrowIcon(): ReactNode {
+  return (
+    <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+    </svg>
+  );
+}
+
+function PulsingDot(): ReactNode {
+  return (
+    <span className="relative flex h-2 w-2" aria-hidden="true">
+      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-blue-400 opacity-75" />
+      <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-blue-500" />
+    </span>
   );
 }
 
@@ -195,14 +221,14 @@ export default function DashboardPage({
                   {levelTitle}
                 </p>
               </div>
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-orange-500/20 text-lg font-bold text-brand-orange-400">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-orange-400 to-brand-orange-600 text-lg font-bold text-white shadow-lg shadow-brand-orange-500/30">
                 {levelInfo.level}
               </div>
             </div>
           </div>
           {/* Level progress mini bar */}
           <div className="mt-3 max-w-xs">
-            <ProgressBar value={levelPct} size="sm" barColor="bg-brand-orange-500" />
+            <ProgressBar value={levelPct} size="sm" barColor="bg-gradient-to-r from-brand-orange-400 to-brand-orange-600" />
           </div>
         </div>
 
@@ -212,17 +238,18 @@ export default function DashboardPage({
             className="mb-8 animate-fade-in-up"
             style={{ animationDelay: "100ms", animationFillMode: "backwards" as const }}
           >
-            <div className="rounded-xl border border-brand-orange-500/20 bg-brand-orange-500/5 p-5">
+            <div className="rounded-xl border border-brand-blue-500/20 bg-brand-blue-500/5 p-5">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-orange-500/20 text-brand-orange-400">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-blue-400 to-brand-blue-600 text-white shadow-lg shadow-brand-blue-500/30">
                     <PlayIcon />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-[var(--color-text-primary)]">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-brand-blue-500/10 px-3 py-1 text-xs font-semibold text-brand-blue-400">
+                      <PulsingDot />
                       {t("dashboard.resumeLearning")}
-                    </p>
-                    <p className="text-xs text-[var(--color-text-muted)]">
+                    </span>
+                    <p className="mt-1.5 text-sm font-semibold text-[var(--color-text-primary)]">
                       {resumeModule.module.title[lng as "es" | "en"] ??
                         resumeModule.module.title.en}
                     </p>
@@ -230,7 +257,8 @@ export default function DashboardPage({
                 </div>
                 <Button
                   variant="primary"
-                  className="!bg-brand-orange-500 hover:!bg-brand-orange-400"
+                  className="group !rounded-2xl !bg-gradient-to-br !from-brand-blue-500 !to-brand-blue-700 !shadow-lg !shadow-brand-blue-500/30 !transition-all hover:-translate-y-0.5 hover:!shadow-xl hover:shadow-brand-blue-500/40"
+                  rightIcon={<ArrowIcon />}
                   onClick={() =>
                     router.push(`/${lng}/learn/${resumeModule.module.id}`)
                   }
@@ -325,6 +353,7 @@ export default function DashboardPage({
               const campusPercent = campusTotalLessons > 0
                 ? Math.round((campusCompletedLessons / campusTotalLessons) * 100)
                 : 0;
+              const tile = CAMPUS_TILES[campus.id] ?? DEFAULT_TILE;
 
               return (
                 <div
@@ -363,13 +392,24 @@ export default function DashboardPage({
 
                   <div className="p-5">
                     {/* Header */}
-                    <div className="mb-3">
-                      <h3 className="text-base font-semibold text-[var(--color-text-primary)]">
-                        {campusTitle}
-                      </h3>
-                      <p className="mt-1 line-clamp-2 text-xs text-[var(--color-text-muted)]">
-                        {campusDesc}
-                      </p>
+                    <div className="mb-3 flex items-start gap-3">
+                      <div
+                        className={[
+                          "flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-white shadow-lg",
+                          tile.gradient,
+                          tile.shadow,
+                        ].join(" ")}
+                      >
+                        {tile.icon}
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="text-base font-semibold text-[var(--color-text-primary)]">
+                          {campusTitle}
+                        </h3>
+                        <p className="mt-1 line-clamp-2 text-xs text-[var(--color-text-muted)]">
+                          {campusDesc}
+                        </p>
+                      </div>
                     </div>
 
                     {/* Stats */}
@@ -386,7 +426,7 @@ export default function DashboardPage({
                       </div>
                       <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--color-bg-elevated)]">
                         <div
-                          className="h-full rounded-full bg-gradient-to-r from-brand-blue-500 to-brand-green-400 transition-all duration-500"
+                          className={["h-full rounded-full bg-gradient-to-r transition-all duration-500", tile.gradient].join(" ")}
                           style={{ width: `${campusPercent}%` }}
                         />
                       </div>
@@ -397,7 +437,8 @@ export default function DashboardPage({
                       <Button
                         variant="primary"
                         size="sm"
-                        className="w-full justify-center !bg-brand-orange-500 hover:!bg-brand-orange-400"
+                        className={["group w-full justify-center !bg-gradient-to-br !shadow-md", tile.gradient, tile.shadow].join(" ")}
+                        rightIcon={<ArrowIcon />}
                       >
                         {campusPercent > 0 ? t("dashboard.continueModule") : t("dashboard.startModule")}
                       </Button>

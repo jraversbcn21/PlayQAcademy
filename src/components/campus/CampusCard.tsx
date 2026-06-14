@@ -19,7 +19,7 @@ interface CampusCardProps {
 /*  Campus icon tiles — colored gradient tile + line icon per campus  */
 /* ------------------------------------------------------------------ */
 
-function IconBook() {
+export function IconBook() {
   return (
     <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" aria-hidden="true">
       <path d="M12 6.5A6 6 0 0 0 4 4v13a6 6 0 0 1 8 1.6A6 6 0 0 1 20 17V4a6 6 0 0 0-8 2.5z" />
@@ -28,7 +28,7 @@ function IconBook() {
   );
 }
 
-function IconCertificate() {
+export function IconCertificate() {
   return (
     <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" aria-hidden="true">
       <circle cx="12" cy="9" r="5.2" />
@@ -37,7 +37,7 @@ function IconCertificate() {
   );
 }
 
-function IconAutomation() {
+export function IconAutomation() {
   return (
     <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" aria-hidden="true">
       <rect x="3" y="4.5" width="18" height="15" rx="2.5" />
@@ -46,19 +46,19 @@ function IconAutomation() {
   );
 }
 
-interface CampusTile {
+export interface CampusTile {
   icon: ReactNode;
   gradient: string;
   shadow: string;
 }
 
-const DEFAULT_TILE: CampusTile = {
+export const DEFAULT_TILE: CampusTile = {
   icon: <IconBook />,
   gradient: "from-brand-blue-400 to-brand-blue-600",
   shadow: "shadow-brand-blue-500/30",
 };
 
-const CAMPUS_TILES: Record<string, CampusTile> = {
+export const CAMPUS_TILES: Record<string, CampusTile> = {
   qaFundamentals: DEFAULT_TILE,
   istqb: {
     icon: <IconCertificate />,
