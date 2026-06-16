@@ -25,6 +25,7 @@ interface NavLink {
 const NAV_LINKS: NavLink[] = [
   { href: "/", translationKey: "nav.home" },
   { href: "/curriculum", translationKey: "nav.curriculum" },
+  { href: "/glossary", translationKey: "nav.glossary" },
   { href: "/playground", translationKey: "nav.playground" },
   { href: "/leaderboard", translationKey: "nav.leaderboard" },
   { href: "/about", translationKey: "nav.about" },
