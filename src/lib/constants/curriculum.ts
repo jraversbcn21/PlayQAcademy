@@ -647,6 +647,8 @@ export const CURRICULUM: CurriculumModule[] = [
     false,
     [
       lesson("istqb-l6-1", "Soporte de herramientas al testing", "Tool support for testing", "Categorías de herramientas, beneficios y riesgos de la automatización.", "Tool categories, benefits and risks of automation.", 20),
+      lesson("istqb-l6-2", "Herramientas de gestión de pruebas", "Test management tools", "Gestión de casos, defectos y trazabilidad con Jira/Xray, Azure Test Plans y TestRail.", "Case, defect and traceability management with Jira/Xray, Azure Test Plans and TestRail.", 18),
+      lesson("istqb-l6-3", "Automatización y análisis estático", "Automation and static analysis", "Cuándo automatizar, herramientas de análisis estático/cobertura y el ROI de la automatización.", "When to automate, static analysis/coverage tools and automation ROI.", 18),
     ]
   ),
 

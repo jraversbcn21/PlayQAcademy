@@ -1,27 +1,31 @@
 /**
- * ISTQB CTFL v4.0 Exam Question Bank
- * Auto-generated from migration/questions.js
- * 50 questions covering all 6 ISTQB chapters.
+ * ISTQB CTFL v4.0 Exam Question Bank — simulacro completo.
+ * 50 preguntas distribuidas por capítulo (cada una etiquetada a su módulo real:
+ * fund 9 · sdlc 9 · static 7 · analysis 12 · mgmt 7 · tools 6).
+ * Alimenta el simulacro `exam-istqb-ctfl` (moduleIds = los 6 capítulos) y, gracias
+ * al etiquetado por capítulo, también enriquece los exámenes por módulo m1..m6.
+ * Fuentes: ISTQB CTFL v4.0 Syllabus, ISTQB Glossary.
  */
 
 import type { ExamQuestion } from "@/types/exam";
 import { registerQuestions } from "@/lib/exam/scoring";
 
-const ISTQB_MODULE_IDS = [
-  "istqb-fundamentals",
-  "istqb-sdlc",
-  "istqb-static-testing",
-  "istqb-test-analysis",
-  "istqb-management",
-  "istqb-tools",
-];
+// Each question is tagged to its real syllabus chapter so that per-chapter
+// module exams (exam-istqb-m1..m6) draw a clean, chapter-specific pool, while
+// the full mock (exam-istqb-ctfl, moduleIds = all 6) still receives every question.
+const FUND = ["istqb-fundamentals"];      // Cap. 1 — Fundamentos del Testing
+const SDLC = ["istqb-sdlc"];              // Cap. 2 — Testing a lo Largo del SDLC
+const STATIC = ["istqb-static-testing"];  // Cap. 3 — Testing Estático
+const ANALYSIS = ["istqb-test-analysis"]; // Cap. 4 — Análisis y Diseño de Pruebas
+const MGMT = ["istqb-management"];        // Cap. 5 — Gestión de Actividades de Prueba
+const TOOLS = ["istqb-tools"];            // Cap. 6 — Soporte de Herramientas
 
 const QUESTIONS: ExamQuestion[] = [
   {
     id: "istqb-q1",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: FUND,
     question: { es: "¿Cuál de las siguientes afirmaciones describe MEJOR el objetivo principal del testing?", en: "Which of the following BEST describes the main objective of testing?" },
     options: [
       { id: "a", text: { es: "Demostrar que el software no tiene defectos", en: "Prove that software has no defects" } },
@@ -39,7 +43,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q2",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: FUND,
     question: { es: "Un programador comete un error al escribir código para calcular el descuento de un producto. Como resultado, el sistema aplica el doble del descuento previsto. ¿Cómo se clasifica el 'doble descuento' que se muestra en pantalla?", en: "A programmer makes an error when writing code to calculate a product discount. As a result, the system applies double the intended discount. How is the 'double discount' displayed on screen classified?" },
     options: [
       { id: "a", text: { es: "Error", en: "Error" } },
@@ -57,7 +61,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q3",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: FUND,
     question: { es: "¿Cuál de los siguientes principios del testing indica que 'probar todo es imposible'?", en: "Which testing principle states that 'testing everything is impossible'?" },
     options: [
       { id: "a", text: { es: "Principio 1: El testing muestra la presencia de defectos", en: "Principle 1: Testing shows presence of defects" } },
@@ -75,7 +79,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q4",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: FUND,
     question: { es: "El equipo de testing nota que después de varias iteraciones, sus pruebas automatizadas ya no detectan nuevos defectos. ¿Qué principio del testing describe mejor esta situación?", en: "The test team notices that after several iterations, their automated tests are no longer detecting new defects. Which testing principle best describes this situation?" },
     options: [
       { id: "a", text: { es: "Principio 3: Testing temprano", en: "Principle 3: Early testing" } },
@@ -93,7 +97,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q5",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: FUND,
     question: { es: "¿Cuál es la diferencia entre VERIFICACIÓN y VALIDACIÓN en el contexto del testing?", en: "What is the difference between VERIFICATION and VALIDATION in the context of testing?" },
     options: [
       { id: "a", text: { es: "Verificación confirma que el software no tiene defectos; validación confirma que no tiene errores", en: "Verification confirms the software has no defects; validation confirms it has no errors" } },
@@ -111,7 +115,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q6",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: FUND,
     question: { es: "Un sistema de control de vuelo ha pasado todas las pruebas técnicas, sin embargo, los pilotos no pueden usar la interfaz porque es demasiado compleja. ¿Qué principio del testing ilustra esta situación?", en: "A flight control system has passed all technical tests, however, pilots cannot use the interface because it is too complex. Which testing principle does this illustrate?" },
     options: [
       { id: "a", text: { es: "Principio 2: Testing exhaustivo imposible", en: "Principle 2: Exhaustive testing impossible" } },
@@ -129,7 +133,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q7",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: FUND,
     question: { es: "¿Cuál de las siguientes actividades es responsabilidad del ROL de TESTER (no del Test Manager)?", en: "Which of the following activities is the responsibility of the TESTER role (not the Test Manager)?" },
     options: [
       { id: "a", text: { es: "Elaborar el plan de pruebas", en: "Create the test plan" } },
@@ -147,7 +151,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q8",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: SDLC,
     question: { es: "¿En qué nivel de prueba se verifican principalmente las INTERFACES entre componentes del sistema?", en: "At which test level are INTERFACES between system components primarily verified?" },
     options: [
       { id: "a", text: { es: "Prueba de componente (unitaria)", en: "Component (unit) testing" } },
@@ -165,7 +169,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q9",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: SDLC,
     question: { es: "Un equipo de desarrollo ágil quiere detectar defectos lo antes posible. ¿Qué enfoque describe MEJOR esta práctica?", en: "An agile development team wants to detect defects as early as possible. Which approach BEST describes this practice?" },
     options: [
       { id: "a", text: { es: "Testing de regresión", en: "Regression testing" } },
@@ -183,7 +187,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q10",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: SDLC,
     question: { es: "¿Cuál es el objetivo PRINCIPAL de las pruebas de regresión?", en: "What is the MAIN objective of regression testing?" },
     options: [
       { id: "a", text: { es: "Verificar que el nuevo código cumple con los requisitos", en: "Verify that new code meets requirements" } },
@@ -201,7 +205,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q11",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: SDLC,
     question: { es: "¿Cuál de los siguientes es un tipo de prueba NO FUNCIONAL?", en: "Which of the following is a NON-FUNCTIONAL test type?" },
     options: [
       { id: "a", text: { es: "Prueba de regresión", en: "Regression testing" } },
@@ -219,7 +223,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q12",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: STATIC,
     question: { es: "¿Cuál de las siguientes afirmaciones describe MEJOR la diferencia entre testing estático y dinámico?", en: "Which statement BEST describes the difference between static and dynamic testing?" },
     options: [
       { id: "a", text: { es: "El testing estático solo se aplica al código fuente; el dinámico a los documentos", en: "Static testing applies only to source code; dynamic to documents" } },
@@ -237,7 +241,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q13",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: STATIC,
     question: { es: "¿Cuál es el tipo de revisión FORMAL más rigurosa según el ISTQB?", en: "Which is the MOST formal and rigorous review type according to ISTQB?" },
     options: [
       { id: "a", text: { es: "Revisión informal", en: "Informal review" } },
@@ -255,7 +259,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q14",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: ANALYSIS,
     question: { es: "Un campo de entrada acepta valores numéricos entre 1 y 100. Usando la técnica de Partición de Equivalencia, ¿cuántas particiones se identifican?", en: "An input field accepts numeric values between 1 and 100. Using the Equivalence Partitioning technique, how many partitions are identified?" },
     options: [
       { id: "a", text: { es: "1 partición (solo valores válidos)", en: "1 partition (only valid values)" } },
@@ -273,7 +277,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q15",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: ANALYSIS,
     question: { es: "Usando BVA de 2 valores para el rango 1-100, ¿cuáles serían los valores de prueba en el límite SUPERIOR?", en: "Using 2-value BVA for the range 1-100, what would be the test values at the UPPER boundary?" },
     options: [
       { id: "a", text: { es: "99 y 100", en: "99 and 100" } },
@@ -291,7 +295,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q16",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: ANALYSIS,
     question: { es: "¿Cuál técnica de diseño de pruebas es MEJOR para verificar que un sistema de descuento aplica las reglas correctas según múltiples condiciones (cliente VIP, monto mínimo, código de cupón)?", en: "Which test design technique is BEST for verifying a discount system applies correct rules based on multiple conditions (VIP customer, minimum amount, coupon code)?" },
     options: [
       { id: "a", text: { es: "Análisis de valor límite", en: "Boundary value analysis" } },
@@ -309,7 +313,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q17",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: ANALYSIS,
     question: { es: "¿Cuántas reglas tiene una tabla de decisión con 3 condiciones independientes?", en: "How many rules does a decision table have with 3 independent conditions?" },
     options: [
       { id: "a", text: { es: "3", en: "3" } },
@@ -327,7 +331,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q18",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: ANALYSIS,
     question: { es: "¿Qué técnica de caja blanca mide el porcentaje de RAMAS del código que han sido ejecutadas por los casos de prueba?", en: "Which white-box technique measures the percentage of code BRANCHES that have been executed by test cases?" },
     options: [
       { id: "a", text: { es: "Prueba de sentencia (statement coverage)", en: "Statement coverage" } },
@@ -345,7 +349,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q19",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: ANALYSIS,
     question: { es: "¿Qué es el 'Testing Exploratorio' según ISTQB?", en: "What is 'Exploratory Testing' according to ISTQB?" },
     options: [
       { id: "a", text: { es: "Testing que se realiza sin ningún tipo de documentación previa", en: "Testing done without any prior documentation" } },
@@ -363,7 +367,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q20",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: ANALYSIS,
     question: { es: "¿Para qué tipo de sistema es MÁS adecuada la técnica de Prueba de Transición de Estado?", en: "For which type of system is the State Transition Testing technique MOST suitable?" },
     options: [
       { id: "a", text: { es: "Sistemas con complejas condiciones de entrada", en: "Systems with complex input conditions" } },
@@ -381,7 +385,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q21",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: MGMT,
     question: { es: "¿Cuál es la diferencia entre RIESGO DE PRODUCTO y RIESGO DE PROYECTO?", en: "What is the difference between PRODUCT RISK and PROJECT RISK?" },
     options: [
       { id: "a", text: { es: "El riesgo de producto es siempre mayor que el de proyecto", en: "Product risk is always greater than project risk" } },
@@ -399,7 +403,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q22",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: MGMT,
     question: { es: "¿Cuál de las siguientes es una MÉTRICA de testing adecuada para el monitoreo del progreso?", en: "Which of the following is an appropriate testing METRIC for progress monitoring?" },
     options: [
       { id: "a", text: { es: "El número de programadores en el equipo", en: "The number of programmers on the team" } },
@@ -417,7 +421,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q23",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: MGMT,
     question: { es: "Un defecto causa que el sistema se caiga por completo, pero fue introducido en una función usada solo por el 1% de los usuarios. ¿Cómo se clasificaría?", en: "A defect causes the entire system to crash, but was introduced in a function used by only 1% of users. How would it be classified?" },
     options: [
       { id: "a", text: { es: "Alta severidad, alta prioridad", en: "High severity, high priority" } },
@@ -435,7 +439,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q24",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: MGMT,
     question: { es: "¿Qué son los 'criterios de salida' (exit criteria) en el proceso de testing?", en: "What are 'exit criteria' in the testing process?" },
     options: [
       { id: "a", text: { es: "Las condiciones que deben cumplirse para INICIAR una fase de testing", en: "Conditions that must be met to START a testing phase" } },
@@ -453,7 +457,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q25",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: MGMT,
     question: { es: "¿Cuál es el PROPÓSITO PRINCIPAL de la gestión de configuración en el contexto del testing?", en: "What is the MAIN PURPOSE of configuration management in the context of testing?" },
     options: [
       { id: "a", text: { es: "Gestionar el equipo de testers", en: "Managing the test team" } },
@@ -471,7 +475,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q26",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: TOOLS,
     question: { es: "¿Cuál de los siguientes es un BENEFICIO de la automatización de pruebas?", en: "Which of the following is a BENEFIT of test automation?" },
     options: [
       { id: "a", text: { es: "Elimina completamente la necesidad de testers humanos", en: "Completely eliminates the need for human testers" } },
@@ -489,7 +493,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q27",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: TOOLS,
     question: { es: "¿Cuál de los siguientes es un RIESGO al adoptar herramientas de automatización de pruebas?", en: "Which of the following is a RISK when adopting test automation tools?" },
     options: [
       { id: "a", text: { es: "Las pruebas se ejecutan más rápido", en: "Tests run faster" } },
@@ -507,7 +511,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q28",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: STATIC,
     question: { es: "¿Cuál de los siguientes es un ejemplo de testing ESTÁTICO?", en: "Which of the following is an example of STATIC testing?" },
     options: [
       { id: "a", text: { es: "Ejecutar casos de prueba funcionales en el sistema", en: "Executing functional test cases on the system" } },
@@ -525,7 +529,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q29",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: SDLC,
     question: { es: "En un modelo de desarrollo Waterfall, ¿en qué fase se realizan principalmente las pruebas de SISTEMA?", en: "In a Waterfall development model, in which phase is SYSTEM testing primarily performed?" },
     options: [
       { id: "a", text: { es: "Durante la fase de requisitos", en: "During the requirements phase" } },
@@ -543,7 +547,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q30",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: ANALYSIS,
     question: { es: "El código de un módulo tiene el siguiente flujo: una condición IF con dos ramas (VERDADERO/FALSO). Si solo probamos la rama VERDADERO, ¿qué cobertura de SENTENCIA obtenemos si todas las sentencias están en la rama verdadera?", en: "A module's code has the following flow: an IF condition with two branches (TRUE/FALSE). If we only test the TRUE branch, what STATEMENT coverage do we get if all statements are in the true branch?" },
     options: [
       { id: "a", text: { es: "0%", en: "0%" } },
@@ -561,7 +565,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q31",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: ANALYSIS,
     question: { es: "Un sistema de cajero automático (ATM) tiene los estados: Inactivo, Leyendo Tarjeta, Validando PIN, Menú Principal. ¿Qué técnica es más apropiada para probar este sistema?", en: "An ATM system has states: Idle, Reading Card, Validating PIN, Main Menu. Which technique is most appropriate to test this system?" },
     options: [
       { id: "a", text: { es: "Partición de equivalencia", en: "Equivalence partitioning" } },
@@ -579,7 +583,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q32",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: MGMT,
     question: { es: "¿Cuál de las siguientes actividades forma parte de la PLANIFICACIÓN de pruebas?", en: "Which of the following activities is part of test PLANNING?" },
     options: [
       { id: "a", text: { es: "Ejecutar los casos de prueba y registrar resultados", en: "Execute test cases and record results" } },
@@ -597,7 +601,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q33",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: FUND,
     question: { es: "Según la regla del clustering de defectos (Principio 4), ¿qué implica para la estrategia de testing?", en: "According to the defect clustering principle (Principle 4), what does it imply for the testing strategy?" },
     options: [
       { id: "a", text: { es: "Se deben probar igualmente todos los módulos del sistema", en: "All system modules should be tested equally" } },
@@ -615,7 +619,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q34",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: STATIC,
     question: { es: "¿Qué tipo de revisión es guiada por el AUTOR del documento que se revisa?", en: "What type of review is guided by the AUTHOR of the document being reviewed?" },
     options: [
       { id: "a", text: { es: "Inspección formal", en: "Formal inspection" } },
@@ -633,7 +637,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q35",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: ANALYSIS,
     question: { es: "¿Cuál de las siguientes es una técnica basada en EXPERIENCIA del tester?", en: "Which of the following is an EXPERIENCE-BASED tester technique?" },
     options: [
       { id: "a", text: { es: "Partición de equivalencia", en: "Equivalence partitioning" } },
@@ -651,7 +655,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q36",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: MGMT,
     question: { es: "¿Cuál es el propósito de un INFORME DE DEFECTO?", en: "What is the purpose of a DEFECT REPORT?" },
     options: [
       { id: "a", text: { es: "Documentar el plan de pruebas del proyecto", en: "Document the project test plan" } },
@@ -669,7 +673,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q37",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: SDLC,
     question: { es: "¿Cuál de los siguientes afirmaciones sobre el modelo de SDLC en desarrollo ágil es CORRECTA?", en: "Which statement about the SDLC model in agile development is CORRECT?" },
     options: [
       { id: "a", text: { es: "El testing solo se realiza al final de cada sprint", en: "Testing is only done at the end of each sprint" } },
@@ -687,7 +691,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q38",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: ANALYSIS,
     question: { es: "Para un campo que acepta FECHAS con el formato DD/MM/AAAA, ¿qué casos de prueba de BVA (2 valores) incluirías para el DÍA?", en: "For a field accepting DATES in DD/MM/YYYY format, what BVA (2-value) test cases would you include for the DAY?" },
     options: [
       { id: "a", text: { es: "0, 1, 28, 31, 32", en: "0, 1, 28, 31, 32" } },
@@ -705,7 +709,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q39",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: FUND,
     question: { es: "¿Cuál de los siguientes es el mejor ejemplo de 'testing que depende del contexto' (Principio 6)?", en: "Which of the following is the best example of 'context-dependent testing' (Principle 6)?" },
     options: [
       { id: "a", text: { es: "Siempre usar las mismas técnicas de testing en todos los proyectos", en: "Always using the same testing techniques on all projects" } },
@@ -723,7 +727,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q40",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: ANALYSIS,
     question: { es: "¿Qué es ATDD (Acceptance Test-Driven Development)?", en: "What is ATDD (Acceptance Test-Driven Development)?" },
     options: [
       { id: "a", text: { es: "Una técnica donde los desarrolladores escriben pruebas unitarias antes del código", en: "A technique where developers write unit tests before code" } },
@@ -741,7 +745,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q41",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: SDLC,
     question: { es: "¿Cuál es la principal diferencia entre pruebas de componente y pruebas de integración?", en: "What is the main difference between component testing and integration testing?" },
     options: [
       { id: "a", text: { es: "Las pruebas de componente verifican módulos individuales aislados; las de integración verifican la interacción entre componentes", en: "Component testing verifies individual modules in isolation; integration testing verifies interaction between components" } },
@@ -759,7 +763,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q42",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: SDLC,
     question: { es: "En un modelo en V, ¿con qué fase de desarrollo se corresponden las pruebas de sistema?", en: "In a V-model, which development phase corresponds to system testing?" },
     options: [
       { id: "a", text: { es: "Diseño de componentes", en: "Component design" } },
@@ -777,7 +781,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q43",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: SDLC,
     question: { es: "¿Cuál de los siguientes es un tipo de prueba NO FUNCIONAL?", en: "Which of the following is a NON-FUNCTIONAL test type?" },
     options: [
       { id: "a", text: { es: "Prueba de regresión", en: "Regression testing" } },
@@ -795,7 +799,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q44",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: STATIC,
     question: { es: "¿Cuál de los siguientes beneficios es EXCLUSIVO del testing estático frente al testing dinámico?", en: "Which of the following benefits is EXCLUSIVE to static testing compared to dynamic testing?" },
     options: [
       { id: "a", text: { es: "Puede detectar defectos en artefactos no ejecutables como requisitos o diseños", en: "Can detect defects in non-executable artifacts like requirements or designs" } },
@@ -813,7 +817,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q45",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: STATIC,
     question: { es: "¿Qué rol en una revisión formal es responsable de asegurar que el proceso de revisión siga las pautas definidas?", en: "Which role in a formal review is responsible for ensuring the review process follows defined guidelines?" },
     options: [
       { id: "a", text: { es: "El autor", en: "The author" } },
@@ -831,7 +835,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q46",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: STATIC,
     question: { es: "¿Cuál de las siguientes afirmaciones sobre el análisis estático es CORRECTA?", en: "Which of the following statements about static analysis is CORRECT?" },
     options: [
       { id: "a", text: { es: "El análisis estático requiere ejecutar el código para encontrar defectos", en: "Static analysis requires executing code to find defects" } },
@@ -849,7 +853,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q47",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: TOOLS,
     question: { es: "¿Cuál de los siguientes es un riesgo típico al introducir herramientas de automatización de pruebas en un equipo?", en: "Which of the following is a typical risk when introducing test automation tools to a team?" },
     options: [
       { id: "a", text: { es: "Las herramientas siempre aumentan el número de defectos encontrados", en: "Tools always increase the number of defects found" } },
@@ -867,7 +871,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q48",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: TOOLS,
     question: { es: "¿Qué tipo de herramienta ayuda a los testers a gestionar los casos de prueba, defectos y resultados de ejecución?", en: "What type of tool helps testers manage test cases, defects, and execution results?" },
     options: [
       { id: "a", text: { es: "Herramienta de análisis estático", en: "Static analysis tool" } },
@@ -885,7 +889,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q49",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: TOOLS,
     question: { es: "¿Cuál es el principal criterio para seleccionar una herramienta de testing para un proyecto?", en: "What is the main criterion for selecting a testing tool for a project?" },
     options: [
       { id: "a", text: { es: "Que sea la herramienta más popular del mercado", en: "That it is the most popular tool on the market" } },
@@ -903,7 +907,7 @@ const QUESTIONS: ExamQuestion[] = [
     id: "istqb-q50",
     type: "single_choice",
     difficulty: "medium",
-    moduleIds: ISTQB_MODULE_IDS,
+    moduleIds: TOOLS,
     question: { es: "¿Qué tipo de herramienta se utiliza para medir el porcentaje de código ejercitado durante las pruebas?", en: "What type of tool is used to measure the percentage of code exercised during testing?" },
     options: [
       { id: "a", text: { es: "Herramienta de gestión de defectos", en: "Defect management tool" } },

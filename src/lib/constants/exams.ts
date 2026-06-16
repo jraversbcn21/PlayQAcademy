@@ -7,6 +7,13 @@ import { getModulesForCampus } from "./campuses";
 import { getQuestionsForModules } from "@/lib/exam/scoring";
 import "./examQuestions/module-1";
 import "./examQuestions/istqb";
+import "./examQuestions/istqb-m1";
+import "./examQuestions/istqb-m2";
+import "./examQuestions/istqb-m3";
+import "./examQuestions/istqb-m4";
+import "./examQuestions/istqb-m5";
+import "./examQuestions/istqb-m6";
+import "./examQuestions/istqb-extra";
 import "./examQuestions/qaf-m1";
 import "./examQuestions/qaf-m2";
 import "./examQuestions/qaf-m3";
@@ -119,6 +126,108 @@ export const EXAMS: Exam[] = [
     ],
   },
   {
+    id: "exam-istqb-m1",
+    title: {
+      es: "Dominio del Capítulo 1 — Fundamentos del Testing",
+      en: "Chapter 1 Mastery — Fundamentals of Testing",
+    },
+    description: {
+      es: "Evalúa el Capítulo 1 del syllabus ISTQB CTFL v4.0: objetivos del testing, error/defecto/fallo, los 7 principios y actividades/roles. 10 preguntas, 65% para aprobar.",
+      en: "Test Chapter 1 of the ISTQB CTFL v4.0 syllabus: testing objectives, error/defect/failure, the 7 principles and activities/roles. 10 questions, 65% to pass.",
+    },
+    type: "module",
+    moduleIds: ["istqb-fundamentals"],
+    questionCount: 10,
+    timeLimit: 20 * 60, // 20 minutes
+    passingScore: 65,
+    requiresModuleCompletion: ["istqb-fundamentals"],
+  },
+  {
+    id: "exam-istqb-m2",
+    title: {
+      es: "Dominio del Capítulo 2 — Testing a lo Largo del SDLC",
+      en: "Chapter 2 Mastery — Testing Throughout the SDLC",
+    },
+    description: {
+      es: "Evalúa el Capítulo 2 del syllabus ISTQB CTFL v4.0: modelos de SDLC, niveles y tipos de prueba, confirmación/regresión y mantenimiento. 10 preguntas, 65% para aprobar.",
+      en: "Test Chapter 2 of the ISTQB CTFL v4.0 syllabus: SDLC models, test levels and types, confirmation/regression and maintenance. 10 questions, 65% to pass.",
+    },
+    type: "module",
+    moduleIds: ["istqb-sdlc"],
+    questionCount: 10,
+    timeLimit: 20 * 60, // 20 minutes
+    passingScore: 65,
+    requiresModuleCompletion: ["istqb-sdlc"],
+  },
+  {
+    id: "exam-istqb-m3",
+    title: {
+      es: "Dominio del Capítulo 3 — Testing Estático",
+      en: "Chapter 3 Mastery — Static Testing",
+    },
+    description: {
+      es: "Evalúa el Capítulo 3 del syllabus ISTQB CTFL v4.0: conceptos del testing estático, el proceso de revisión, roles y tipos de revisión. 8 preguntas, 65% para aprobar.",
+      en: "Test Chapter 3 of the ISTQB CTFL v4.0 syllabus: static testing concepts, the review process, roles and review types. 8 questions, 65% to pass.",
+    },
+    type: "module",
+    moduleIds: ["istqb-static-testing"],
+    questionCount: 8,
+    timeLimit: 15 * 60, // 15 minutes
+    passingScore: 65,
+    requiresModuleCompletion: ["istqb-static-testing"],
+  },
+  {
+    id: "exam-istqb-m4",
+    title: {
+      es: "Dominio del Capítulo 4 — Análisis y Diseño de Pruebas",
+      en: "Chapter 4 Mastery — Test Analysis and Design",
+    },
+    description: {
+      es: "Evalúa el Capítulo 4 del syllabus ISTQB CTFL v4.0: técnicas de caja negra, caja blanca y basadas en experiencia/colaboración. 12 preguntas, 65% para aprobar.",
+      en: "Test Chapter 4 of the ISTQB CTFL v4.0 syllabus: black-box, white-box and experience/collaboration-based techniques. 12 questions, 65% to pass.",
+    },
+    type: "module",
+    moduleIds: ["istqb-test-analysis"],
+    questionCount: 12,
+    timeLimit: 25 * 60, // 25 minutes
+    passingScore: 65,
+    requiresModuleCompletion: ["istqb-test-analysis"],
+  },
+  {
+    id: "exam-istqb-m5",
+    title: {
+      es: "Dominio del Capítulo 5 — Gestión de Actividades de Prueba",
+      en: "Chapter 5 Mastery — Managing Test Activities",
+    },
+    description: {
+      es: "Evalúa el Capítulo 5 del syllabus ISTQB CTFL v4.0: planificación, criterios de entrada/salida, gestión de riesgos, monitoreo/control y gestión de defectos. 12 preguntas, 65% para aprobar.",
+      en: "Test Chapter 5 of the ISTQB CTFL v4.0 syllabus: planning, entry/exit criteria, risk management, monitoring/control and defect management. 12 questions, 65% to pass.",
+    },
+    type: "module",
+    moduleIds: ["istqb-management"],
+    questionCount: 12,
+    timeLimit: 25 * 60, // 25 minutes
+    passingScore: 65,
+    requiresModuleCompletion: ["istqb-management"],
+  },
+  {
+    id: "exam-istqb-m6",
+    title: {
+      es: "Dominio del Capítulo 6 — Soporte de Herramientas",
+      en: "Chapter 6 Mastery — Tool Support for Testing",
+    },
+    description: {
+      es: "Evalúa el Capítulo 6 del syllabus ISTQB CTFL v4.0: categorías de herramientas de testing y beneficios/riesgos de la automatización. 8 preguntas, 65% para aprobar.",
+      en: "Test Chapter 6 of the ISTQB CTFL v4.0 syllabus: testing tool categories and automation benefits/risks. 8 questions, 65% to pass.",
+    },
+    type: "module",
+    moduleIds: ["istqb-tools"],
+    questionCount: 8,
+    timeLimit: 15 * 60, // 15 minutes
+    passingScore: 65,
+    requiresModuleCompletion: ["istqb-tools"],
+  },
+  {
     id: "exam-istqb-ctfl",
     title: {
       es: "Simulacro ISTQB CTFL v4.0",
@@ -127,6 +236,54 @@ export const EXAMS: Exam[] = [
     description: {
       es: "Simulacro completo de la certificación ISTQB Foundation Level. 40 preguntas cubriendo los 6 capítulos del syllabus v4.0. 60 minutos, 65% para aprobar.",
       en: "Full ISTQB Foundation Level certification mock exam. 40 questions covering all 6 chapters of the v4.0 syllabus. 60 minutes, 65% to pass.",
+    },
+    type: "final",
+    moduleIds: [
+      "istqb-fundamentals",
+      "istqb-sdlc",
+      "istqb-static-testing",
+      "istqb-test-analysis",
+      "istqb-management",
+      "istqb-tools",
+    ],
+    questionCount: 40,
+    timeLimit: 60 * 60, // 60 minutes
+    passingScore: 65,
+    requiresModuleCompletion: [],
+  },
+  {
+    id: "exam-istqb-ctfl-2",
+    title: {
+      es: "Simulacro ISTQB CTFL v4.0 — Set B",
+      en: "ISTQB CTFL v4.0 Mock Exam — Set B",
+    },
+    description: {
+      es: "Segundo simulacro completo de la certificación ISTQB Foundation Level, con una selección distinta de preguntas. 40 preguntas sobre los 6 capítulos del syllabus v4.0. 60 minutos, 65% para aprobar.",
+      en: "Second full ISTQB Foundation Level certification mock exam, with a different question selection. 40 questions across all 6 chapters of the v4.0 syllabus. 60 minutes, 65% to pass.",
+    },
+    type: "final",
+    moduleIds: [
+      "istqb-fundamentals",
+      "istqb-sdlc",
+      "istqb-static-testing",
+      "istqb-test-analysis",
+      "istqb-management",
+      "istqb-tools",
+    ],
+    questionCount: 40,
+    timeLimit: 60 * 60, // 60 minutes
+    passingScore: 65,
+    requiresModuleCompletion: [],
+  },
+  {
+    id: "exam-istqb-ctfl-3",
+    title: {
+      es: "Simulacro ISTQB CTFL v4.0 — Set C",
+      en: "ISTQB CTFL v4.0 Mock Exam — Set C",
+    },
+    description: {
+      es: "Tercer simulacro completo de la certificación ISTQB Foundation Level, con una selección distinta de preguntas. 40 preguntas sobre los 6 capítulos del syllabus v4.0. 60 minutos, 65% para aprobar.",
+      en: "Third full ISTQB Foundation Level certification mock exam, with a different question selection. 40 questions across all 6 chapters of the v4.0 syllabus. 60 minutes, 65% to pass.",
     },
     type: "final",
     moduleIds: [
