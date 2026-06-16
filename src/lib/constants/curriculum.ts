@@ -585,12 +585,13 @@ export const CURRICULUM: CurriculumModule[] = [
     "Static Testing",
     "Revisiones estáticas, tipos de revisiones, beneficios del feedback temprano.",
     "Static reviews, review types, benefits of early feedback.",
-    30,
+    48,
     "intermediate",
     false,
     [
       lesson("istqb-l3-1", "Conceptos básicos del testing estático", "Basic concepts of static testing", "Qué es el testing estático, análisis estático y sus beneficios.", "What is static testing, static analysis and its benefits.", 15),
       lesson("istqb-l3-2", "El proceso de revisión", "The review process", "Tipos de revisión, roles formales y proceso paso a paso.", "Review types, formal roles and step-by-step process.", 15),
+      lesson("istqb-l3-3", "Revisiones efectivas y análisis estático en la práctica", "Effective reviews and static analysis in practice", "Factores de éxito, elección del tipo de revisión y análisis estático en CI/CD.", "Success factors, choosing the review type and static analysis in CI/CD.", 18),
     ]
   ),
 
