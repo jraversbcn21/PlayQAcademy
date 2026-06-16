@@ -2,7 +2,7 @@
 
 ## Project overview
 
-PlayQAcademy is a bilingual (ES/EN) learning platform for software QA professionals, built with Next.js 14 (App Router), TypeScript (strict), Firebase (Auth + Firestore), and Tailwind CSS. The platform organizes content into three active campuses: QA Fundamentals (10 modules, 45 lessons — manual/functional QA from zero to QA Junior), ISTQB CTFL Foundation (6 modules, 21 lessons), and Playwright Automation (8 modules, 44 lessons). Each campus contains modules, each module contains lessons with interactive content (flashcards, quizzes, exercises), and campuses have associated exams. Gamification (points, levels, badges) tracks user progress across all campuses.
+PlayQAcademy is a bilingual (ES/EN) learning platform for software QA professionals, built with Next.js 14 (App Router), TypeScript (strict), Firebase (Auth + Firestore), and Tailwind CSS. The platform organizes content into three active campuses: QA Fundamentals (10 modules, 45 lessons — manual/functional QA from zero to QA Junior), ISTQB CTFL Foundation (6 modules, 24 lessons, 9 exams), and Playwright Automation (8 modules, 44 lessons). Each campus contains modules, each module contains lessons with interactive content (flashcards, quizzes, exercises), and campuses have associated exams. Gamification (points, levels, badges) tracks user progress across all campuses.
 
 ## Branch state
 
@@ -31,6 +31,7 @@ PlayQAcademy is a bilingual (ES/EN) learning platform for software QA profession
   - `1847a5d` feat(theme): rebrand to forest/terra/gold palette with light/dark toggle — renamed `brand.blue/green/orange` → `brand.forest/gold/terra` across 52 files (new 50-900 color scales in `tailwind.config.ts`; `qaFundamentals`=forest, `istqb`=gold, `automation`=terra, matching the new design reference `Care new.jpg`); swapped Inter for Plus Jakarta Sans (`font-sans`, body), added Chakra Petch (`font-display`, hero `<h1>`) and Space Grotesk (`font-heading`, "PlayQ" wordmark + campus card titles), kept JetBrains Mono for code; added a real light/dark theme toggle (`src/components/layout/ThemeToggle.tsx`, sun/moon icon in navbar) defaulting to **light mode** (cream `#fbfaf5`), with a no-flash inline script in `layout.tsx` + `localStorage["theme"]` persistence. Typecheck/lint clean (0/0). See "Visual identity (current)" below for the full palette/typography reference.
 - **Direct-to-main commits after `1847a5d`** (2026-06-16 session):
   - `b1a4ca2` feat(ui): collapsible exams panel on campus page + hero banner image — `CampusPageClient.tsx`: replaced flat 11-button exam grid with a single collapsible toggle (collapsed by default, count badge + chevron animation) so the modules grid is the visual focus; exam chips expand on demand as small pill links. `src/app/[lng]/page.tsx`: added a horizontal hero banner (`public/images/banner.jpg`, `h-52` fixed height, `object-cover`) above the hero title; reduced hero padding `py-20 → py-12` and removed `min-h-[calc(100vh-4rem)]` so the title sits immediately below the banner. Typecheck/lint clean (0/0).
+  - `9078a25` feat(istqb): expand ISTQB campus from 1 exam/21 lessons to **9 exams/24 lessons**, all sources cited. **Phase 1:** added 6 per-module question banks (`istqb-m1..m6.ts`, 72 questions) + 6 module exams (`exam-istqb-m1..m6`); retagged `istqb.ts`'s 50 general questions from all-6-modules to their real chapter (fixes per-module pool pollution under `getQuestionsForModules` `.some()` matching); expanded `istqb-tools` (module 6) from 1 to 3 lessons with sourced `resources` (registered in `curriculum.ts`). **Phase 2:** added `istqb-extra.ts` (22 chapter-tagged, mixed-difficulty questions → simulacro pool 122→144) + 2 mock exams (`exam-istqb-ctfl-2` Set B, `exam-istqb-ctfl-3` Set C; seeded distinct selections, 11-14/40 overlap). Every new bank cites its syllabus chapter; every new resource cites a source. Typecheck/lint clean (0/0); runtime-verified (all 9 exams ready, per-module pools pure, simulacros at 40/35/25 split). See Campus status #2.
 - **Open items:** none blocking. One pending item: live browser test of the `1847a5d` theme toggle (click → dark variant `#0e1814`, reload → persists via `localStorage`) — verified via the dev server's rendered HTML/CSS (correct classes, CSS var values, light-by-default) but not interactively clicked in a browser (no browser automation tool available this session). See "Next development tasks" for backlog.
 
 ## Visual identity (current)
@@ -88,8 +89,13 @@ All items below have been verified by Jorge with his own eyes in the browser. Ev
 ### 2. ISTQB CTFL Foundation (`istqb`)
 - **Status:** active
 - **Modules:** 6 (istqb-fundamentals, istqb-sdlc, istqb-static-testing, istqb-test-analysis, istqb-management, istqb-tools)
-- **Lessons:** 21
-- **Exam:** `exam-istqb-ctfl` — 40 questions, 60 minutes, 65% to pass. Question bank: 50 questions (all medium, 2 points each). **Working and verified.**
+- **Lessons:** 24 — module 6 (`istqb-tools`) expanded from 1 to 3 lessons in `9078a25` (added test-management tools + automation/static-analysis lessons, all with sourced `resources`).
+- **Exams:** 9 (commit `9078a25`):
+  - **6 per-module** `exam-istqb-m1`…`exam-istqb-m6` (8-12 questions, 15-25 min, 65% to pass, gated behind their module). Backed by 6 chapter-specific banks `istqb-m1..m6.ts` (72 questions) plus the retagged general questions; each per-module pool is **pure** (only that chapter's questions).
+  - **3 full mock exams** `exam-istqb-ctfl` (Set A), `exam-istqb-ctfl-2` (Set B), `exam-istqb-ctfl-3` (Set C) — 40 questions, 60 min, 65% to pass, covering all 6 chapters.
+- **Question bank:** 144 general/simulacro questions (`istqb.ts` 50 + `istqb-extra.ts` 22 + the per-module banks, all chapter-tagged) with mixed difficulty. The 3 simulacros draw seeded, distinct selections (11-14/40 overlap between any pair) at a 40/35/25 easy/medium/hard split.
+- **Architecture note:** `istqb.ts`'s 50 questions were retagged from all-6-modules to their real chapter in `9078a25` to stop per-module exams drawing from the whole general pool (`getQuestionsForModules` uses `.some()` matching). The simulacros (moduleIds = all 6) are unaffected.
+- **Sources cited in banks/`resources`:** ISTQB CTFL v4.0 Syllabus + Glossary; Jira/Xray, Azure Test Plans, TestRail, SonarQube, Playwright docs (lesson resources). **Working and verified** (typecheck/lint clean, runtime-verified).
 
 ### 3. Playwright Automation (`automation`)
 - **Status:** active
