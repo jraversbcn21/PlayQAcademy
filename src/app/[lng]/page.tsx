@@ -7,6 +7,7 @@
  * tagline, CTA button, a campus grid, and three feature cards.
  */
 
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
@@ -75,8 +76,24 @@ export default function HomePage() {
 
   return (
     <>
+      {/* ── Banner image ──────────────────────────────────────── */}
+      <section className="px-4 pb-0 pt-8">
+        <div className="container-app">
+          <div className="h-52 overflow-hidden rounded-2xl shadow-lg shadow-brand-forest-500/10 ring-1 ring-[var(--color-border)]">
+            <Image
+              src="/images/banner.jpg"
+              alt="PlayQAcademy — Automation Lab, Bug Tracking Hub, Software Testing Lab, Playwright Learning Center, ISTQB Certification Path, Quality Engineering Workspace"
+              width={1280}
+              height={720}
+              className="h-full w-full object-cover object-center"
+              priority
+            />
+          </div>
+        </div>
+      </section>
+
       {/* ── Hero ──────────────────────────────────────────────── */}
-      <section className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-20">
+      <section className="flex items-center justify-center px-4 py-12">
         <div className="container-app text-center">
           {/* Eyebrow badge */}
           <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-brand-forest-500/10 px-4 py-1.5 text-sm font-semibold text-brand-forest-400">

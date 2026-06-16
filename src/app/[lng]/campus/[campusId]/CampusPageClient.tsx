@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
@@ -19,6 +20,7 @@ export default function CampusPageClient() {
   const lng = (params?.lng as string) ?? "es";
   const campusId = params?.campusId as string;
   const { t } = useTranslation("common");
+  const [showExams, setShowExams] = useState(false);
 
   const campus = getCampusById(campusId);
   const moduleIds = getModulesForCampus(campusId);
@@ -85,39 +87,57 @@ export default function CampusPageClient() {
 
         {exams.length > 0 && (
           <div className="mt-6">
-            <h2 className="mb-3 text-sm font-semibold text-[var(--color-text-secondary)]">
+            <button
+              onClick={() => setShowExams((v) => !v)}
+              className="flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-elevated)] px-4 py-2 text-sm font-semibold text-[var(--color-text-secondary)] transition-colors hover:border-brand-forest-500/40 hover:text-[var(--color-text-primary)]"
+            >
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
               {t("campus.takeExam")}
-            </h2>
-            <div className="flex flex-wrap gap-3">
-              {exams.map((exam) =>
-                isExamReady(exam) ? (
-                  <Link
-                    key={exam.id}
-                    href={`/${lng}/exams/${exam.id}/start`}
-                    className="inline-flex items-center gap-2 rounded-lg bg-brand-forest-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-brand-forest-600"
-                  >
-                    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    {exam.title[lang]}
-                  </Link>
-                ) : (
-                  <span
-                    key={exam.id}
-                    className="inline-flex cursor-not-allowed items-center gap-2 rounded-lg bg-[var(--color-bg-elevated)] px-5 py-2.5 font-semibold text-[var(--color-text-muted)]"
-                    title={t("campus.comingSoon")}
-                  >
-                    <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                    {exam.title[lang]}
-                    <span className="ml-1 rounded-full bg-amber-500/15 px-2 py-0.5 text-xs font-medium text-amber-400">
-                      {t("campus.comingSoon")}
+              <span className="rounded-full bg-brand-forest-500/15 px-2 py-0.5 text-xs font-medium text-brand-forest-400">
+                {exams.length}
+              </span>
+              <svg
+                className={`ml-1 h-4 w-4 transition-transform duration-200 ${showExams ? "rotate-180" : ""}`}
+                fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {showExams && (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {exams.map((exam) =>
+                  isExamReady(exam) ? (
+                    <Link
+                      key={exam.id}
+                      href={`/${lng}/exams/${exam.id}/start`}
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-brand-forest-500/30 bg-brand-forest-500/10 px-3 py-1.5 text-sm font-medium text-brand-forest-400 transition-colors hover:bg-brand-forest-500/20 hover:text-brand-forest-300"
+                    >
+                      <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      {exam.title[lang]}
+                    </Link>
+                  ) : (
+                    <span
+                      key={exam.id}
+                      className="inline-flex cursor-not-allowed items-center gap-1.5 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-elevated)] px-3 py-1.5 text-sm font-medium text-[var(--color-text-muted)]"
+                      title={t("campus.comingSoon")}
+                    >
+                      <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                      </svg>
+                      {exam.title[lang]}
+                      <span className="ml-0.5 rounded-full bg-amber-500/15 px-1.5 py-0.5 text-xs text-amber-400">
+                        {t("campus.comingSoon")}
+                      </span>
                     </span>
-                  </span>
-                ),
-              )}
-            </div>
+                  ),
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>
