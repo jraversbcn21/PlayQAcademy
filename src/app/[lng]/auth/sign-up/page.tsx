@@ -131,7 +131,7 @@ export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
 
     setSubmitting(true);
     try {
-      await signUp(email.trim(), password, displayName.trim());
+      await signUp(email.trim(), password, displayName.trim(), lng);
       router.replace(`/${lng}/dashboard?welcome=1`);
     } catch {
       // Error stored in context

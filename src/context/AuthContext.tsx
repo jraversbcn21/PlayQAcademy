@@ -19,7 +19,10 @@ import {
   signUpWithEmail as fbSignUpWithEmail,
   signOutUser as fbSignOut,
   onAuthStateChange,
+  sendVerificationEmail as fbSendVerificationEmail,
+  reloadCurrentUser as fbReloadCurrentUser,
 } from "@/lib/firebase/auth";
+import { auth } from "@/lib/firebase/config";
 import {
   createUserProfile,
   getUserProfile,
@@ -63,10 +66,18 @@ interface AuthContextValue {
   loading: boolean;
   error: string | null;
   initialized: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string, displayName: string) => Promise<void>;
+  emailVerified: boolean;
+  signIn: (email: string, password: string) => Promise<boolean>;
+  signUp: (
+    email: string,
+    password: string,
+    displayName: string,
+    lng: string
+  ) => Promise<boolean>;
   signOut: () => Promise<void>;
-  signInWithGoogle: () => Promise<void>;
+  signInWithGoogle: () => Promise<boolean>;
+  resendVerification: (lng: string) => Promise<void>;
+  refreshVerification: () => Promise<boolean>;
   clearError: () => void;
 }
 
@@ -88,6 +99,7 @@ export function AuthProvider({ children, lng: _lng }: AuthProviderProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [initialized, setInitialized] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
 
   const clearError = useCallback(() => setError(null), []);
 
@@ -162,9 +174,15 @@ export function AuthProvider({ children, lng: _lng }: AuthProviderProps) {
         if (fbUser) {
           const profile = await syncProfile(fbUser);
           setUser(profile);
-          setAuthCookie();
+          setEmailVerified(fbUser.emailVerified);
+          if (fbUser.emailVerified) {
+            setAuthCookie();
+          } else {
+            removeAuthCookie();
+          }
         } else {
           setUser(null);
+          setEmailVerified(false);
           removeAuthCookie();
         }
       } catch (err) {
@@ -193,7 +211,13 @@ export function AuthProvider({ children, lng: _lng }: AuthProviderProps) {
         // Sync profile and set user immediately — don't wait for onAuthStateChanged
         const profile = await syncProfile(fbUser);
         setUser(profile);
-        setAuthCookie();
+        setEmailVerified(fbUser.emailVerified);
+        if (fbUser.emailVerified) {
+          setAuthCookie();
+        } else {
+          removeAuthCookie();
+        }
+        return fbUser.emailVerified;
       } catch (err) {
         const key = getFirebaseErrorKey(err);
         setError(t(key));
@@ -206,16 +230,27 @@ export function AuthProvider({ children, lng: _lng }: AuthProviderProps) {
   );
 
   const signUp = useCallback(
-    async (email: string, password: string, displayName: string) => {
+    async (
+      email: string,
+      password: string,
+      displayName: string,
+      lng: string
+    ) => {
       clearError();
       setLoading(true);
       try {
         log(`Sign-up attempt: ${email}`);
-        const fbUser = await fbSignUpWithEmail(email, password, displayName);
+        const fbUser = await fbSignUpWithEmail(email, password, displayName, lng);
         log(`Sign-up succeeded for: ${fbUser.uid}`);
         const profile = await syncProfile(fbUser);
         setUser(profile);
-        setAuthCookie();
+        setEmailVerified(fbUser.emailVerified);
+        if (fbUser.emailVerified) {
+          setAuthCookie();
+        } else {
+          removeAuthCookie();
+        }
+        return fbUser.emailVerified;
       } catch (err) {
         const key = getFirebaseErrorKey(err);
         setError(t(key));
@@ -250,7 +285,13 @@ export function AuthProvider({ children, lng: _lng }: AuthProviderProps) {
       log(`Google sign-in succeeded for: ${fbUser.uid}`);
       const profile = await syncProfile(fbUser);
       setUser(profile);
-      setAuthCookie();
+      setEmailVerified(fbUser.emailVerified);
+      if (fbUser.emailVerified) {
+        setAuthCookie();
+      } else {
+        removeAuthCookie();
+      }
+      return fbUser.emailVerified;
     } catch (err) {
       const key = getFirebaseErrorKey(err);
       setError(t(key));
@@ -259,6 +300,26 @@ export function AuthProvider({ children, lng: _lng }: AuthProviderProps) {
       setLoading(false);
     }
   }, [clearError, syncProfile, t]);
+
+  const resendVerification = useCallback(async (lng: string) => {
+    const current = auth?.currentUser;
+    if (!current) return;
+    await fbSendVerificationEmail(current, lng);
+  }, []);
+
+  const refreshVerification = useCallback(async (): Promise<boolean> => {
+    const current = auth?.currentUser;
+    if (!current) return false;
+    await fbReloadCurrentUser(current);
+    const verified = current.emailVerified;
+    setEmailVerified(verified);
+    if (verified) {
+      setAuthCookie();
+    } else {
+      removeAuthCookie();
+    }
+    return verified;
+  }, []);
 
   /* ---------- Safety timeout (prevents infinite spinners) ---------- */
 
@@ -288,10 +349,13 @@ export function AuthProvider({ children, lng: _lng }: AuthProviderProps) {
     loading,
     error,
     initialized,
+    emailVerified,
     signIn,
     signUp,
     signOut,
     signInWithGoogle,
+    resendVerification,
+    refreshVerification,
     clearError,
   };
 
