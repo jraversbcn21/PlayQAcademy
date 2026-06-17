@@ -7,44 +7,60 @@ import { useTranslation } from "@/lib/i18n/client";
 import { verifyEmailWithCode } from "@/lib/firebase/auth";
 import Button from "@/components/ui/Button";
 
-type ActionState = "verifying" | "success" | "error";
+type ActionState = "confirm" | "verifying" | "success" | "error";
 
 function VerifyEmailAction() {
   const { t } = useTranslation("common");
   const { lng } = useParams() as { lng: string };
   const searchParams = useSearchParams();
-  const [state, setState] = useState<ActionState>("verifying");
+  const [state, setState] = useState<ActionState>("confirm");
   const verifyAttempted = useRef(false);
+  const mode = searchParams.get("mode");
+  const oobCode = searchParams.get("oobCode");
 
   useEffect(() => {
-    const mode = searchParams.get("mode");
-    const oobCode = searchParams.get("oobCode");
-
     if (mode !== "verifyEmail" || !oobCode) {
       setState("error");
-      return;
     }
+  }, [mode, oobCode]);
 
-    // Firebase invalidates the oobCode after one use, and React 18 Strict
-    // Mode double-invokes effects in dev — without this guard, the second
-    // invocation reuses the now-consumed code and overwrites a successful
-    // verification with the error state.
-    if (verifyAttempted.current) return;
+  // Verification is gated behind an explicit click rather than firing on
+  // page load: many email clients (Outlook Safe Links, Gmail, corporate
+  // scanners) auto-visit links to scan for malware before the user ever
+  // clicks, which would silently consume the one-time oobCode and make a
+  // genuine click show "invalid/expired" right after a real verification.
+  const handleConfirm = () => {
+    if (!oobCode || verifyAttempted.current) return;
     verifyAttempted.current = true;
+    setState("verifying");
 
-    let cancelled = false;
     verifyEmailWithCode(oobCode)
-      .then(() => {
-        if (!cancelled) setState("success");
-      })
-      .catch(() => {
-        if (!cancelled) setState("error");
-      });
+      .then(() => setState("success"))
+      .catch(() => setState("error"));
+  };
 
-    return () => {
-      cancelled = true;
-    };
-  }, [searchParams]);
+  if (state === "confirm") {
+    return (
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
+        <div className="w-full max-w-md text-center">
+          <h1 className="text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
+            {t("auth.action.confirmTitle")}
+          </h1>
+          <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+            {t("auth.action.confirmMessage")}
+          </p>
+          <Button
+            variant="primary"
+            size="lg"
+            className="mt-8 w-full justify-center"
+            onClick={handleConfirm}
+          >
+            {t("auth.action.confirmButton")}
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   if (state === "verifying") {
     return (

@@ -96,6 +96,9 @@
       "signOutLink": "Sign out and use another account"
     },
     "action": {
+      "confirmTitle": "Confirm your verification",
+      "confirmMessage": "Click the button to complete your account verification.",
+      "confirmButton": "Verify my account",
       "verifying": "Verifying your email...",
       "successTitle": "Email verified!",
       "successMessage": "Your account has been verified successfully. You can now sign in.",

@@ -96,6 +96,9 @@
       "signOutLink": "Cerrar sesión y usar otra cuenta"
     },
     "action": {
+      "confirmTitle": "Confirma tu verificación",
+      "confirmMessage": "Pulsa el botón para completar la verificación de tu cuenta.",
+      "confirmButton": "Verificar mi cuenta",
       "verifying": "Verificando tu correo...",
       "successTitle": "¡Correo verificado!",
       "successMessage": "Tu cuenta ha sido verificada correctamente. Ya puedes iniciar sesión.",
