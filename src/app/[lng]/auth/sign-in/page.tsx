@@ -46,7 +46,8 @@ interface SignInPageProps {
 export default function SignInPage({ params: { lng } }: SignInPageProps) {
   const { t } = useTranslation("common");
   const router = useRouter();
-  const { user, loading, initialized, error, signIn, signInWithGoogle, clearError } = useAuth();
+  const { user, loading, initialized, error, emailVerified, signIn, signInWithGoogle, clearError } =
+    useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -56,9 +57,9 @@ export default function SignInPage({ params: { lng } }: SignInPageProps) {
   // Redirect if already signed in
   useEffect(() => {
     if (initialized && user) {
-      router.replace(`/${lng}/dashboard`);
+      router.replace(emailVerified ? `/${lng}/dashboard` : `/${lng}/auth/verify-email`);
     }
-  }, [initialized, user, lng, router]);
+  }, [initialized, user, emailVerified, lng, router]);
 
   const displayedError = formError ?? error;
 
@@ -74,8 +75,8 @@ export default function SignInPage({ params: { lng } }: SignInPageProps) {
 
     setSubmitting(true);
     try {
-      await signIn(email.trim(), password);
-      router.replace(`/${lng}/dashboard`);
+      const verified = await signIn(email.trim(), password);
+      router.replace(verified ? `/${lng}/dashboard` : `/${lng}/auth/verify-email`);
     } catch {
       // Error is already stored in context
     } finally {
@@ -88,8 +89,8 @@ export default function SignInPage({ params: { lng } }: SignInPageProps) {
     setFormError(null);
     setSubmitting(true);
     try {
-      await signInWithGoogle();
-      router.replace(`/${lng}/dashboard`);
+      const verified = await signInWithGoogle();
+      router.replace(verified ? `/${lng}/dashboard` : `/${lng}/auth/verify-email`);
     } catch {
       // Error is already stored in context
     } finally {
