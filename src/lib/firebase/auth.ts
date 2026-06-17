@@ -12,12 +12,15 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
+  sendEmailVerification,
+  applyActionCode,
   updateProfile,
   signOut,
   onAuthStateChanged,
   type User,
   type NextOrObserver,
   type Unsubscribe,
+  type ActionCodeSettings,
 } from "firebase/auth";
 import { auth } from "./config";
 
@@ -49,15 +52,37 @@ export async function signInWithEmail(
   return result.user;
 }
 
-/** Create a new account with email + password + display name. */
+/**
+ * Build the actionCodeSettings that route a Firebase email-action link
+ * back into our own /auth/action page instead of Firebase's generic
+ * hosted confirmation page.
+ */
+function buildActionCodeSettings(lng: string): ActionCodeSettings {
+  return {
+    url: `${window.location.origin}/${lng}/auth/action`,
+    handleCodeInApp: true,
+  };
+}
+
+/** Send (or resend) a verification email to the given user. */
+export async function sendVerificationEmail(
+  user: User,
+  lng: string
+): Promise<void> {
+  await sendEmailVerification(user, buildActionCodeSettings(lng));
+}
+
+/** Create a new account with email + password + display name, then send a verification email. */
 export async function signUpWithEmail(
   email: string,
   password: string,
-  displayName: string
+  displayName: string,
+  lng: string
 ): Promise<User> {
   const a = requireAuth();
   const result = await createUserWithEmailAndPassword(a, email, password);
   await updateProfile(result.user, { displayName });
+  await sendVerificationEmail(result.user, lng);
   return result.user;
 }
 
@@ -79,4 +104,15 @@ export function onAuthStateChange(
 export async function sendPasswordReset(email: string): Promise<void> {
   const a = requireAuth();
   await sendPasswordResetEmail(a, email);
+}
+
+/** Reload the given user so emailVerified reflects the latest server state. */
+export async function reloadCurrentUser(user: User): Promise<void> {
+  await user.reload();
+}
+
+/** Apply a Firebase email-action code (e.g. from a verification link) to the account it targets. */
+export async function verifyEmailWithCode(oobCode: string): Promise<void> {
+  const a = requireAuth();
+  await applyActionCode(a, oobCode);
 }
