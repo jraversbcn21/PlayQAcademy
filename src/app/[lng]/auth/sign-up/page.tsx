@@ -79,7 +79,8 @@ interface SignUpPageProps {
 export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
   const { t } = useTranslation("common");
   const router = useRouter();
-  const { user, loading, initialized, error, signUp, signInWithGoogle, clearError } = useAuth();
+  const { user, loading, initialized, error, emailVerified, signUp, signInWithGoogle, clearError } =
+    useAuth();
 
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
@@ -93,9 +94,11 @@ export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
   // Redirect if already signed in
   useEffect(() => {
     if (initialized && user) {
-      router.replace(`/${lng}/dashboard?welcome=1`);
+      router.replace(
+        emailVerified ? `/${lng}/dashboard?welcome=1` : `/${lng}/auth/verify-email`
+      );
     }
-  }, [initialized, user, lng, router]);
+  }, [initialized, user, emailVerified, lng, router]);
 
   const displayedError = formError ?? error;
 
@@ -131,8 +134,10 @@ export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
 
     setSubmitting(true);
     try {
-      await signUp(email.trim(), password, displayName.trim(), lng);
-      router.replace(`/${lng}/dashboard?welcome=1`);
+      const verified = await signUp(email.trim(), password, displayName.trim(), lng);
+      router.replace(
+        verified ? `/${lng}/dashboard?welcome=1` : `/${lng}/auth/verify-email`
+      );
     } catch {
       // Error stored in context
     } finally {
@@ -145,8 +150,10 @@ export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
     setFormError(null);
     setSubmitting(true);
     try {
-      await signInWithGoogle();
-      router.replace(`/${lng}/dashboard?welcome=1`);
+      const verified = await signInWithGoogle();
+      router.replace(
+        verified ? `/${lng}/dashboard?welcome=1` : `/${lng}/auth/verify-email`
+      );
     } catch {
       // Error stored in context
     } finally {
