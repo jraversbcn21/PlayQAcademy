@@ -15,7 +15,7 @@ Each module holds bilingual lessons (flashcards, quizzes, exercises, tables, cal
 ## Conventions & workflow
 
 - **Bilingual everywhere:** every user-facing string is `{ es, en }` (the `Bilingual` type). No empty `"en": ""`, no hydration-flash placeholders.
-- **Direct-to-`main` workflow:** work is committed straight to `main` (no open PRs/branches right now). Earlier work landed via PRs #1–#7 (all merged & deleted) — see git history for detail.
+- **Direct-to-`main` workflow:** work is committed straight to `main` (no open PRs/branches).
 - **Quality gate:** `npm run typecheck` **and** `npm run lint` must both be **0 errors / 0 warnings** before every commit. This is currently the case.
 - **Sync this file:** every feature commit is followed by (or includes) a `docs:` commit that updates AGENTS.md and references the feature hash. AGENTS.md describes the *current* state; git holds the changelog.
 
@@ -29,7 +29,7 @@ Each module holds bilingual lessons (flashcards, quizzes, exercises, tables, cal
 - **Glossary** (`src/lib/constants/glossary.ts`): a flat list tagged by `chapter`; the page derives the chapter list dynamically (`Set + sort`). ISTQB uses bare keys `"1"…"6"`; QA Fundamentals uses `qaf-1…qaf-10`. Section titles live in `CHAPTER_TITLES`. Reachable from the navbar (`nav.glossary`, between Curriculum and Playground, desktop + mobile).
 - **Module locking is OFF** (`ENFORCE_MODULE_LOCKING = false`): no module is ever `"locked"`; unlock logic never crosses campus boundaries.
 - **Module `estimatedMinutes` is a manual value** shown directly in the UI (campus cards, dashboard, learn page) — bump it when you add/remove lessons in a module.
-- **Email/password sign-up requires verification.** `signUpWithEmail` sends a Firebase verification email whose link opens our own `/auth/action` page (`actionCodeSettings.handleCodeInApp = true`); the `auth_token` cookie that `middleware.ts` checks is only set once `emailVerified` is `true`, so unverified accounts are bounced to `/auth/verify-email` (resend with 60s cooldown, auto re-check on tab focus) instead of the dashboard. `/auth/action` requires an explicit "Verificar mi cuenta" click before calling `applyActionCode` — it never fires automatically on page load, since email-client link prescanners (Outlook Safe Links, Gmail) silently visit and consume the one-time code otherwise. Google sign-in is exempt — Firebase marks Google accounts as pre-verified.
+- **Email/password sign-up requires verification.** `signUpWithEmail` sends a Firebase verification email whose link opens our own `/auth/action` page (`actionCodeSettings.handleCodeInApp = true`); the `auth_token` cookie that `middleware.ts` checks is only set once `emailVerified` is `true`, so unverified accounts are bounced to `/auth/verify-email` (resend with 60s cooldown, auto re-check on tab focus) instead of the dashboard. `/auth/action` requires an explicit "Verificar mi cuenta" click before calling `applyActionCode` — it never fires automatically on page load, since email-client link prescanners (Outlook Safe Links, Gmail) silently visit and consume the one-time code otherwise. The validity of `mode`/`oobCode` is checked once in the initial `useState` (not a `useEffect`), so there's no render-then-effect gap that could flip the screen before a real click. If `applyActionCode` rejects a code whose account turns out to already be verified (e.g. a previous attempt consumed it), the page shows an "already verified" state pointing to sign-in instead of the generic invalid-link error. Google sign-in is exempt — Firebase marks Google accounts as pre-verified.
 
 ## Visual identity
 
@@ -77,6 +77,7 @@ Verified by Jorge in the browser; older evidence in `docs/session-log-2026-06-10
 3. **Campus/learn navigation** — campus-relative module numbering (1-6, not global), campus-aware breadcrumbs and unlock logic that never crosses campus boundaries.
 4. **Dashboard "Resume learning"** — resolves to the module actually in progress (last in-progress with completed lessons), not always the first curriculum module.
 5. **QA Fundamentals end-to-end** — local-dev Firebase account: lesson completion awards points + `module_completed` badge; `exam-qaf-final` pass (93%) → results screen → `qaf_certified` unlocks via `BadgeUnlockedModal` and shows on `/badges`.
+6. **Email verification end-to-end** — sign-up → `/auth/verify-email` holding screen → emailed link → `/auth/action` confirm-click → success / already-verified states → sign-in → `/dashboard`; resend button's 60s cooldown countdown; direct navigation to `/dashboard` while unverified bounces to sign-in; Google sign-up skips the verify-email detour entirely.
 
 ## Open items / backlog
 
