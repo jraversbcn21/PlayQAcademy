@@ -84,6 +84,25 @@
       "signInLink": "Iniciar sesión",
       "divider": "o"
     },
+    "verifyEmail": {
+      "title": "Revisa tu correo",
+      "subtitle": "Hemos enviado un enlace de verificación a {{email}}. Haz clic en el enlace para continuar con tu registro.",
+      "checkSpam": "Si no lo ves en unos minutos, revisa la carpeta de spam.",
+      "continueButton": "Ya verifiqué mi email, continuar",
+      "notYetVerified": "Aún no detectamos la verificación. Inténtalo de nuevo en unos segundos.",
+      "resendButton": "Reenviar correo",
+      "resendCooldown": "Reenviar en {{seconds}}s",
+      "resendSuccess": "Correo de verificación reenviado",
+      "signOutLink": "Cerrar sesión y usar otra cuenta"
+    },
+    "action": {
+      "verifying": "Verificando tu correo...",
+      "successTitle": "¡Correo verificado!",
+      "successMessage": "Tu cuenta ha sido verificada correctamente. Ya puedes iniciar sesión.",
+      "errorTitle": "Enlace inválido o caducado",
+      "errorMessage": "Este enlace de verificación ya no es válido. Solicita uno nuevo desde la pantalla de inicio de sesión.",
+      "continueButton": "Ir a iniciar sesión"
+    },
     "errors": {
       "emailInUse": "Este correo ya está registrado",
       "invalidEmail": "Ingresa un correo electrónico válido",

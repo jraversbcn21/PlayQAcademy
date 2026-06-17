@@ -84,6 +84,25 @@
       "signInLink": "Sign in",
       "divider": "or"
     },
+    "verifyEmail": {
+      "title": "Check your email",
+      "subtitle": "We've sent a verification link to {{email}}. Click the link to continue your sign-up.",
+      "checkSpam": "If you don't see it in a few minutes, check your spam folder.",
+      "continueButton": "I've verified my email, continue",
+      "notYetVerified": "We haven't detected the verification yet. Try again in a few seconds.",
+      "resendButton": "Resend email",
+      "resendCooldown": "Resend in {{seconds}}s",
+      "resendSuccess": "Verification email resent",
+      "signOutLink": "Sign out and use another account"
+    },
+    "action": {
+      "verifying": "Verifying your email...",
+      "successTitle": "Email verified!",
+      "successMessage": "Your account has been verified successfully. You can now sign in.",
+      "errorTitle": "Invalid or expired link",
+      "errorMessage": "This verification link is no longer valid. Request a new one from the sign-in screen.",
+      "continueButton": "Go to sign in"
+    },
     "errors": {
       "emailInUse": "This email is already registered",
       "invalidEmail": "Please enter a valid email address",
