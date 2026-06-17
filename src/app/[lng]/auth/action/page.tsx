@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
@@ -14,6 +14,7 @@ function VerifyEmailAction() {
   const { lng } = useParams() as { lng: string };
   const searchParams = useSearchParams();
   const [state, setState] = useState<ActionState>("verifying");
+  const verifyAttempted = useRef(false);
 
   useEffect(() => {
     const mode = searchParams.get("mode");
@@ -23,6 +24,13 @@ function VerifyEmailAction() {
       setState("error");
       return;
     }
+
+    // Firebase invalidates the oobCode after one use, and React 18 Strict
+    // Mode double-invokes effects in dev — without this guard, the second
+    // invocation reuses the now-consumed code and overwrites a successful
+    // verification with the error state.
+    if (verifyAttempted.current) return;
+    verifyAttempted.current = true;
 
     let cancelled = false;
     verifyEmailWithCode(oobCode)
