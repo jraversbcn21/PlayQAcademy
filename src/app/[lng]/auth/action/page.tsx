@@ -60,7 +60,10 @@ function VerifyEmailAction() {
         <p className="mt-2 text-sm text-[var(--color-text-muted)]">
           {state === "success" ? t("auth.action.successMessage") : t("auth.action.errorMessage")}
         </p>
-        <Link href={`/${lng}/auth/sign-in`} className="mt-8 block">
+        <Link
+          href={state === "success" ? `/${lng}/auth/sign-in` : `/${lng}/auth/verify-email`}
+          className="mt-8 block"
+        >
           <Button variant="primary" size="lg" className="w-full justify-center">
             {t("auth.action.continueButton")}
           </Button>
