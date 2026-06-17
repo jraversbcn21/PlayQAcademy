@@ -4,10 +4,14 @@ import { Suspense, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
-import { verifyEmailWithCode } from "@/lib/firebase/auth";
+import {
+  verifyEmailWithCode,
+  getCurrentUser,
+  reloadCurrentUser,
+} from "@/lib/firebase/auth";
 import Button from "@/components/ui/Button";
 
-type ActionState = "confirm" | "verifying" | "success" | "error";
+type ActionState = "confirm" | "verifying" | "success" | "alreadyVerified" | "error";
 
 function VerifyEmailAction() {
   const { t } = useTranslation("common");
@@ -34,7 +38,21 @@ function VerifyEmailAction() {
 
     verifyEmailWithCode(oobCode)
       .then(() => setState("success"))
-      .catch(() => setState("error"));
+      .catch(async () => {
+        // A code rejected by Firebase is also what happens when it was
+        // already consumed by an earlier, successful verification (e.g. an
+        // email-client prescan) — check the live account before assuming
+        // the link is genuinely broken.
+        const user = getCurrentUser();
+        if (user) {
+          await reloadCurrentUser(user);
+          if (user.emailVerified) {
+            setState("alreadyVerified");
+            return;
+          }
+        }
+        setState("error");
+      });
   };
 
   if (state === "confirm") {
@@ -73,19 +91,34 @@ function VerifyEmailAction() {
     );
   }
 
+  const copy = {
+    success: {
+      title: "auth.action.successTitle",
+      message: "auth.action.successMessage",
+      href: `/${lng}/auth/sign-in`,
+    },
+    alreadyVerified: {
+      title: "auth.action.alreadyVerifiedTitle",
+      message: "auth.action.alreadyVerifiedMessage",
+      href: `/${lng}/auth/sign-in`,
+    },
+    error: {
+      title: "auth.action.errorTitle",
+      message: "auth.action.errorMessage",
+      href: `/${lng}/auth/verify-email`,
+    },
+  }[state as "success" | "alreadyVerified" | "error"];
+
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
       <div className="w-full max-w-md text-center">
         <h1 className="text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
-          {state === "success" ? t("auth.action.successTitle") : t("auth.action.errorTitle")}
+          {t(copy.title)}
         </h1>
         <p className="mt-2 text-sm text-[var(--color-text-muted)]">
-          {state === "success" ? t("auth.action.successMessage") : t("auth.action.errorMessage")}
+          {t(copy.message)}
         </p>
-        <Link
-          href={state === "success" ? `/${lng}/auth/sign-in` : `/${lng}/auth/verify-email`}
-          className="mt-8 block"
-        >
+        <Link href={copy.href} className="mt-8 block">
           <Button variant="primary" size="lg" className="w-full justify-center">
             {t("auth.action.continueButton")}
           </Button>

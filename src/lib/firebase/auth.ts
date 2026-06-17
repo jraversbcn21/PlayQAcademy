@@ -111,6 +111,11 @@ export async function reloadCurrentUser(user: User): Promise<void> {
   await user.reload();
 }
 
+/** Return the currently signed-in Firebase user, if any (no-op outside the browser). */
+export function getCurrentUser(): User | null {
+  return auth?.currentUser ?? null;
+}
+
 /** Apply a Firebase email-action code (e.g. from a verification link) to the account it targets. */
 export async function verifyEmailWithCode(oobCode: string): Promise<void> {
   const a = requireAuth();

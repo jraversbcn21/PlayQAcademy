@@ -102,6 +102,8 @@
       "verifying": "Verifying your email...",
       "successTitle": "Email verified!",
       "successMessage": "Your account has been verified successfully. You can now sign in.",
+      "alreadyVerifiedTitle": "You're already verified",
+      "alreadyVerifiedMessage": "Your email was already verified. You can sign in now.",
       "errorTitle": "Invalid or expired link",
       "errorMessage": "This verification link is no longer valid. Request a new one from the sign-in screen.",
       "continueButton": "Go to sign in"

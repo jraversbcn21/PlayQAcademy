@@ -102,6 +102,8 @@
       "verifying": "Verificando tu correo...",
       "successTitle": "¡Correo verificado!",
       "successMessage": "Tu cuenta ha sido verificada correctamente. Ya puedes iniciar sesión.",
+      "alreadyVerifiedTitle": "Ya has verificado tu cuenta",
+      "alreadyVerifiedMessage": "Tu correo ya estaba verificado. Puedes iniciar sesión.",
       "errorTitle": "Enlace inválido o caducado",
       "errorMessage": "Este enlace de verificación ya no es válido. Solicita uno nuevo desde la pantalla de inicio de sesión.",
       "continueButton": "Ir a iniciar sesión"
