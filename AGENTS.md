@@ -29,6 +29,7 @@ Each module holds bilingual lessons (flashcards, quizzes, exercises, tables, cal
 - **Glossary** (`src/lib/constants/glossary.ts`): a flat list tagged by `chapter`; the page derives the chapter list dynamically (`Set + sort`). ISTQB uses bare keys `"1"…"6"`; QA Fundamentals uses `qaf-1…qaf-10`. Section titles live in `CHAPTER_TITLES`. Reachable from the navbar (`nav.glossary`, between Curriculum and Playground, desktop + mobile).
 - **Module locking is OFF** (`ENFORCE_MODULE_LOCKING = false`): no module is ever `"locked"`; unlock logic never crosses campus boundaries.
 - **Module `estimatedMinutes` is a manual value** shown directly in the UI (campus cards, dashboard, learn page) — bump it when you add/remove lessons in a module.
+- **Email/password sign-up requires verification.** `signUpWithEmail` sends a Firebase verification email whose link opens our own `/auth/action` page (`actionCodeSettings.handleCodeInApp = true`); the `auth_token` cookie that `middleware.ts` checks is only set once `emailVerified` is `true`, so unverified accounts are bounced to `/auth/verify-email` (resend with 60s cooldown, auto re-check on tab focus) instead of the dashboard. Google sign-in is exempt — Firebase marks Google accounts as pre-verified.
 
 ## Visual identity
 
