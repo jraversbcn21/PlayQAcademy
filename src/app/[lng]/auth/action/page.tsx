@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
@@ -13,16 +13,14 @@ function VerifyEmailAction() {
   const { t } = useTranslation("common");
   const { lng } = useParams() as { lng: string };
   const searchParams = useSearchParams();
-  const [state, setState] = useState<ActionState>("confirm");
-  const verifyAttempted = useRef(false);
-  const mode = searchParams.get("mode");
   const oobCode = searchParams.get("oobCode");
-
-  useEffect(() => {
-    if (mode !== "verifyEmail" || !oobCode) {
-      setState("error");
-    }
-  }, [mode, oobCode]);
+  // Computed once in the initial render (not a useEffect) so there is no
+  // render-then-effect timing gap where the link could be re-validated and
+  // flip the screen to "error" before the user ever clicks the button.
+  const [state, setState] = useState<ActionState>(() =>
+    searchParams.get("mode") === "verifyEmail" && oobCode ? "confirm" : "error"
+  );
+  const verifyAttempted = useRef(false);
 
   // Verification is gated behind an explicit click rather than firing on
   // page load: many email clients (Outlook Safe Links, Gmail, corporate
