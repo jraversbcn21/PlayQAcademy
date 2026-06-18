@@ -426,11 +426,17 @@ export function getAvailableQuestionCount(exam: Exam): number {
 
 /**
  * Whether an exam has enough questions in the bank to be delivered as designed
- * (i.e. it can serve its full `questionCount`). Exams whose question banks do
- * not exist yet (e.g. modules m2–m8) are not ready and should be surfaced as
- * "coming soon" rather than being startable — starting one would otherwise
- * serve fewer questions than promised, or spin forever on an empty pool.
+ * (i.e. it can serve its full `questionCount`) AND every module it claims to
+ * cover actually contributes at least one question. The second check matters
+ * for multi-module exams (midterm/final, mock exams): without it, a handful of
+ * well-stocked modules could push the total over `questionCount` while a
+ * required module still has zero questions, silently dropping it from every
+ * generated attempt despite the exam's description promising full coverage.
  */
 export function isExamReady(exam: Exam): boolean {
-  return getAvailableQuestionCount(exam) >= exam.questionCount;
+  const pool = getQuestionsForModules(exam.moduleIds);
+  if (pool.length < exam.questionCount) return false;
+  return exam.moduleIds.every((moduleId) =>
+    pool.some((q) => q.moduleIds.includes(moduleId)),
+  );
 }
