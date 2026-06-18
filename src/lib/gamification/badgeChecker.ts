@@ -5,7 +5,7 @@
 
 import type { Badge, BadgeCriteria, EarnedBadge } from "@/types/gamification";
 import { BADGES } from "@/lib/constants/badges";
-import { CURRICULUM } from "@/lib/constants/curriculum";
+import { getModulesForCampus } from "@/lib/constants/campuses";
 import { db } from "@/lib/firebase/config";
 import { doc, getDoc, updateDoc, arrayUnion, type DocumentData, type UpdateData } from "firebase/firestore";
 
@@ -91,9 +91,9 @@ function meetsCriteria(criteria: BadgeCriteria, ctx: BadgeCheckContext): boolean
     case "module_completed":
       return ctx.completedModuleIds.includes(criteria.moduleId);
 
-    case "all_modules_completed": {
-      const allIds = CURRICULUM.map((m) => m.id);
-      return allIds.every((id) => ctx.completedModuleIds.includes(id));
+    case "campus_completed": {
+      const moduleIds = getModulesForCampus(criteria.campusId);
+      return moduleIds.length > 0 && moduleIds.every((id) => ctx.completedModuleIds.includes(id));
     }
 
     case "perfect_quizzes":

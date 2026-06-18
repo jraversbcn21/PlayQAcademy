@@ -293,13 +293,13 @@ export const BADGES: Badge[] = [
       en: "PlayQAcademy Graduate",
     },
     description: {
-      es: "Completaste los 8 módulos del curso. ¡Eres un QA Automatizado!",
-      en: "You completed all 8 course modules. You're an Automated QA!",
+      es: "Completaste los 8 módulos del campus de Automatización con Playwright. ¡Eres un QA Automatizado!",
+      en: "You completed all 8 modules of the Playwright Automation campus. You're an Automated QA!",
     },
     icon: "🎓",
     rarity: "legendary",
     points: 500,
-    criteria: { type: "all_modules_completed" },
+    criteria: { type: "campus_completed", campusId: "automation" },
   },
   {
     id: "perfectionist",
@@ -344,7 +344,7 @@ export const BADGES: Badge[] = [
     icon: "📜",
     rarity: "legendary",
     points: 1500,
-    criteria: { type: "all_modules_completed" },
+    criteria: { type: "exam_passed", examId: "exam-final" },
   },
   {
     id: "module_1_exam_passed",

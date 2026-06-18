@@ -15,7 +15,7 @@ export type BadgeRarity = "common" | "rare" | "epic" | "legendary";
 export type BadgeCriteria =
   | { type: "lessons_completed"; count: number }
   | { type: "module_completed"; moduleId: string }
-  | { type: "all_modules_completed" }
+  | { type: "campus_completed"; campusId: string }
   | { type: "perfect_quizzes"; count: number }
   | { type: "streak_days"; days: number }
   | { type: "first_login" }
