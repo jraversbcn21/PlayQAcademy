@@ -12,6 +12,7 @@ import "./examQuestions/module-4";
 import "./examQuestions/module-5";
 import "./examQuestions/module-6";
 import "./examQuestions/module-7";
+import "./examQuestions/module-8";
 import "./examQuestions/istqb";
 import "./examQuestions/istqb-m1";
 import "./examQuestions/istqb-m2";
