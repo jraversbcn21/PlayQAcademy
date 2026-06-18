@@ -8,6 +8,7 @@ import { getQuestionsForModules } from "@/lib/exam/scoring";
 import "./examQuestions/module-1";
 import "./examQuestions/module-2";
 import "./examQuestions/module-3";
+import "./examQuestions/module-4";
 import "./examQuestions/istqb";
 import "./examQuestions/istqb-m1";
 import "./examQuestions/istqb-m2";
