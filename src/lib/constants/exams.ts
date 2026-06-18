@@ -6,6 +6,8 @@ import type { Exam } from "@/types/exam";
 import { getModulesForCampus } from "./campuses";
 import { getQuestionsForModules } from "@/lib/exam/scoring";
 import "./examQuestions/module-1";
+import "./examQuestions/module-2";
+import "./examQuestions/module-3";
 import "./examQuestions/istqb";
 import "./examQuestions/istqb-m1";
 import "./examQuestions/istqb-m2";
