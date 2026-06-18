@@ -65,7 +65,7 @@ Each module holds bilingual lessons (flashcards, quizzes, exercises, tables, cal
 ### 3. Playwright Automation (`automation`) — active
 - **Modules:** 8 (`m1-typescript-foundations` … `m8-cicd-reporting`).
 - **Lessons:** 41 (m1-m8 total).
-- **Exams:** 4 defined (`exam-module-1`, `exam-module-2-3`, `exam-midterm`, `exam-final`); `exam-module-1` (25 q) and `exam-module-2-3` (25 q, banks `module-2.ts` + `module-3.ts`, tagged single-module each to stay pure for future per-module exams) have banks. `exam-midterm` and `exam-final` remain gated "Coming Soon" via `isExamReady` until m4-m8 banks exist.
+- **Exams:** 4 defined (`exam-module-1`, `exam-module-2-3`, `exam-midterm`, `exam-final`). Question banks exist for `m1`-`m4` (`module-1.ts`…`module-4.ts`, each tagged single-module to stay pure for future per-module exams), giving a combined pool of 75 questions across those 4 modules. `exam-module-1` (25 q), `exam-module-2-3` (25 q), and `exam-midterm` (needs m1-m4, 40 q) are all ready. `exam-final` (needs m1-m8, 60 q) remains gated "Coming Soon" via `isExamReady` until m5-m8 banks exist too.
 - **Badges:** module-completion badges for `m1`…`m3` + `automation_master`; `module_1_exam_passed` (🥇 rare/150 → `exam-module-1`).
 
 ## Verified in browser (evidence — do not reopen)
