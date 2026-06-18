@@ -404,11 +404,11 @@
     },
     "certification": {
       "title": "Camino a la certificación",
-      "subtitle": "Cada campus tiene su propio examen de certificación. Completa los módulos y demuestra tu conocimiento.",
+      "subtitle": "Cada campus combina exámenes por módulo con un examen final de certificación. Completa los módulos y demuestra tu conocimiento.",
       "questions": "{{count}} preguntas",
       "timeLimit": "{{time}} min",
       "passing": "Nota mínima {{percent}}%",
-      "unlocksBadge": "Desbloquea: insignia PlayQ Certified 🏆"
+      "unlocksBadge": "Desbloquea: insignia {{badgeName}} 🏆"
     },
     "whyThis": {
       "title": "Por qué PlayQAcademy",

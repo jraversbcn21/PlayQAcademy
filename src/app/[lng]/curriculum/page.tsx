@@ -4,7 +4,9 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
-import { EXAMS } from "@/lib/constants/exams";
+import { getExamsForCampus } from "@/lib/constants/exams";
+import { getSubCampuses } from "@/lib/constants/campuses";
+import { BADGES } from "@/lib/constants/badges";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import CampusGrid from "@/components/campus/CampusGrid";
@@ -25,6 +27,31 @@ const SKILLS = [
   { key: "testDesign", icon: "🎯" },
 ] as const;
 
+/* ------------------------------------------------------------------ */
+/*  Exam -> badge lookup (only exams with a direct "pass this exam"    */
+/*  badge show an unlock hint; others render none rather than guess)   */
+/* ------------------------------------------------------------------ */
+
+const BADGE_BY_EXAM_ID: Record<string, (typeof BADGES)[number]> = {};
+for (const badge of BADGES) {
+  if (badge.criteria.type === "exam_passed") {
+    BADGE_BY_EXAM_ID[badge.criteria.examId] = badge;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Per-campus accent colors (same forest/gold/terra mapping as        */
+/*  CampusCard.tsx's CAMPUS_TILES)                                     */
+/* ------------------------------------------------------------------ */
+
+const DEFAULT_ACCENT = { badge: "bg-brand-forest-500/20 text-brand-forest-400", heading: "text-brand-forest-400" };
+
+const CAMPUS_ACCENT: Record<string, typeof DEFAULT_ACCENT> = {
+  qaFundamentals: DEFAULT_ACCENT,
+  istqb: { badge: "bg-brand-gold-500/20 text-brand-gold-400", heading: "text-brand-gold-400" },
+  automation: { badge: "bg-brand-terra-500/20 text-brand-terra-400", heading: "text-brand-terra-400" },
+};
+
 /* ================================================================== */
 /*  Page component                                                     */
 /* ================================================================== */
@@ -42,17 +69,24 @@ export default function CurriculumPage() {
     return `curriculum.whyThis.${section}`;
   }
 
-  const examRows = EXAMS.map((exam) => {
-    const lang = lng === "es" ? "es" : "en";
-    return {
-      number: EXAMS.indexOf(exam) + 1,
-      title: exam.title[lang],
-      questionsLabel: t("curriculum.certification.questions", { count: exam.questionCount }),
-      timeLabel: t("curriculum.certification.timeLimit", { time: Math.floor(exam.timeLimit / 60) }),
-      passingLabel: t("curriculum.certification.passing", { percent: exam.passingScore }),
-      isFinal: exam.type === "final",
-    };
-  });
+  const lang = lng === "es" ? "es" : "en";
+
+  const campusExamGroups = getSubCampuses().map((campus) => ({
+    campus,
+    exams: getExamsForCampus(campus.id).map((exam, idx) => {
+      const badge = BADGE_BY_EXAM_ID[exam.id];
+      return {
+        number: idx + 1,
+        title: exam.title[lang],
+        questionsLabel: t("curriculum.certification.questions", { count: exam.questionCount }),
+        timeLabel: t("curriculum.certification.timeLimit", { time: Math.floor(exam.timeLimit / 60) }),
+        passingLabel: t("curriculum.certification.passing", { percent: exam.passingScore }),
+        unlocksBadgeLabel: badge
+          ? t("curriculum.certification.unlocksBadge", { badgeName: badge.name[lang] })
+          : null,
+      };
+    }),
+  }));
 
   return (
     <>
@@ -131,29 +165,42 @@ export default function CurriculumPage() {
           <p className="mx-auto mb-12 max-w-2xl text-center text-[var(--color-text-secondary)]">
             {t("curriculum.certification.subtitle")}
           </p>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {examRows.map((exam) => (
-              <div key={exam.number} className="flex-1">
-                <Card variant="achievement" className="relative h-full">
-                  <div className="mb-4 flex items-center gap-3">
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-forest-500/20 text-sm font-bold text-brand-forest-400">
-                      {exam.number}
-                    </span>
-                    <h3 className="text-sm font-semibold text-[var(--color-text-primary)]">{exam.title}</h3>
+          <div className="space-y-12">
+            {campusExamGroups.map(({ campus, exams }) => {
+              if (exams.length === 0) return null;
+              const accent = CAMPUS_ACCENT[campus.id] ?? DEFAULT_ACCENT;
+              return (
+                <div key={campus.id}>
+                  <h3 className={`mb-6 text-lg font-semibold ${accent.heading}`}>
+                    {campus.title[lang] ?? campus.title.en}
+                  </h3>
+                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {exams.map((exam) => (
+                      <div key={exam.number} className="flex-1">
+                        <Card variant="achievement" className="relative h-full">
+                          <div className="mb-4 flex items-center gap-3">
+                            <span className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${accent.badge}`}>
+                              {exam.number}
+                            </span>
+                            <h4 className="text-sm font-semibold text-[var(--color-text-primary)]">{exam.title}</h4>
+                          </div>
+                          <div className="space-y-2 text-sm text-[var(--color-text-secondary)]">
+                            <p>{exam.questionsLabel}</p>
+                            <p>{exam.timeLabel}</p>
+                            <p>{exam.passingLabel}</p>
+                          </div>
+                          {exam.unlocksBadgeLabel && (
+                            <p className="mt-4 rounded-lg bg-brand-forest-500/10 px-3 py-2 text-sm font-medium text-brand-forest-400">
+                              {exam.unlocksBadgeLabel}
+                            </p>
+                          )}
+                        </Card>
+                      </div>
+                    ))}
                   </div>
-                  <div className="space-y-2 text-sm text-[var(--color-text-secondary)]">
-                    <p>{exam.questionsLabel}</p>
-                    <p>{exam.timeLabel}</p>
-                    <p>{exam.passingLabel}</p>
-                  </div>
-                  {exam.isFinal && (
-                    <p className="mt-4 rounded-lg bg-brand-forest-500/10 px-3 py-2 text-sm font-medium text-brand-forest-400">
-                      {t("curriculum.certification.unlocksBadge")}
-                    </p>
-                  )}
-                </Card>
-              </div>
-            ))}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
