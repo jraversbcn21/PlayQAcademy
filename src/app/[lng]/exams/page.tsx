@@ -76,8 +76,8 @@ export default function ExamsPage({ params: { lng } }: ExamsPageProps) {
           ))}
         </div>
 
-        {/* Campus pill row */}
-        <div className="mb-6 flex flex-wrap gap-3">
+        {/* Campus pill row — same grid as the stats row above so columns line up */}
+        <div className="mb-6 grid gap-3 sm:grid-cols-3">
           {campusesWithExams.map(({ campus, exams }) => {
             const isOpen = openCampusId === campus.id;
             return (
@@ -87,22 +87,24 @@ export default function ExamsPage({ params: { lng } }: ExamsPageProps) {
                 onClick={() => setOpenCampusId(isOpen ? null : campus.id)}
                 aria-expanded={isOpen}
                 className={[
-                  "inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-colors",
+                  "flex w-full items-center justify-between gap-2 rounded-lg border px-4 py-3 text-sm font-medium transition-colors",
                   isOpen
                     ? "border-brand-forest-500/30 bg-brand-forest-500/10 text-brand-forest-400"
                     : "border-[var(--color-border)] bg-[var(--color-bg-elevated)] text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]",
                 ].join(" ")}
               >
-                {campus.title[lng as "es" | "en"] ?? campus.title.en}
-                <span className="rounded-full bg-brand-forest-500/15 px-2 py-0.5 text-xs font-medium text-brand-forest-400">
-                  {exams.length}
+                <span>{campus.title[lng as "es" | "en"] ?? campus.title.en}</span>
+                <span className="flex items-center gap-2">
+                  <span className="rounded-full bg-brand-forest-500/15 px-2 py-0.5 text-xs font-medium text-brand-forest-400">
+                    {exams.length}
+                  </span>
+                  <svg
+                    className={`h-4 w-4 shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                    fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
                 </span>
-                <svg
-                  className={`h-4 w-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-                  fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
               </button>
             );
           })}
