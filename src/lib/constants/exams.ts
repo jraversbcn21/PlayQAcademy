@@ -10,6 +10,7 @@ import "./examQuestions/module-2";
 import "./examQuestions/module-3";
 import "./examQuestions/module-4";
 import "./examQuestions/module-5";
+import "./examQuestions/module-6";
 import "./examQuestions/istqb";
 import "./examQuestions/istqb-m1";
 import "./examQuestions/istqb-m2";
