@@ -33,6 +33,7 @@ export default function ExamsPage({ params: { lng } }: ExamsPageProps) {
   const { user, loading: authLoading } = useAuth();
   const { isModuleUnlocked } = useProgress(user?.uid);
   const [history, setHistory] = useState<ExamAttempt[]>([]);
+  const [openCampusId, setOpenCampusId] = useState<string | null>(null);
 
   useEffect(() => {
     if (user) getExamHistory(user.uid).then(setHistory);
@@ -44,6 +45,12 @@ export default function ExamsPage({ params: { lng } }: ExamsPageProps) {
 
   const passedCount = history.filter((a) => a.passed).length;
   const avgScore = history.length > 0 ? Math.round(history.reduce((s, a) => s + a.score, 0) / history.length) : 0;
+
+  const campusesWithExams = getSubCampuses()
+    .map((campus) => ({ campus, exams: getExamsForCampus(campus.id) }))
+    .filter(({ exams }) => exams.length > 0);
+
+  const openEntry = campusesWithExams.find(({ campus }) => campus.id === openCampusId);
 
   return (
     <div className="px-4 py-8">
@@ -69,86 +76,111 @@ export default function ExamsPage({ params: { lng } }: ExamsPageProps) {
           ))}
         </div>
 
-        {/* Exams grouped by campus */}
-        <div className="space-y-10">
-          {getSubCampuses().map((campus) => {
-            const campusExams = getExamsForCampus(campus.id);
-            if (campusExams.length === 0) return null;
-
+        {/* Campus pill row */}
+        <div className="mb-6 flex flex-wrap gap-3">
+          {campusesWithExams.map(({ campus, exams }) => {
+            const isOpen = openCampusId === campus.id;
             return (
-              <section key={campus.id}>
-                <div className="mb-4 flex items-center justify-between gap-3">
-                  <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
-                    {campus.title[lng as "es" | "en"] ?? campus.title.en}
-                  </h2>
-                  <Link
-                    href={`/${lng}/campus/${campus.id}`}
-                    className="shrink-0 text-sm font-medium text-brand-forest-400 hover:underline"
-                  >
-                    {lng === "es" ? "Ver campus →" : "View campus →"}
-                  </Link>
-                </div>
-                <div className="space-y-4">
-                  {campusExams.map((exam) => {
-                    const ready = isExamReady(exam);
-                    const isLocked = exam.requiresModuleCompletion.some((mid) => !isModuleUnlocked(mid));
-                    const bestAttempt = history
-                      .filter((a) => a.examId === exam.id)
-                      .sort((a, b) => b.score - a.score)[0];
-
-                    const title = exam.title[lng as "es" | "en"] ?? exam.title.en;
-                    const desc = exam.description[lng as "es" | "en"] ?? exam.description.en;
-
-                    return (
-                      <div
-                        key={exam.id}
-                        className={[
-                          "rounded-xl border bg-[var(--color-bg-secondary)] p-5 transition-shadow hover:shadow-md",
-                          isLocked || !ready ? "border-[var(--color-border)] opacity-70" : "border-[var(--color-border)]",
-                        ].join(" ")}
-                      >
-                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                          <div className="flex-1">
-                            <div className="mb-2 flex items-center gap-2">
-                              <Badge variant={exam.type === "final" ? "error" : exam.type === "midterm" ? "warning" : "info"} size="sm">
-                                {exam.type}
-                              </Badge>
-                              {!ready && <Badge variant="warning" size="sm">{lng === "es" ? "Próximamente" : "Coming Soon"}</Badge>}
-                              {ready && isLocked && <Badge variant="locked" size="sm">{lng === "es" ? "Bloqueado" : "Locked"}</Badge>}
-                            </div>
-                            <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">{title}</h3>
-                            <p className="mt-1 text-sm text-[var(--color-text-muted)]">{desc}</p>
-                            <div className="mt-2 flex flex-wrap gap-3 text-xs text-[var(--color-text-muted)]">
-                              <span>{exam.questionCount} {lng === "es" ? "preguntas" : "questions"}</span>
-                              <span>{fmtTime(exam.timeLimit)} min</span>
-                              <span>{lng === "es" ? "Nota de corte:" : "Pass:"} {exam.passingScore}%</span>
-                            </div>
-                            {bestAttempt && (
-                              <p className="mt-2 text-xs font-medium text-brand-gold-400">
-                                {lng === "es" ? "Mejor puntuación:" : "Best score:"} {bestAttempt.score}% {bestAttempt.passed ? "✓" : ""}
-                              </p>
-                            )}
-                          </div>
-                          {!ready ? (
-                            <Badge variant="warning" size="md">{lng === "es" ? "Próximamente" : "Coming Soon"}</Badge>
-                          ) : isLocked ? (
-                            <Badge variant="locked" size="md">{lng === "es" ? "Bloqueado" : "Locked"}</Badge>
-                          ) : (
-                            <Link href={`/${lng}/exams/${exam.id}/start`}>
-                              <Button variant="primary" className="!bg-brand-terra-500 hover:!bg-brand-terra-400">
-                                {lng === "es" ? "Comenzar" : "Start"}
-                              </Button>
-                            </Link>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </section>
+              <button
+                key={campus.id}
+                type="button"
+                onClick={() => setOpenCampusId(isOpen ? null : campus.id)}
+                aria-expanded={isOpen}
+                className={[
+                  "inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-colors",
+                  isOpen
+                    ? "border-brand-forest-500/30 bg-brand-forest-500/10 text-brand-forest-400"
+                    : "border-[var(--color-border)] bg-[var(--color-bg-elevated)] text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]",
+                ].join(" ")}
+              >
+                {campus.title[lng as "es" | "en"] ?? campus.title.en}
+                <span className="rounded-full bg-brand-forest-500/15 px-2 py-0.5 text-xs font-medium text-brand-forest-400">
+                  {exams.length}
+                </span>
+                <svg
+                  className={`h-4 w-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                  fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
             );
           })}
         </div>
+
+        {/* Open campus panel */}
+        {openEntry && (
+          <section>
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
+                {openEntry.campus.title[lng as "es" | "en"] ?? openEntry.campus.title.en}
+              </h2>
+              <Link
+                href={`/${lng}/campus/${openEntry.campus.id}`}
+                className="shrink-0 text-sm font-medium text-brand-forest-400 hover:underline"
+              >
+                {lng === "es" ? "Ver campus →" : "View campus →"}
+              </Link>
+            </div>
+            <div className="space-y-4">
+              {openEntry.exams.map((exam) => {
+                const ready = isExamReady(exam);
+                const isLocked = exam.requiresModuleCompletion.some((mid) => !isModuleUnlocked(mid));
+                const bestAttempt = history
+                  .filter((a) => a.examId === exam.id)
+                  .sort((a, b) => b.score - a.score)[0];
+
+                const title = exam.title[lng as "es" | "en"] ?? exam.title.en;
+                const desc = exam.description[lng as "es" | "en"] ?? exam.description.en;
+
+                return (
+                  <div
+                    key={exam.id}
+                    className={[
+                      "rounded-xl border bg-[var(--color-bg-secondary)] p-5 transition-shadow hover:shadow-md",
+                      isLocked || !ready ? "border-[var(--color-border)] opacity-70" : "border-[var(--color-border)]",
+                    ].join(" ")}
+                  >
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                      <div className="flex-1">
+                        <div className="mb-2 flex items-center gap-2">
+                          <Badge variant={exam.type === "final" ? "error" : exam.type === "midterm" ? "warning" : "info"} size="sm">
+                            {exam.type}
+                          </Badge>
+                          {!ready && <Badge variant="warning" size="sm">{lng === "es" ? "Próximamente" : "Coming Soon"}</Badge>}
+                          {ready && isLocked && <Badge variant="locked" size="sm">{lng === "es" ? "Bloqueado" : "Locked"}</Badge>}
+                        </div>
+                        <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">{title}</h3>
+                        <p className="mt-1 text-sm text-[var(--color-text-muted)]">{desc}</p>
+                        <div className="mt-2 flex flex-wrap gap-3 text-xs text-[var(--color-text-muted)]">
+                          <span>{exam.questionCount} {lng === "es" ? "preguntas" : "questions"}</span>
+                          <span>{fmtTime(exam.timeLimit)} min</span>
+                          <span>{lng === "es" ? "Nota de corte:" : "Pass:"} {exam.passingScore}%</span>
+                        </div>
+                        {bestAttempt && (
+                          <p className="mt-2 text-xs font-medium text-brand-gold-400">
+                            {lng === "es" ? "Mejor puntuación:" : "Best score:"} {bestAttempt.score}% {bestAttempt.passed ? "✓" : ""}
+                          </p>
+                        )}
+                      </div>
+                      {!ready ? (
+                        <Badge variant="warning" size="md">{lng === "es" ? "Próximamente" : "Coming Soon"}</Badge>
+                      ) : isLocked ? (
+                        <Badge variant="locked" size="md">{lng === "es" ? "Bloqueado" : "Locked"}</Badge>
+                      ) : (
+                        <Link href={`/${lng}/exams/${exam.id}/start`}>
+                          <Button variant="primary" className="!bg-brand-terra-500 hover:!bg-brand-terra-400">
+                            {lng === "es" ? "Comenzar" : "Start"}
+                          </Button>
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );
