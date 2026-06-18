@@ -21,7 +21,8 @@ export type BadgeCriteria =
   | { type: "first_login" }
   | { type: "exercise_completed"; count: number }
   | { type: "speed_learner"; minutesUnder: number; moduleId: string }
-  | { type: "exam_passed"; examId: string };
+  | { type: "exam_passed"; examId: string }
+  | { type: "all_badges_earned" };
 
 export interface Badge {
   id: string;

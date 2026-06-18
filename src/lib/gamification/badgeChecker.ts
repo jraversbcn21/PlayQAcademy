@@ -54,7 +54,7 @@ export async function checkAndAwardBadges(
 
   for (const badge of BADGES) {
     if (earnedIds.includes(badge.id)) continue;
-    if (!meetsCriteria(badge.criteria, context)) continue;
+    if (!meetsCriteria(badge.criteria, context, earnedIds)) continue;
 
     const earnedAt = new Date().toISOString();
     newEarned.push({ badgeId: badge.id, earnedAt });
@@ -83,7 +83,7 @@ export async function checkAndAwardBadges(
 /*  Criteria evaluator                                                 */
 /* ------------------------------------------------------------------ */
 
-function meetsCriteria(criteria: BadgeCriteria, ctx: BadgeCheckContext): boolean {
+function meetsCriteria(criteria: BadgeCriteria, ctx: BadgeCheckContext, earnedIds: string[]): boolean {
   switch (criteria.type) {
     case "lessons_completed":
       return ctx.totalLessonsCompleted >= criteria.count;
@@ -106,6 +106,12 @@ function meetsCriteria(criteria: BadgeCriteria, ctx: BadgeCheckContext): boolean
       return true; // Always true when checking
 
     case "exercise_completed":
+      // Global count, not campus-scoped. Only correct today because every
+      // "exercise"-type lesson section in the entire curriculum (8) lives in
+      // the Automation campus — see automation_master in badges.ts. If QA
+      // Fundamentals or ISTQB ever add an "exercise" section, this criteria
+      // must be re-scoped (campus_completed shows the pattern) before it
+      // silently stops meaning "all of Automation's exercises".
       return ctx.exerciseCompletedCount >= criteria.count;
 
     case "speed_learner":
@@ -115,6 +121,11 @@ function meetsCriteria(criteria: BadgeCriteria, ctx: BadgeCheckContext): boolean
 
     case "exam_passed":
       return ctx.passedExamIds?.includes(criteria.examId) ?? false;
+
+    case "all_badges_earned": {
+      const otherBadgeIds = BADGES.filter((b) => b.criteria.type !== "all_badges_earned").map((b) => b.id);
+      return otherBadgeIds.every((id) => earnedIds.includes(id));
+    }
 
     default:
       return false;

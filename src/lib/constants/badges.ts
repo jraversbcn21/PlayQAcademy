@@ -273,12 +273,15 @@ export const BADGES: Badge[] = [
       en: "Automation Master",
     },
     description: {
-      es: "Completaste todos los ejercicios prácticos del curso.",
-      en: "You completed all practical exercises in the course.",
+      es: "Completaste los 8 ejercicios prácticos del campus de Automatización con Playwright.",
+      en: "You completed all 8 practical exercises in the Playwright Automation campus.",
     },
     icon: "🤖",
     rarity: "epic",
     points: 300,
+    // Global count, not campus-scoped — see the matching note in
+    // badgeChecker.ts's "exercise_completed" case. 8 is correct today only
+    // because Automation is the only campus with "exercise"-type sections.
     criteria: { type: "exercise_completed", count: 8 },
   },
 
@@ -329,7 +332,7 @@ export const BADGES: Badge[] = [
     icon: "🌟",
     rarity: "legendary",
     points: 1000,
-    criteria: { type: "lessons_completed", count: 44 },
+    criteria: { type: "all_badges_earned" },
   },
   {
     id: "playq_certified",
