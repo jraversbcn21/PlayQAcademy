@@ -8,7 +8,7 @@ PlayQAcademy is a bilingual (ES/EN) learning platform for software QA profession
 |---|---|---|---|---|
 | QA Fundamentals (`qaFundamentals`) | 10 | 45 | 11 | 11 |
 | ISTQB CTFL Foundation (`istqb`) | 6 | 25 | 9 | 15 |
-| Playwright Automation (`automation`) | 8 | 41 | 4 (1 with a bank) | 6 |
+| Playwright Automation (`automation`) | 8 | 41 | 4 | 5 |
 
 Each module holds bilingual lessons (flashcards, quizzes, exercises, tables, callouts…). Campuses have associated exams. Gamification (points, levels, badges, streaks) tracks user progress across all campuses. The global badge catalog is **48** (campus badges above + cross-campus badges: first-login/lesson/quiz/exercise, streaks, perfectionist, etc.).
 
@@ -38,6 +38,7 @@ Each module holds bilingual lessons (flashcards, quizzes, exercises, tables, cal
 - **Typography:** `font-sans` Plus Jakarta Sans (body), `font-display` Chakra Petch (hero `<h1>`), `font-heading` Space Grotesk ("PlayQ" wordmark + campus card titles), `font-mono` JetBrains Mono (code).
 - **Campus tiles** (`CampusCard.tsx` `CAMPUS_TILES`): `qaFundamentals` = forest (book), `istqb` = gold (certificate), `automation` = terra (automation icon).
 - Landing: hero banner (`public/images/banner.jpg`) above the title; campus page has a collapsible exams panel (collapsed by default) so the modules grid is the focus.
+- **Exams page (`/exams`):** single-open horizontal pill accordion, one pill per campus (name + exam count + chevron), `grid gap-3 sm:grid-cols-3` — the **same** grid classes as the stats cards row directly above it, so the two rows' columns line up; changing one without the other will misalign them. Clicking a pill expands that campus's exam list below and collapses any other open one; the page loads with all three collapsed. The per-exam card markup below the open pill (badges, "Comenzar" button, best-score line) is unchanged from before the accordion.
 
 ## Campus status
 
@@ -78,6 +79,7 @@ Verified by Jorge in the browser; older evidence in `docs/session-log-2026-06-10
 4. **Dashboard "Resume learning"** — resolves to the module actually in progress (last in-progress with completed lessons), not always the first curriculum module.
 5. **QA Fundamentals end-to-end** — local-dev Firebase account: lesson completion awards points + `module_completed` badge; `exam-qaf-final` pass (93%) → results screen → `qaf_certified` unlocks via `BadgeUnlockedModal` and shows on `/badges`.
 6. **Email verification end-to-end** — sign-up → `/auth/verify-email` holding screen → emailed link → `/auth/action` confirm-click → success / already-verified states → sign-in → `/dashboard`; resend button's 60s cooldown countdown; direct navigation to `/dashboard` while unverified bounces to sign-in; Google sign-up skips the verify-email detour entirely.
+7. **Exams page accordion** — pills load fully collapsed; clicking one expands its exam list and collapses any other; pill row's columns align exactly with the stats cards row above it.
 
 ## Open items / backlog
 
