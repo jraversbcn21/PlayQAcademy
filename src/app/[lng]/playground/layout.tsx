@@ -32,8 +32,25 @@ interface PlaygroundLayoutProps {
 export default function PlaygroundLayout({ children, params: { lng } }: PlaygroundLayoutProps) {
   const pathname = usePathname();
 
+  const isIndex = pathname === `/${lng}/playground`;
+
   return (
     <div className="min-h-[calc(100vh-4rem)]">
+      {/* Breadcrumb — shown inside an exercise, not on the index */}
+      {!isIndex && (
+        <div className="container-app px-4 pt-4">
+          <nav className="flex items-center gap-1.5 text-xs text-[var(--color-text-muted)]" aria-label="Breadcrumb">
+            <Link href={`/${lng}/playground`} className="hover:text-[var(--color-text-primary)] transition-colors">
+              Playground
+            </Link>
+            <span aria-hidden="true">›</span>
+            <span className="text-[var(--color-text-secondary)]">
+              {lng === "es" ? "Automatización" : "Automation"}
+            </span>
+          </nav>
+        </div>
+      )}
+
       {/* Sub-nav */}
       <div className="sticky top-16 z-30 border-b border-[var(--color-border)] bg-[var(--color-bg-primary)]/90 backdrop-blur-lg">
         <div className="overflow-x-auto scrollbar-hide">
