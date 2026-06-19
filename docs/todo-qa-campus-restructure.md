@@ -16,6 +16,14 @@
 ## Fuera de alcance (ramas separadas, según AGENTS.md)
 Bugs de exámenes (`exam-module-2-3`, `exam-midterm`, `exam-final`, `calculateScore`, rediseño `/exams`), contenido de QA Fundamentals, y los ~45 errores de lint preexistentes.
 
+> **Estado a 2026-06-19 — RESUELTO.** Lo anterior describe el alcance *en el momento* de esta reestructuración; desde entonces estos puntos se arreglaron en commits dedicados, así que **ya no son pendientes**:
+> - Pools de los módulos 2/3 completados → `exam-module-2-3` deliverable (`8d494c7`); `exam-midterm`/`exam-final` con pools de sobra (m1-m8 = 175 preguntas).
+> - `calculateScore` reescrito a modelo equal-weight consistente (`a3ac5af`).
+> - `isExamReady` ahora exige cobertura por módulo, no solo total (`05c2733`).
+> - Los ~45 errores de lint + 13 de typecheck preexistentes corregidos (`26aec48`); `typecheck`/`lint` limpios.
+>
+> Verificación estática (2026-06-19): los **26 exámenes** pasan `isExamReady` (pool ≥ `questionCount` y cada módulo aporta ≥1). Nota menor: `exam-module-2-3` (25/25), `exam-qaf-m1` (10/10) y `exam-qaf-m2` (8/8) tienen margen cero — sirven el pool completo en cada intento (sin variedad en reintentos). Pendiente real: verificación end-to-end en navegador (`AGENTS.md` → Open items). `AGENTS.md` ya refleja todo esto y es la fuente viva.
+
 ---
 
 ## Paso 1 — Abstracción padre + helper de exámenes (riesgo: bajo)
