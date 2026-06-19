@@ -72,7 +72,7 @@ function getFooterColumns(): FooterColumn[] {
       links: [
         { labelKey: "footer.community.github", href: "https://github.com" },
         { labelKey: "footer.community.linkedin", href: "https://linkedin.com" },
-        { labelKey: "footer.community.instagram", href: "https://instagram.com" },
+        { labelKey: "footer.community.instagram", href: "https://instagram.com/qatester.ai" },
       ],
     },
     {
@@ -128,7 +128,7 @@ export default function Footer({ currentLng }: FooterProps) {
               {[
                 { icon: <GitHubIcon />, label: t("footer.community.github"), href: "https://github.com" },
                 { icon: <LinkedInIcon />, label: t("footer.community.linkedin"), href: "https://linkedin.com" },
-                { icon: <InstagramIcon />, label: t("footer.community.instagram"), href: "https://instagram.com" },
+                { icon: <InstagramIcon />, label: t("footer.community.instagram"), href: "https://instagram.com/qatester.ai" },
               ].map(({ icon, label, href }) => (
                 <a
                   key={label}
