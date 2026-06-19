@@ -1,7 +1,7 @@
 /**
  * Exam question bank — Module 2: Playwright Fundamentals.
  *
- * 12 questions (5 easy, 4 medium, 3 hard) covering:
+ * 18 questions (7 easy, 6 medium, 5 hard) covering:
  *   - What is Playwright and why it wins vs Selenium/Cypress
  *   - Installation and first test (npm init playwright@latest)
  *   - The Test Runner: test(), describe(), beforeEach/afterEach, annotations
@@ -339,6 +339,147 @@ export default defineConfig({
     explanation: {
       es: "El catálogo `devices` de Playwright nombra las entradas de escritorio por el navegador que el usuario final reconoce, no por el motor de renderizado interno. Por eso es `devices['Desktop Safari']` — aunque el proyecto se llame `webkit` y el motor sea WebKit, el dispositivo emulado se identifica como 'Desktop Safari', igual que `devices['Desktop Chrome']` se usa para el proyecto chromium.",
       en: "Playwright's `devices` catalog names desktop entries after the end-user-facing browser, not the internal rendering engine. That's why it's `devices['Desktop Safari']` — even though the project is named `webkit` and the engine is WebKit, the emulated device is identified as 'Desktop Safari', just like `devices['Desktop Chrome']` is used for the chromium project.",
+    },
+    points: 3,
+    timeEstimateSeconds: 65,
+  },
+
+  /* ================================================================== */
+  /*  ADDED 2026-06-19 — margin expansion (2 easy, 2 medium, 2 hard)     */
+  /* ================================================================== */
+
+  {
+    id: "m2-e6",
+    type: "single_choice",
+    difficulty: "easy",
+    moduleIds: [M2],
+    question: {
+      es: "¿Qué archivo genera Playwright para centralizar la configuración del proyecto (navegadores, baseURL, reporters, timeouts)?",
+      en: "Which file does Playwright generate to centralize project configuration (browsers, baseURL, reporters, timeouts)?",
+    },
+    options: [
+      { id: "a", text: { es: "playwright.json", en: "playwright.json" } },
+      { id: "b", text: { es: "playwright.config.ts", en: "playwright.config.ts" } },
+      { id: "c", text: { es: "pw.config.js", en: "pw.config.js" } },
+      { id: "d", text: { es: "test.config.ts", en: "test.config.ts" } },
+    ],
+    correctOptionIds: ["b"],
+    explanation: {
+      es: "`playwright.config.ts` es el archivo central de configuración que crea `npm init playwright@latest`. Ahí se definen los `projects` (navegadores), el bloque `use` (baseURL, headless, trace), el `reporter`, los `timeout` y demás opciones globales.",
+      en: "`playwright.config.ts` is the central configuration file created by `npm init playwright@latest`. It defines the `projects` (browsers), the `use` block (baseURL, headless, trace), the `reporter`, `timeout`, and other global options.",
+    },
+    points: 1,
+    timeEstimateSeconds: 25,
+  },
+  {
+    id: "m2-e7",
+    type: "true_false",
+    difficulty: "easy",
+    moduleIds: [M2],
+    question: {
+      es: "El Modo UI de Playwright (`npx playwright test --ui`) permite ejecutar tests de forma interactiva y viajar en el tiempo (time-travel) por cada paso.",
+      en: "Playwright's UI Mode (`npx playwright test --ui`) lets you run tests interactively and time-travel through each step.",
+    },
+    options: [
+      { id: "true", text: { es: "Verdadero", en: "True" } },
+      { id: "false", text: { es: "Falso", en: "False" } },
+    ],
+    correctOptionIds: ["true"],
+    explanation: {
+      es: "Correcto. El Modo UI abre una interfaz donde eliges qué tests ejecutar, ves cada acción paso a paso con snapshots del DOM (time-travel) e inspeccionas localizadores. Es una herramienta de desarrollo/depuración, no para CI.",
+      en: "Correct. UI Mode opens an interface where you pick which tests to run, watch each action step by step with DOM snapshots (time-travel), and inspect locators. It's a development/debugging tool, not for CI.",
+    },
+    points: 1,
+    timeEstimateSeconds: 20,
+  },
+  {
+    id: "m2-m5",
+    type: "single_choice",
+    difficulty: "medium",
+    moduleIds: [M2],
+    question: {
+      es: "Tras clonar un repo con tests de Playwright, `npx playwright test` falla diciendo que faltan los navegadores. ¿Qué comando los descarga?",
+      en: "After cloning a repo with Playwright tests, `npx playwright test` fails saying browsers are missing. Which command downloads them?",
+    },
+    options: [
+      { id: "a", text: { es: "npm install", en: "npm install" } },
+      { id: "b", text: { es: "npx playwright install", en: "npx playwright install" } },
+      { id: "c", text: { es: "npx playwright download", en: "npx playwright download" } },
+      { id: "d", text: { es: "npm run browsers", en: "npm run browsers" } },
+    ],
+    correctOptionIds: ["b"],
+    explanation: {
+      es: "`npx playwright install` descarga los binarios de los navegadores (Chromium, Firefox, WebKit) que Playwright controla. Son independientes de los navegadores de tu sistema y, por su tamaño, no se incluyen en `npm install`.",
+      en: "`npx playwright install` downloads the browser binaries (Chromium, Firefox, WebKit) that Playwright drives. They are independent of your system's browsers and, due to their size, are not included in `npm install`.",
+    },
+    points: 2,
+    timeEstimateSeconds: 40,
+  },
+  {
+    id: "m2-m6",
+    type: "single_choice",
+    difficulty: "medium",
+    moduleIds: [M2],
+    question: {
+      es: "Necesitas sembrar la base de datos UNA sola vez antes de todos los tests de un archivo (operación costosa). ¿Qué hook usas?",
+      en: "You need to seed the database ONCE before all tests in a file (an expensive operation). Which hook do you use?",
+    },
+    options: [
+      { id: "a", text: { es: "test.beforeEach", en: "test.beforeEach" } },
+      { id: "b", text: { es: "test.beforeAll", en: "test.beforeAll" } },
+      { id: "c", text: { es: "test.afterEach", en: "test.afterEach" } },
+      { id: "d", text: { es: "Un test normal colocado al principio", en: "A regular test placed first" } },
+    ],
+    correctOptionIds: ["b"],
+    explanation: {
+      es: "`test.beforeAll` se ejecuta una sola vez antes del primer test del bloque/archivo, ideal para setup costoso compartido (sembrar datos, login de sistema). `test.beforeEach` correría antes de CADA test, repitiendo la operación innecesariamente.",
+      en: "`test.beforeAll` runs once before the first test of the block/file, ideal for shared expensive setup (seeding data, system login). `test.beforeEach` would run before EACH test, repeating the operation unnecessarily.",
+    },
+    points: 2,
+    timeEstimateSeconds: 45,
+  },
+  {
+    id: "m2-h4",
+    type: "single_choice",
+    difficulty: "hard",
+    moduleIds: [M2],
+    question: {
+      es: "Por defecto Playwright ejecuta los archivos de test en paralelo, pero los tests DENTRO de un mismo archivo en serie. ¿Cómo habilitas que los tests de un archivo también corran en paralelo entre sí?",
+      en: "By default Playwright runs test files in parallel, but tests WITHIN a single file serially. How do you enable tests within a file to also run in parallel with each other?",
+    },
+    options: [
+      { id: "a", text: { es: "test.describe.configure({ mode: 'parallel' })", en: "test.describe.configure({ mode: 'parallel' })" } },
+      { id: "b", text: { es: "test.parallel()", en: "test.parallel()" } },
+      { id: "c", text: { es: "Añadir la bandera --parallel-within-file", en: "Add the --parallel-within-file flag" } },
+      { id: "d", text: { es: "No es posible: dentro de un archivo siempre van en serie", en: "It's not possible: within a file they always run serially" } },
+    ],
+    correctOptionIds: ["a"],
+    explanation: {
+      es: "`test.describe.configure({ mode: 'parallel' })` (o `fullyParallel: true` en la config) hace que los tests de un mismo archivo se repartan entre workers y corran en paralelo. Requiere que los tests sean independientes (sin estado compartido), por eso no es el comportamiento por defecto.",
+      en: "`test.describe.configure({ mode: 'parallel' })` (or `fullyParallel: true` in the config) makes tests in the same file spread across workers and run in parallel. It requires the tests to be independent (no shared state), which is why it isn't the default.",
+    },
+    points: 3,
+    timeEstimateSeconds: 70,
+  },
+  {
+    id: "m2-h5",
+    type: "single_choice",
+    difficulty: "hard",
+    moduleIds: [M2],
+    question: {
+      es: "En CI configuras `retries: 2`. Un test falla en el primer intento y pasa en el segundo. ¿Cómo lo reporta Playwright y qué significa?",
+      en: "In CI you set `retries: 2`. A test fails on the first attempt and passes on the second. How does Playwright report it and what does it mean?",
+    },
+    options: [
+      { id: "a", text: { es: "Como 'passed' limpio: el reintento borra cualquier rastro del fallo", en: "As a clean 'passed': the retry erases any trace of the failure" } },
+      { id: "b", text: { es: "Como 'flaky': pasó, pero solo tras reintentar, señal de inestabilidad a investigar", en: "As 'flaky': it passed, but only after retrying — a sign of instability to investigate" } },
+      { id: "c", text: { es: "Como 'failed', porque falló al menos una vez", en: "As 'failed', because it failed at least once" } },
+      { id: "d", text: { es: "Lo reintenta de forma infinita hasta que falle definitivamente", en: "It retries infinitely until it finally fails" } },
+    ],
+    correctOptionIds: ["b"],
+    explanation: {
+      es: "Playwright marca el test como 'flaky' cuando falla y luego pasa dentro de los reintentos. No es un 'passed' limpio: señala inestabilidad (timing, locators ambiguos, dependencias de estado) que conviene investigar, aunque los reintentos eviten romper el pipeline.",
+      en: "Playwright marks the test as 'flaky' when it fails and then passes within the retries. It's not a clean 'passed': it flags instability (timing, ambiguous locators, state dependencies) worth investigating, even though the retries keep the pipeline from breaking.",
     },
     points: 3,
     timeEstimateSeconds: 65,
