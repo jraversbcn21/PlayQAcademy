@@ -53,8 +53,9 @@ export default function PlaygroundLayout({ children, params: { lng } }: Playgrou
         </div>
       )}
 
-      {/* Sub-nav */}
-      <div className="sticky top-16 z-30 border-b border-[var(--color-border)] bg-[var(--color-bg-primary)]/90 backdrop-blur-lg">
+      {/* Sub-nav — hidden on the index, where the campus accordion is the navigator */}
+      {!isIndex && (
+        <div className="sticky top-16 z-30 border-b border-[var(--color-border)] bg-[var(--color-bg-primary)]/90 backdrop-blur-lg">
         <div className="overflow-x-auto scrollbar-hide">
           <nav className="container-app flex gap-1 py-2" role="navigation" aria-label="Playground exercises">
             <Link
@@ -100,7 +101,8 @@ export default function PlaygroundLayout({ children, params: { lng } }: Playgrou
             </Link>
           </nav>
         </div>
-      </div>
+        </div>
+      )}
       {children}
     </div>
   );
