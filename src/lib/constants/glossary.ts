@@ -141,6 +141,64 @@ export const GLOSSARY: GlossaryEntry[] = [
   { term: "'IA para QA' vs 'QA de IA' / 'AI for QA' vs 'QA of AI'", def: { es: "'IA para QA' usa la IA como herramienta para probar mejor; 'QA de IA' consiste en probar sistemas basados en IA.", en: "'AI for QA' uses AI as a tool to test better; 'QA of AI' means testing AI-based systems." }, chapter: "qaf-10" },
   { term: "Revisión humana / Human review", def: { es: "Verificación por parte de una persona del contenido generado por IA antes de usarlo; salvaguarda clave frente a alucinaciones y sesgos.", en: "A person's verification of AI-generated content before use; the key safeguard against hallucinations and bias." }, chapter: "qaf-10" },
   { term: "Dossier de QA / QA dossier", def: { es: "Conjunto de entregables de un proyecto de QA (análisis, casos, ejecución, defectos, informe) reunidos como evidencia del trabajo realizado.", en: "Set of deliverables from a QA project (analysis, cases, execution, defects, report) gathered as evidence of the work done." }, chapter: "qaf-10" },
+
+  /* ---------- Automation — Módulo 1 (TypeScript Foundations) ---------- */
+  { term: "Tipado estático / Static typing", def: { es: "Verificación de tipos en tiempo de compilación que detecta errores en los datos y parámetros de un test antes de ejecutarlo.", en: "Type checking at compile time that catches errors in test data and parameters before running the test." }, chapter: "auto-1" },
+  { term: "Interface (TypeScript)", def: { es: "Contrato que define la forma de un objeto, usado para modelar datos de prueba de forma explícita y verificable.", en: "Contract defining the shape of an object, used to model test data explicitly and verifiably." }, chapter: "auto-1" },
+  { term: "Enum (TypeScript)", def: { es: "Conjunto de valores nombrados y finitos, útil para modelar estados conocidos en los tests (p. ej. estados de un pedido).", en: "Finite set of named values, useful for modeling known states in tests (e.g. order statuses)." }, chapter: "auto-1" },
+  { term: "Async/Await", def: { es: "Sintaxis de JavaScript/TypeScript para escribir código asíncrono de forma secuencial; Playwright la usa para esperar automáticamente a que los elementos estén listos.", en: "JavaScript/TypeScript syntax for writing asynchronous code sequentially; Playwright uses it to automatically wait for elements to be ready." }, chapter: "auto-1" },
+  { term: "Promise", def: { es: "Objeto que representa la finalización (con éxito o error) futura de una operación asíncrona, como una petición de red.", en: "Object representing the future completion (success or failure) of an asynchronous operation, such as a network request." }, chapter: "auto-1" },
+  { term: "Arrow function", def: { es: "Función con sintaxis compacta que no tiene su propio binding de 'this', evitando errores comunes al definir callbacks en los tests.", en: "Function with compact syntax that has no own 'this' binding, avoiding common errors when defining callbacks in tests." }, chapter: "auto-1" },
+
+  /* ---------- Automation — Módulo 2 (Playwright Fundamentals) ---------- */
+  { term: "Playwright", def: { es: "Framework de automatización de pruebas end-to-end de Microsoft, con soporte nativo multi-navegador y auto-waiting.", en: "Microsoft's end-to-end test automation framework, with native multi-browser support and auto-waiting." }, chapter: "auto-2" },
+  { term: "Auto-waiting", def: { es: "Mecanismo por el que Playwright espera automáticamente a que un elemento esté visible, habilitado y estable antes de actuar sobre él.", en: "Mechanism by which Playwright automatically waits for an element to be visible, enabled and stable before acting on it." }, chapter: "auto-2" },
+  { term: "Test runner (Playwright)", def: { es: "Motor que descubre, organiza y ejecuta los archivos de test mediante bloques 'describe', 'test', 'beforeEach' y 'afterEach'.", en: "Engine that discovers, organizes and runs test files via 'describe', 'test', 'beforeEach' and 'afterEach' blocks." }, chapter: "auto-2" },
+  { term: "Modo headless", def: { es: "Ejecución de un navegador sin interfaz gráfica visible; más rápido y el modo por defecto en entornos de CI/CD.", en: "Running a browser without a visible GUI; faster, and the default mode in CI/CD environments." }, chapter: "auto-2" },
+  { term: "Motor de navegador / Browser engine", def: { es: "Cada uno de los tres motores (Chromium, Firefox, WebKit) que Playwright soporta de forma nativa para ejecutar la misma suite de pruebas.", en: "Each of the three engines (Chromium, Firefox, WebKit) that Playwright natively supports for running the same test suite." }, chapter: "auto-2" },
+
+  /* ---------- Automation — Módulo 3 (Locators and Selectors) ---------- */
+  { term: "Locator (Playwright)", def: { es: "Objeto que representa cómo encontrar uno o varios elementos en la página en cualquier momento, sin apuntar a un nodo del DOM fijo.", en: "Object representing how to find one or more elements on the page at any time, without pointing to a fixed DOM node." }, chapter: "auto-3" },
+  { term: "getByRole", def: { es: "Forma de localizar elementos recomendada por Playwright, basada en su rol ARIA implícito o explícito; favorece la accesibilidad.", en: "Playwright's recommended way to locate elements, based on their implicit or explicit ARIA role; favors accessibility." }, chapter: "auto-3" },
+  { term: "getByText / getByLabel / getByPlaceholder", def: { es: "Localizadores que encuentran elementos por su texto visible, su etiqueta o su placeholder, igual que lo haría un usuario real.", en: "Locators that find elements by their visible text, label or placeholder, the same way a real user would." }, chapter: "auto-3" },
+  { term: "Selector CSS/XPath", def: { es: "Mecanismo de localización de bajo nivel basado en la estructura del DOM; se recomienda evitarlo cuando existe una alternativa más semántica.", en: "Low-level locating mechanism based on DOM structure; recommended to avoid when a more semantic alternative exists." }, chapter: "auto-3" },
+  { term: "Encadenamiento de localizadores", def: { es: "Técnica de combinar '.locator().locator()' para acotar la búsqueda de un elemento dentro de otro ya localizado.", en: "Technique of combining '.locator().locator()' to narrow the search for an element within another already-located one." }, chapter: "auto-3" },
+  { term: "Filtrado de localizadores (.filter()/.nth())", def: { es: "Métodos para refinar un conjunto de elementos coincidentes hasta quedarse con uno específico.", en: "Methods for refining a set of matching elements down to one specific element." }, chapter: "auto-3" },
+
+  /* ---------- Automation — Módulo 4 (Actions and Assertions) ---------- */
+  { term: "expect() (Playwright)", def: { es: "Función de aserción que valida el estado esperado de la aplicación: visibilidad, texto, valor o atributos de un elemento.", en: "Assertion function that validates the application's expected state: an element's visibility, text, value or attributes." }, chapter: "auto-4" },
+  { term: "Soft assertion", def: { es: "Aserción ('expect.soft()') que registra un fallo pero permite que el test siga ejecutándose en vez de detenerse en el primer error.", en: "Assertion ('expect.soft()') that records a failure but lets the test keep running instead of stopping at the first error." }, chapter: "auto-4" },
+  { term: "Auto-waiting en aserciones", def: { es: "Comportamiento por el que 'expect()' reintenta automáticamente una condición hasta que se cumple o expira su timeout, sin esperas manuales.", en: "Behavior by which 'expect()' automatically retries a condition until it's met or its timeout expires, with no manual waits." }, chapter: "auto-4" },
+  { term: "fill() vs type()", def: { es: "fill() rellena un campo de una vez; type() simula pulsaciones de teclado una a una, útil para probar autocompletados o validaciones en vivo.", en: "fill() fills a field in one go; type() simulates keystrokes one by one, useful for testing autocomplete or live validation." }, chapter: "auto-4" },
+  { term: "Timeout de aserción", def: { es: "Tiempo máximo que 'expect()' reintenta una condición antes de fallar el test, configurable de forma independiente al timeout de las acciones.", en: "Maximum time 'expect()' retries a condition before failing the test, configurable independently from the action timeout." }, chapter: "auto-4" },
+
+  /* ---------- Automation — Módulo 5 (Page Object Model) ---------- */
+  { term: "Page Object Model (POM)", def: { es: "Patrón de diseño que encapsula los selectores y acciones de una página en una clase reutilizable, separando el 'qué' del 'cómo' en los tests.", en: "Design pattern that encapsulates a page's selectors and actions in a reusable class, separating the 'what' from the 'how' in tests." }, chapter: "auto-5" },
+  { term: "Page class", def: { es: "Clase de TypeScript que representa una página o componente de la aplicación bajo prueba, exponiendo métodos de alto nivel en vez de selectores.", en: "TypeScript class representing a page or component of the application under test, exposing high-level methods instead of raw selectors." }, chapter: "auto-5" },
+  { term: "Composición de Page Objects", def: { es: "Técnica por la que un page object devuelve otro page object, modelando de forma fluida la navegación entre páginas.", en: "Technique by which a page object returns another page object, fluently modeling navigation between pages." }, chapter: "auto-5" },
+  { term: "POM con interfaces de TypeScript", def: { es: "Uso de interfaces para definir contratos claros entre los page objects y los tests que los consumen.", en: "Use of interfaces to define clear contracts between page objects and the tests that consume them." }, chapter: "auto-5" },
+  { term: "Selectores encapsulados", def: { es: "Principio de POM por el que ningún test accede directamente a un selector: siempre pasa por un método del page object.", en: "POM principle by which no test accesses a selector directly: it always goes through a page object method." }, chapter: "auto-5" },
+
+  /* ---------- Automation — Módulo 6 (Configuration and Environments) ---------- */
+  { term: "playwright.config.ts", def: { es: "Archivo central de configuración de un proyecto Playwright: timeout, retries, workers, reporter y proyectos de navegador/dispositivo.", en: "Central configuration file of a Playwright project: timeout, retries, workers, reporter, and browser/device projects." }, chapter: "auto-6" },
+  { term: "Proyecto (Playwright)", def: { es: "Configuración independiente definida en 'playwright.config.ts', típicamente asociada a un navegador o dispositivo concreto.", en: "Independent configuration defined in 'playwright.config.ts', typically tied to a specific browser or device." }, chapter: "auto-6" },
+  { term: "Retries", def: { es: "Número de reintentos automáticos de un test fallido antes de marcarlo como definitivamente fallido; útil para mitigar flakiness en CI.", en: "Number of automatic re-runs of a failed test before marking it as definitively failed; useful for mitigating flakiness in CI." }, chapter: "auto-6" },
+  { term: "Workers", def: { es: "Número de procesos que ejecutan tests en paralelo; más workers reducen el tiempo total de ejecución de la suite.", en: "Number of processes running tests in parallel; more workers reduce the suite's total execution time." }, chapter: "auto-6" },
+  { term: "Variable de entorno (testing)", def: { es: "Valor externo (URL, credenciales, flags) inyectado en tiempo de ejecución, en vez de hardcodeado, para adaptar los tests a cada entorno (dev, staging, prod).", en: "External value (URL, credentials, flags) injected at runtime instead of hardcoded, to adapt tests to each environment (dev, staging, prod)." }, chapter: "auto-6" },
+
+  /* ---------- Automation — Módulo 7 (API Testing with Playwright) ---------- */
+  { term: "APIRequestContext", def: { es: "Cliente HTTP integrado de Playwright para realizar peticiones API directamente, sin necesidad de librerías externas.", en: "Playwright's built-in HTTP client for making API requests directly, without needing external libraries." }, chapter: "auto-7" },
+  { term: "Petición HTTP (GET/POST/PUT/DELETE)", def: { es: "Las cuatro operaciones básicas para interactuar con una API REST, verificables en Playwright junto con sus códigos de estado y cuerpos de respuesta.", en: "The four basic operations for interacting with a REST API, verifiable in Playwright along with their status codes and response bodies." }, chapter: "auto-7" },
+  { term: "Test híbrido UI+API", def: { es: "Test que combina interacciones de interfaz con llamadas API en el mismo flujo, para escenarios end-to-end más rápidos y fiables.", en: "Test that combines UI interactions with API calls in the same flow, for faster and more reliable end-to-end scenarios." }, chapter: "auto-7" },
+  { term: "Mocking de respuestas (route.fulfill())", def: { es: "Técnica para simular la respuesta de un backend con 'route.fulfill()', permitiendo probar escenarios de error sin depender del servidor real.", en: "Technique for simulating a backend's response with 'route.fulfill()', allowing error scenarios to be tested without depending on the real server." }, chapter: "auto-7" },
+  { term: "Código de estado HTTP", def: { es: "Valor numérico (200, 404, 500...) que indica el resultado de una petición API y que se verifica habitualmente en las aserciones del test.", en: "Numeric value (200, 404, 500...) indicating the result of an API request, commonly verified in the test's assertions." }, chapter: "auto-7" },
+
+  /* ---------- Automation — Módulo 8 (CI/CD and Reporting) ---------- */
+  { term: "Pipeline de CI/CD", def: { es: "Flujo automatizado que construye, prueba y despliega una aplicación en cada push o pull request.", en: "Automated flow that builds, tests and deploys an application on every push or pull request." }, chapter: "auto-8" },
+  { term: "HTML Reporter", def: { es: "Informe nativo de Playwright con trazas, capturas de pantalla y vídeos de cada ejecución de test, especialmente útil para depurar fallos.", en: "Playwright's native report with traces, screenshots and videos of each test run, especially useful for debugging failures." }, chapter: "auto-8" },
+  { term: "Trace Viewer", def: { es: "Herramienta para inspeccionar paso a paso la ejecución de un test fallido, incluso cuando se ejecutó en un pipeline de CI.", en: "Tool for inspecting a failed test's execution step by step, even when it ran in a CI pipeline." }, chapter: "auto-8" },
+  { term: "Allure Reporter", def: { es: "Herramienta externa de generación de reportes con histórico de ejecuciones, gráficos de tendencia y categorización de fallos.", en: "External reporting tool with execution history, trend charts and failure categorization." }, chapter: "auto-8" },
+  { term: "GitHub Actions", def: { es: "Servicio de CI/CD integrado en GitHub, usado para ejecutar la suite de tests automáticamente en cada cambio del repositorio.", en: "CI/CD service built into GitHub, used to automatically run the test suite on every repository change." }, chapter: "auto-8" },
 ];
 
 export const CHAPTER_TITLES: Record<string, { es: string; en: string }> = {
@@ -150,14 +208,28 @@ export const CHAPTER_TITLES: Record<string, { es: string; en: string }> = {
   "4": { es: "Análisis y Diseño de Pruebas", en: "Test Analysis and Design" },
   "5": { es: "Gestión de Actividades de Prueba", en: "Managing Test Activities" },
   "6": { es: "Soporte de Herramientas al Testing", en: "Tool Support for Testing" },
-  "qaf-1": { es: "QA Fundamentals — Introducción al QA", en: "QA Fundamentals — Introduction to QA" },
-  "qaf-2": { es: "QA Fundamentals — Calidad de Software", en: "QA Fundamentals — Software Quality" },
-  "qaf-3": { es: "QA Fundamentals — SDLC y STLC", en: "QA Fundamentals — SDLC and STLC" },
-  "qaf-4": { es: "QA Fundamentals — Análisis de Requisitos", en: "QA Fundamentals — Requirements Analysis" },
-  "qaf-5": { es: "QA Fundamentals — Diseño de Casos de Prueba", en: "QA Fundamentals — Test Case Design" },
-  "qaf-6": { es: "QA Fundamentals — Ejecución y Gestión de Defectos", en: "QA Fundamentals — Test Execution and Defect Management" },
-  "qaf-7": { es: "QA Fundamentals — Metodologías Ágiles", en: "QA Fundamentals — Agile Methodologies" },
-  "qaf-8": { es: "QA Fundamentals — Herramientas de QA Manual", en: "QA Fundamentals — Manual QA Tools" },
-  "qaf-9": { es: "QA Fundamentals — Testing Web y Mobile", en: "QA Fundamentals — Web and Mobile Testing" },
-  "qaf-10": { es: "QA Fundamentals — IA aplicada al QA", en: "QA Fundamentals — AI Applied to QA" },
+  "qaf-1": { es: "Introducción al QA", en: "Introduction to QA" },
+  "qaf-2": { es: "Calidad de Software", en: "Software Quality" },
+  "qaf-3": { es: "SDLC y STLC", en: "SDLC and STLC" },
+  "qaf-4": { es: "Análisis de Requisitos", en: "Requirements Analysis" },
+  "qaf-5": { es: "Diseño de Casos de Prueba", en: "Test Case Design" },
+  "qaf-6": { es: "Ejecución y Gestión de Defectos", en: "Test Execution and Defect Management" },
+  "qaf-7": { es: "Metodologías Ágiles", en: "Agile Methodologies" },
+  "qaf-8": { es: "Herramientas de QA Manual", en: "Manual QA Tools" },
+  "qaf-9": { es: "Testing Web y Mobile", en: "Web and Mobile Testing" },
+  "qaf-10": { es: "IA aplicada al QA", en: "AI Applied to QA" },
+  "auto-1": { es: "Fundamentos de TypeScript para QA", en: "TypeScript Foundations for QA" },
+  "auto-2": { es: "Fundamentos de Playwright", en: "Playwright Fundamentals" },
+  "auto-3": { es: "Localizadores y Selectores", en: "Locators and Selectors" },
+  "auto-4": { es: "Acciones y Aserciones", en: "Actions and Assertions" },
+  "auto-5": { es: "Page Object Model", en: "Page Object Model" },
+  "auto-6": { es: "Configuración y Entornos", en: "Configuration and Environments" },
+  "auto-7": { es: "API Testing con Playwright", en: "API Testing with Playwright" },
+  "auto-8": { es: "CI/CD y Reportes", en: "CI/CD and Reporting" },
+};
+
+export const GLOSSARY_CHAPTERS_BY_CAMPUS: Record<string, string[]> = {
+  qaFundamentals: ["qaf-1", "qaf-2", "qaf-3", "qaf-4", "qaf-5", "qaf-6", "qaf-7", "qaf-8", "qaf-9", "qaf-10"],
+  istqb: ["1", "2", "3", "4", "5", "6"],
+  automation: ["auto-1", "auto-2", "auto-3", "auto-4", "auto-5", "auto-6", "auto-7", "auto-8"],
 };
