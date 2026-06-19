@@ -1,37 +1,58 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { useTranslation } from "@/lib/i18n/client";
+import { getSubCampuses } from "@/lib/constants/campuses";
+import {
+  getExercisesForCampus,
+  type PlaygroundExercise,
+  type ExerciseDifficulty,
+} from "@/lib/constants/playground";
 import Badge from "@/components/ui/Badge";
 
 /* ------------------------------------------------------------------ */
-/*  Exercise card data                                                 */
+/*  Exercise card                                                      */
 /* ------------------------------------------------------------------ */
 
-type Difficulty = "beginner" | "intermediate" | "advanced";
+const DIFF_BORDER: Record<ExerciseDifficulty, string> = {
+  beginner: "border-brand-gold-500/30",
+  intermediate: "border-amber-500/30",
+  advanced: "border-red-500/30",
+};
 
-interface ExerciseCardData {
-  href: string;
-  icon: string;
-  titleEs: string;
-  titleEn: string;
-  descEs: string;
-  descEn: string;
-  modules: string[];
-  difficulty: Difficulty;
+const DIFF_BADGE: Record<ExerciseDifficulty, "success" | "warning" | "error"> = {
+  beginner: "success",
+  intermediate: "warning",
+  advanced: "error",
+};
+
+function ExerciseCard({ exercise, lng }: { exercise: PlaygroundExercise; lng: string }) {
+  const title = exercise.title[lng as "es" | "en"] ?? exercise.title.en;
+  const desc = exercise.description[lng as "es" | "en"] ?? exercise.description.en;
+  return (
+    <Link
+      href={`/${lng}${exercise.href}`}
+      className={[
+        "group rounded-xl border bg-[var(--color-bg-secondary)] p-5 transition-all hover:shadow-lg hover:border-brand-forest-500/40",
+        DIFF_BORDER[exercise.difficulty],
+      ].join(" ")}
+    >
+      <div className="mb-3 text-3xl">{exercise.icon}</div>
+      <h3 className="mb-1 text-base font-semibold text-[var(--color-text-primary)] group-hover:text-brand-forest-400 transition-colors">
+        {title}
+      </h3>
+      <p className="mb-3 text-xs leading-relaxed text-[var(--color-text-muted)]">{desc}</p>
+      <div className="flex flex-wrap gap-1.5">
+        {exercise.modules.map((m) => (
+          <Badge key={m} variant="info" size="sm">{m}</Badge>
+        ))}
+        <Badge variant={DIFF_BADGE[exercise.difficulty]} size="sm">
+          {exercise.difficulty}
+        </Badge>
+      </div>
+    </Link>
+  );
 }
-
-const EXERCISE_CARDS: ExerciseCardData[] = [
-  { href: "/playground/login", icon: "🔑", titleEs: "Formulario de Login", titleEn: "Login Form", descEs: "Practica localizadores por rol y label, acciones fill/click y aserciones de URL y visibilidad.", descEn: "Practice role and label locators, fill/click actions, and URL/visibility assertions.", modules: ["M3: Locators", "M4: Actions"], difficulty: "beginner" },
-  { href: "/playground/signup", icon: "📝", titleEs: "Asistente de Registro", titleEn: "Sign Up Wizard", descEs: "Formulario multi-paso con validación por etapa, selectores anidados y navegación condicional.", descEn: "Multi-step form with per-stage validation, nested selectors, and conditional navigation.", modules: ["M3: Locators", "M4: Actions"], difficulty: "intermediate" },
-  { href: "/playground/catalog", icon: "🛍️", titleEs: "Catálogo E-commerce", titleEn: "E-commerce Catalog", descEs: "Filtros combinados, ordenamiento, paginación y localizadores complejos en un grid de productos.", descEn: "Combined filters, sorting, pagination, and complex locators in a product grid.", modules: ["M3: Locators", "M5: POM"], difficulty: "intermediate" },
-  { href: "/playground/cart", icon: "🛒", titleEs: "Carrito de Compras", titleEn: "Shopping Cart", descEs: "Manejo de estado, aserciones de totales, códigos de descuento y estados vacíos.", descEn: "State management, total assertions, discount codes, and empty states.", modules: ["M4: Actions", "M4: Assertions"], difficulty: "intermediate" },
-  { href: "/playground/table", icon: "📊", titleEs: "Tabla de Datos", titleEn: "Data Table", descEs: "Tabla con ordenamiento, filtros, paginación, selección de filas y edición inline.", descEn: "Table with sorting, filtering, pagination, row selection, and inline editing.", modules: ["M3: Locators", "M4: Actions"], difficulty: "advanced" },
-  { href: "/playground/dynamic", icon: "⏳", titleEs: "Contenido Dinámico", titleEn: "Dynamic Content", descEs: "Practica el auto-waiting con spinners, progress bars, delays aleatorios y toasts.", descEn: "Practice auto-waiting with spinners, progress bars, random delays, and toasts.", modules: ["M4: Auto-waiting"], difficulty: "beginner" },
-  { href: "/playground/files", icon: "📁", titleEs: "Subida y Descarga de Archivos", titleEn: "File Upload & Download", descEs: "Ejercicios de file input, drag-and-drop, validación de tipos y descargas.", descEn: "File input exercises, drag-and-drop, type validation, and downloads.", modules: ["M4: Special Actions"], difficulty: "intermediate" },
-  { href: "/playground/frames", icon: "🖼️", titleEs: "iFrames y Popups", titleEn: "iFrames & Popups", descEs: "Navegación entre frames, ventanas emergentes y modales con formularios anidados.", descEn: "Frame switching, popup windows, and modals with nested forms.", modules: ["M4: Frames & Windows"], difficulty: "advanced" },
-  { href: "/playground/api", icon: "🌐", titleEs: "API Playground", titleEn: "API Playground", descEs: "Endpoints REST reales para practicar API testing con Playwright. GET, POST, PUT, DELETE.", descEn: "Real REST endpoints to practice API testing with Playwright. GET, POST, PUT, DELETE.", modules: ["M7: API Testing"], difficulty: "advanced" },
-];
 
 /* ------------------------------------------------------------------ */
 /*  Page                                                               */
@@ -40,7 +61,16 @@ const EXERCISE_CARDS: ExerciseCardData[] = [
 interface PageProps { params: { lng: string } }
 
 export default function PlaygroundHomePage({ params: { lng } }: PageProps) {
-  const { t: _t } = useTranslation("common");
+  const [openCampusId, setOpenCampusId] = useState<string | null>(null);
+
+  const campuses = getSubCampuses().map((campus) => ({
+    campus,
+    exercises: getExercisesForCampus(campus.id),
+  }));
+
+  const openEntry = campuses.find(
+    ({ campus, exercises }) => campus.id === openCampusId && exercises.length > 0
+  );
 
   return (
     <div className="px-4 py-8">
@@ -48,17 +78,17 @@ export default function PlaygroundHomePage({ params: { lng } }: PageProps) {
         {/* Hero */}
         <div className="mb-10 text-center">
           <h1 className="text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
-            {lng === "es" ? "Bienvenido al PlayQ Playground" : "Welcome to the PlayQ Playground"}
+            {lng === "es" ? "Playground QA" : "QA Playground"}
           </h1>
           <p className="mt-2 text-sm text-[var(--color-text-muted)]">
             {lng === "es"
-              ? "Tu laboratorio práctico para escribir tests reales de Playwright"
-              : "Your hands-on lab to write real Playwright tests"}
+              ? "Tu laboratorio práctico de QA"
+              : "Your hands-on QA practice lab"}
           </p>
           <p className="mt-4 max-w-2xl mx-auto text-sm leading-relaxed text-[var(--color-text-secondary)]">
             {lng === "es"
-              ? "Cada sección está diseñada para practicar conceptos específicos del currículum. Ejecuta tus tests de Playwright contra estas páginas desde tu máquina local. Abre la guía de Setup para comenzar."
-              : "Each section is designed to practice specific curriculum concepts. Run your Playwright tests against these pages from your local machine. Open the Setup guide to get started."}
+              ? "Elige un campus y practica conceptos específicos del currículum. Ejecuta tus tests contra estas páginas desde tu máquina local. Abre la guía de Setup para comenzar."
+              : "Pick a campus and practice specific curriculum concepts. Run your tests against these pages from your local machine. Open the Setup guide to get started."}
           </p>
           <div className="mt-6 flex justify-center gap-3">
             <Link href={`/${lng}/playground/setup`}>
@@ -69,39 +99,74 @@ export default function PlaygroundHomePage({ params: { lng } }: PageProps) {
           </div>
         </div>
 
-        {/* Exercise grid */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {EXERCISE_CARDS.map((card) => {
-            const diffColors: Record<Difficulty, string> = { beginner: "border-brand-gold-500/30", intermediate: "border-amber-500/30", advanced: "border-red-500/30" };
+        {/* Campus pill row */}
+        <div className="mb-6 grid gap-3 sm:grid-cols-3">
+          {campuses.map(({ campus, exercises }) => {
+            const hasExercises = exercises.length > 0;
+            const isOpen = hasExercises && openCampusId === campus.id;
+            const title = campus.title[lng as "es" | "en"] ?? campus.title.en;
             return (
-              <Link
-                key={card.href}
-                href={`/${lng}${card.href}`}
+              <button
+                key={campus.id}
+                type="button"
+                disabled={!hasExercises}
+                onClick={() => hasExercises && setOpenCampusId(isOpen ? null : campus.id)}
+                aria-expanded={isOpen}
                 className={[
-                  "group rounded-xl border bg-[var(--color-bg-secondary)] p-5 transition-all hover:shadow-lg",
-                  diffColors[card.difficulty],
-                  "hover:border-brand-forest-500/40",
+                  "flex w-full items-center justify-between gap-2 rounded-lg border px-4 py-3 text-sm font-medium transition-colors",
+                  !hasExercises
+                    ? "cursor-not-allowed border-[var(--color-border)] bg-[var(--color-bg-elevated)] text-[var(--color-text-muted)] opacity-50"
+                    : isOpen
+                      ? "border-brand-forest-500/30 bg-brand-forest-500/10 text-brand-forest-400"
+                      : "border-[var(--color-border)] bg-[var(--color-bg-elevated)] text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]",
                 ].join(" ")}
               >
-                <div className="mb-3 text-3xl">{card.icon}</div>
-                <h3 className="mb-1 text-base font-semibold text-[var(--color-text-primary)] group-hover:text-brand-forest-400 transition-colors">
-                  {lng === "es" ? card.titleEs : card.titleEn}
-                </h3>
-                <p className="mb-3 text-xs leading-relaxed text-[var(--color-text-muted)]">
-                  {lng === "es" ? card.descEs : card.descEn}
-                </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {card.modules.map((m) => (
-                    <Badge key={m} variant="info" size="sm">{m}</Badge>
-                  ))}
-                  <Badge variant={card.difficulty === "beginner" ? "success" : card.difficulty === "intermediate" ? "warning" : "error"} size="sm">
-                    {card.difficulty}
-                  </Badge>
-                </div>
-              </Link>
+                <span className="truncate text-left">{title}</span>
+                <span className="flex shrink-0 items-center gap-2">
+                  {hasExercises ? (
+                    <>
+                      <span className="rounded-full bg-brand-forest-500/15 px-2 py-0.5 text-xs font-medium text-brand-forest-400">
+                        {exercises.length}
+                      </span>
+                      <svg
+                        className={`h-4 w-4 shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                        fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </>
+                  ) : (
+                    <Badge variant="warning" size="sm">
+                      {lng === "es" ? "Próximamente" : "Coming Soon"}
+                    </Badge>
+                  )}
+                </span>
+              </button>
             );
           })}
         </div>
+
+        {/* Open campus panel */}
+        {openEntry && (
+          <section>
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
+                {openEntry.campus.title[lng as "es" | "en"] ?? openEntry.campus.title.en}
+              </h2>
+              <Link
+                href={`/${lng}/campus/${openEntry.campus.id}`}
+                className="shrink-0 text-sm font-medium text-brand-forest-400 hover:underline"
+              >
+                {lng === "es" ? "Ver campus →" : "View campus →"}
+              </Link>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {openEntry.exercises.map((exercise) => (
+                <ExerciseCard key={exercise.href} exercise={exercise} lng={lng} />
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );
