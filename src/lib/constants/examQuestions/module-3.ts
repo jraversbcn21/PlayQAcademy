@@ -1,7 +1,7 @@
 /**
  * Exam question bank — Module 3: Locators and Selectors.
  *
- * 13 questions (5 easy, 5 medium, 3 hard) covering:
+ * 19 questions (8 easy, 7 medium, 4 hard) covering:
  *   - The Locator API: lazy evaluation and strict mode
  *   - getByRole and the { name } option (the recommended, top-priority locator)
  *   - getByText, getByLabel, getByPlaceholder and the preference hierarchy
@@ -343,6 +343,148 @@ const search = page._____();`,
     explanation: {
       es: "Un `<select>` tiene rol ARIA implícito 'combobox', así que `page.getByRole('combobox', { name: 'Sort by' })` es correcto y usa la etiqueta asociada como nombre accesible. Un `<input type='search'>` tiene rol ARIA implícito 'searchbox' — Playwright lo detecta automáticamente sin necesidad de `{ name }` si no hay etiqueta, por lo que `page.getByRole('searchbox')` es la opción más semántica, por encima de CSS o `getByPlaceholder` (que dependería de un texto de placeholder que podría cambiar o no existir).",
       en: "A `<select>` has the implicit ARIA role 'combobox', so `page.getByRole('combobox', { name: 'Sort by' })` is correct and uses the associated label as the accessible name. An `<input type='search'>` has the implicit ARIA role 'searchbox' — Playwright detects it automatically without needing `{ name }` if there's no label, so `page.getByRole('searchbox')` is the most semantic option, ranking above CSS or `getByPlaceholder` (which would depend on placeholder text that could change or not exist).",
+    },
+    points: 3,
+    timeEstimateSeconds: 70,
+  },
+
+  /* ================================================================== */
+  /*  ADDED 2026-06-19 — margin expansion (3 easy, 2 medium, 1 hard)     */
+  /* ================================================================== */
+
+  {
+    id: "m3-e6",
+    type: "single_choice",
+    difficulty: "easy",
+    moduleIds: [M3],
+    question: {
+      es: "Un campo de búsqueda no tiene `<label>` pero muestra el texto 'Buscar productos…' dentro del campo. ¿Qué localizador lo encuentra por ese texto?",
+      en: "A search field has no `<label>` but shows the text 'Search products…' inside the field. Which locator finds it by that text?",
+    },
+    options: [
+      { id: "a", text: { es: "page.getByText('Buscar productos…')", en: "page.getByText('Search products…')" } },
+      { id: "b", text: { es: "page.getByPlaceholder('Buscar productos…')", en: "page.getByPlaceholder('Search products…')" } },
+      { id: "c", text: { es: "page.getByLabel('Buscar productos…')", en: "page.getByLabel('Search products…')" } },
+      { id: "d", text: { es: "page.getByTitle('Buscar productos…')", en: "page.getByTitle('Search products…')" } },
+    ],
+    correctOptionIds: ["b"],
+    explanation: {
+      es: "`getByPlaceholder` localiza un input por el texto de su atributo `placeholder`. `getByText` busca contenido visible de la página (no placeholders) y `getByLabel` requiere un `<label>` asociado, que aquí no existe.",
+      en: "`getByPlaceholder` locates an input by its `placeholder` attribute text. `getByText` searches the page's visible content (not placeholders) and `getByLabel` requires an associated `<label>`, which doesn't exist here.",
+    },
+    points: 1,
+    timeEstimateSeconds: 25,
+  },
+  {
+    id: "m3-e7",
+    type: "true_false",
+    difficulty: "easy",
+    moduleIds: [M3],
+    question: {
+      es: "`getByAltText` localiza imágenes (u otros elementos con `alt`) por el texto de su atributo `alt`.",
+      en: "`getByAltText` locates images (or other elements with `alt`) by their `alt` attribute text.",
+    },
+    options: [
+      { id: "true", text: { es: "Verdadero", en: "True" } },
+      { id: "false", text: { es: "Falso", en: "False" } },
+    ],
+    correctOptionIds: ["true"],
+    explanation: {
+      es: "Correcto. `getByAltText('Logo de la empresa')` encuentra una imagen por su texto alternativo. Es semántico —el `alt` también lo usan los lectores de pantalla— y está en la jerarquía de localizadores por encima de CSS/XPath.",
+      en: "Correct. `getByAltText('Company logo')` finds an image by its alternative text. It's semantic — `alt` is also used by screen readers — and ranks above CSS/XPath in the locator hierarchy.",
+    },
+    points: 1,
+    timeEstimateSeconds: 20,
+  },
+  {
+    id: "m3-e8",
+    type: "single_choice",
+    difficulty: "easy",
+    moduleIds: [M3],
+    question: {
+      es: "Un localizador coincide con varios elementos y solo quieres actuar sobre el primero para evitar el strict mode violation. ¿Qué método usas?",
+      en: "A locator matches several elements and you only want to act on the first to avoid the strict mode violation. Which method do you use?",
+    },
+    options: [
+      { id: "a", text: { es: ".one()", en: ".one()" } },
+      { id: "b", text: { es: ".first()", en: ".first()" } },
+      { id: "c", text: { es: ".single()", en: ".single()" } },
+      { id: "d", text: { es: ".pick(0)", en: ".pick(0)" } },
+    ],
+    correctOptionIds: ["b"],
+    explanation: {
+      es: "`.first()` devuelve el primer elemento coincidente (equivalente a `.nth(0)`), resolviendo el strict mode violation cuando el localizador coincide con varios. Úsalo con cuidado: depende del orden, así que filtrar por contenido suele ser más robusto.",
+      en: "`.first()` returns the first matching element (equivalent to `.nth(0)`), resolving the strict mode violation when the locator matches several. Use it carefully: it depends on order, so filtering by content is usually more robust.",
+    },
+    points: 1,
+    timeEstimateSeconds: 25,
+  },
+  {
+    id: "m3-m6",
+    type: "single_choice",
+    difficulty: "medium",
+    moduleIds: [M3],
+    question: {
+      es: "La página tiene dos textos: 'Add' y 'Add to Cart'. `page.getByText('Add')` provoca un strict mode violation porque coincide con ambos (match por subcadena). ¿Cómo localizas SOLO el texto exacto 'Add'?",
+      en: "The page has two texts: 'Add' and 'Add to Cart'. `page.getByText('Add')` causes a strict mode violation because it matches both (substring match). How do you locate ONLY the exact text 'Add'?",
+    },
+    options: [
+      { id: "a", text: { es: "page.getByText('Add', { exact: true })", en: "page.getByText('Add', { exact: true })" } },
+      { id: "b", text: { es: "page.getByText('Add').first()", en: "page.getByText('Add').first()" } },
+      { id: "c", text: { es: "page.getByText('^Add$')", en: "page.getByText('^Add$')" } },
+      { id: "d", text: { es: "page.getByText('Add', { strict: true })", en: "page.getByText('Add', { strict: true })" } },
+    ],
+    correctOptionIds: ["a"],
+    explanation: {
+      es: "Por defecto `getByText` hace match por subcadena e insensible a mayúsculas, por eso 'Add' coincide también con 'Add to Cart'. La opción `{ exact: true }` exige coincidencia exacta del texto completo (sensible a may/min), seleccionando solo el 'Add' literal. `.first()` acertaría por azar según el orden, no por precisión.",
+      en: "By default `getByText` does a case-insensitive substring match, which is why 'Add' also matches 'Add to Cart'. The `{ exact: true }` option requires a full exact match (case-sensitive), selecting only the literal 'Add'. `.first()` would hit by luck depending on order, not precision.",
+    },
+    points: 2,
+    timeEstimateSeconds: 45,
+  },
+  {
+    id: "m3-m7",
+    type: "single_choice",
+    difficulty: "medium",
+    moduleIds: [M3],
+    question: {
+      es: "¿Por qué `page.getByRole('list').getByRole('listitem')` suele ser preferible a `page.locator('ul li')` para recorrer los ítems de una lista?",
+      en: "Why is `page.getByRole('list').getByRole('listitem')` usually preferable to `page.locator('ul li')` for iterating a list's items?",
+    },
+    options: [
+      { id: "a", text: { es: "Porque es más corto de escribir", en: "Because it's shorter to write" } },
+      { id: "b", text: { es: "Porque localiza por rol semántico (list/listitem), resistente a cambios de etiquetas/clases HTML y alineado con la accesibilidad", en: "Because it locates by semantic role (list/listitem), resilient to HTML tag/class changes and aligned with accessibility" } },
+      { id: "c", text: { es: "Porque `page.locator('ul li')` no funciona en Playwright", en: "Because `page.locator('ul li')` doesn't work in Playwright" } },
+      { id: "d", text: { es: "Porque getByRole es más rápido en tiempo de ejecución", en: "Because getByRole is faster at runtime" } },
+    ],
+    correctOptionIds: ["b"],
+    explanation: {
+      es: "Los roles ARIA 'list'/'listitem' describen la función semántica, no la implementación: si el equipo cambia la estructura `<ul><li>` por otra con los mismos roles (o añade clases), el localizador semántico sigue funcionando, mientras que `ul li` (CSS) se rompe. Además refleja cómo lo percibe la accesibilidad.",
+      en: "The ARIA roles 'list'/'listitem' describe the semantic function, not the implementation: if the team swaps the `<ul><li>` structure for another with the same roles (or adds classes), the semantic locator keeps working, while `ul li` (CSS) breaks. It also reflects how accessibility perceives it.",
+    },
+    points: 2,
+    timeEstimateSeconds: 45,
+  },
+  {
+    id: "m3-h4",
+    type: "code_completion",
+    difficulty: "hard",
+    moduleIds: [M3],
+    question: {
+      es: "Hay dos botones: 'Add to Cart' y 'Add to Cart and Checkout'. `getByRole('button', { name: 'Add to Cart' })` coincide con AMBOS (el `name` hace match por subcadena). Completa para seleccionar SOLO 'Add to Cart'.",
+      en: "There are two buttons: 'Add to Cart' and 'Add to Cart and Checkout'. `getByRole('button', { name: 'Add to Cart' })` matches BOTH (the `name` does a substring match). Complete it to select ONLY 'Add to Cart'.",
+    },
+    codeSnippet: `const addBtn = page.getByRole('button', { name: 'Add to Cart', _____ });`,
+    options: [
+      { id: "a", text: { es: "exact: true", en: "exact: true" } },
+      { id: "b", text: { es: "strict: true", en: "strict: true" } },
+      { id: "c", text: { es: "full: true", en: "full: true" } },
+      { id: "d", text: { es: "trim: true", en: "trim: true" } },
+    ],
+    correctOptionIds: ["a"],
+    explanation: {
+      es: "Por defecto, la opción `name` de `getByRole` hace match por subcadena insensible a mayúsculas, por eso 'Add to Cart' coincide también con 'Add to Cart and Checkout'. Añadir `exact: true` fuerza la coincidencia exacta del nombre accesible completo, seleccionando solo el botón 'Add to Cart'.",
+      en: "By default, `getByRole`'s `name` option does a case-insensitive substring match, which is why 'Add to Cart' also matches 'Add to Cart and Checkout'. Adding `exact: true` forces an exact match of the full accessible name, selecting only the 'Add to Cart' button.",
     },
     points: 3,
     timeEstimateSeconds: 70,
