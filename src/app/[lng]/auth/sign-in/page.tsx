@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, type FormEvent, type ReactNode } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
@@ -46,6 +46,7 @@ interface SignInPageProps {
 export default function SignInPage({ params: { lng } }: SignInPageProps) {
   const { t } = useTranslation("common");
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { user, loading, initialized, error, emailVerified, signIn, signInWithGoogle, clearError } =
     useAuth();
 
@@ -54,12 +55,20 @@ export default function SignInPage({ params: { lng } }: SignInPageProps) {
   const [formError, setFormError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
+  // Only follow callbackUrl when it's an internal path — never an absolute
+  // URL, to avoid an open redirect via a crafted query string.
+  const callbackUrl = searchParams.get("callbackUrl");
+  const redirectTarget =
+    callbackUrl && callbackUrl.startsWith("/") && !callbackUrl.startsWith("//")
+      ? callbackUrl
+      : `/${lng}/dashboard`;
+
   // Redirect if already signed in
   useEffect(() => {
     if (initialized && user) {
-      router.replace(emailVerified ? `/${lng}/dashboard` : `/${lng}/auth/verify-email`);
+      router.replace(emailVerified ? redirectTarget : `/${lng}/auth/verify-email`);
     }
-  }, [initialized, user, emailVerified, lng, router]);
+  }, [initialized, user, emailVerified, lng, router, redirectTarget]);
 
   const displayedError = formError ?? error;
 
@@ -76,7 +85,7 @@ export default function SignInPage({ params: { lng } }: SignInPageProps) {
     setSubmitting(true);
     try {
       const verified = await signIn(email.trim(), password);
-      router.replace(verified ? `/${lng}/dashboard` : `/${lng}/auth/verify-email`);
+      router.replace(verified ? redirectTarget : `/${lng}/auth/verify-email`);
     } catch {
       // Error is already stored in context
     } finally {
@@ -90,7 +99,7 @@ export default function SignInPage({ params: { lng } }: SignInPageProps) {
     setSubmitting(true);
     try {
       const verified = await signInWithGoogle();
-      router.replace(verified ? `/${lng}/dashboard` : `/${lng}/auth/verify-email`);
+      router.replace(verified ? redirectTarget : `/${lng}/auth/verify-email`);
     } catch {
       // Error is already stored in context
     } finally {
