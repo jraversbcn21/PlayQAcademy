@@ -171,7 +171,7 @@ const QUESTIONS: ExamQuestion[] = [
     question: { es: "Una app debe seguir funcionando correctamente aunque la red se caiga de forma intermitente, recuperándose sola. ¿Qué característica de ISO/IEC 25010 se evalúa principalmente?", en: "An app must keep working correctly even if the network drops intermittently, recovering on its own. Which ISO/IEC 25010 characteristic is primarily evaluated?" },
     options: [
       { id: "a", text: { es: "Usabilidad", en: "Usability" } },
-      { id: "b", text: { es: "Fiabilidad (incluye tolerancia a fallos y recuperabilidad)", en: "Reliability (includes fault tolerance and recoverability)" } },
+      { id: "b", text: { es: "Fiabilidad", en: "Reliability" } },
       { id: "c", text: { es: "Portabilidad", en: "Portability" } },
       { id: "d", text: { es: "Compatibilidad", en: "Compatibility" } },
     ],
