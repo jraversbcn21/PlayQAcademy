@@ -33,11 +33,13 @@ export default function PlaygroundLayout({ children, params: { lng } }: Playgrou
   const pathname = usePathname();
 
   const isIndex = pathname === `/${lng}/playground`;
+  const isSetup = pathname === `/${lng}/playground/setup`;
+  const showBreadcrumb = !isIndex && !isSetup;
 
   return (
     <div className="min-h-[calc(100vh-4rem)]">
-      {/* Breadcrumb — shown inside an exercise, not on the index */}
-      {!isIndex && (
+      {/* Breadcrumb — shown inside an exercise, not on the index or setup guide */}
+      {showBreadcrumb && (
         <div className="container-app px-4 pt-4">
           <nav className="flex items-center gap-1.5 text-xs text-[var(--color-text-muted)]" aria-label="Breadcrumb">
             <Link href={`/${lng}/playground`} className="hover:text-[var(--color-text-primary)] transition-colors">
