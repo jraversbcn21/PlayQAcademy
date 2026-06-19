@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
 import { useProgress } from "@/lib/hooks/useProgress";
@@ -30,6 +31,7 @@ interface ExamsPageProps { params: { lng: string } }
 
 export default function ExamsPage({ params: { lng } }: ExamsPageProps) {
   const { t: _t } = useTranslation("common");
+  const router = useRouter();
   const { user, loading: authLoading } = useAuth();
   const { isModuleUnlocked } = useProgress(user?.uid);
   const [history, setHistory] = useState<ExamAttempt[]>([]);
@@ -38,6 +40,13 @@ export default function ExamsPage({ params: { lng } }: ExamsPageProps) {
   useEffect(() => {
     if (user) getExamHistory(user.uid).then(setHistory);
   }, [user]);
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push(`/${lng}/auth/sign-in`);
+    }
+  }, [authLoading, user, lng, router]);
 
   if (authLoading || !user) {
     return <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-forest-500 border-t-transparent" /></div>;
