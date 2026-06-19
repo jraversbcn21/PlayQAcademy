@@ -151,16 +151,30 @@ export default function Footer({ currentLng }: FooterProps) {
                 {t(col.titleKey)}
               </h3>
               <ul className="mt-3 space-y-2.5">
-                {col.links.map((link) => (
-                  <li key={link.labelKey}>
-                    <Link
-                      href={`/${currentLng}${link.href}`}
-                      className="text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text-primary)]"
-                    >
-                      {t(link.labelKey)}
-                    </Link>
-                  </li>
-                ))}
+                {col.links.map((link) => {
+                  const isExternal = link.href.startsWith("http");
+                  const className =
+                    "text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-text-primary)]";
+
+                  return (
+                    <li key={link.labelKey}>
+                      {isExternal ? (
+                        <a
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={className}
+                        >
+                          {t(link.labelKey)}
+                        </a>
+                      ) : (
+                        <Link href={`/${currentLng}${link.href}`} className={className}>
+                          {t(link.labelKey)}
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}
