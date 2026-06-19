@@ -4,8 +4,8 @@
 
 `/glossary` shows a misleading title ("Glosario ISTQB" / "Términos clave del
 syllabus CTFL v4.0") even though the glossary already mixes terms from two
-campuses: 56 ISTQB entries (chapters `"1"`–`"6"`) and 88 QA Fundamentals
-entries (`"qaf-1"`–`"qaf-10"`). The page renders every matching entry as one
+campuses: 57 ISTQB entries (chapters `"1"`–`"6"`) and 57 QA Fundamentals
+entries (`"qaf-1"`–`"qaf-10"`, 114 total). The page renders every matching entry as one
 flat, unbroken list of cards (`space-y-3`) in raw array insertion order — not
 even grouped by chapter consistently (some chapter `"2"` entries are appended
 out of order in the source array). The only chapter-aware control is a
