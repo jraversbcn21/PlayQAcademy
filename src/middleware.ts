@@ -7,7 +7,7 @@
  *    c. The default locale "es"
  * 2. Redirects requests without a locale prefix to /{locale}/path.
  * 3. Protects routes that require authentication (dashboard, learn/*,
- *    leaderboard, exams) by checking the "auth_token" cookie.
+ *    leaderboard, exams, settings) by checking the "auth_token" cookie.
  */
 
 import { NextRequest, NextResponse } from "next/server";
@@ -26,6 +26,7 @@ const PROTECTED_PATTERNS = [
   /^\/[a-z]{2}\/learn\//,
   /^\/[a-z]{2}\/leaderboard/,
   /^\/[a-z]{2}\/exams/,
+  /^\/[a-z]{2}\/settings/,
 ];
 
 function getLocale(

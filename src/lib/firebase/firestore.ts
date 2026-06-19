@@ -84,6 +84,16 @@ export async function getUserProfile(uid: string): Promise<UserProfile | null> {
   };
 }
 
+/** Update the user's display name in their Firestore profile document. */
+export async function updateUserDisplayName(
+  uid: string,
+  displayName: string
+): Promise<void> {
+  const firestore = requireDb();
+  const ref = doc(firestore, "users", uid);
+  await updateDoc(ref, { displayName });
+}
+
 /** Update lastLoginAt timestamp on every sign-in. */
 export async function updateLastLogin(uid: string): Promise<void> {
   const firestore = requireDb();

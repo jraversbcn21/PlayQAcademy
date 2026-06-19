@@ -86,6 +86,14 @@ export async function signUpWithEmail(
   return result.user;
 }
 
+/** Update the display name on the Firebase Auth user record. */
+export async function updateDisplayName(
+  user: User,
+  displayName: string
+): Promise<void> {
+  await updateProfile(user, { displayName });
+}
+
 /** Sign out the current user. */
 export async function signOutUser(): Promise<void> {
   const a = requireAuth();

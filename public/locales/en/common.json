@@ -132,6 +132,29 @@
       "signOut": "Sign out"
     }
   },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your profile and account.",
+    "backToDashboard": "Back to dashboard",
+    "profileSection": {
+      "title": "Profile",
+      "displayNameLabel": "Display name",
+      "displayNamePlaceholder": "Your name",
+      "emailLabel": "Email",
+      "emailHint": "Email cannot be changed.",
+      "saveButton": "Save changes",
+      "saving": "Saving...",
+      "saved": "Changes saved."
+    },
+    "securitySection": {
+      "title": "Security",
+      "passwordLabel": "Password",
+      "passwordHint": "We'll send you an email with a link to change it.",
+      "changePasswordButton": "Change password",
+      "sending": "Sending...",
+      "sent": "We sent an email to {{email}} with the link to change your password."
+    }
+  },
   "forgotPassword": {
     "title": "Reset password",
     "subtitle": "We'll send you a link to reset your password",

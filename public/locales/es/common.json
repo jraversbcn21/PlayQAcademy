@@ -132,6 +132,29 @@
       "signOut": "Cerrar sesión"
     }
   },
+  "settings": {
+    "title": "Configuración",
+    "subtitle": "Gestiona tu perfil y tu cuenta.",
+    "backToDashboard": "Volver al panel de control",
+    "profileSection": {
+      "title": "Perfil",
+      "displayNameLabel": "Nombre visible",
+      "displayNamePlaceholder": "Tu nombre",
+      "emailLabel": "Correo electrónico",
+      "emailHint": "El correo no se puede cambiar.",
+      "saveButton": "Guardar cambios",
+      "saving": "Guardando...",
+      "saved": "Cambios guardados."
+    },
+    "securitySection": {
+      "title": "Seguridad",
+      "passwordLabel": "Contraseña",
+      "passwordHint": "Te enviaremos un correo con un enlace para cambiarla.",
+      "changePasswordButton": "Cambiar contraseña",
+      "sending": "Enviando...",
+      "sent": "Te enviamos un correo a {{email}} con el enlace para cambiar tu contraseña."
+    }
+  },
   "forgotPassword": {
     "title": "Recuperar contraseña",
     "subtitle": "Te enviaremos un enlace para restablecer tu contraseña",

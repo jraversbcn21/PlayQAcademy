@@ -21,12 +21,14 @@ import {
   onAuthStateChange,
   sendVerificationEmail as fbSendVerificationEmail,
   reloadCurrentUser as fbReloadCurrentUser,
+  updateDisplayName as fbUpdateDisplayName,
 } from "@/lib/firebase/auth";
 import { auth } from "@/lib/firebase/config";
 import {
   createUserProfile,
   getUserProfile,
   updateLastLogin,
+  updateUserDisplayName,
 } from "@/lib/firebase/firestore";
 import { getFirebaseErrorKey } from "@/lib/firebase/errors";
 
@@ -78,6 +80,7 @@ interface AuthContextValue {
   signInWithGoogle: () => Promise<boolean>;
   resendVerification: (lng: string) => Promise<void>;
   refreshVerification: () => Promise<boolean>;
+  updateDisplayName: (displayName: string) => Promise<void>;
   clearError: () => void;
 }
 
@@ -321,6 +324,21 @@ export function AuthProvider({ children, lng: _lng }: AuthProviderProps) {
     return verified;
   }, []);
 
+  const updateDisplayName = useCallback(async (displayName: string): Promise<void> => {
+    clearError();
+    const current = auth?.currentUser;
+    if (!current) return;
+    try {
+      await fbUpdateDisplayName(current, displayName);
+      await updateUserDisplayName(current.uid, displayName);
+      setUser((prev) => (prev ? { ...prev, displayName } : prev));
+    } catch (err) {
+      const key = getFirebaseErrorKey(err);
+      setError(t(key));
+      throw err;
+    }
+  }, [clearError, t]);
+
   /* ---------- Safety timeout (prevents infinite spinners) ---------- */
 
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -356,6 +374,7 @@ export function AuthProvider({ children, lng: _lng }: AuthProviderProps) {
     signInWithGoogle,
     resendVerification,
     refreshVerification,
+    updateDisplayName,
     clearError,
   };
 
