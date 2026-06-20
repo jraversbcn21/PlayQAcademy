@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, type FormEvent, type ReactNode } from "react";
+import { Suspense, useState, useEffect, type FormEvent, type ReactNode } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
@@ -43,7 +43,7 @@ interface SignInPageProps {
   params: { lng: string };
 }
 
-export default function SignInPage({ params: { lng } }: SignInPageProps) {
+function SignInForm({ params: { lng } }: SignInPageProps) {
   const { t } = useTranslation("common");
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -239,5 +239,19 @@ export default function SignInPage({ params: { lng } }: SignInPageProps) {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function SignInPage(props: SignInPageProps) {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-forest-500 border-t-transparent" />
+        </div>
+      }
+    >
+      <SignInForm {...props} />
+    </Suspense>
   );
 }
