@@ -23,7 +23,12 @@ export default function PlaygroundLayout({ children, params: { lng } }: Playgrou
   const showBreadcrumb = !isIndex && !isSetup;
 
   const currentExercise = PLAYGROUND_EXERCISES.find((ex) => pathname.startsWith(`/${lng}${ex.href}`));
-  const currentCampus = currentExercise ? getCampusById(currentExercise.campusId) : null;
+  // The setup guide is Playwright-specific, so treat it as belonging to "automation" for nav purposes.
+  const activeCampusId = currentExercise?.campusId ?? (isSetup ? "automation" : null);
+  const currentCampus = activeCampusId ? getCampusById(activeCampusId) : null;
+  const visibleExercises = activeCampusId
+    ? PLAYGROUND_EXERCISES.filter((ex) => ex.campusId === activeCampusId)
+    : PLAYGROUND_EXERCISES;
 
   return (
     <div className="min-h-[calc(100vh-4rem)]">
@@ -60,7 +65,7 @@ export default function PlaygroundLayout({ children, params: { lng } }: Playgrou
             >
               🏠 {lng === "es" ? "Inicio" : "Home"}
             </Link>
-            {PLAYGROUND_EXERCISES.map((ex) => {
+            {visibleExercises.map((ex) => {
               const fullHref = `/${lng}${ex.href}`;
               const isActive = pathname.startsWith(fullHref);
               const label = ex.title[lng as "es" | "en"] ?? ex.title.en;
@@ -81,17 +86,19 @@ export default function PlaygroundLayout({ children, params: { lng } }: Playgrou
                 </Link>
               );
             })}
-            <Link
-              href={`/${lng}/playground/setup`}
-              className={[
-                "shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors",
-                pathname === `/${lng}/playground/setup`
-                  ? "bg-brand-gold-600 text-white"
-                  : "text-brand-gold-400 hover:bg-brand-gold-500/10",
-              ].join(" ")}
-            >
-              ⚙️ {lng === "es" ? "Setup" : "Setup"}
-            </Link>
+            {activeCampusId !== "qaFundamentals" && (
+              <Link
+                href={`/${lng}/playground/setup`}
+                className={[
+                  "shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors",
+                  pathname === `/${lng}/playground/setup`
+                    ? "bg-brand-gold-600 text-white"
+                    : "text-brand-gold-400 hover:bg-brand-gold-500/10",
+                ].join(" ")}
+              >
+                ⚙️ {lng === "es" ? "Setup" : "Setup"}
+              </Link>
+            )}
           </nav>
         </div>
         </div>
