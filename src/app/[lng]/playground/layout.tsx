@@ -3,22 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
-
-/* ------------------------------------------------------------------ */
-/*  Exercise link data                                                 */
-/* ------------------------------------------------------------------ */
-
-const EXERCISES = [
-  { href: "/playground/login", icon: "🔑", labelEs: "Login", labelEn: "Login" },
-  { href: "/playground/signup", icon: "📝", labelEs: "Registro", labelEn: "Sign Up" },
-  { href: "/playground/catalog", icon: "🛍️", labelEs: "Catálogo", labelEn: "Catalog" },
-  { href: "/playground/cart", icon: "🛒", labelEs: "Carrito", labelEn: "Cart" },
-  { href: "/playground/table", icon: "📊", labelEs: "Tabla", labelEn: "Table" },
-  { href: "/playground/dynamic", icon: "⏳", labelEs: "Dinámico", labelEn: "Dynamic" },
-  { href: "/playground/files", icon: "📁", labelEs: "Archivos", labelEn: "Files" },
-  { href: "/playground/frames", icon: "🖼️", labelEs: "iFrames", labelEn: "Frames" },
-  { href: "/playground/api", icon: "🌐", labelEs: "API", labelEn: "API" },
-];
+import { PLAYGROUND_EXERCISES } from "@/lib/constants/playground";
+import { getCampusById } from "@/lib/constants/campuses";
 
 /* ------------------------------------------------------------------ */
 /*  Layout                                                             */
@@ -36,6 +22,9 @@ export default function PlaygroundLayout({ children, params: { lng } }: Playgrou
   const isSetup = pathname === `/${lng}/playground/setup`;
   const showBreadcrumb = !isIndex && !isSetup;
 
+  const currentExercise = PLAYGROUND_EXERCISES.find((ex) => pathname.startsWith(`/${lng}${ex.href}`));
+  const currentCampus = currentExercise ? getCampusById(currentExercise.campusId) : null;
+
   return (
     <div className="min-h-[calc(100vh-4rem)]">
       {/* Breadcrumb — shown inside an exercise, not on the index or setup guide */}
@@ -47,7 +36,9 @@ export default function PlaygroundLayout({ children, params: { lng } }: Playgrou
             </Link>
             <span aria-hidden="true">›</span>
             <span className="text-[var(--color-text-secondary)]">
-              {lng === "es" ? "Automatización" : "Automation"}
+              {currentCampus
+                ? (currentCampus.title[lng as "es" | "en"] ?? currentCampus.title.en)
+                : (lng === "es" ? "Automatización" : "Automation")}
             </span>
           </nav>
         </div>
@@ -69,9 +60,10 @@ export default function PlaygroundLayout({ children, params: { lng } }: Playgrou
             >
               🏠 {lng === "es" ? "Inicio" : "Home"}
             </Link>
-            {EXERCISES.map((ex) => {
+            {PLAYGROUND_EXERCISES.map((ex) => {
               const fullHref = `/${lng}${ex.href}`;
               const isActive = pathname.startsWith(fullHref);
+              const label = ex.title[lng as "es" | "en"] ?? ex.title.en;
               return (
                 <Link
                   key={ex.href}
@@ -82,9 +74,10 @@ export default function PlaygroundLayout({ children, params: { lng } }: Playgrou
                       ? "bg-brand-forest-600 text-white"
                       : "text-[var(--color-text-muted)] hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-primary)]",
                   ].join(" ")}
+                  title={label}
                 >
                   <span aria-hidden="true">{ex.icon}</span>
-                  <span className="hidden sm:inline">{lng === "es" ? ex.labelEs : ex.labelEn}</span>
+                  <span className="hidden sm:inline">{label}</span>
                 </Link>
               );
             })}

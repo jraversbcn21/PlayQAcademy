@@ -6,7 +6,10 @@
  * campus owns them. Like exams, the exercise→campus association is data-driven:
  * adding a future campus's exercises is an append here, not a refactor.
  *
- * All current exercises are Playwright/automation practice (campusId "automation").
+ * `automation` exercises are live Playwright locator/coding sandboxes.
+ * `qaFundamentals` exercises are self-contained manual-testing drills
+ * (classification, matching, form-based) — no code, no Firestore writes,
+ * scored entirely client-side.
  */
 
 import type { Bilingual } from "@/types/lesson";
@@ -135,6 +138,54 @@ export const PLAYGROUND_EXERCISES: PlaygroundExercise[] = [
     modules: ["M7: API Testing"],
     difficulty: "advanced",
     campusId: "automation",
+  },
+  {
+    href: "/playground/partitioning",
+    icon: "🎯",
+    title: { es: "Partición de Equivalencia y Valores Límite", en: "Equivalence Partitioning & BVA" },
+    description: {
+      es: "Clasifica valores de prueba como válidos, inválidos o límite para distintos campos de entrada.",
+      en: "Classify test values as valid, invalid, or boundary for different input fields.",
+    },
+    modules: ["M5: Diseño de Casos"],
+    difficulty: "beginner",
+    campusId: "qaFundamentals",
+  },
+  {
+    href: "/playground/bug-report",
+    icon: "🐛",
+    title: { es: "Redacción de Reporte de Bug", en: "Writing a Bug Report" },
+    description: {
+      es: "Redacta pasos, resultado esperado/actual y clasifica severidad y prioridad para escenarios reales.",
+      en: "Write steps, expected/actual results, and classify severity and priority for real-world scenarios.",
+    },
+    modules: ["M6: Ejecución y Defectos"],
+    difficulty: "beginner",
+    campusId: "qaFundamentals",
+  },
+  {
+    href: "/playground/triage",
+    icon: "🚦",
+    title: { es: "Triage de Defectos", en: "Defect Triage" },
+    description: {
+      es: "Asigna severidad y prioridad a 6 defectos reales y compáralos con el criterio esperado.",
+      en: "Assign severity and priority to 6 real defects and compare against the expected call.",
+    },
+    modules: ["M6: Ejecución y Defectos"],
+    difficulty: "intermediate",
+    campusId: "qaFundamentals",
+  },
+  {
+    href: "/playground/req-match",
+    icon: "🔗",
+    title: { es: "Requisitos ↔ Casos de Prueba", en: "Requirements ↔ Test Cases" },
+    description: {
+      es: "Empareja cada requisito con el caso de prueba que realmente lo verifica.",
+      en: "Match each requirement to the test case that actually verifies it.",
+    },
+    modules: ["M4: Análisis de Requisitos"],
+    difficulty: "intermediate",
+    campusId: "qaFundamentals",
   },
 ];
 
