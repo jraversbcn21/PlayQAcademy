@@ -29,15 +29,23 @@ interface StartPageProps { params: { lng: string; examId: string } }
 export default function ExamStartPage({ params: { lng, examId } }: StartPageProps) {
   const { t: _t } = useTranslation("common");
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { isModuleUnlocked } = useProgress(user?.uid);
 
   const exam = EXAMS_BY_ID[examId];
   useEffect(() => {
-    if (!user) router.push(`/${lng}/auth/sign-in`);
-  }, [user, lng, router]);
+    if (!authLoading && !user) router.push(`/${lng}/auth/sign-in`);
+  }, [authLoading, user, lng, router]);
 
-  if (!exam || !user) return null;
+  if (!exam) return null;
+
+  if (authLoading || !user) {
+    return (
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand-forest-500 border-t-transparent" />
+      </div>
+    );
+  }
 
   const ready = isExamReady(exam);
   const isLocked = exam.requiresModuleCompletion.some((mid) => !isModuleUnlocked(mid));

@@ -93,7 +93,7 @@ interface TakePageProps { params: { lng: string; examId: string; attemptId: stri
 
 export default function ExamTakePage({ params: { lng, examId, attemptId } }: TakePageProps) {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { queueBadges } = useGamificationUI();
   const [questions, setQuestions] = useState<ExamQuestion[]>([]);
   const [generated, setGenerated] = useState(false);
@@ -106,6 +106,7 @@ export default function ExamTakePage({ params: { lng, examId, attemptId } }: Tak
   const endTimeRef = useRef(Date.now() + 1200 * 1000);
 
   useEffect(() => {
+    if (authLoading) return;
     if (!user) { router.push(`/${lng}/auth/sign-in`); return; }
     const exam = EXAMS_BY_ID[examId];
     if (!exam) return;
@@ -113,7 +114,7 @@ export default function ExamTakePage({ params: { lng, examId, attemptId } }: Tak
     setQuestions(qs);
     setGenerated(true);
     endTimeRef.current = Date.now() + exam.timeLimit * 1000;
-  }, [user, examId, lng, router]);
+  }, [user, authLoading, examId, lng, router]);
 
   // Tab switch detection
   useEffect(() => {
