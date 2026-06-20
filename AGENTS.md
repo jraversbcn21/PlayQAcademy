@@ -98,4 +98,4 @@ Verified by Jorge in the browser; older evidence in `docs/session-log-2026-06-10
 
 ## Open items / backlog
 
-None currently open.
+- **Reset Jorge's production account to a fresh state.** Requested 2026-06-21, not yet done. Firestore blocks client-side deletes (`firestore.rules`), so this needs manual deletion in Firebase Console (Firestore → Data) of, for the account's UID (find it in Authentication → Users): the `users/{uid}` doc, `progress/{uid}` doc, `gamification/{uid}` doc, and every `exam_attempts/{attemptId}` doc whose `userId` field matches that UID (query/filter by `userId`, since `exam_attempts` is keyed by attempt ID, not UID). The Firebase Auth account itself is untouched — only progress/points/badges/exam-history data resets.
