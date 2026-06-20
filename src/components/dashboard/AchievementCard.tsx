@@ -1,9 +1,9 @@
 
+import type { BadgeRarity } from "@/types/gamification";
+
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
 /* ------------------------------------------------------------------ */
-
-export type BadgeRarity = "common" | "rare" | "epic";
 
 export interface Achievement {
   id: string;
@@ -16,6 +16,7 @@ export interface Achievement {
 
 interface AchievementCardProps {
   achievement: Achievement;
+  lng: string;
   className?: string;
 }
 
@@ -27,18 +28,21 @@ const rarityGlow: Record<BadgeRarity, string> = {
   common: "border-slate-500/20 bg-slate-500/5 text-slate-400",
   rare: "border-brand-forest-500/30 bg-brand-forest-500/5 text-brand-forest-400",
   epic: "border-purple-500/30 bg-purple-500/5 text-purple-400",
+  legendary: "border-yellow-500/40 bg-yellow-500/5 text-yellow-400",
 };
 
-const rarityLabel: Record<BadgeRarity, string> = {
-  common: "Common",
-  rare: "Rare",
-  epic: "Epic",
+const rarityLabel: Record<BadgeRarity, { es: string; en: string }> = {
+  common: { es: "Común", en: "Common" },
+  rare: { es: "Raro", en: "Rare" },
+  epic: { es: "Épico", en: "Epic" },
+  legendary: { es: "Legendario", en: "Legendary" },
 };
 
 const rarityDot: Record<BadgeRarity, string> = {
   common: "bg-slate-400",
   rare: "bg-brand-forest-400",
   epic: "bg-purple-400",
+  legendary: "bg-yellow-400",
 };
 
 /* ------------------------------------------------------------------ */
@@ -47,6 +51,7 @@ const rarityDot: Record<BadgeRarity, string> = {
 
 export default function AchievementCard({
   achievement,
+  lng,
   className = "",
 }: AchievementCardProps) {
   const { icon, name, description, earnedAt, rarity } = achievement;
@@ -82,7 +87,7 @@ export default function AchievementCard({
             </h4>
             <span className="flex items-center gap-1 text-xs text-[var(--color-text-muted)]">
               <span className={["h-1.5 w-1.5 rounded-full", rarityDot[rarity]].join(" ")} />
-              {rarityLabel[rarity]}
+              {rarityLabel[rarity][lng as "es" | "en"] ?? rarityLabel[rarity].en}
             </span>
           </div>
 

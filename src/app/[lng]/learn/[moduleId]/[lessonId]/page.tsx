@@ -108,13 +108,14 @@ export default function LessonPlayerPage({
     lessonId
   );
 
-  const [lessonCompleted, setLessonCompleted] = useState(() => {
-    if (user) {
-      const st = getLessonStatus(moduleId, lessonId);
-      return st === "completed";
-    }
-    return false;
-  });
+  // `progressData` loads asynchronously from Firestore; deriving completion
+  // live (instead of freezing it in a useState initializer) avoids showing
+  // "Mark Complete" again — and re-awarding points — on an already-completed
+  // lesson when progress hasn't finished loading yet at mount time.
+  const [justCompleted, setJustCompleted] = useState(false);
+  const persistedCompleted =
+    !!user && getLessonStatus(moduleId, lessonId) === "completed";
+  const lessonCompleted = persistedCompleted || justCompleted;
   const [completing, setCompleting] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
 
@@ -148,7 +149,7 @@ export default function LessonPlayerPage({
         gData?.currentStreak ?? 0
       );
 
-      setLessonCompleted(true);
+      setJustCompleted(true);
       setShowCelebration(true);
       setTimeout(() => setShowCelebration(false), 4000);
 

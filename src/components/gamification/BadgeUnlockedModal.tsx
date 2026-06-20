@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
-import type { Badge } from "@/types/gamification";
+import type { Badge, BadgeRarity } from "@/types/gamification";
 import Button from "@/components/ui/Button";
 
 /* ------------------------------------------------------------------ */
@@ -32,6 +32,13 @@ const RARITY_COLOR: Record<string, string> = {
   rare: "text-brand-forest-400",
   epic: "text-purple-400",
   legendary: "text-yellow-400",
+};
+
+const RARITY_LABEL: Record<BadgeRarity, { es: string; en: string }> = {
+  common: { es: "Común", en: "Common" },
+  rare: { es: "Raro", en: "Rare" },
+  epic: { es: "Épico", en: "Epic" },
+  legendary: { es: "Legendario", en: "Legendary" },
 };
 
 /* ------------------------------------------------------------------ */
@@ -148,7 +155,7 @@ export default function BadgeUnlockedModal({
 
           {/* Rarity label */}
           <span className={["mb-2 inline-block text-xs font-semibold uppercase tracking-wider", RARITY_COLOR[currentBadge.rarity] ?? RARITY_COLOR.common].join(" ")}>
-            {currentBadge.rarity}
+            {RARITY_LABEL[currentBadge.rarity][lng as "es" | "en"] ?? RARITY_LABEL[currentBadge.rarity].en}
           </span>
 
           {/* Name */}
@@ -172,7 +179,7 @@ export default function BadgeUnlockedModal({
             onClick={dismissCurrent}
             className="w-full justify-center !bg-brand-terra-500 hover:!bg-brand-terra-400"
           >
-            Awesome!
+            {lng === "es" ? "¡Genial!" : "Awesome!"}
           </Button>
 
           {/* Queue indicator */}

@@ -467,6 +467,7 @@ export default function DashboardPage({
                 <AchievementCard
                   key={achievement.id}
                   achievement={achievement}
+                  lng={lng}
                 />
               ))
             ) : (
