@@ -3,6 +3,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { GamificationProvider } from "@/context/GamificationContext";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import BuyMeCoffeeButton from "@/components/layout/BuyMeCoffeeButton";
 
 /*
  * Language-specific layout.
@@ -65,6 +66,7 @@ export default function LngLayout({ children, params }: LngLayoutProps) {
           <Navbar currentLng={lng} />
           <main className="flex-1">{children}</main>
           <Footer currentLng={lng} />
+          <BuyMeCoffeeButton />
         </div>
       </GamificationProvider>
     </AuthProvider>
