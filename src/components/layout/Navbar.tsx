@@ -446,13 +446,23 @@ export default function Navbar({ currentLng }: NavbarProps) {
   return (
     <header
       className={[
-        "sticky top-0 z-50 border-b transition-colors px-4 sm:px-6 lg:px-8",
-        scrolled
-          ? "border-[var(--color-border)] bg-[var(--color-bg-primary)]/80 backdrop-blur-lg"
-          : "border-transparent bg-[var(--color-bg-primary)]",
+        "sticky top-0 z-50 border-b transition-colors",
+        scrolled ? "border-[var(--color-border)]" : "border-transparent",
       ].join(" ")}
     >
-      <nav className="container-app flex h-16 items-center justify-between">
+      {/* Background layer — kept off the header itself so backdrop-blur doesn't
+          turn <header> into a containing block for its `fixed` mobile-menu child */}
+      <div
+        aria-hidden="true"
+        className={[
+          "absolute inset-0 -z-10 transition-colors",
+          scrolled
+            ? "bg-[var(--color-bg-primary)]/80 backdrop-blur-lg"
+            : "bg-[var(--color-bg-primary)]",
+        ].join(" ")}
+      />
+
+      <nav className="container-app flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Left: Logo */}
         <Logo />
 
