@@ -282,9 +282,12 @@ export default function Navbar({ currentLng }: NavbarProps) {
             <ChevronDown open={dropdownOpen} />
           </button>
 
-          {/* Dropdown */}
+          {/* Dropdown — pinned to the viewport (not the avatar) below `lg`: the
+              avatar sits near the left of a packed mobile icon row (streak/theme/
+              language/hamburger to its right), so anchoring this w-56 panel to the
+              avatar's own right edge pushed it off the left edge of the screen. */}
           {dropdownOpen && (
-            <div className="absolute right-0 top-full mt-2 w-56 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] py-1.5 shadow-xl">
+            <div className="fixed left-4 right-4 top-16 z-50 mt-2 w-auto lg:absolute lg:left-auto lg:right-0 lg:top-full lg:z-auto lg:mt-2 lg:w-56 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] py-1.5 shadow-xl">
               <div className="border-b border-[var(--color-border)] px-4 py-2.5">
                 <p className="truncate text-sm font-medium text-[var(--color-text-primary)]">
                   {user.displayName}
