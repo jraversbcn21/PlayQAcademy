@@ -23,6 +23,8 @@ export interface ModuleProgress {
   completedLessons: string[];
   percentComplete: number;
   unlockedAt: Date | null;
+  /** ISO-8601 timestamp of the last completedLessons write. Absent on progress saved before this field existed. */
+  updatedAt: string | null;
 }
 
 export interface UserProgress {

@@ -126,6 +126,7 @@ export async function updateUserProgress(
         [moduleId]: {
           moduleId,
           completedLessons: completed ? arrayUnion(lessonId) : arrayRemove(lessonId),
+          updatedAt: new Date().toISOString(),
         },
       },
     },
@@ -153,6 +154,7 @@ export async function getUserProgress(
       completedLessons: val.completedLessons ?? [],
       percentComplete: val.percentComplete ?? 0,
       unlockedAt: val.unlockedAt ? new Date(val.unlockedAt as unknown as string) : null,
+      updatedAt: (val.updatedAt as unknown as string) ?? null,
     };
   }
 

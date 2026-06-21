@@ -4,12 +4,12 @@ import { useEffect, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
-import { useProgress } from "@/lib/hooks/useProgress";
+import { useProgress, type ModuleProgressInfo } from "@/lib/hooks/useProgress";
 import { useGamification } from "@/lib/hooks/useGamification";
 import { getLevelFromPoints, getLevelProgress } from "@/lib/gamification/levels";
 import { BADGES_BY_ID } from "@/lib/constants/badges";
 import { TOTAL_LESSONS, CURRICULUM } from "@/lib/constants/curriculum";
-import { CAMPUSES } from "@/lib/constants/campuses";
+import { CAMPUSES, getCampusForModule } from "@/lib/constants/campuses";
 import Button from "@/components/ui/Button";
 import ProgressBar from "@/components/ui/ProgressBar";
 import StatCard from "@/components/dashboard/StatCard";
@@ -95,6 +95,48 @@ function SparkleIcon(): ReactNode {
   );
 }
 
+/**
+ * Resume CTA target: the module actually worked on most recently
+ * (by `updatedAt`), not just "first unlocked module" — module locking is
+ * off platform-wide, so every module across all 3 campuses is "unlocked"
+ * and a naive first-unlocked fallback lands on whatever module happens to
+ * be first in the global curriculum array, regardless of which campus the
+ * user has actually been using.
+ *
+ * If the most recently touched module is itself now 100% complete,
+ * continue with the next incomplete module in the SAME campus (finishing
+ * one module shouldn't bounce the user into an unrelated campus); only if
+ * that whole campus is done do we fall back to the next incomplete module
+ * anywhere. Accounts with literally zero progress fall back to the very
+ * first module.
+ */
+function pickResumeModule(modules: ModuleProgressInfo[]): ModuleProgressInfo | null {
+  const touched = modules.filter((m) => m.completedLessonCount > 0);
+  if (touched.length === 0) {
+    return modules[0] ?? null;
+  }
+
+  const mostRecent = [...touched].sort((a, b) => {
+    const aTime = a.updatedAt ? new Date(a.updatedAt).getTime() : 0;
+    const bTime = b.updatedAt ? new Date(b.updatedAt).getTime() : 0;
+    return bTime - aTime;
+  })[0]!;
+
+  if (mostRecent.status !== "completed") {
+    return mostRecent;
+  }
+
+  const campus = getCampusForModule(mostRecent.module.id);
+  const sameCampusIncomplete = campus
+    ? campus.moduleIds
+        .map((id) => modules.find((m) => m.module.id === id))
+        .find((m): m is ModuleProgressInfo => !!m && m.status !== "completed")
+    : undefined;
+  if (sameCampusIncomplete) return sameCampusIncomplete;
+
+  return modules.find((m) => m.status !== "completed") ?? mostRecent;
+}
+
 /* ------------------------------------------------------------------ */
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
@@ -153,14 +195,7 @@ export default function DashboardPage({
     (m) => m.status !== "locked"
   );
 
-  // Resume CTA: prefer the module the user has actually started but not
-  // finished yet (most recent one in curriculum order), falling back to
-  // the first unlocked module for users with no progress at all.
-  const inProgressStarted = unlockedModules.filter(
-    (m) => m.status === "in_progress" && m.completedLessonCount > 0
-  );
-  const resumeModule =
-    inProgressStarted[inProgressStarted.length - 1] ?? unlockedModules[0] ?? null;
+  const resumeModule = pickResumeModule(unlockedModules);
 
   // Real gamification data
   const gPoints = gData?.totalPoints ?? 0;

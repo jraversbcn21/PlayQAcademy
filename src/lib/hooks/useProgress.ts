@@ -19,6 +19,8 @@ export interface ModuleProgressInfo {
   percentComplete: number;
   completedLessonCount: number;
   totalLessonCount: number;
+  /** ISO-8601 timestamp of the last lesson-completion write for this module, or null if never touched. */
+  updatedAt: string | null;
 }
 
 export interface ProgressData {
@@ -148,6 +150,7 @@ export function useProgress(userId: string | undefined): UseProgressResult {
         percentComplete: percent,
         completedLessonCount: completedCount,
         totalLessonCount: totalCount,
+        updatedAt: modProgress?.updatedAt ?? null,
       };
     });
   }, [rawProgress]);
