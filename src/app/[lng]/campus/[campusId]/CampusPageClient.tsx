@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
+import { useAuth } from "@/context/AuthContext";
+import { useProgress } from "@/lib/hooks/useProgress";
 import { getModulesForCampus, getCampusById, QA_CAMPUS } from "@/lib/constants/campuses";
 import { getExamsForCampus, isExamReady } from "@/lib/constants/exams";
 import { CURRICULUM } from "@/lib/constants/curriculum";
@@ -21,6 +23,8 @@ export default function CampusPageClient() {
   const campusId = params?.campusId as string;
   const { t } = useTranslation("common");
   const [showExams, setShowExams] = useState(false);
+  const { user } = useAuth();
+  const { progressData } = useProgress(user?.uid);
 
   const campus = getCampusById(campusId);
   const moduleIds = getModulesForCampus(campusId);
@@ -45,6 +49,12 @@ export default function CampusPageClient() {
   const lang = lng === "es" ? "es" : "en";
   const totalLessons = modules.reduce((sum, mod) => sum + mod.lessons.length, 0);
   const totalMinutes = modules.reduce((sum, mod) => sum + mod.estimatedMinutes, 0);
+  const completedLessons = progressData
+    ? progressData.modules
+        .filter((m) => moduleIds.includes(m.module.id))
+        .reduce((sum, m) => sum + m.completedLessonCount, 0)
+    : 0;
+  const campusPercent = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
@@ -149,10 +159,10 @@ export default function CampusPageClient() {
             {t("campus.overallProgress")}
           </span>
           <span className="text-sm font-bold text-[var(--color-text-primary)]">
-            0%
+            {campusPercent}%
           </span>
         </div>
-        <ProgressBar value={0} size="lg" />
+        <ProgressBar value={campusPercent} size="lg" />
       </Card>
 
       {/* Modules grid */}
