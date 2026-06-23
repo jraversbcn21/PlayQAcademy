@@ -190,6 +190,7 @@ export default function CampusPageClient() {
                     ? "hover:border-brand-gold-500/30 hover:shadow-brand-gold-500/5"
                     : "hover:border-brand-forest-500/30 hover:shadow-brand-forest-500/5",
                 ].join(" ")}
+                bodyClassName="flex h-full flex-col"
               >
                 <div className="mb-3 flex items-center justify-between">
                   <span className="rounded-full bg-brand-forest-500/20 px-2.5 py-0.5 text-xs font-medium text-brand-forest-400">
@@ -202,25 +203,29 @@ export default function CampusPageClient() {
                   )}
                 </div>
 
-                <h3 className="mb-2 font-semibold text-[var(--color-text-primary)] group-hover:text-brand-forest-400">
-                  {mod.title[lang]}
-                </h3>
+                <div className="flex-1">
+                  <h3 className="mb-2 font-semibold text-[var(--color-text-primary)] group-hover:text-brand-forest-400">
+                    {mod.title[lang]}
+                  </h3>
 
-                <p className="mb-4 text-sm text-[var(--color-text-secondary)]">
-                  {mod.description[lang]}
-                </p>
-
-                <div className="mb-4">
-                  <ProgressBar
-                    value={percent}
-                    size="sm"
-                    barColor={isCompleted ? "bg-brand-gold-500" : "bg-brand-forest-500"}
-                  />
+                  <p className="text-sm text-[var(--color-text-secondary)]">
+                    {mod.description[lang]}
+                  </p>
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-[var(--color-text-muted)]">
-                  <span>{t("campus.lessonsCount", { count: mod.lessons.length })}</span>
-                  <span>{t("campus.minutesCount", { minutes: mod.estimatedMinutes })}</span>
+                <div className="mt-4">
+                  <div className="mb-4">
+                    <ProgressBar
+                      value={percent}
+                      size="sm"
+                      barColor={isCompleted ? "bg-brand-gold-500" : "bg-brand-forest-500"}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs text-[var(--color-text-muted)]">
+                    <span>{t("campus.lessonsCount", { count: mod.lessons.length })}</span>
+                    <span>{t("campus.minutesCount", { minutes: mod.estimatedMinutes })}</span>
+                  </div>
                 </div>
               </Card>
             </Link>

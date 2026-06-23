@@ -12,6 +12,8 @@ interface CardProps {
   title?: string;
   children: ReactNode;
   className?: string;
+  /** Extra classes for the body wrapper (e.g. to make it a flex column so children can pin to the bottom) */
+  bodyClassName?: string;
 }
 
 const variantWrapperClasses: Record<CardVariant, string> = {
@@ -32,6 +34,7 @@ export default function Card({
   title,
   children,
   className = "",
+  bodyClassName = "",
 }: CardProps) {
   return (
     <div className={[variantWrapperClasses[variant], className].join(" ")}>
@@ -55,7 +58,7 @@ export default function Card({
       )}
 
       {/* Body */}
-      <div className="text-[var(--color-text-secondary)]">{children}</div>
+      <div className={["text-[var(--color-text-secondary)]", bodyClassName].join(" ")}>{children}</div>
     </div>
   );
 }
