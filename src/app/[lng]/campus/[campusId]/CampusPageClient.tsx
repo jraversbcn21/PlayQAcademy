@@ -24,7 +24,7 @@ export default function CampusPageClient() {
   const { t } = useTranslation("common");
   const [showExams, setShowExams] = useState(false);
   const { user } = useAuth();
-  const { progressData } = useProgress(user?.uid);
+  const { progressData, getModuleProgress } = useProgress(user?.uid);
 
   const campus = getCampusById(campusId);
   const moduleIds = getModulesForCampus(campusId);
@@ -169,6 +169,9 @@ export default function CampusPageClient() {
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {modules.map((mod, index) => {
           const isLocked = campus.status === "coming_soon";
+          const moduleInfo = getModuleProgress(mod.id);
+          const percent = moduleInfo?.percentComplete ?? 0;
+          const isCompleted = moduleInfo?.status === "completed";
 
           return (
             <Link
@@ -179,10 +182,18 @@ export default function CampusPageClient() {
                 isLocked ? "cursor-not-allowed opacity-60" : "",
               ].join(" ")}
             >
-              <Card className="h-full p-5 transition-all hover:border-brand-forest-500/30 hover:shadow-lg hover:shadow-brand-forest-500/5">
+              <Card
+                variant={isCompleted ? "achievement" : "default"}
+                className={[
+                  "h-full p-5 transition-all hover:shadow-lg",
+                  isCompleted
+                    ? "hover:border-brand-gold-500/30 hover:shadow-brand-gold-500/5"
+                    : "hover:border-brand-forest-500/30 hover:shadow-brand-forest-500/5",
+                ].join(" ")}
+              >
                 <div className="mb-3 flex items-center justify-between">
                   <span className="rounded-full bg-brand-forest-500/20 px-2.5 py-0.5 text-xs font-medium text-brand-forest-400">
-                    {t("campus.module")} {index + 1}
+                    {t("campus.module")} {index + 1}{isCompleted ? " ✓" : ""}
                   </span>
                   {isLocked && (
                     <svg className="h-4 w-4 text-[var(--color-text-muted)]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -198,6 +209,14 @@ export default function CampusPageClient() {
                 <p className="mb-4 text-sm text-[var(--color-text-secondary)]">
                   {mod.description[lang]}
                 </p>
+
+                <div className="mb-4">
+                  <ProgressBar
+                    value={percent}
+                    size="sm"
+                    barColor={isCompleted ? "bg-brand-gold-500" : "bg-brand-forest-500"}
+                  />
+                </div>
 
                 <div className="flex items-center justify-between text-xs text-[var(--color-text-muted)]">
                   <span>{t("campus.lessonsCount", { count: mod.lessons.length })}</span>
