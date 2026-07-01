@@ -151,6 +151,10 @@ export default function LeaderboardPage({ params: { lng } }: LeaderboardPageProp
               const isCurrentUser = entry.uid === user.uid;
               const levelInfo = getLevelFromPoints(entry.totalPoints);
               const levelTitle = levelInfo.title[lng as "es" | "en"] ?? levelInfo.title.en;
+              // For the current user, always use the live photoURL from AuthContext
+              // (same source as the navbar avatar) instead of the potentially stale
+              // URL stored in the gamification doc.
+              const avatarURL = isCurrentUser ? (user.photoURL ?? entry.photoURL) : entry.photoURL;
 
               return (
                 <div
@@ -168,7 +172,7 @@ export default function LeaderboardPage({ params: { lng } }: LeaderboardPageProp
                   </div>
 
                   {/* Avatar */}
-                  <EntryAvatar photoURL={entry.photoURL} displayName={entry.displayName} />
+                  <EntryAvatar photoURL={avatarURL} displayName={entry.displayName} />
 
                   {/* Name + level */}
                   <div className="min-w-0 flex-1">
