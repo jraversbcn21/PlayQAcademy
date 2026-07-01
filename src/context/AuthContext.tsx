@@ -332,7 +332,7 @@ export function AuthProvider({ children, lng: _lng }: AuthProviderProps) {
     try {
       await fbUpdateDisplayName(current, displayName);
       await updateUserDisplayName(current.uid, displayName);
-      await updateGamificationDisplayName(current.uid, displayName);
+      await updateGamificationDisplayName(current.uid, displayName, current.photoURL);
       setUser((prev) => (prev ? { ...prev, displayName } : prev));
     } catch (err) {
       const key = getFirebaseErrorKey(err);

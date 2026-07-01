@@ -1,12 +1,39 @@
 "use client";
 
-import { useState, useEffect, type ReactNode } from "react";
+import { useState, useEffect, type ReactNode, type ReactElement } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
 import { fetchLeaderboard } from "@/lib/hooks/useGamification";
 import { getLevelFromPoints } from "@/lib/gamification/levels";
 import type { LeaderboardEntry } from "@/types/gamification";
+
+/* ------------------------------------------------------------------ */
+/*  Avatar with fallback to initials if image fails to load           */
+/* ------------------------------------------------------------------ */
+
+function EntryAvatar({ photoURL, displayName }: { photoURL: string | null; displayName: string }): ReactElement {
+  const [imgError, setImgError] = useState(false);
+
+  if (photoURL && !imgError) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element -- external OAuth avatar URLs, no remotePatterns configured
+      <img
+        src={photoURL}
+        alt=""
+        referrerPolicy="no-referrer"
+        className="h-8 w-8 rounded-full object-cover"
+        onError={() => setImgError(true)}
+      />
+    );
+  }
+
+  return (
+    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-forest-500/20 text-xs font-bold text-brand-forest-400">
+      {(displayName ?? "?")[0]?.toUpperCase()}
+    </div>
+  );
+}
 
 /* ------------------------------------------------------------------ */
 /*  Icons                                                              */
@@ -141,19 +168,7 @@ export default function LeaderboardPage({ params: { lng } }: LeaderboardPageProp
                   </div>
 
                   {/* Avatar */}
-                  {entry.photoURL ? (
-                    // eslint-disable-next-line @next/next/no-img-element -- external OAuth avatar URLs, no remotePatterns configured
-                    <img
-                      src={entry.photoURL}
-                      alt=""
-                      referrerPolicy="no-referrer"
-                      className="h-8 w-8 rounded-full object-cover"
-                    />
-                  ) : (
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-forest-500/20 text-xs font-bold text-brand-forest-400">
-                      {(entry.displayName ?? "?")[0]?.toUpperCase()}
-                    </div>
-                  )}
+                  <EntryAvatar photoURL={entry.photoURL} displayName={entry.displayName} />
 
                   {/* Name + level */}
                   <div className="min-w-0 flex-1">

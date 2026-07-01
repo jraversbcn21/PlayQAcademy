@@ -94,14 +94,19 @@ export async function updateUserDisplayName(
   await updateDoc(ref, { displayName });
 }
 
-/** Update displayName in the gamification doc so the leaderboard stays in sync. */
+/** Update displayName (and optionally photoURL) in the gamification doc so the leaderboard stays in sync. */
 export async function updateGamificationDisplayName(
   uid: string,
-  displayName: string
+  displayName: string,
+  photoURL?: string | null
 ): Promise<void> {
   const firestore = requireDb();
   const ref = doc(firestore, "gamification", uid);
-  await updateDoc(ref, { displayName }).catch(() => {});
+  if (photoURL !== undefined) {
+    await updateDoc(ref, { displayName, photoURL }).catch(() => {});
+  } else {
+    await updateDoc(ref, { displayName }).catch(() => {});
+  }
 }
 
 /** Update lastLoginAt timestamp on every sign-in. */
