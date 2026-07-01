@@ -94,6 +94,16 @@ export async function updateUserDisplayName(
   await updateDoc(ref, { displayName });
 }
 
+/** Update displayName in the gamification doc so the leaderboard stays in sync. */
+export async function updateGamificationDisplayName(
+  uid: string,
+  displayName: string
+): Promise<void> {
+  const firestore = requireDb();
+  const ref = doc(firestore, "gamification", uid);
+  await updateDoc(ref, { displayName }).catch(() => {});
+}
+
 /** Update lastLoginAt timestamp on every sign-in. */
 export async function updateLastLogin(uid: string): Promise<void> {
   const firestore = requireDb();

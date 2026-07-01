@@ -25,6 +25,7 @@ export default function SettingsPage({ params: { lng } }: SettingsPageProps) {
   const { user, loading: authLoading, updateDisplayName } = useAuth();
 
   const [displayName, setDisplayName] = useState("");
+  const [savedName, setSavedName] = useState("");
   const [savingName, setSavingName] = useState(false);
   const [nameSaved, setNameSaved] = useState(false);
   const [nameError, setNameError] = useState<string | null>(null);
@@ -38,7 +39,10 @@ export default function SettingsPage({ params: { lng } }: SettingsPageProps) {
   }, [authLoading, user, lng, router]);
 
   useEffect(() => {
-    if (user) setDisplayName(user.displayName ?? "");
+    if (user) {
+      setDisplayName(user.displayName ?? "");
+      setSavedName(user.displayName ?? "");
+    }
   }, [user]);
 
   if (authLoading || !user) {
@@ -60,6 +64,7 @@ export default function SettingsPage({ params: { lng } }: SettingsPageProps) {
     setSavingName(true);
     try {
       await updateDisplayName(trimmed);
+      setSavedName(trimmed);
       setNameSaved(true);
     } catch (err) {
       setNameError(t(getFirebaseErrorKey(err)));
@@ -161,7 +166,7 @@ export default function SettingsPage({ params: { lng } }: SettingsPageProps) {
               variant="primary"
               size="md"
               loading={savingName}
-              disabled={savingName || !displayName.trim()}
+              disabled={savingName || !displayName.trim() || displayName.trim() === savedName}
             >
               {savingName ? t("settings.profileSection.saving") : t("settings.profileSection.saveButton")}
             </Button>

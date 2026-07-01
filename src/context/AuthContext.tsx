@@ -29,6 +29,7 @@ import {
   getUserProfile,
   updateLastLogin,
   updateUserDisplayName,
+  updateGamificationDisplayName,
 } from "@/lib/firebase/firestore";
 import { getFirebaseErrorKey } from "@/lib/firebase/errors";
 
@@ -331,6 +332,7 @@ export function AuthProvider({ children, lng: _lng }: AuthProviderProps) {
     try {
       await fbUpdateDisplayName(current, displayName);
       await updateUserDisplayName(current.uid, displayName);
+      await updateGamificationDisplayName(current.uid, displayName);
       setUser((prev) => (prev ? { ...prev, displayName } : prev));
     } catch (err) {
       const key = getFirebaseErrorKey(err);
