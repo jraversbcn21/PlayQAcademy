@@ -142,6 +142,13 @@ export function AuthProvider({ children, lng: _lng }: AuthProviderProps) {
           log(`Profile found for ${fbUser.uid}, returning user`);
         }
 
+        // Keep gamification doc's displayName/photoURL in sync with Firebase Auth
+        // so the leaderboard always shows the current name without needing to read
+        // the users collection (which is private to each user).
+        if (fbUser.displayName) {
+          updateGamificationDisplayName(fbUser.uid, fbUser.displayName, fbUser.photoURL);
+        }
+
         return profile;
       } catch (err) {
         // If Firestore fails, return a basic profile from Firebase data

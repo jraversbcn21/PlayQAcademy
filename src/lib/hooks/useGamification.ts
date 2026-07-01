@@ -581,25 +581,6 @@ export async function fetchLeaderboard(
     });
   });
 
-  // For entries missing a displayName in gamification, fall back to the users
-  // collection (which always has the name used at sign-up, plus the email).
-  const missingName = entries.filter((e) => !e.displayName);
-  if (missingName.length > 0) {
-    const userDocs = await Promise.all(
-      missingName.map((e) => getDoc(doc(db!, "users", e.uid)))
-    );
-    userDocs.forEach((userDoc) => {
-      const entry = entries.find((e) => e.uid === userDoc.id);
-      if (!entry) return;
-      if (userDoc.exists()) {
-        const ud = userDoc.data();
-        const name = (ud["displayName"] as string | null)?.trim() ?? "";
-        const email = (ud["email"] as string | null) ?? "";
-        entry.displayName = name || email.split("@")[0] || "";
-      }
-    });
-  }
-
   // Assign ranks
   entries.forEach((e, i) => {
     e.rank = (lastDoc ? 0 : 0) + i + 1;
