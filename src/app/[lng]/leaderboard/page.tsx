@@ -30,7 +30,7 @@ function EntryAvatar({ photoURL, displayName }: { photoURL: string | null; displ
 
   return (
     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-forest-500/20 text-xs font-bold text-brand-forest-400">
-      {(displayName ?? "?")[0]?.toUpperCase()}
+      {(displayName || "?")[0]?.toUpperCase()}
     </div>
   );
 }
@@ -177,7 +177,7 @@ export default function LeaderboardPage({ params: { lng } }: LeaderboardPageProp
                   {/* Name + level */}
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium text-[var(--color-text-primary)]">
-                      {entry.displayName}
+                      {entry.displayName || (lng === "es" ? "Anónimo" : "Anonymous")}
                       {isCurrentUser && (
                         <span className="ml-2 text-[10px] text-brand-forest-400">({lng === "es" ? "Tú" : "You"})</span>
                       )}

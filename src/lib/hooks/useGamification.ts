@@ -572,7 +572,7 @@ export async function fetchLeaderboard(
       uid: docSnap.id,
       displayName: typeof d["displayName"] === "string" && d["displayName"].trim()
         ? (d["displayName"] as string)
-        : "Anonymous",
+        : "",
       photoURL: (d["photoURL"] as string | null) ?? null,
       totalPoints: (d["totalPoints"] as number) ?? 0,
       level: (d["level"] as number) ?? 1,
@@ -580,6 +580,25 @@ export async function fetchLeaderboard(
       rank: 0,
     });
   });
+
+  // For entries missing a displayName in gamification, fall back to the users
+  // collection (which always has the name used at sign-up, plus the email).
+  const missingName = entries.filter((e) => !e.displayName);
+  if (missingName.length > 0) {
+    const userDocs = await Promise.all(
+      missingName.map((e) => getDoc(doc(db!, "users", e.uid)))
+    );
+    userDocs.forEach((userDoc) => {
+      const entry = entries.find((e) => e.uid === userDoc.id);
+      if (!entry) return;
+      if (userDoc.exists()) {
+        const ud = userDoc.data();
+        const name = (ud["displayName"] as string | null)?.trim() ?? "";
+        const email = (ud["email"] as string | null) ?? "";
+        entry.displayName = name || email.split("@")[0] || "";
+      }
+    });
+  }
 
   // Assign ranks
   entries.forEach((e, i) => {
