@@ -25,6 +25,7 @@ const PROTECTED_PATTERNS = [
   /^\/[a-z]{2}\/dashboard/,
   /^\/[a-z]{2}\/learn\//,
   /^\/[a-z]{2}\/leaderboard/,
+  /^\/[a-z]{2}\/badges/,
   /^\/[a-z]{2}\/exams/,
   /^\/[a-z]{2}\/settings/,
 ];
