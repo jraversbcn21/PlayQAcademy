@@ -544,7 +544,9 @@ export function useGamification(uid: string | undefined): UseGamificationResult 
 
 export async function fetchLeaderboard(
   pageSize = 20,
-  lastDoc?: QueryDocumentSnapshot<DocumentData> | null
+  lastDoc?: QueryDocumentSnapshot<DocumentData> | null,
+  /** Nº of entries already fetched on previous pages — callers that paginate MUST pass it. */
+  rankOffset = 0
 ): Promise<{ entries: LeaderboardEntry[]; lastVisible: QueryDocumentSnapshot<DocumentData> | null }> {
   if (!db) return { entries: [], lastVisible: null };
 
@@ -583,7 +585,7 @@ export async function fetchLeaderboard(
 
   // Assign ranks
   entries.forEach((e, i) => {
-    e.rank = (lastDoc ? 0 : 0) + i + 1;
+    e.rank = rankOffset + i + 1;
   });
 
   const lastVisible = snap.docs.length > 0 ? snap.docs[snap.docs.length - 1] ?? null : null;
