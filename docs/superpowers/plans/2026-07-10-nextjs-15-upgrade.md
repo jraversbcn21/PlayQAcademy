@@ -26,15 +26,15 @@
 
 **Interfaces:**
 - Consumes: current package.json with next@14.2.35, react@18.3.1, react-dom@18.3.1, @types/react@18.3.18, @types/react-dom@18.3.5, eslint-config-next@14.2.35
-- Produces: updated package.json with next@latest, react@19.x, react-dom@19.x, @types/react@19.x, @types/react-dom@19.x, eslint-config-next@15.x
+- Produces: updated package.json with next@^15, react@^19, react-dom@^19, @types/react@^19, @types/react-dom@^19, eslint-config-next@^15
 
-- [ ] **Step 1: Install latest versions of all upgrade targets**
+- [ ] **Step 1: Install version-pinned upgrades (Next 15 line, React 19 line, eslint-config-next 15 line)**
 
 ```powershell
-npm install next@latest react@latest react-dom@latest @types/react@latest @types/react-dom@latest eslint-config-next@latest
+npm install next@15 react@19 react-dom@19 @types/react@19 @types/react-dom@19 eslint-config-next@15
 ```
 
-Expected: installs without errors. Warnings about peer deps or engine mismatches are acceptable (file them). The exact versions will be whatever `latest` resolves to on the day of execution.
+Expected: installs without errors. Warnings about peer deps are acceptable. The version ranges MUST resolve to ^15.x for next, ^19.x for react/react-dom, and ^15.x for eslint-config-next. eslint-config-next@15 keeps eslint 8.x (no flat config migration needed). Node 18 is compatible.
 
 - [ ] **Step 2: Verify package.json shows new versions**
 
@@ -42,7 +42,7 @@ Expected: installs without errors. Warnings about peer deps or engine mismatches
 Get-Content package.json | Select-String 'next|react|react-dom|@types/react|eslint-config-next'
 ```
 
-Expected: all six packages reflect version 15.x or 19.x respectively.
+Expected: next shows ^15.x, react/react-dom show ^19.x, eslint-config-next shows ^15.x, eslint stays at 8.x (NOT 9.x or 10.x — Next 15 eslint-config-next keeps eslint 8).
 
 - [ ] **Step 3: Commit the dependency bump**
 
