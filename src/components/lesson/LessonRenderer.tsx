@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, type JSX } from "react";
 import { useTranslation } from "@/lib/i18n/client";
 import type { LessonSection, Bilingual } from "@/types/lesson";
 import QuizSectionRenderer from "./QuizSection";
