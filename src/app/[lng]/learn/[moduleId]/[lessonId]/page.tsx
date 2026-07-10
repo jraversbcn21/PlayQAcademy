@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, type ReactNode } from "react";
+import { useState, useCallback, type ReactNode, use } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
@@ -87,12 +87,18 @@ function CompletedBanner(): ReactNode {
 /* ------------------------------------------------------------------ */
 
 interface LessonPageProps {
-  params: { lng: string; moduleId: string; lessonId: string };
+  params: Promise<{ lng: string; moduleId: string; lessonId: string }>;
 }
 
-export default function LessonPlayerPage({
-  params: { lng, moduleId, lessonId },
-}: LessonPageProps) {
+export default function LessonPlayerPage(props: LessonPageProps) {
+  const params = use(props.params);
+
+  const {
+    lng,
+    moduleId,
+    lessonId
+  } = params;
+
   const { t } = useTranslation("common");
   const router = useRouter();
   const { user } = useAuth();

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent, use } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
@@ -16,10 +16,16 @@ import Badge from "@/components/ui/Badge";
 /* ------------------------------------------------------------------ */
 
 interface SettingsPageProps {
-  params: { lng: string };
+  params: Promise<{ lng: string }>;
 }
 
-export default function SettingsPage({ params: { lng } }: SettingsPageProps) {
+export default function SettingsPage(props: SettingsPageProps) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const { t } = useTranslation("common");
   const router = useRouter();
   const { user, loading: authLoading, updateDisplayName } = useAuth();

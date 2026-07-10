@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, use } from "react";
 
 /* ------------------------------------------------------------------ */
 /*  Content                                                            */
@@ -85,7 +85,13 @@ const CATEGORY_COLOR: Record<Category, string> = {
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 
-export default function PartitioningDrillPage({ params: { lng } }: { params: { lng: string } }) {
+export default function PartitioningDrillPage(props: { params: Promise<{ lng: string }> }) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const allValues = useMemo(
     () => SCENARIOS.flatMap((s) => s.values.map((v) => ({ ...v, scenarioId: s.id }))),
     []

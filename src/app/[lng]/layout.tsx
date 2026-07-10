@@ -18,14 +18,20 @@ import BuyMeCoffeeButton from "@/components/layout/BuyMeCoffeeButton";
 
 interface LngLayoutProps {
   children: React.ReactNode;
-  params: { lng: string };
+  params: Promise<{ lng: string }>;
 }
 
-export async function generateMetadata({
-  params: { lng },
-}: {
-  params: { lng: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ lng: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    lng
+  } = params;
+
   const isEs = lng === "es";
 
   return {
@@ -56,7 +62,13 @@ export async function generateStaticParams() {
   return [{ lng: "es" }, { lng: "en" }];
 }
 
-export default function LngLayout({ children, params }: LngLayoutProps) {
+export default async function LngLayout(props: LngLayoutProps) {
+  const params = await props.params;
+
+  const {
+    children
+  } = props;
+
   const { lng } = params;
 
   return (

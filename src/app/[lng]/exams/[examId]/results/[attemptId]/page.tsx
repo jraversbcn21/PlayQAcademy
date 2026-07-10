@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
@@ -16,9 +16,17 @@ import Button from "@/components/ui/Button";
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 
-interface ResultsPageProps { params: { lng: string; examId: string; attemptId: string } }
+interface ResultsPageProps { params: Promise<{ lng: string; examId: string; attemptId: string }> }
 
-export default function ExamResultsPage({ params: { lng, examId, attemptId } }: ResultsPageProps) {
+export default function ExamResultsPage(props: ResultsPageProps) {
+  const params = use(props.params);
+
+  const {
+    lng,
+    examId,
+    attemptId
+  } = params;
+
   const { t: _t } = useTranslation("common");
   const { user } = useAuth();
   const [attempt, setAttempt] = useState<ExamAttempt | null>(null);

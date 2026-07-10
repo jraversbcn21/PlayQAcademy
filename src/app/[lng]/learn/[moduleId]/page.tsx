@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode } from "react";
+import { type ReactNode, use } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
@@ -53,12 +53,17 @@ function LessonStatusIcon({ status }: { status: "completed" | "available" | "loc
 /* ------------------------------------------------------------------ */
 
 interface ModulePageProps {
-  params: { lng: string; moduleId: string };
+  params: Promise<{ lng: string; moduleId: string }>;
 }
 
-export default function ModuleOverviewPage({
-  params: { lng, moduleId },
-}: ModulePageProps) {
+export default function ModuleOverviewPage(props: ModulePageProps) {
+  const params = use(props.params);
+
+  const {
+    lng,
+    moduleId
+  } = params;
+
   const { t: tFn } = useTranslation("common");
   const router = useRouter();
   const { user } = useAuth();

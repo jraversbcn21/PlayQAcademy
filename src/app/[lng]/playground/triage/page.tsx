@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, use } from "react";
 
 /* ------------------------------------------------------------------ */
 /*  Content                                                            */
@@ -89,7 +89,13 @@ const PRIORITY_LABEL: Record<Priority, { es: string; en: string }> = {
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 
-export default function TriageDrillPage({ params: { lng } }: { params: { lng: string } }) {
+export default function TriageDrillPage(props: { params: Promise<{ lng: string }> }) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const [severities, setSeverities] = useState<Record<string, Severity>>({});
   const [priorities, setPriorities] = useState<Record<string, Priority>>({});
   const [submitted, setSubmitted] = useState(false);

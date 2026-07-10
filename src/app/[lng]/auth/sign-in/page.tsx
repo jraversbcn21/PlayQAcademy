@@ -40,7 +40,7 @@ function GoogleIcon(): ReactNode {
 /* ------------------------------------------------------------------ */
 
 interface SignInPageProps {
-  params: { lng: string };
+  params: Promise<{ lng: string }>;
 }
 
 function SignInForm({ params: { lng } }: SignInPageProps) {
@@ -251,7 +251,8 @@ export default function SignInPage(props: SignInPageProps) {
         </div>
       }
     >
-      <SignInForm {...props} />
+      <SignInForm /* @next-codemod-error 'props' is used with spread syntax (...). Any asynchronous properties of 'props' must be awaited when accessed. */
+      {...props} />
     </Suspense>
   );
 }

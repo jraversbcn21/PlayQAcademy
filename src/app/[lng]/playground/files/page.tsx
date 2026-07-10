@@ -1,10 +1,16 @@
 "use client";
 
-import { useState, useRef, type DragEvent, type ChangeEvent } from "react";
+import { useState, useRef, type DragEvent, type ChangeEvent, use } from "react";
 import { useTranslation } from "@/lib/i18n/client";
 import ExerciseHeader from "@/components/playground/ExerciseHeader";
 
-export default function FilesPage({ params: { lng } }: { params: { lng: string } }) {
+export default function FilesPage(props: { params: Promise<{ lng: string }> }) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const { t: _t } = useTranslation("common");
   const [uploaded, setUploaded] = useState<{ name: string; size: number; preview: string | null } | null>(null);
   const [multiFiles, setMultiFiles] = useState<{ name: string; size: number }[]>([]);

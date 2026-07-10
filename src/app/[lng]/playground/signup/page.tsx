@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, use } from "react";
 import { useTranslation } from "@/lib/i18n/client";
 import ExerciseHeader from "@/components/playground/ExerciseHeader";
 
@@ -26,7 +26,13 @@ interface FormData {
 
 const STEPS = ["Personal", "Account", "Preferences", "Review"];
 
-export default function SignUpPage({ params: { lng } }: { params: { lng: string } }) {
+export default function SignUpPage(props: { params: Promise<{ lng: string }> }) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const { t: _t } = useTranslation("common");
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState<Record<string, string>>({});

@@ -1,10 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, use } from "react";
 import { useTranslation } from "@/lib/i18n/client";
 import ExerciseHeader from "@/components/playground/ExerciseHeader";
 
-export default function FramesPage({ params: { lng } }: { params: { lng: string } }) {
+export default function FramesPage(props: { params: Promise<{ lng: string }> }) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const { t: _t } = useTranslation("common");
   const [showModal, setShowModal] = useState(false);
   const [frameMsg, setFrameMsg] = useState("");

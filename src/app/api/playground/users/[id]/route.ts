@@ -1,14 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { USERS, type PlaygroundUser } from "@/lib/playground/store";
 
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const id = parseInt(params.id, 10);
   const user = USERS.find((u) => u.id === id);
   if (!user) return NextResponse.json({ success: false, error: "User not found" }, { status: 404 });
   return NextResponse.json({ success: true, data: user });
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const id = parseInt(params.id, 10);
     const idx = USERS.findIndex((u) => u.id === id);
@@ -21,7 +23,8 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(_req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const id = parseInt(params.id, 10);
   const idx = USERS.findIndex((u) => u.id === id);
   if (idx === -1) return NextResponse.json({ success: false, error: "User not found" }, { status: 404 });

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, type ReactNode, type ReactElement } from "react";
+import { useState, useEffect, type ReactNode, type ReactElement, use } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
@@ -73,10 +73,16 @@ function SkeletonRow() {
 /* ------------------------------------------------------------------ */
 
 interface LeaderboardPageProps {
-  params: { lng: string };
+  params: Promise<{ lng: string }>;
 }
 
-export default function LeaderboardPage({ params: { lng } }: LeaderboardPageProps) {
+export default function LeaderboardPage(props: LeaderboardPageProps) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const { t: _t } = useTranslation("common");
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();

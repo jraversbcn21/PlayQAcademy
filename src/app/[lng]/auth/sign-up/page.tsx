@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, type FormEvent, type ReactNode } from "react";
+import { useState, useEffect, useMemo, type FormEvent, type ReactNode, use } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
@@ -73,10 +73,16 @@ function validatePassword(password: string): string | null {
 /* ------------------------------------------------------------------ */
 
 interface SignUpPageProps {
-  params: { lng: string };
+  params: Promise<{ lng: string }>;
 }
 
-export default function SignUpPage({ params: { lng } }: SignUpPageProps) {
+export default function SignUpPage(props: SignUpPageProps) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const { t } = useTranslation("common");
   const router = useRouter();
   const { user, loading, initialized, error, emailVerified, signUp, signInWithGoogle, clearError } =

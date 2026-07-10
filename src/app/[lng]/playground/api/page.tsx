@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, use } from "react";
 import { useTranslation } from "@/lib/i18n/client";
 import ExerciseHeader from "@/components/playground/ExerciseHeader";
 
@@ -32,7 +32,13 @@ const ENDPOINTS: EndpointDoc[] = [
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 
-export default function ApiPlaygroundPage({ params: { lng } }: { params: { lng: string } }) {
+export default function ApiPlaygroundPage(props: { params: Promise<{ lng: string }> }) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const { t: _t } = useTranslation("common");
   const [expanded, setExpanded] = useState<number | null>(null);
 

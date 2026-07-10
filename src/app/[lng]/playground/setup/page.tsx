@@ -1,8 +1,15 @@
-"use client";
+"use client";;
+import { use } from "react";
 
 import { useTranslation } from "@/lib/i18n/client";
 
-export default function SetupPage({ params: { lng } }: { params: { lng: string } }) {
+export default function SetupPage(props: { params: Promise<{ lng: string }> }) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const { t: _t } = useTranslation("common");
   const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://playqacademy.com";
   const playgroundUrl = `${baseUrl}/${lng}/playground`;

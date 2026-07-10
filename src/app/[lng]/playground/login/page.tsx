@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, use } from "react";
 import { useTranslation } from "@/lib/i18n/client";
 import ExerciseHeader from "@/components/playground/ExerciseHeader";
 
@@ -17,7 +17,13 @@ const VALID_USERS = {
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 
-export default function LoginPage({ params: { lng } }: { params: { lng: string } }) {
+export default function LoginPage(props: { params: Promise<{ lng: string }> }) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const { t: _t } = useTranslation("common");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -4,12 +4,16 @@ import Link from "next/link";
 import { useTranslation } from "@/lib/i18n";
 
 interface PageParams {
-  params: { lng: string };
+  params: Promise<{ lng: string }>;
 }
 
-export async function generateMetadata({
-  params: { lng },
-}: PageParams): Promise<Metadata> {
+export async function generateMetadata(props: PageParams): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    lng
+  } = params;
+
   const { t } = await useTranslation(lng, "common");
   return {
     title: t("terms.title"),
@@ -17,9 +21,13 @@ export async function generateMetadata({
   };
 }
 
-export default async function TermsPage({
-  params: { lng },
-}: PageParams) {
+export default async function TermsPage(props: PageParams) {
+  const params = await props.params;
+
+  const {
+    lng
+  } = params;
+
   const { t } = await useTranslation(lng, "common");
 
   const sections = [

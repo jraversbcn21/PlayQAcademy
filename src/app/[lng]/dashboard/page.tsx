@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, type ReactNode } from "react";
+import { useEffect, type ReactNode, use } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
@@ -142,14 +142,18 @@ function pickResumeModule(modules: ModuleProgressInfo[]): ModuleProgressInfo | n
 /* ------------------------------------------------------------------ */
 
 interface DashboardPageProps {
-  params: { lng: string };
-  searchParams: { welcome?: string };
+  params: Promise<{ lng: string }>;
+  searchParams: Promise<{ welcome?: string }>;
 }
 
-export default function DashboardPage({
-  params: { lng },
-  searchParams,
-}: DashboardPageProps) {
+export default function DashboardPage(props: DashboardPageProps) {
+  const searchParams = use(props.searchParams);
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const { t } = useTranslation("common");
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();

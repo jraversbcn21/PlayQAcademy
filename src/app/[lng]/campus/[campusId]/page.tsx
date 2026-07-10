@@ -3,12 +3,17 @@ import { getCampusById } from "@/lib/constants/campuses";
 import CampusPageClient from "./CampusPageClient";
 
 interface CampusPageProps {
-  params: { lng: string; campusId: string };
+  params: Promise<{ lng: string; campusId: string }>;
 }
 
-export async function generateMetadata({
-  params: { lng, campusId },
-}: CampusPageProps): Promise<Metadata> {
+export async function generateMetadata(props: CampusPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    lng,
+    campusId
+  } = params;
+
   const isEs = lng === "es";
   const lang = isEs ? "es" : "en";
   const campus = getCampusById(campusId);

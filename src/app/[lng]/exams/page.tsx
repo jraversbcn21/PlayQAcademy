@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
@@ -27,9 +27,15 @@ function fmtTime(seconds: number): string {
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 
-interface ExamsPageProps { params: { lng: string } }
+interface ExamsPageProps { params: Promise<{ lng: string }> }
 
-export default function ExamsPage({ params: { lng } }: ExamsPageProps) {
+export default function ExamsPage(props: ExamsPageProps) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const { t: _t } = useTranslation("common");
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();

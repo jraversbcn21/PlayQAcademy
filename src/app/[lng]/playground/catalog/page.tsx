@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, use } from "react";
 import { useTranslation } from "@/lib/i18n/client";
 import ExerciseHeader from "@/components/playground/ExerciseHeader";
 
@@ -35,7 +35,13 @@ const PRODUCTS: Product[] = [
 const CATEGORIES = ["Books", "Software", "Hardware", "Merch"];
 const ITEMS_PER_PAGE = 6;
 
-export default function CatalogPage({ params: { lng } }: { params: { lng: string } }) {
+export default function CatalogPage(props: { params: Promise<{ lng: string }> }) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const { t: _t } = useTranslation("common");
   const [search, setSearch] = useState("");
   const [selectedCats, setSelectedCats] = useState<Set<string>>(new Set());

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, use } from "react";
 import Link from "next/link";
 import { getSubCampuses } from "@/lib/constants/campuses";
 import {
@@ -58,9 +58,15 @@ function ExerciseCard({ exercise, lng }: { exercise: PlaygroundExercise; lng: st
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 
-interface PageProps { params: { lng: string } }
+interface PageProps { params: Promise<{ lng: string }> }
 
-export default function PlaygroundHomePage({ params: { lng } }: PageProps) {
+export default function PlaygroundHomePage(props: PageProps) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const [openCampusId, setOpenCampusId] = useState<string | null>(null);
 
   const campuses = getSubCampuses().map((campus) => ({

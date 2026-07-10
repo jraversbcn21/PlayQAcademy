@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, use } from "react";
 import { useTranslation } from "@/lib/i18n/client";
 import ExerciseHeader from "@/components/playground/ExerciseHeader";
 
@@ -34,7 +34,13 @@ const EMPLOYEES: Employee[] = Array.from({ length: 50 }, (_, i) => {
 const PAGE_SIZES = [10, 25, 50];
 const DEPTS = [...new Set(EMPLOYEES.map((e) => e.department))];
 
-export default function DataTablePage({ params: { lng } }: { params: { lng: string } }) {
+export default function DataTablePage(props: { params: Promise<{ lng: string }> }) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const { t: _t } = useTranslation("common");
   const [sortCol, setSortCol] = useState<string>("id");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");

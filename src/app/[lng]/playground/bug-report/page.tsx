@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, use } from "react";
 
 /* ------------------------------------------------------------------ */
 /*  Content                                                            */
@@ -251,7 +251,13 @@ function ScenarioForm({ scenario, lng }: { scenario: Scenario; lng: string }) {
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 
-export default function BugReportDrillPage({ params: { lng } }: { params: { lng: string } }) {
+export default function BugReportDrillPage(props: { params: Promise<{ lng: string }> }) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   return (
     <div className="px-4 py-8">
       <div className="container-app max-w-3xl">

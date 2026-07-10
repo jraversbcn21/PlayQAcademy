@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, use } from "react";
 import { useTranslation } from "@/lib/i18n/client";
 import ExerciseHeader from "@/components/playground/ExerciseHeader";
 
@@ -23,7 +23,13 @@ const INITIAL_ITEMS: CartItem[] = [
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 
-export default function CartPage({ params: { lng } }: { params: { lng: string } }) {
+export default function CartPage(props: { params: Promise<{ lng: string }> }) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const { t: _t } = useTranslation("common");
   const [items, setItems] = useState<CartItem[]>(INITIAL_ITEMS);
   const [coupon, setCoupon] = useState("");

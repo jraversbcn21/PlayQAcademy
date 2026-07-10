@@ -1,4 +1,5 @@
-"use client";
+"use client";;
+import { use } from "react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -12,10 +13,20 @@ import { getCampusById } from "@/lib/constants/campuses";
 
 interface PlaygroundLayoutProps {
   children: ReactNode;
-  params: { lng: string };
+  params: Promise<{ lng: string }>;
 }
 
-export default function PlaygroundLayout({ children, params: { lng } }: PlaygroundLayoutProps) {
+export default function PlaygroundLayout(props: PlaygroundLayoutProps) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
+  const {
+    children
+  } = props;
+
   const pathname = usePathname();
 
   const isIndex = pathname === `/${lng}/playground`;

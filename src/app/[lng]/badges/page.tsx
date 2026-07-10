@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
@@ -28,10 +28,16 @@ const FILTERS: { value: RarityFilter; labelEs: string; labelEn: string }[] = [
 /* ------------------------------------------------------------------ */
 
 interface BadgesPageProps {
-  params: { lng: string };
+  params: Promise<{ lng: string }>;
 }
 
-export default function BadgesPage({ params: { lng } }: BadgesPageProps) {
+export default function BadgesPage(props: BadgesPageProps) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const { t: _t } = useTranslation("common");
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();

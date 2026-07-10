@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, use } from "react";
 
 /* ------------------------------------------------------------------ */
 /*  Content                                                            */
@@ -52,7 +52,13 @@ const SHUFFLED_TC_IDS = ["password-reset", "load-capacity", "login-lockout", "sc
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 
-export default function RequirementsMatchDrillPage({ params: { lng } }: { params: { lng: string } }) {
+export default function RequirementsMatchDrillPage(props: { params: Promise<{ lng: string }> }) {
+  const params = use(props.params);
+
+  const {
+    lng
+  } = params;
+
   const [selectedReqId, setSelectedReqId] = useState<string | null>(null);
   const [matched, setMatched] = useState<Set<string>>(new Set());
   const [wrongFlash, setWrongFlash] = useState<{ reqId: string; tcId: string } | null>(null);

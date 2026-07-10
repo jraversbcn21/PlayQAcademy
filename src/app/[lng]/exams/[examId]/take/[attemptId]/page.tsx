@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, use } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useGamificationUI } from "@/context/GamificationContext";
@@ -89,9 +89,17 @@ function QuestionNavigator({
 /*  Take page                                                          */
 /* ------------------------------------------------------------------ */
 
-interface TakePageProps { params: { lng: string; examId: string; attemptId: string } }
+interface TakePageProps { params: Promise<{ lng: string; examId: string; attemptId: string }> }
 
-export default function ExamTakePage({ params: { lng, examId, attemptId } }: TakePageProps) {
+export default function ExamTakePage(props: TakePageProps) {
+  const params = use(props.params);
+
+  const {
+    lng,
+    examId,
+    attemptId
+  } = params;
+
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
   const { queueBadges } = useGamificationUI();
