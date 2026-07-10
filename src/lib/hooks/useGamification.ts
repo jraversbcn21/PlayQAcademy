@@ -9,6 +9,7 @@ import { getLevelFromPoints, getPointsToNextLevel, getLevelProgress } from "@/li
 import { checkAndAwardBadges, type BadgeCheckContext } from "@/lib/gamification/badgeChecker";
 import { getUserProgress } from "@/lib/firebase/firestore";
 import { db } from "@/lib/firebase/config";
+import { localDateStr, localYesterdayStr } from "@/lib/utils/date";
 import {
   doc,
   getDoc,
@@ -62,13 +63,11 @@ function defaultGamification(uid: string): UserGamification {
 }
 
 function todayStr(): string {
-  return new Date().toISOString().slice(0, 10);
+  return localDateStr();
 }
 
 function yesterdayStr(): string {
-  const d = new Date();
-  d.setDate(d.getDate() - 1);
-  return d.toISOString().slice(0, 10);
+  return localYesterdayStr();
 }
 
 /**
