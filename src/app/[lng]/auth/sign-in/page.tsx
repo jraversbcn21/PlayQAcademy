@@ -39,11 +39,7 @@ function GoogleIcon(): ReactNode {
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 
-interface SignInPageProps {
-  params: Promise<{ lng: string }>;
-}
-
-function SignInForm({ params: { lng } }: SignInPageProps) {
+function SignInForm({ lng }: { lng: string }) {
   const { t } = useTranslation("common");
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -242,7 +238,12 @@ function SignInForm({ params: { lng } }: SignInPageProps) {
   );
 }
 
-export default function SignInPage(props: SignInPageProps) {
+interface SignInPageProps {
+  params: Promise<{ lng: string }>;
+}
+
+export default async function SignInPage({ params }: SignInPageProps) {
+  const { lng } = await params;
   return (
     <Suspense
       fallback={
@@ -251,8 +252,7 @@ export default function SignInPage(props: SignInPageProps) {
         </div>
       }
     >
-      <SignInForm /* @next-codemod-error 'props' is used with spread syntax (...). Any asynchronous properties of 'props' must be awaited when accessed. */
-      {...props} />
+      <SignInForm lng={lng} />
     </Suspense>
   );
 }
