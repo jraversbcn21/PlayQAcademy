@@ -6,6 +6,7 @@
  */
 
 import type { Badge } from "@/types/gamification";
+import { TOTAL_QUIZ_SECTIONS } from "./lessons/registry";
 
 export const BADGES: Badge[] = [
   /* ================================================================== */
@@ -313,7 +314,7 @@ export const BADGES: Badge[] = [
     icon: "👑",
     rarity: "legendary",
     points: 750,
-    criteria: { type: "perfect_quizzes", count: 44 },
+    criteria: { type: "perfect_quizzes", count: TOTAL_QUIZ_SECTIONS },
   },
   {
     id: "all_badges",
