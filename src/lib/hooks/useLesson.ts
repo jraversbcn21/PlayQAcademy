@@ -6,6 +6,7 @@ import {
   getModuleById,
   getLessonById,
 } from "@/lib/constants/curriculum";
+import { getCampusForModule, getModulesForCampus } from "@/lib/constants/campuses";
 import type { LessonContent, LessonMeta } from "@/types/lesson";
 import type { Badge } from "@/types/gamification";
 import { getLessonContent } from "@/lib/constants/lessons/registry";
@@ -85,24 +86,33 @@ export function useLessonNavigation(
     let prev: { moduleId: string; lessonId: string } | null = null;
     let next: { moduleId: string; lessonId: string } | null = null;
 
-    // Previous: same module if not first, else last lesson of previous module
+    // Module order WITHIN the lesson's campus — prev/next never cross
+    // campus boundaries (global `order ± 1` used to jump from the last
+    // Automation lesson straight into ISTQB).
+    const campus = getCampusForModule(moduleId);
+    const campusModuleIds = campus ? getModulesForCampus(campus.id) : [];
+    const cIdx = campusModuleIds.indexOf(moduleId);
+
+    // Previous: same module if not first, else last lesson of the previous
+    // module in the SAME campus.
     if (idx > 0) {
       const pl = mod.lessons[idx - 1];
       if (pl) prev = { moduleId, lessonId: pl.id };
-    } else {
-      const prevMod = CURRICULUM.find((m) => m.order === mod.order - 1);
+    } else if (cIdx > 0) {
+      const prevMod = CURRICULUM.find((m) => m.id === campusModuleIds[cIdx - 1]);
       if (prevMod && prevMod.lessons.length > 0) {
         const last = prevMod.lessons[prevMod.lessons.length - 1];
         if (last) prev = { moduleId: prevMod.id, lessonId: last.id };
       }
     }
 
-    // Next: same module if not last, else first lesson of next module
+    // Next: same module if not last, else first lesson of the next module
+    // in the SAME campus (null at the campus's final lesson).
     if (idx < mod.lessons.length - 1) {
       const nl = mod.lessons[idx + 1];
       if (nl) next = { moduleId, lessonId: nl.id };
-    } else {
-      const nextMod = CURRICULUM.find((m) => m.order === mod.order + 1);
+    } else if (cIdx >= 0 && cIdx < campusModuleIds.length - 1) {
+      const nextMod = CURRICULUM.find((m) => m.id === campusModuleIds[cIdx + 1]);
       if (nextMod && nextMod.lessons.length > 0) {
         const first = nextMod.lessons[0];
         if (first) next = { moduleId: nextMod.id, lessonId: first.id };
