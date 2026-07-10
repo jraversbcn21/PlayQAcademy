@@ -239,17 +239,13 @@ export const BADGES: Badge[] = [
       en: "Speed Learner",
     },
     description: {
-      es: "Completaste el módulo de Fundamentos TypeScript en menos de 90 minutos.",
-      en: "You completed the TypeScript Foundations module in under 90 minutes.",
+      es: "Completaste 5 lecciones en un solo día.",
+      en: "You completed 5 lessons in a single day.",
     },
     icon: "⚡",
     rarity: "epic",
     points: 100,
-    criteria: {
-      type: "speed_learner",
-      minutesUnder: 90,
-      moduleId: "m1-typescript-foundations",
-    },
+    criteria: { type: "lessons_in_one_day", count: 5 },
   },
   {
     id: "streak_30",

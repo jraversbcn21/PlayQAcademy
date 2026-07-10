@@ -20,8 +20,8 @@ export interface BadgeCheckContext {
   perfectQuizIds: string[];
   exerciseCompletedCount: number;
   currentStreak: number;
-  /** Speed data: moduleId → minutes taken to complete */
-  moduleCompletionTimes?: Record<string, number>;
+  /** Lessons completed today (local date) — populated by markLessonComplete. */
+  lessonsCompletedToday?: number;
   /** Exam IDs the user has passed (populated from the exam flow). */
   passedExamIds?: string[];
 }
@@ -127,10 +127,8 @@ function meetsCriteria(criteria: BadgeCriteria, ctx: BadgeCheckContext, earnedId
       // silently stops meaning "all of Automation's exercises".
       return ctx.exerciseCompletedCount >= criteria.count;
 
-    case "speed_learner":
-      if (!ctx.moduleCompletionTimes) return false;
-      const time = ctx.moduleCompletionTimes[criteria.moduleId];
-      return time !== undefined && time < criteria.minutesUnder;
+    case "lessons_in_one_day":
+      return (ctx.lessonsCompletedToday ?? 0) >= criteria.count;
 
     case "exam_passed":
       return ctx.passedExamIds?.includes(criteria.examId) ?? false;

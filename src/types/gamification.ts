@@ -20,7 +20,7 @@ export type BadgeCriteria =
   | { type: "streak_days"; days: number }
   | { type: "first_login" }
   | { type: "exercise_completed"; count: number }
-  | { type: "speed_learner"; minutesUnder: number; moduleId: string }
+  | { type: "lessons_in_one_day"; count: number }
   | { type: "exam_passed"; examId: string }
   | { type: "all_badges_earned" };
 

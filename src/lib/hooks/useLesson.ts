@@ -37,6 +37,7 @@ import { updateDoc, setDoc, doc, arrayUnion, arrayRemove, getDoc } from "firebas
 import { db } from "@/lib/firebase/config";
 import { checkAndAwardBadges } from "@/lib/gamification/badgeChecker";
 import { getLevelFromPoints } from "@/lib/gamification/levels";
+import { localDateStr } from "@/lib/utils/date";
 
 /* ------------------------------------------------------------------ */
 /*  Lesson registry (extend with new module imports)                    */
@@ -210,6 +211,8 @@ export async function markLessonComplete(
   let totalPoints = 0;
   let correctQuizIds: string[] = [];
   let completedExerciseIds: string[] = [];
+  const today = localDateStr();
+  let lessonsToday = 1;
   if (db) {
     const gRef = doc(db, "gamification", uid);
     const gSnap = await getDoc(gRef).catch(() => null);
@@ -219,12 +222,22 @@ export async function markLessonComplete(
       oldLevel = (d["level"] as number) ?? 1;
       correctQuizIds = (d["correctQuizIds"] as string[]) ?? [];
       completedExerciseIds = (d["completedExerciseIds"] as string[]) ?? [];
-      await updateDoc(gRef, { totalPoints, level: getLevelFromPoints(totalPoints).level }).catch(() => {});
+      lessonsToday = (d["lessonsTodayDate"] as string) === today
+        ? ((d["lessonsToday"] as number) ?? 0) + 1
+        : 1;
+      await updateDoc(gRef, {
+        totalPoints,
+        level: getLevelFromPoints(totalPoints).level,
+        lessonsToday,
+        lessonsTodayDate: today,
+      }).catch(() => {});
     } else {
       totalPoints = 10;
       await setDoc(gRef, {
         uid, totalPoints, level: 1, currentStreak, longestStreak: Math.max(currentStreak, 1),
-        lastActivityDate: new Date().toISOString().slice(0, 10),
+        lastActivityDate: today,
+        lessonsToday: 1,
+        lessonsTodayDate: today,
         earnedBadges: [],
         quizStats: { totalAttempts: 0, correctOnFirstTry: 0, perfectQuizzes: 0 },
         correctQuizIds: [],
@@ -242,6 +255,7 @@ export async function markLessonComplete(
     perfectQuizIds: correctQuizIds,
     exerciseCompletedCount: completedExerciseIds.length,
     currentStreak,
+    lessonsCompletedToday: lessonsToday,
   });
 
   return {
