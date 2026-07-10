@@ -1,5 +1,5 @@
 /**
- * PlayQAcademy — 20 Badge Definitions.
+ * PlayQAcademy — Badge definitions (the full catalog; count them, don't trust a number here).
  *
  * Each badge has a unique id, bilingual name/description, emoji icon,
  * rarity, points reward, and typed criteria used by badgeChecker.ts.
@@ -221,17 +221,17 @@ export const BADGES: Badge[] = [
   {
     id: "perfect_module",
     name: {
-      es: "Perfeccionista de Módulo",
-      en: "Module Perfectionist",
+      es: "Perfeccionista Avanzado",
+      en: "Advanced Perfectionist",
     },
     description: {
-      es: "Respondiste todos los quizzes de un módulo correctamente en el primer intento.",
-      en: "You answered all quizzes in a module correctly on the first try.",
+      es: "Respondiste 15 quizzes perfectamente en el primer intento.",
+      en: "You answered 15 quizzes perfectly on the first try.",
     },
     icon: "⭐",
     rarity: "epic",
     points: 150,
-    criteria: { type: "perfect_quizzes", count: 5 },
+    criteria: { type: "perfect_quizzes", count: 15 },
   },
   {
     id: "speed_learner",
