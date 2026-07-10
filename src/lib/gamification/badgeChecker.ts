@@ -7,7 +7,7 @@ import type { Badge, BadgeCriteria, EarnedBadge } from "@/types/gamification";
 import { BADGES } from "@/lib/constants/badges";
 import { getModulesForCampus } from "@/lib/constants/campuses";
 import { db } from "@/lib/firebase/config";
-import { doc, getDoc, updateDoc, arrayUnion, type DocumentData, type UpdateData } from "firebase/firestore";
+import { doc, getDoc, updateDoc, setDoc, arrayUnion, type DocumentData, type UpdateData } from "firebase/firestore";
 
 /* ------------------------------------------------------------------ */
 /*  Context passed after each key event                                */
@@ -71,9 +71,22 @@ export async function checkAndAwardBadges(
     updates.totalPoints = currentPoints + pointsToAdd;
   }
 
-  await updateDoc(ref, updates as UpdateData<DocumentData>).catch(() => {
-    // Create the doc if it doesn't exist yet
-  });
+  try {
+    await updateDoc(ref, updates as UpdateData<DocumentData>);
+  } catch {
+    // updateDoc rejects if the doc doesn't exist yet — create it instead.
+    try {
+      await setDoc(
+        ref,
+        { uid, earnedBadges: arrayUnion(...newEarned), totalPoints: currentPoints + pointsToAdd },
+        { merge: true }
+      );
+    } catch {
+      // Persist failed for real: don't report badges the user won't have —
+      // every returned badge triggers a BadgeUnlockedModal upstream.
+      return [];
+    }
+  }
 
   // Also update level — handled by the useGamification hook on next fetch
   return newlyEarned;
