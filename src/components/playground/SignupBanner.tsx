@@ -36,7 +36,7 @@ export default function SignupBanner({ lng }: { lng: string }) {
           localStorage.setItem(DISMISS_KEY, "1");
           setDismissed(true);
         }}
-        className="shrink-0 text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]"
+        className="-m-1 shrink-0 p-1 text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]"
       >
         ✕
       </button>
