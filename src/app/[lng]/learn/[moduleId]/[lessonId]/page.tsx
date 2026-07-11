@@ -106,7 +106,7 @@ export default function LessonPlayerPage(props: LessonPageProps) {
   const { data: gData } = useGamification(user?.uid);
   const { queueBadges, triggerLevelUp } = useGamificationUI();
 
-  const { content, meta, exists } = useLesson(moduleId, lessonId, lng);
+  const { content, meta, exists } = useLesson(moduleId, lessonId);
   const { prevLesson, nextLesson } = useLessonNavigation(moduleId, lessonId);
   const { bookmarked, toggle, loading: bookmarkLoading } = useBookmarked(
     user?.uid,

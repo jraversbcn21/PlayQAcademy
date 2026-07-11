@@ -31,15 +31,13 @@ interface UseLessonResult {
 
 export function useLesson(
   moduleId: string,
-  lessonId: string,
-  lng: string
+  lessonId: string
 ): UseLessonResult {
   return useMemo(() => {
     const mod = getModuleById(moduleId);
     const les = mod ? getLessonById(moduleId, lessonId) : null;
     const content = getLessonContent(moduleId, lessonId);
     const exists = !!mod && !!les && !!content;
-    const _lngKey = lng === "es" ? "es" : "en";
 
     if (!mod || !les) {
       return { content: null, meta: null, exists: false };
@@ -60,7 +58,7 @@ export function useLesson(
     };
 
     return { content, meta, exists };
-  }, [moduleId, lessonId, lng]);
+  }, [moduleId, lessonId]);
 }
 
 /* ------------------------------------------------------------------ */
