@@ -155,8 +155,14 @@ export async function markLessonComplete(
   let lessonsToday = 1;
   if (db) {
     const gRef = doc(db, "gamification", uid);
-    const gSnap = await getDoc(gRef).catch(() => null);
-    if (gSnap?.exists()) {
+    const gSnap = await getDoc(gRef).catch(() => "error" as const);
+
+    if (gSnap === "error") {
+      // Read failed — can't tell "doc missing" from "read errored", and
+      // treating it as missing would setDoc bare defaults over an existing
+      // doc, wiping badges/points. Skip the gamification write; lesson
+      // progress itself is already persisted via fbUpdateProgress above.
+    } else if (gSnap.exists()) {
       const d = gSnap.data() as Record<string, unknown>;
       totalPoints = ((d["totalPoints"] as number) ?? 0) + 10;
       oldLevel = (d["level"] as number) ?? 1;
