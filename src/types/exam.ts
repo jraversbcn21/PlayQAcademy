@@ -76,6 +76,13 @@ export interface ExamAttempt {
   score: number; // 0-100
   passed: boolean;
   status: ExamStatus;
+  /**
+   * Ids of the questions generated for THIS attempt, in display order.
+   * Persisted at start so review/scoring always use the exact set the
+   * user saw, even if the question bank changes later. Attempts created
+   * before this field existed fall back to seeded regeneration.
+   */
+  questionIds?: string[];
 }
 
 /* ------------------------------------------------------------------ */

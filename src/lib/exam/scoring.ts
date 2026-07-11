@@ -24,6 +24,17 @@ export function getQuestionsForModules(moduleIds: string[]): ExamQuestion[] {
   );
 }
 
+/** Resolve questions by id, preserving the given order. Ids missing from the bank are skipped. */
+export function getQuestionsByIds(ids: string[]): ExamQuestion[] {
+  const byId = new Map(QUESTION_BANK.map((q) => [q.id, q]));
+  const out: ExamQuestion[] = [];
+  for (const id of ids) {
+    const q = byId.get(id);
+    if (q) out.push(q);
+  }
+  return out;
+}
+
 /* ------------------------------------------------------------------ */
 /*  Question generation                                                */
 /* ------------------------------------------------------------------ */

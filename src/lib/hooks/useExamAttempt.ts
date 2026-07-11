@@ -13,10 +13,10 @@ import {
   updateDoc,
   type DocumentData,
 } from "firebase/firestore";
-import type { ExamAttempt, ExamAnswer } from "@/types/exam";
+import type { ExamAttempt, ExamAnswer, ExamQuestion } from "@/types/exam";
 import type { Badge } from "@/types/gamification";
 import { EXAMS_BY_ID } from "@/lib/constants/exams";
-import { generateExamQuestions, calculateScore } from "@/lib/exam/scoring";
+import { generateExamQuestions, getQuestionsByIds, calculateScore } from "@/lib/exam/scoring";
 import { getLevelFromPoints } from "@/lib/gamification/levels";
 import { recordExamPassed } from "@/lib/hooks/useGamification";
 
@@ -34,6 +34,8 @@ export async function startExamAttempt(
   const exam = EXAMS_BY_ID[examId];
   if (!exam) throw new Error("Exam not found");
 
+  const questions = generateExamQuestions(examId, uid, exam.moduleIds, exam.questionCount);
+
   const now = new Date().toISOString();
   const attempt: ExamAttempt = {
     id: attemptId,
@@ -46,6 +48,7 @@ export async function startExamAttempt(
     score: 0,
     passed: false,
     status: "in_progress",
+    questionIds: questions.map((q) => q.id),
   };
 
   await setDoc(doc(db, "exam_attempts", attemptId), attempt);
@@ -89,6 +92,26 @@ export async function saveAnswer(
 }
 
 /* ------------------------------------------------------------------ */
+/*  Resolve an attempt's question set                                  */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The question set for an attempt: the persisted `questionIds` when present
+ * (exact set the user saw), else the legacy seeded regeneration (attempts
+ * created before questionIds existed). If any persisted id no longer exists
+ * in the bank (question deleted/renamed), falls back to regeneration too.
+ */
+export function resolveAttemptQuestions(attempt: ExamAttempt): ExamQuestion[] {
+  const exam = EXAMS_BY_ID[attempt.examId];
+  if (!exam) return [];
+  if (attempt.questionIds && attempt.questionIds.length > 0) {
+    const qs = getQuestionsByIds(attempt.questionIds);
+    if (qs.length === attempt.questionIds.length) return qs;
+  }
+  return generateExamQuestions(attempt.examId, attempt.userId, exam.moduleIds, exam.questionCount);
+}
+
+/* ------------------------------------------------------------------ */
 /*  Submit exam                                                        */
 /* ------------------------------------------------------------------ */
 
@@ -107,7 +130,7 @@ export async function submitExam(
   const exam = EXAMS_BY_ID[examId];
   if (!exam) throw new Error("Exam not found");
 
-  const questions = generateExamQuestions(examId, data["userId"] as string, exam.moduleIds, exam.questionCount);
+  const questions = resolveAttemptQuestions(data as ExamAttempt);
   const score = calculateScore(answers, questions);
 
   const passed = score >= exam.passingScore;
