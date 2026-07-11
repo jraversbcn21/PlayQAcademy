@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useGamificationUI } from "@/context/GamificationContext";
 import { EXAMS_BY_ID } from "@/lib/constants/exams";
 import { generateExamQuestions } from "@/lib/exam/scoring";
-import { saveAnswer, submitExam } from "@/lib/hooks/useExamAttempt";
+import { getAttempt, resolveAttemptQuestions, saveAnswer, submitExam } from "@/lib/hooks/useExamAttempt";
 import type { ExamQuestion, ExamAnswer } from "@/types/exam";
 import Button from "@/components/ui/Button";
 
@@ -118,11 +118,22 @@ export default function ExamTakePage(props: TakePageProps) {
     if (!user) { router.push(`/${lng}/auth/sign-in`); return; }
     const exam = EXAMS_BY_ID[examId];
     if (!exam) return;
-    const qs = generateExamQuestions(examId, user.uid, exam.moduleIds, exam.questionCount);
-    setQuestions(qs);
-    setGenerated(true);
-    endTimeRef.current = Date.now() + exam.timeLimit * 1000;
-  }, [user, authLoading, examId, lng, router]);
+    const uid = user.uid;
+    const examDef = exam;
+    let cancelled = false;
+    async function load() {
+      const att = await getAttempt(attemptId);
+      if (cancelled) return;
+      const qs = att
+        ? resolveAttemptQuestions(att)
+        : generateExamQuestions(examId, uid, examDef.moduleIds, examDef.questionCount);
+      setQuestions(qs);
+      setGenerated(true);
+      endTimeRef.current = Date.now() + examDef.timeLimit * 1000;
+    }
+    load();
+    return () => { cancelled = true; };
+  }, [user, authLoading, examId, attemptId, lng, router]);
 
   // Tab switch detection
   useEffect(() => {

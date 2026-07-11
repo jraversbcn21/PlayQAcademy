@@ -4,9 +4,8 @@ import { useEffect, useState, use } from "react";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
-import { getAttempt } from "@/lib/hooks/useExamAttempt";
+import { getAttempt, resolveAttemptQuestions } from "@/lib/hooks/useExamAttempt";
 import { EXAMS_BY_ID } from "@/lib/constants/exams";
-import { generateExamQuestions } from "@/lib/exam/scoring";
 import { identifyWeakAreas } from "@/lib/exam/scoring";
 import { CURRICULUM } from "@/lib/constants/curriculum";
 import type { ExamAttempt, ExamQuestion } from "@/types/exam";
@@ -39,7 +38,7 @@ export default function ExamResultsPage(props: ResultsPageProps) {
       if (!att || !user) { setLoading(false); return; }
       const exam = EXAMS_BY_ID[examId];
       if (!exam) { setLoading(false); return; }
-      const qs = generateExamQuestions(examId, user.uid, exam.moduleIds, exam.questionCount);
+      const qs = resolveAttemptQuestions(att);
       setAttempt(att);
       setQuestions(qs);
       setLoading(false);
