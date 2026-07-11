@@ -9,6 +9,7 @@ import {
   type ExerciseDifficulty,
 } from "@/lib/constants/playground";
 import Badge from "@/components/ui/Badge";
+import SignupBanner from "@/components/playground/SignupBanner";
 
 /* ------------------------------------------------------------------ */
 /*  Exercise card                                                      */
@@ -104,6 +105,8 @@ export default function PlaygroundHomePage(props: PageProps) {
             </Link>
           </div>
         </div>
+
+        <SignupBanner lng={lng} />
 
         {/* Campus pill row */}
         <div className="mb-6 grid gap-3 sm:grid-cols-3">
