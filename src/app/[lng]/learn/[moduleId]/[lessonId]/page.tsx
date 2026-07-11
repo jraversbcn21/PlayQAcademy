@@ -101,7 +101,7 @@ export default function LessonPlayerPage(props: LessonPageProps) {
 
   const { t } = useTranslation("common");
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { getLessonStatus, progressData } = useProgress(user?.uid);
   const { data: gData } = useGamification(user?.uid);
   const { queueBadges, triggerLevelUp } = useGamificationUI();
@@ -331,7 +331,7 @@ export default function LessonPlayerPage(props: LessonPageProps) {
           <Button
             variant="primary"
             size="sm"
-            disabled={lessonCompleted}
+            disabled={lessonCompleted || authLoading}
             loading={completing}
             className={
               lessonCompleted
