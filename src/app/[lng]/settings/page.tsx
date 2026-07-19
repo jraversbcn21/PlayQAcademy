@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type FormEvent, use } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
@@ -28,6 +28,7 @@ export default function SettingsPage(props: SettingsPageProps) {
 
   const { t } = useTranslation("common");
   const router = useRouter();
+  const pathname = usePathname();
   const { user, loading: authLoading, updateDisplayName } = useAuth();
 
   const [displayName, setDisplayName] = useState("");
@@ -41,8 +42,9 @@ export default function SettingsPage(props: SettingsPageProps) {
   const [resetError, setResetError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!authLoading && !user) router.push(`/${lng}/auth/sign-in`);
-  }, [authLoading, user, lng, router]);
+    if (!authLoading && !user)
+      router.push(`/${lng}/auth/sign-in?callbackUrl=${encodeURIComponent(pathname)}`);
+  }, [authLoading, user, lng, router, pathname]);
 
   useEffect(() => {
     if (user) {

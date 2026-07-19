@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, type ReactNode, type ReactElement, use } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
 import { fetchLeaderboard } from "@/lib/hooks/useGamification";
@@ -85,14 +85,16 @@ export default function LeaderboardPage(props: LeaderboardPageProps) {
 
   const { t: _t } = useTranslation("common");
   const router = useRouter();
+  const pathname = usePathname();
   const { user, loading: authLoading } = useAuth();
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!authLoading && !user) router.push(`/${lng}/auth/sign-in`);
-  }, [authLoading, user, lng, router]);
+    if (!authLoading && !user)
+      router.push(`/${lng}/auth/sign-in?callbackUrl=${encodeURIComponent(pathname)}`);
+  }, [authLoading, user, lng, router, pathname]);
 
   useEffect(() => {
     let cancelled = false;

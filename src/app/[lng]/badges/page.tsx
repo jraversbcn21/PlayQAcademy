@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, use } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
 import { useGamification } from "@/lib/hooks/useGamification";
@@ -40,13 +40,15 @@ export default function BadgesPage(props: BadgesPageProps) {
 
   const { t: _t } = useTranslation("common");
   const router = useRouter();
+  const pathname = usePathname();
   const { user, loading: authLoading } = useAuth();
   const { data: gData, loading: gLoading } = useGamification(user?.uid);
   const [filter, setFilter] = useState<RarityFilter>("all");
 
   useEffect(() => {
-    if (!authLoading && !user) router.push(`/${lng}/auth/sign-in`);
-  }, [authLoading, user, lng, router]);
+    if (!authLoading && !user)
+      router.push(`/${lng}/auth/sign-in?callbackUrl=${encodeURIComponent(pathname)}`);
+  }, [authLoading, user, lng, router, pathname]);
 
   if (authLoading || !user || gLoading) {
     return (

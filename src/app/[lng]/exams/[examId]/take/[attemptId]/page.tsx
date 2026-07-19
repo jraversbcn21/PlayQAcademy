@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef, use } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useGamificationUI } from "@/context/GamificationContext";
 import { EXAMS_BY_ID } from "@/lib/constants/exams";
@@ -101,6 +101,7 @@ export default function ExamTakePage(props: TakePageProps) {
   } = params;
 
   const router = useRouter();
+  const pathname = usePathname();
   const { user, loading: authLoading } = useAuth();
   const { queueBadges } = useGamificationUI();
   const [questions, setQuestions] = useState<ExamQuestion[]>([]);
@@ -115,7 +116,10 @@ export default function ExamTakePage(props: TakePageProps) {
 
   useEffect(() => {
     if (authLoading) return;
-    if (!user) { router.push(`/${lng}/auth/sign-in`); return; }
+    if (!user) {
+      router.push(`/${lng}/auth/sign-in?callbackUrl=${encodeURIComponent(pathname)}`);
+      return;
+    }
     const exam = EXAMS_BY_ID[examId];
     if (!exam) return;
     const uid = user.uid;
@@ -133,7 +137,7 @@ export default function ExamTakePage(props: TakePageProps) {
     }
     load();
     return () => { cancelled = true; };
-  }, [user, authLoading, examId, attemptId, lng, router]);
+  }, [user, authLoading, examId, attemptId, lng, router, pathname]);
 
   // Tab switch detection
   useEffect(() => {

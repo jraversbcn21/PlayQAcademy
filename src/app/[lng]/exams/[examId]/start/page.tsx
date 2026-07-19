@@ -2,7 +2,7 @@
 
 import { useEffect, use } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
 import { useProgress } from "@/lib/hooks/useProgress";
@@ -36,13 +36,15 @@ export default function ExamStartPage(props: StartPageProps) {
 
   const { t: _t } = useTranslation("common");
   const router = useRouter();
+  const pathname = usePathname();
   const { user, loading: authLoading } = useAuth();
   const { isModuleUnlocked } = useProgress(user?.uid);
 
   const exam = EXAMS_BY_ID[examId];
   useEffect(() => {
-    if (!authLoading && !user) router.push(`/${lng}/auth/sign-in`);
-  }, [authLoading, user, lng, router]);
+    if (!authLoading && !user)
+      router.push(`/${lng}/auth/sign-in?callbackUrl=${encodeURIComponent(pathname)}`);
+  }, [authLoading, user, lng, router, pathname]);
 
   if (!exam) return null;
 
