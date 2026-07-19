@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, type FormEvent, type ReactNode } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n/client";
 import { useAuth } from "@/context/AuthContext";
@@ -33,10 +33,18 @@ function GoogleIcon(): ReactNode {
 
 export default function SignInForm({ lng }: { lng: string }) {
   const { t } = useTranslation("common");
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const { user, loading, initialized, error, emailVerified, signIn, signInWithGoogle, clearError } =
-    useAuth();
+  const {
+    user,
+    loading,
+    initialized,
+    error,
+    emailVerified,
+    signIn,
+    signInWithGoogle,
+    clearError,
+    navigateAfterAuth,
+  } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -51,9 +59,9 @@ export default function SignInForm({ lng }: { lng: string }) {
 
   useEffect(() => {
     if (initialized && user) {
-      router.replace(emailVerified ? redirectTarget : `/${lng}/auth/verify-email`);
+      navigateAfterAuth(emailVerified ? redirectTarget : `/${lng}/auth/verify-email`);
     }
-  }, [initialized, user, emailVerified, lng, router, redirectTarget]);
+  }, [initialized, user, emailVerified, lng, navigateAfterAuth, redirectTarget]);
 
   const displayedError = formError ?? error;
 
@@ -70,7 +78,7 @@ export default function SignInForm({ lng }: { lng: string }) {
     setSubmitting(true);
     try {
       const verified = await signIn(email.trim(), password);
-      router.replace(verified ? redirectTarget : `/${lng}/auth/verify-email`);
+      navigateAfterAuth(verified ? redirectTarget : `/${lng}/auth/verify-email`);
     } catch {
     } finally {
       setSubmitting(false);
@@ -83,7 +91,7 @@ export default function SignInForm({ lng }: { lng: string }) {
     setSubmitting(true);
     try {
       const verified = await signInWithGoogle();
-      router.replace(verified ? redirectTarget : `/${lng}/auth/verify-email`);
+      navigateAfterAuth(verified ? redirectTarget : `/${lng}/auth/verify-email`);
     } catch {
     } finally {
       setSubmitting(false);
@@ -204,7 +212,11 @@ export default function SignInForm({ lng }: { lng: string }) {
         <p className="mt-6 text-center text-sm text-[var(--color-text-muted)]">
           {t("auth.signIn.noAccount")}{" "}
           <Link
-            href={`/${lng}/auth/sign-up`}
+            href={
+              callbackUrl
+                ? `/${lng}/auth/sign-up?callbackUrl=${encodeURIComponent(callbackUrl)}`
+                : `/${lng}/auth/sign-up`
+            }
             className="font-medium text-brand-forest-400 hover:text-brand-forest-300"
           >
             {t("auth.signIn.signUpLink")}

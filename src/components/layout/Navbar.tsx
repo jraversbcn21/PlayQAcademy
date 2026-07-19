@@ -254,10 +254,12 @@ export default function Navbar({ currentLng }: NavbarProps) {
   /* ---------- Auth actions ---------- */
 
   const handleSignOut = useCallback(async () => {
-    await signOut();
     setDropdownOpen(false);
-    router.push(`/${currentLng}`);
-  }, [signOut, router, currentLng]);
+    // signOut owns the redirect: it dispatches it after purging the Router
+    // Cache, so it can't lose the race against the underlying protected
+    // page's own guard (which pushes sign-in the moment user flips to null).
+    await signOut(`/${currentLng}`);
+  }, [signOut, currentLng]);
 
   const navigateTo = useCallback(
     (path: string) => router.push(`/${currentLng}${path}`),

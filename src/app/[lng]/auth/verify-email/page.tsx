@@ -12,8 +12,15 @@ export default function VerifyEmailPage() {
   const { t } = useTranslation("common");
   const router = useRouter();
   const { lng } = useParams() as { lng: string };
-  const { user, initialized, emailVerified, refreshVerification, resendVerification, signOut } =
-    useAuth();
+  const {
+    user,
+    initialized,
+    emailVerified,
+    refreshVerification,
+    resendVerification,
+    signOut,
+    navigateAfterAuth,
+  } = useAuth();
 
   const [checking, setChecking] = useState(false);
   const [notYetVerified, setNotYetVerified] = useState(false);
@@ -29,11 +36,14 @@ export default function VerifyEmailPage() {
   }, [initialized, user, lng, router]);
 
   // Already verified (e.g. came back after clicking the link) → continue in.
+  // navigateAfterAuth (not a plain replace): while unverified, the navbar's
+  // Dashboard link prefetches /dashboard WITHOUT the auth cookie, caching the
+  // middleware's redirect — same staleness as the sign-in flow.
   useEffect(() => {
     if (initialized && user && emailVerified) {
-      router.replace(`/${lng}/dashboard`);
+      navigateAfterAuth(`/${lng}/dashboard`);
     }
-  }, [initialized, user, emailVerified, lng, router]);
+  }, [initialized, user, emailVerified, lng, navigateAfterAuth]);
 
   const checkVerification = useCallback(async () => {
     setChecking(true);
@@ -41,14 +51,14 @@ export default function VerifyEmailPage() {
     try {
       const verified = await refreshVerification();
       if (verified) {
-        router.replace(`/${lng}/dashboard`);
+        navigateAfterAuth(`/${lng}/dashboard`);
       } else {
         setNotYetVerified(true);
       }
     } finally {
       setChecking(false);
     }
-  }, [refreshVerification, lng, router]);
+  }, [refreshVerification, lng, navigateAfterAuth]);
 
   // Auto-check whenever the tab regains focus (user may have clicked the link elsewhere).
   useEffect(() => {
@@ -89,8 +99,9 @@ export default function VerifyEmailPage() {
   }
 
   async function handleSignOut() {
-    await signOut();
-    router.replace(`/${lng}/auth/sign-up`);
+    // signOut dispatches the redirect after the cache purge, so it wins over
+    // this page's own no-session guard (which replaces to sign-in).
+    await signOut(`/${lng}/auth/sign-up`);
   }
 
   if (!initialized || !user) {

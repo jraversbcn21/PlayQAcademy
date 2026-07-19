@@ -7,8 +7,10 @@ import {
   useState,
   useCallback,
   useRef,
+  useTransition,
   type ReactNode,
 } from "react";
+import { useRouter } from "next/navigation";
 import { useTranslation } from "@/lib/i18n/client";
 import type { User } from "firebase/auth";
 import type { UserProfile } from "@/types/auth";
@@ -77,12 +79,13 @@ interface AuthContextValue {
     displayName: string,
     lng: string
   ) => Promise<boolean>;
-  signOut: () => Promise<void>;
+  signOut: (redirectTo?: string) => Promise<void>;
   signInWithGoogle: () => Promise<boolean>;
   resendVerification: (lng: string) => Promise<void>;
   refreshVerification: () => Promise<boolean>;
   updateDisplayName: (displayName: string) => Promise<void>;
   clearError: () => void;
+  navigateAfterAuth: (to: string) => void;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -98,6 +101,7 @@ interface AuthProviderProps {
 
 export function AuthProvider({ children, lng: _lng }: AuthProviderProps) {
   const { t } = useTranslation("common");
+  const router = useRouter();
 
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -106,6 +110,35 @@ export function AuthProvider({ children, lng: _lng }: AuthProviderProps) {
   const [emailVerified, setEmailVerified] = useState(false);
 
   const clearError = useCallback(() => setError(null), []);
+
+  /* ---------- Post-auth navigation (Router Cache purge + redirect) ---------- */
+
+  // The client Router Cache stores middleware 307s recorded under the OLD
+  // cookie state — e.g. the navbar's prefetch of /leaderboard while signed out
+  // caches "redirect to sign-in". A plain router.replace() right after login
+  // consumes that stale entry synchronously and bounces the user back to the
+  // form, while a bare router.refresh() purges too late (it needs a server
+  // round-trip, and the replace wins the race). So every navigation that
+  // follows an auth-cookie change must go through navigateAfterAuth: it runs
+  // refresh() inside a transition and only dispatches the redirect once the
+  // purge has actually landed (isPurging flips false).
+  const [pendingRedirect, setPendingRedirect] = useState<string | null>(null);
+  const [isPurging, startPurge] = useTransition();
+
+  const navigateAfterAuth = useCallback(
+    (to: string) => {
+      setPendingRedirect(to);
+      startPurge(() => router.refresh());
+    },
+    [router]
+  );
+
+  useEffect(() => {
+    if (pendingRedirect && !isPurging) {
+      router.replace(pendingRedirect);
+      setPendingRedirect(null);
+    }
+  }, [pendingRedirect, isPurging, router]);
 
   /**
    * Convert a Firebase User into a full UserProfile.
@@ -273,19 +306,31 @@ export function AuthProvider({ children, lng: _lng }: AuthProviderProps) {
     [clearError, syncProfile, t]
   );
 
-  const signOut = useCallback(async () => {
-    clearError();
-    try {
-      log("Sign-out requested");
-      await fbSignOut();
-      setUser(null);
-      removeAuthCookie();
-      log("Sign-out completed");
-    } catch (err) {
-      const key = getFirebaseErrorKey(err);
-      setError(t(key));
-    }
-  }, [clearError, t]);
+  const signOut = useCallback(
+    async (redirectTo?: string) => {
+      clearError();
+      try {
+        log("Sign-out requested");
+        await fbSignOut();
+        setUser(null);
+        removeAuthCookie();
+        if (redirectTo) {
+          // Route the redirect through the purge machinery: the moment user
+          // flips to null, the protected page underneath fires its own guard
+          // and pushes sign-in — a caller's own router.push would race it and
+          // lose. This redirect dispatches after the purge, so it always wins.
+          navigateAfterAuth(redirectTo);
+        } else {
+          router.refresh();
+        }
+        log("Sign-out completed");
+      } catch (err) {
+        const key = getFirebaseErrorKey(err);
+        setError(t(key));
+      }
+    },
+    [clearError, t, router, navigateAfterAuth]
+  );
 
   const signInWithGoogle = useCallback(async () => {
     clearError();
@@ -385,6 +430,7 @@ export function AuthProvider({ children, lng: _lng }: AuthProviderProps) {
     refreshVerification,
     updateDisplayName,
     clearError,
+    navigateAfterAuth,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
