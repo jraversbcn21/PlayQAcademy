@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n";
+import { buildAlternates } from "@/lib/seo";
 
 interface PageParams {
   params: Promise<{ lng: string }>;
@@ -18,6 +19,7 @@ export async function generateMetadata(props: PageParams): Promise<Metadata> {
   return {
     title: t("terms.title"),
     description: t("terms.metaDescription"),
+    alternates: buildAlternates(lng, "/terms"),
   };
 }
 

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getCampusById } from "@/lib/constants/campuses";
+import { buildAlternates } from "@/lib/seo";
 import CampusPageClient from "./CampusPageClient";
 
 interface CampusPageProps {
@@ -24,12 +25,16 @@ export async function generateMetadata(props: CampusPageProps): Promise<Metadata
     };
   }
 
+  const alternates = buildAlternates(lng, `/campus/${campusId}`);
+
   return {
     title: campus.title[lang],
     description: campus.description[lang],
+    alternates,
     openGraph: {
       title: campus.title[lang],
       description: campus.description[lang],
+      url: alternates.canonical,
       locale: isEs ? "es_ES" : "en_US",
       type: "website",
     },
