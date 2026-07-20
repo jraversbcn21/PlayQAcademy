@@ -61,6 +61,8 @@ function isStaticAsset(pathname: string): boolean {
     pathname.startsWith("/_next") ||
     pathname.startsWith("/api") ||
     pathname.startsWith("/favicon.ico") ||
+    pathname === "/robots.txt" ||
+    pathname === "/sitemap.xml" ||
     /\.(svg|png|jpe?g|gif|ico|woff2?|ttf|eot|css|js|map)$/.test(pathname)
   );
 }
