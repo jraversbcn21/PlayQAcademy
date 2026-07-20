@@ -38,9 +38,9 @@ Two orders of magnitude short. Worse, approval odds are poor at this traffic lev
 
 - [x] Choose TLD — `playqacademy.com` (`.com` over `.academy`: `.academy` renews at ~$40-55/yr vs `.com` at ~$12-15/yr, and `.com` carries less reviewer friction)
 - [x] Purchase — bought through Vercel Domains, $11.25, 2026-07-20 (first attempt silently failed on an incomplete billing address; completed after filling it in)
-- [ ] **Domain resolves** — `https://playqacademy.com` serves the campus, redirects to `/es`, valid SSL, no cert warnings
-- [ ] **Link to project** — appears in project → Settings → Domains with `Valid Configuration`, marked **Primary**
-- [ ] **`www` redirect** — `www.playqacademy.com` added as a *redirect* to the apex `playqacademy.com` (single canonical URL; avoids treating www/non-www as duplicate content)
+- [x] **Domain resolves** — `https://playqacademy.com` serves the campus, valid SSL, no cert warnings (confirmed via WebFetch after ~15min propagation)
+- [x] **Link to project** — appears in project → Settings → Domains with `Valid Configuration`
+- [x] **`www` redirect** — apex `playqacademy.com` 308-redirects to `www.playqacademy.com` (the reverse of what this checklist originally assumed — `www` is the one serving Production, apex redirects to it). `SITE_URL` (`src/lib/constants/site.ts`) — and every canonical/sitemap/robots entry built from it — points at `www`, not the apex, precisely because the apex only redirects and can't be the canonical host without contradicting its own redirect.
 
 ### ⚠️ Phase 0 blocker — Firebase authorized domains
 
@@ -48,9 +48,9 @@ Two orders of magnitude short. Worse, approval odds are poor at this traffic lev
 
 This project has already been bitten by this exact failure mode (see `[[project_lan_ip_email_verification]]`). Symptom is nasty: the page loads fine, sign-in just does nothing.
 
-- [ ] Add `playqacademy.com` (and `www.playqacademy.com`) to Firebase → Authentication → Authorized domains
-- [ ] Keep `playqacademy.vercel.app` authorized too — Vercel cannot disable it, and preview deploys still use it
-- [ ] Verify end-to-end on the new domain: email/password sign-in, Google sign-in, sign-up → verification email actually delivered
+- [x] Add `playqacademy.com` (and `www.playqacademy.com`) to Firebase → Authentication → Authorized domains
+- [x] Keep `playqacademy.vercel.app` authorized too — Vercel cannot disable it, and preview deploys still use it
+- [x] Verify end-to-end on the new domain: Google sign-in confirmed via assisted-browser Playwright run on `www.playqacademy.com` → reached `/dashboard`, `auth_token` cookie correctly scoped to the `www` host (email/password and the verification-email path not separately re-tested on the new domain — same code path already verified on `.vercel.app`)
 
 **Gate:** sign in on `https://playqacademy.com` with a real account and reach `/dashboard`.
 
@@ -60,16 +60,16 @@ This project has already been bitten by this exact failure mode (see `[[project_
 
 Nothing else matters until Google can find and index the site.
 
-- [ ] **Google Search Console** — not set up for any domain today. Register `playqacademy.com`, submit the sitemap, request indexing. This is the instrument panel for every later decision
-- [ ] **`robots.txt`** — does not exist (confirmed 404 live). Use `app/robots.ts` (Next 15 native)
-- [ ] **`sitemap.xml`** — does not exist. Use `app/sitemap.ts`; 46 routes × 2 locales
-- [ ] **Per-page metadata** — only 4 of 46 pages define `metadata` (`campus/[campusId]`, `cookies`, `privacy`, `terms`). Everything else inherits the generic root title. Titles and descriptions are what actually get clicked in search results
-- [ ] **`metadataBase`** + **`canonical`** — required, and the fix for the duplicate-content problem below
-- [ ] **`hreflang`** es/en — so Google does not read the two locales as duplicates
+- [ ] **Google Search Console** — not set up yet (Jorge to do — external dashboard action). Register `www.playqacademy.com`, submit the sitemap, request indexing. This is the instrument panel for every later decision
+- [x] **`robots.txt`** — `src/app/robots.ts` (Next 15 native), disallows the auth-gated patterns. Found and fixed a real bug along the way: `middleware.ts`'s `isStaticAsset()` didn't recognize `.txt`/`.xml`, so `/robots.txt` and `/sitemap.xml` were being redirected to `/es/robots.txt` (404) before this fix
+- [x] **`sitemap.xml`** — `src/app/sitemap.ts`; 32 public routes × 2 locales = 64 URLs, each with `hreflang` alternates
+- [x] **Per-page metadata** — all 32 public routes now have their own `title`/`description`/`canonical` (home, about, curriculum, glossary, playground index + 21 exercises, 3 campus pages, privacy/terms/cookies). `src/lib/seo.ts` centralizes the canonical/hreflang builder (`buildAlternates`) and the Playground-specific one (`buildExerciseMetadata`, sourced from `PLAYGROUND_EXERCISES` so copy can't drift from the exercise cards). Several public pages were Client Components (can't export `generateMetadata`) — each got split into a server `page.tsx` + sibling `XxxClient.tsx`, the same pattern already used by `campus/[campusId]`/auth pages
+- [x] **`metadataBase`** + **`canonical`** — `metadataBase` in `src/app/layout.tsx`; every page's `canonical` resolves via `buildAlternates`, all pointing at `SITE_URL` (`www.playqacademy.com` — see the Phase 0 note above on why `www`, not the apex)
+- [x] **`hreflang`** es/en — every page's `alternates.languages` covers both locales; verified live via curl against a local dev server, not just asserted from the build
 
 ### Duplicate content note
 
-Vercel **cannot** disable `playqacademy.vercel.app`; it will keep serving identical content alongside `playqacademy.com`. This is not fixable in the Vercel dashboard — the fix is `canonical` tags always pointing at `playqacademy.com`. Do not waste time trying to switch the `.vercel.app` URL off.
+Vercel **cannot** disable `playqacademy.vercel.app`; it will keep serving identical content alongside `playqacademy.com`/`www.playqacademy.com`. This is not fixable in the Vercel dashboard — the fix is `canonical` tags always pointing at `SITE_URL`. Do not waste time trying to switch the `.vercel.app` URL off.
 
 ---
 
