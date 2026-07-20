@@ -963,13 +963,16 @@ export default function IstqbQuizPage(props: { params: Promise<{ lng: string }> 
 
             {passed && (
               <div className="mt-5">
+                <p className="text-sm text-[var(--color-text-muted)]">
+                  {lng === "es" ? "¡Nivel certificación!" : "Certification level!"}
+                </p>
                 <Link
                   href={`/${lng}/exams`}
-                  className="inline-block rounded-lg bg-brand-forest-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-forest-500"
+                  className="mt-2 inline-block rounded-lg bg-brand-forest-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-forest-500"
                 >
                   {lng === "es"
-                    ? "¡Nivel certificación! ¿Listo para el examen real? → Simulacros CTFL"
-                    : "Certification level! Ready for the real thing? → CTFL mocks"}
+                    ? "¿Listo para el examen real? → Simulacros CTFL"
+                    : "Ready for the real thing? → CTFL mocks"}
                 </Link>
               </div>
             )}
