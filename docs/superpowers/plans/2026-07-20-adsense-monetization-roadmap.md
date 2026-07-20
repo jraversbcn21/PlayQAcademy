@@ -1,18 +1,40 @@
-# AdSense Monetization Roadmap — custom domain + Google AdSense
+# Growth & Monetization Roadmap — custom domain → traffic → AdSense
 
 > **Status:** Phase 0 in progress (domain purchased, awaiting DNS propagation).
 > **Started:** 2026-07-20. Owner: Jorge.
-> **Context:** Full AdSense readiness audit run 2026-07-20 against the live site + repo at commit `1e38460`.
+> **Context:** AdSense readiness audit run 2026-07-20 against the live site + repo at commit `1e38460`.
+> **Reordered 2026-07-20** after establishing real traffic figures — see "Why this order" below.
 
-**Goal:** Serve the campus from a domain we own, bring the site into full Google AdSense policy compliance, and monetize without breaking the user experience or our own legal commitments.
+**Goal:** get the campus discovered by Google and growing, then monetize once there is traffic worth monetizing.
 
-**Hard rule for this roadmap:** phases are sequential. Do not start a phase until the previous one is verified. Two findings below are *blocking* — shipping ad code before they are fixed risks both an AdSense rejection and a GDPR exposure.
+**Hard rule:** phases are sequential. Do not start a phase until the previous one is verified.
+
+---
+
+## Why this order (read before changing it)
+
+The roadmap originally drove straight at AdSense. It was reordered once Jorge confirmed **~10 users, minimal traffic.**
+
+The arithmetic that forced the change:
+
+| | |
+|---|---|
+| ~10 users × ~20 pageviews/mo | ~200 pageviews/month |
+| Niche-education RPM | €2-10 per 1.000 pageviews |
+| **Realistic monthly revenue** | **€0,40 - €2** |
+| Pageviews needed for ~€50/mo | ~10.000 - 25.000 |
+
+Two orders of magnitude short. Worse, approval odds are poor at this traffic level with the current thin public surface — a rejection costs time and forces a retry.
+
+**The insight that drove the reorder:** almost all the "AdSense requirements" (robots.txt, sitemap, metadata, Search Console, opening content) are not really AdSense requirements — they are *the things that generate traffic*. Same work, different motivation, different order. Traffic is the bottleneck; monetization is downstream of it.
+
+**Consequence worth noting:** while no ad code ships, the current privacy/cookies text stays truthful. The legal contradiction documented in Phase 5 is not an active liability — it only becomes blocking if and when AdSense goes in.
 
 ---
 
 ## Phase 0 — Custom domain (IN PROGRESS)
 
-`playqacademy.vercel.app` cannot be monetized properly: `ads.txt` must live at the domain root, and we do not control `vercel.app`. A `.vercel.app` subdomain also reads as a test project to a reviewer.
+`playqacademy.vercel.app` cannot be monetized properly: `ads.txt` must live at the domain root, and we do not control `vercel.app`. A `.vercel.app` subdomain also reads as a test project to a reviewer. It is also simply a better base for everything downstream.
 
 - [x] Choose TLD — `playqacademy.com` (`.com` over `.academy`: `.academy` renews at ~$40-55/yr vs `.com` at ~$12-15/yr, and `.com` carries less reviewer friction)
 - [x] Purchase — bought through Vercel Domains, $11.25, 2026-07-20 (first attempt silently failed on an incomplete billing address; completed after filling it in)
@@ -24,17 +46,74 @@
 
 **Adding the domain to Vercel is not enough. Login will silently fail on `playqacademy.com` until it is added to Firebase → Authentication → Authorized domains.**
 
-This project has already been bitten by this exact failure mode (see `[[project_lan_ip_email_verification]]` — a non-authorized origin stops Firebase delivering verification emails). Symptom is nasty: the page loads fine, sign-in just does nothing.
+This project has already been bitten by this exact failure mode (see `[[project_lan_ip_email_verification]]`). Symptom is nasty: the page loads fine, sign-in just does nothing.
 
 - [ ] Add `playqacademy.com` (and `www.playqacademy.com`) to Firebase → Authentication → Authorized domains
 - [ ] Keep `playqacademy.vercel.app` authorized too — Vercel cannot disable it, and preview deploys still use it
 - [ ] Verify end-to-end on the new domain: email/password sign-in, Google sign-in, sign-up → verification email actually delivered
 
-**Verification gate for Phase 0:** sign in on `https://playqacademy.com` with a real account and reach `/dashboard`. Nothing else proceeds until this passes.
+**Gate:** sign in on `https://playqacademy.com` with a real account and reach `/dashboard`.
 
 ---
 
-## Phase 1 — Legal (BLOCKING for AdSense)
+## Phase 1 — Discoverability
+
+Nothing else matters until Google can find and index the site.
+
+- [ ] **Google Search Console** — not set up for any domain today. Register `playqacademy.com`, submit the sitemap, request indexing. This is the instrument panel for every later decision
+- [ ] **`robots.txt`** — does not exist (confirmed 404 live). Use `app/robots.ts` (Next 15 native)
+- [ ] **`sitemap.xml`** — does not exist. Use `app/sitemap.ts`; 46 routes × 2 locales
+- [ ] **Per-page metadata** — only 4 of 46 pages define `metadata` (`campus/[campusId]`, `cookies`, `privacy`, `terms`). Everything else inherits the generic root title. Titles and descriptions are what actually get clicked in search results
+- [ ] **`metadataBase`** + **`canonical`** — required, and the fix for the duplicate-content problem below
+- [ ] **`hreflang`** es/en — so Google does not read the two locales as duplicates
+
+### Duplicate content note
+
+Vercel **cannot** disable `playqacademy.vercel.app`; it will keep serving identical content alongside `playqacademy.com`. This is not fixable in the Vercel dashboard — the fix is `canonical` tags always pointing at `playqacademy.com`. Do not waste time trying to switch the `.vercel.app` URL off.
+
+---
+
+## Phase 2 — Open QA Fundamentals to the public
+
+**The highest-leverage move in this roadmap.** The platform's substantial content — 111 lessons across 3 campuses — sits under `/learn/*`, gated by `src/middleware.ts:31`. Googlebot sees only: landing, `/about` (115 lines), `/curriculum`, `/glossary`, `/playground`.
+
+**Decision taken (Jorge, 2026-07-20):** open the **QA Fundamentals campus only** (10 modules, 45 lessons). ISTQB and Playwright Automation stay gated as the registration incentive.
+
+Why this works:
+- ~45 lessons × 2 locales ≈ 90 new indexable URLs of genuine, sourced content
+- Targets real search demand ("qué es ISO 25010", "tipos de pruebas de software", "cómo escribir un reporte de bug")
+- Creates a natural funnel: search → read free → register for ISTQB/Automation
+
+- [ ] Design the gating change — `/learn/qaf-*` public, everything else unchanged. Note `PROTECTED_PATTERNS` in `middleware.ts` currently matches `/learn/` wholesale; it needs to become campus-aware
+- [ ] Handle the signed-out lesson experience: progress tracking, "mark complete", and gamification all assume a user. Decide what a signed-out reader sees (likely: full lesson content, with completion/progress UI replaced by a sign-up CTA)
+- [ ] Confirm no Firestore writes are attempted for signed-out readers
+- [ ] Verify crawlability via view-source, not just visual presence
+- [ ] Add the new public lesson URLs to the sitemap
+
+**Open question:** whether the existing `SignupBanner` pattern (`src/components/playground/SignupBanner.tsx`) should be reused on public lessons.
+
+---
+
+## Phase 3 — Contact & legal surfaces
+
+Worth doing regardless of monetization; required before it.
+
+- [ ] **Contact page** (`/contact`) — does not exist today. Real route + footer link, not an email buried in the privacy text
+- [ ] **Aviso legal (LSSI)** — Spain requires identifying details once a site is monetized: name/company, **NIF/CIF**, registered address, contact email. Today the site only says "SidMaier, Barcelona". Note: PayPal is a payment processor, not a fiscal identity — it does not satisfy this. **Jorge to confirm the exact publishable details with his gestor**; out of scope for the assistant per `[[project_buymeacoffee_setup]]`
+- [ ] Fix the domain reference in `privacy.s1Body` — says "accesible desde https://playq.academy", a domain never deployed. Must become `playqacademy.com`
+- [ ] Clean up the footer placeholders: `github.com` and `linkedin.com` are generic landing pages, not real profiles; "Cursos" points at `/`
+
+---
+
+## Phase 4 — Measure and grow (2-3 months)
+
+No code. Watch Search Console: impressions, clicks, indexed pages, which lessons attract queries. Let the data decide whether Phase 5 is worth the effort.
+
+**Revisit trigger:** roughly 3.000-5.000 monthly pageviews makes AdSense worth the compliance work. Below that, reconsider — donations (Buy Me a Coffee, already live) or direct sponsorship may fit better than ads.
+
+---
+
+## Phase 5 — AdSense (only if traffic justifies it)
 
 ### 🛑 Blocker: our own policies forbid advertising
 
@@ -48,81 +127,33 @@ Verified in `public/locales/{es,en}/common.json`:
 
 EN mirrors are equally explicit ("There is no advertising on the platform").
 
-Shipping AdSense against this text violates AdSense policy (which requires a truthful privacy policy disclosing Google's third-party cookies) **and** the GDPR — we would be telling EU users in writing that we do no ad profiling while doing exactly that. The GDPR side is the more serious one and is enforceable by the AEPD independently of Google.
+Shipping AdSense against this text violates AdSense policy (which requires a truthful privacy policy disclosing Google's third-party cookies) **and** the GDPR — telling EU users in writing that we do no ad profiling while doing exactly that. The GDPR side is the more serious one, enforceable by the AEPD independently of Google.
 
-**Good news, confirmed by grep:** no "ad-free" claim exists anywhere in the *marketing* copy (`hero`, `landing`, `about`). The public value proposition is "gratuito", not "sin anuncios". Rewriting the legal text breaks no commercial promise.
+**Confirmed by grep:** no "ad-free" claim exists in the *marketing* copy (`hero`, `landing`, `about`). The public value proposition is "gratuito", not "sin anuncios". Rewriting the legal text breaks no commercial promise.
 
-**Decision taken:** Option A — rewrite the legal text and monetize with AdSense. (Option B, a freemium ad-free tier, is deliberately deferred: it shrinks inventory and complicates the implementation. Option C, donations only, remains the fallback if traffic is too low to justify the work.)
+**Decision taken:** Option A — rewrite the legal text and run AdSense. Option B (freemium ad-free tier) deferred: shrinks inventory, complicates implementation. Option C (donations only) is the fallback if traffic never justifies ads.
 
-- [ ] Rewrite `privacy.s3Body` + `privacy.s6Body` — declare Google as a third-party ad provider and disclose ad cookies
-- [ ] Rewrite `cookies.s2Body` / `s3Body` / `s4Body` + add a new advertising-cookies section
-- [ ] Fix the domain reference — `privacy.s1Body` says "accesible desde https://playq.academy", a domain that was never deployed. Must become `playqacademy.com`
-- [ ] Bump `lastUpdated` on both pages (only when body content actually changes — existing repo convention)
-- [ ] Keep both `es` and `en` in sync (no empty `"en": ""` — repo-wide rule)
-
-### Missing legal surfaces
-
-- [ ] **Contact page** (`/contact`) — does not exist today. Reviewers check for it early. Needs a real route + footer link, not just an email buried in the privacy text
-- [ ] **Aviso legal (LSSI)** — Spain requires identifying details (name/company, NIF, registered address) once a site is monetized. Today the site only says "SidMaier, Barcelona". **Jorge to confirm fiscal details with his gestor** — out of scope for the assistant per `[[project_buymeacoffee_setup]]`
-- [ ] **CMP (Consent Management Platform)** — **none exists today**, confirmed on the live site. Google has required a Google-certified CMP for serving ads to EEA/UK/Switzerland users since Jan 2024. Jorge's audience is primarily Spain, so this is mandatory, not optional. Google's own CMP is free and the simplest path
-
----
-
-## Phase 2 — SEO / indexing
-
-- [ ] **`robots.txt`** — does not exist (confirmed 404 live). Use `app/robots.ts` (Next 15 native)
-- [ ] **`sitemap.xml`** — does not exist. Use `app/sitemap.ts`; 46 routes × 2 locales
-- [ ] **Per-page metadata** — only 4 of 46 pages define `metadata` (`campus/[campusId]`, `cookies`, `privacy`, `terms`). Everything else inherits the generic root title
-- [ ] **`metadataBase`** + **`canonical`** — required, and the fix for the duplicate-content problem below
-- [ ] **`hreflang`** es/en — so Google does not read the two locales as duplicates
-- [ ] **Google Search Console** — register the new domain, submit the sitemap, request indexing
-
-### Duplicate content note
-
-Vercel **cannot** disable `playqacademy.vercel.app`; it will keep serving identical content alongside `playqacademy.com`. This is not fixable in the Vercel dashboard — the fix is `canonical` tags always pointing at `playqacademy.com`, handled in this phase. Do not waste time trying to switch the `.vercel.app` URL off.
-
----
-
-## Phase 3 — Content exposure (highest impact on approval)
-
-**This is the single biggest approval risk.** The platform's substantial content — 111 lessons across 3 campuses — lives under `/learn/*`, which `src/middleware.ts:31` gates behind auth. Googlebot and the AdSense reviewer see only: landing, `/about` (115 lines), `/curriculum`, `/glossary`, `/playground`. That can read as "insufficient content".
-
-- [ ] **Decision needed from Jorge:** open part of `/learn/*` to the public, or publish new public content (guides, articles, expanded glossary)
-- [ ] Implement whichever path is chosen
-- [ ] Confirm the public surface is genuinely crawlable (view-source, not just visually present)
-
----
-
-## Phase 4 — AdSense implementation
-
-Only after Phases 0-3 verify.
-
-- [ ] Add the site in AdSense and verify ownership
+- [ ] Rewrite `privacy.s3Body` + `privacy.s6Body` — declare Google as a third-party ad provider, disclose ad cookies
+- [ ] Rewrite `cookies.s2Body` / `s3Body` / `s4Body` + add an advertising-cookies section
+- [ ] Bump `lastUpdated` on both pages; keep `es`/`en` in sync (no empty `"en": ""`)
+- [ ] **CMP** — none exists today. Google has required a certified CMP for EEA/UK/Swiss traffic since Jan 2024; the audience is primarily Spain, so this is mandatory. Google's own CMP is free and simplest
+- [ ] Add the site in AdSense, verify ownership
 - [ ] **`ads.txt`** at the domain root
-- [ ] Insert the AdSense script
-- [ ] Configure Auto Ads
-- [ ] Choose placements deliberately — **never** inside exam-taking (`/exams/[examId]/take/[attemptId]`) or lesson flows where they would harm the learning experience. Note the existing self-exclusion pattern in `BuyMeCoffeeButton.tsx`: a global fixed element owns its own `usePathname()` exclusion list rather than making callers aware of it. Reuse that pattern for ad placement exclusions
-- [ ] Submit for review and manage the approval process
+- [ ] Insert the AdSense script; configure Auto Ads
+- [ ] Placements: **never** inside exam-taking (`/exams/[examId]/take/[attemptId]`) or in flows where they harm learning. Reuse the self-exclusion pattern from `BuyMeCoffeeButton.tsx` — a global fixed element owns its own `usePathname()` exclusion list rather than making callers aware of it
+- [ ] Submit for review, manage approval
 
 ---
 
-## Audit summary (2026-07-20)
-
-Full findings verified against code + live site.
-
-**Blocking:** privacy/cookies contradict advertising · no CMP · no contact page · no robots.txt · no sitemap.xml · content gated behind auth · `.vercel.app` domain (now resolved by Phase 0)
-
-**Important:** metadata on only 4/46 pages · no canonical/hreflang/`metadataBase` · aviso legal lacks LSSI fiscal details · footer `github.com`/`linkedin.com` are generic placeholders, not real profiles · footer "Cursos" points at `/`
+## Audit reference (2026-07-20)
 
 **Already correct:** HTTPS (Vercel) · mobile responsive · navigation/UX · no internal duplicate content · typecheck/lint/build clean · ISTQB® disclaimer present in `terms.s8Body`
 
-**Not measured:** Core Web Vitals — deliberately not asserted without data. Measure during Phase 2.
+**Not measured:** Core Web Vitals — deliberately not asserted without data. Measure during Phase 1.
 
----
+## Answered (Jorge, 2026-07-20)
 
-## Open questions for Jorge
-
-1. Current traffic (visits/month)? If under ~1.000, AdSense revenue may not justify the work versus strengthening content first.
-2. Fiscal details for the aviso legal — same entity as the Buy Me a Coffee business registration?
-3. **Phase 3 decision:** willing to open part of the lesson content publicly?
-4. Is Google Search Console already set up for any domain?
+1. **Traffic:** ~10 users, minimal. Drove the reorder above.
+2. **Fiscal details:** payments via PayPal — but that is not a fiscal identity; LSSI details still pending from his gestor.
+3. **Content:** open QA Fundamentals only. → Phase 2.
+4. **Search Console:** not set up. → Phase 1.
