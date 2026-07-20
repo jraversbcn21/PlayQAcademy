@@ -1,6 +1,6 @@
 # Growth & Monetization Roadmap — custom domain → traffic → AdSense
 
-> **Status:** Phase 0 in progress (domain purchased, awaiting DNS propagation).
+> **Status:** Phases 0 and 1 done and deployed to production (2026-07-20, `main` @ `083b1ac`). Phase 2 (open QA Fundamentals publicly) is next — not started. Google Search Console setup (part of Phase 1, external/manual) is still open.
 > **Started:** 2026-07-20. Owner: Jorge.
 > **Context:** AdSense readiness audit run 2026-07-20 against the live site + repo at commit `1e38460`.
 > **Reordered 2026-07-20** after establishing real traffic figures — see "Why this order" below.
@@ -70,6 +70,10 @@ Nothing else matters until Google can find and index the site.
 ### Duplicate content note
 
 Vercel **cannot** disable `playqacademy.vercel.app`; it will keep serving identical content alongside `playqacademy.com`/`www.playqacademy.com`. This is not fixable in the Vercel dashboard — the fix is `canonical` tags always pointing at `SITE_URL`. Do not waste time trying to switch the `.vercel.app` URL off.
+
+### Post-push verification false alarm (2026-07-20) — do not re-investigate
+
+Right after pushing Phase 1 to `main`, `www.playqacademy.com` returned 503 on repeated automated checks (`/`, `/robots.txt`, `/sitemap.xml`) for several minutes, while `playqacademy.vercel.app` (same deployment) served 200 the whole time and the Vercel dashboard showed the deployment "Ready" and both domains "Valid Configuration". Likely Vercel's bot/firewall protection challenging non-browser requests on the custom domain specifically. Separately, Jorge's corporate VPN (Inditex GlobalProtect) flagged the domain as "Riesgo detectado" — the standard false positive corporate proxies apply to newly-registered domains (this one was registered that same day) until they build reputation. Confirmed fine in a real browser without the VPN. Neither was a real outage or a code/deploy problem — don't burn time re-diagnosing this if it comes up again on a future push to a young domain.
 
 ---
 
