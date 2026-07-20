@@ -210,13 +210,13 @@ export default function IstqbFlashcardsPage(props: { params: Promise<{ lng: stri
             <>
               <button
                 type="button"
-                className="group [perspective:1000px] w-full"
+                className="group [perspective:1000px] w-full max-w-xl mx-auto block"
                 aria-pressed={flipped}
                 onClick={() => setFlipped((f) => !f)}
               >
                 <div
                   className={[
-                    "relative min-h-[16rem] w-full max-w-xl mx-auto rounded-xl transition-transform duration-500 [transform-style:preserve-3d]",
+                    "relative min-h-[16rem] w-full rounded-xl transition-transform duration-500 [transform-style:preserve-3d]",
                     flipped ? "[transform:rotateY(180deg)]" : "",
                   ].join(" ")}
                 >
