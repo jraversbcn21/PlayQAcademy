@@ -172,13 +172,23 @@ export default function IstqbMatchPage(props: { params: Promise<{ lng: string }>
   } = params;
 
   const [roundIndex, setRoundIndex] = useState(0);
-  const [rightOrders, setRightOrders] = useState<string[][]>(() => shuffleAllRounds());
+  // Deterministic (unshuffled, same order as the left column) on first render so it
+  // matches SSR output; shuffleAllRounds()'s Math.random() only runs after mount, so
+  // the server and the client's hydration pass render identical markup and no
+  // hydration mismatch is thrown.
+  const [rightOrders, setRightOrders] = useState<string[][]>(() =>
+    ROUNDS.map((round) => round.pairs.map((pair) => pair.id))
+  );
   const [selectedLeftId, setSelectedLeftId] = useState<string | null>(null);
   const [matched, setMatched] = useState<Set<string>>(new Set());
   const [wrongFlash, setWrongFlash] = useState<{ leftId: string; rightId: string } | null>(null);
   const [wrongAttempts, setWrongAttempts] = useState(0);
 
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    setRightOrders(shuffleAllRounds());
+  }, []);
 
   useEffect(() => {
     return () => {

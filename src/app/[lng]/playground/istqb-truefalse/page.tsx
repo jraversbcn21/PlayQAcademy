@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, use } from "react";
+import { useEffect, useState, use } from "react";
 
 /* ------------------------------------------------------------------ */
 /*  Content                                                            */
@@ -281,13 +281,20 @@ export default function IstqbTrueFalsePage(props: { params: Promise<{ lng: strin
     lng
   } = params;
 
-  const [order, setOrder] = useState<TFStatement[]>(() => fisherYates(STATEMENTS));
+  // Deterministic on first render (matches SSR output); the Fisher-Yates shuffle
+  // only runs after mount, so the server and the client's hydration pass render
+  // identical markup and no hydration mismatch is thrown.
+  const [order, setOrder] = useState<TFStatement[]>(() => STATEMENTS);
   const [index, setIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<boolean | null>(null);
   const [streak, setStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [finished, setFinished] = useState(false);
+
+  useEffect(() => {
+    setOrder(fisherYates(STATEMENTS));
+  }, []);
 
   const total = order.length;
   const current = order[index];

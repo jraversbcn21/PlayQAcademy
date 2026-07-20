@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, use } from "react";
+import { useEffect, useState, use } from "react";
 
 /* ------------------------------------------------------------------ */
 /*  Content                                                            */
@@ -802,12 +802,19 @@ export default function IstqbQuizPage(props: { params: Promise<{ lng: string }> 
     lng
   } = params;
 
-  const [order, setOrder] = useState<QuizQuestion[]>(() => pickRound(BANK));
+  // Deterministic on first render (matches SSR output); pickRound()'s Math.random()
+  // shuffle only runs after mount, so the server and the client's hydration pass
+  // render identical markup and no hydration mismatch is thrown.
+  const [order, setOrder] = useState<QuizQuestion[]>(() => BANK.slice(0, 10));
   const [index, setIndex] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [correctCount, setCorrectCount] = useState(0);
   const [chapterResults, setChapterResults] = useState<{ chapter: string; correct: boolean }[]>([]);
   const [finished, setFinished] = useState(false);
+
+  useEffect(() => {
+    setOrder(pickRound(BANK));
+  }, []);
 
   const total = order.length;
   const current = order[index];
