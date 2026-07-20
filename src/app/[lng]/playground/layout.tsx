@@ -97,7 +97,7 @@ export default function PlaygroundLayout(props: PlaygroundLayoutProps) {
                 </Link>
               );
             })}
-            {activeCampusId !== "qaFundamentals" && (
+            {activeCampusId === "automation" && (
               <Link
                 href={`/${lng}/playground/setup`}
                 className={[

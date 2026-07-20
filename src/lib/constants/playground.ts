@@ -187,6 +187,90 @@ export const PLAYGROUND_EXERCISES: PlaygroundExercise[] = [
     difficulty: "intermediate",
     campusId: "qaFundamentals",
   },
+  {
+    href: "/playground/istqb-quiz",
+    icon: "⚡",
+    title: { es: "Quiz Rápido ISTQB", en: "ISTQB Quick Quiz" },
+    description: {
+      es: "10 preguntas al azar con feedback inmediato y explicación, capítulos 1-6 del syllabus CTFL.",
+      en: "10 random questions with instant feedback and explanations, CTFL syllabus chapters 1-6.",
+    },
+    modules: ["Cap. 1-6"],
+    difficulty: "intermediate",
+    campusId: "istqb",
+  },
+  {
+    href: "/playground/istqb-flashcards",
+    icon: "🃏",
+    title: { es: "Flashcards del Glosario", en: "Glossary Flashcards" },
+    description: {
+      es: "Repasa los términos oficiales del glosario ISTQB con tarjetas giratorias, filtradas por capítulo.",
+      en: "Review the official ISTQB glossary terms with flip cards, filtered by chapter.",
+    },
+    modules: ["Cap. 1-6"],
+    difficulty: "beginner",
+    campusId: "istqb",
+  },
+  {
+    href: "/playground/istqb-levels",
+    icon: "🧩",
+    title: { es: "Niveles y Tipos de Prueba", en: "Test Levels & Types" },
+    description: {
+      es: "Clasifica escenarios reales por nivel de prueba y tipo de prueba según el syllabus.",
+      en: "Classify real scenarios by test level and test type per the syllabus.",
+    },
+    modules: ["Cap. 2: SDLC"],
+    difficulty: "beginner",
+    campusId: "istqb",
+  },
+  {
+    href: "/playground/istqb-techniques",
+    icon: "🧰",
+    title: { es: "Selección de Técnica", en: "Technique Picker" },
+    description: {
+      es: "Dada una mini-especificación, elige la técnica de diseño de pruebas más adecuada y aprende por qué.",
+      en: "Given a mini-spec, pick the best-fit test design technique and learn why.",
+    },
+    modules: ["Cap. 4: Técnicas"],
+    difficulty: "intermediate",
+    campusId: "istqb",
+  },
+  {
+    href: "/playground/istqb-truefalse",
+    icon: "⚖️",
+    title: { es: "Verdadero o Falso", en: "True or False" },
+    description: {
+      es: "Ronda rápida de afirmaciones sobre los 7 principios, mitos del testing e independencia del QA.",
+      en: "Rapid round of statements on the 7 principles, testing myths, and QA independence.",
+    },
+    modules: ["Cap. 1: Fundamentos"],
+    difficulty: "beginner",
+    campusId: "istqb",
+  },
+  {
+    href: "/playground/istqb-match",
+    icon: "🔀",
+    title: { es: "Relacionar Conceptos", en: "Concept Matching" },
+    description: {
+      es: "Tres rondas de emparejar: término↔definición, actividad↔fase del proceso y rol↔responsabilidad en revisiones.",
+      en: "Three matching rounds: term↔definition, activity↔process phase, and role↔responsibility in reviews.",
+    },
+    modules: ["Cap. 1", "Cap. 3", "Cap. 5"],
+    difficulty: "intermediate",
+    campusId: "istqb",
+  },
+  {
+    href: "/playground/istqb-coverage",
+    icon: "📐",
+    title: { es: "Cobertura y Trazabilidad", en: "Coverage & Traceability" },
+    description: {
+      es: "Calcula cobertura de sentencia y rama sobre pseudocódigo y audita matrices de trazabilidad.",
+      en: "Compute statement and branch coverage over pseudocode and audit traceability matrices.",
+    },
+    modules: ["Cap. 4: Técnicas"],
+    difficulty: "advanced",
+    campusId: "istqb",
+  },
 ];
 
 /** Exercises belonging to a given campus, in registry order. */
