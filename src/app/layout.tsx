@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Chakra_Petch, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { SITE_URL } from "@/lib/constants/site";
 import "./globals.css";
 
 /* Plus Jakarta Sans — base body font across the app */
@@ -32,6 +33,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     template: "%s | PlayQAcademy",
     default: "PlayQAcademy — Domina el QA de software",

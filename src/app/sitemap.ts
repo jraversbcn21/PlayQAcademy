@@ -1,0 +1,66 @@
+import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/constants/site";
+import { languages } from "@/lib/i18n/settings";
+
+/**
+ * Public, unauthenticated routes only — auth-gated pages (dashboard, learn,
+ * leaderboard, badges, exams, settings) are excluded here the same way
+ * they're excluded in robots.ts, since Google can't index past their
+ * sign-in redirect.
+ */
+const STATIC_ROUTES = [
+  "",
+  "/about",
+  "/curriculum",
+  "/glossary",
+  "/privacy",
+  "/terms",
+  "/cookies",
+  "/playground",
+  "/playground/api",
+  "/playground/bug-report",
+  "/playground/cart",
+  "/playground/catalog",
+  "/playground/dynamic",
+  "/playground/files",
+  "/playground/frames",
+  "/playground/istqb-coverage",
+  "/playground/istqb-flashcards",
+  "/playground/istqb-levels",
+  "/playground/istqb-match",
+  "/playground/istqb-quiz",
+  "/playground/istqb-techniques",
+  "/playground/istqb-truefalse",
+  "/playground/login",
+  "/playground/partitioning",
+  "/playground/req-match",
+  "/playground/setup",
+  "/playground/signup",
+  "/playground/table",
+  "/playground/triage",
+];
+
+// Kept in sync manually with the campus ids in src/lib/constants/campuses.ts
+// (qa-fundamentals/istqb/automation) rather than imported, so this file has
+// no dependency on the data layer's shape.
+const CAMPUS_ROUTES = ["/campus/qaFundamentals", "/campus/istqb", "/campus/automation"];
+
+const ROUTES = [...STATIC_ROUTES, ...CAMPUS_ROUTES];
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const lastModified = new Date();
+
+  return ROUTES.flatMap((route) =>
+    languages.map((lng) => ({
+      url: `${SITE_URL}/${lng}${route}`,
+      lastModified,
+      changeFrequency: (route === "" ? "weekly" : "monthly") as "weekly" | "monthly",
+      priority: route === "" ? 1.0 : 0.7,
+      alternates: {
+        languages: Object.fromEntries(
+          languages.map((altLng) => [altLng, `${SITE_URL}/${altLng}${route}`])
+        ),
+      },
+    }))
+  );
+}
