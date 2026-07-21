@@ -54,6 +54,33 @@ function InstagramIcon(): ReactNode {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Social links                                                       */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Single source for the social profiles. Both the icon row in the brand
+ * column and the "Community" link column read from here, so the two can't
+ * drift apart.
+ */
+const SOCIAL_LINKS = [
+  {
+    labelKey: "footer.community.github",
+    href: "https://github.com/jraversbcn21",
+    icon: <GitHubIcon />,
+  },
+  {
+    labelKey: "footer.community.linkedin",
+    href: "https://www.linkedin.com/in/jorge-carre%C3%B1o-dam/",
+    icon: <LinkedInIcon />,
+  },
+  {
+    labelKey: "footer.community.instagram",
+    href: "https://instagram.com/qatester.ai",
+    icon: <InstagramIcon />,
+  },
+];
+
+/* ------------------------------------------------------------------ */
 /*  Footer columns data                                                */
 /* ------------------------------------------------------------------ */
 
@@ -70,9 +97,8 @@ function getFooterColumns(): FooterColumn[] {
     {
       titleKey: "footer.community.title",
       links: [
-        { labelKey: "footer.community.github", href: "https://github.com" },
-        { labelKey: "footer.community.linkedin", href: "https://linkedin.com" },
-        { labelKey: "footer.community.instagram", href: "https://instagram.com/qatester.ai" },
+        ...SOCIAL_LINKS.map(({ labelKey, href }) => ({ labelKey, href })),
+        { labelKey: "footer.community.istqb", href: "https://mycampusistqb.vercel.app/" },
       ],
     },
     {
@@ -125,17 +151,13 @@ export default function Footer({ currentLng }: FooterProps) {
 
             {/* Social links */}
             <div className="mt-5 flex gap-4">
-              {[
-                { icon: <GitHubIcon />, label: t("footer.community.github"), href: "https://github.com" },
-                { icon: <LinkedInIcon />, label: t("footer.community.linkedin"), href: "https://linkedin.com" },
-                { icon: <InstagramIcon />, label: t("footer.community.instagram"), href: "https://instagram.com/qatester.ai" },
-              ].map(({ icon, label, href }) => (
+              {SOCIAL_LINKS.map(({ icon, labelKey, href }) => (
                 <a
-                  key={label}
+                  key={labelKey}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={label}
+                  aria-label={t(labelKey)}
                   className="rounded-lg p-2 text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-primary)]"
                 >
                   {icon}

@@ -30,7 +30,7 @@ const ABOUT_LINKS = [
     ),
   },
   {
-    href: "https://github.com/jraversbcn21/MyCampusISTQB_26",
+    href: "https://mycampusistqb.vercel.app/",
     labelKey: "about.istqbLabel",
     tooltipKey: "about.istqbTooltip",
     icon: (
