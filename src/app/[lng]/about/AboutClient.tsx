@@ -53,9 +53,15 @@ export default function AboutClient() {
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-16 lg:py-20">
       <div className="container-app max-w-4xl">
-        <h1 className="mb-10 text-center text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
-          {t("about.title")}
-        </h1>
+        {/* Tagline, rendered as a pull quote */}
+        <blockquote className="mx-auto mb-12 max-w-2xl text-center">
+          <p className="text-2xl font-semibold italic leading-snug text-[var(--color-text-primary)] sm:text-3xl">
+            <span aria-hidden="true" className="text-brand-forest-400">&ldquo;</span>
+            {t("about.title")}
+            <span aria-hidden="true" className="text-brand-forest-400">&rdquo;</span>
+          </p>
+          <div className="mx-auto mt-5 h-px w-16 bg-brand-forest-500/40" />
+        </blockquote>
 
         <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-start lg:gap-12">
           {/* Photo */}
@@ -79,9 +85,10 @@ export default function AboutClient() {
 
           {/* Info */}
           <div className="flex-1 text-center lg:text-left">
-            <h2 className="text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
+            {/* The page's h1: the tagline above is a quote, not a heading */}
+            <h1 className="text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
               {t("about.name")}
-            </h2>
+            </h1>
             <p className="mt-1 text-sm text-brand-forest-400">
               {t("about.role")}
             </p>
